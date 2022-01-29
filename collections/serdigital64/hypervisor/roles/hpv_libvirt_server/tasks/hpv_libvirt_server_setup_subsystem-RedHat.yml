@@ -1,0 +1,10 @@
+---
+- name: "Hypervisor / LibVirt / Server / Control / Subsystem / Set enabled state (service: {{
+    hpv_libvirt_server_subsystem_profile['service'] }})"
+  become: true
+  ansible.builtin.systemd:
+    no_block: false
+    scope: "system"
+    name: "{{ hpv_libvirt_server_subsystem_profile['service'] }}"
+    enabled: "{{ hpv_libvirt_server_subsystem['enabled'] }}"
+...

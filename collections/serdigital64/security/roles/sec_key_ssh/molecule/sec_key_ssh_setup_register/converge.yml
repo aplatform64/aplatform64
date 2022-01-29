@@ -1,0 +1,25 @@
+---
+- name: "Converge"
+  hosts: "{{ lookup('env', 'APLATFORM64_TEST_PLATFORM') | default('all') }}"
+  gather_facts: false
+  tasks:
+
+    - name: "Discover platform"
+      ansible.builtin.setup:
+        gather_subset: "min"
+        gather_timeout: "10"
+
+    - name: "Register remote host"
+      vars:
+        sec_key_ssh:
+          setup: true
+        sec_key_ssh_knownhosts:
+          - file: "/home/test/keys/known_hosts"
+            hash: false
+            owner: "test"
+            group: "test"
+            hosts:
+              - "192.168.3.30"
+      ansible.builtin.include_role:
+        name: "sec_key_ssh"
+...

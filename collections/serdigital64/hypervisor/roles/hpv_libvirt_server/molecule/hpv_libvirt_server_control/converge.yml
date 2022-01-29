@@ -1,0 +1,21 @@
+---
+- name: "Converge"
+  hosts: linux-systemd
+  gather_facts: false
+  tasks:
+
+    - name: "Discover platform"
+      ansible.builtin.setup:
+        gather_subset: "min"
+        gather_timeout: "10"
+
+    - name: "Control service"
+      vars:
+        hpv_libvirt_server:
+          control: true
+        hpv_libvirt_server_subsystem:
+          enabled: true
+          status: "started"
+      ansible.builtin.include_role:
+        name: "hpv_libvirt_server"
+...

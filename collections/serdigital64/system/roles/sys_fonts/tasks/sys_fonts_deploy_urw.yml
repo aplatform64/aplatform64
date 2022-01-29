@@ -1,0 +1,10 @@
+---
+- name: "System / Fonts / Deploy / URW / Provision"
+  vars:
+    sys_package:
+      provision: true
+    sys_package_application: "{{ sys_fonts_application['urw'] }}"
+    sys_package_profiles: "{{ sys_fonts_profiles['urw'] }}"
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_package"
+...

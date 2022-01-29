@@ -1,0 +1,28 @@
+---
+- name: "Verify"
+  hosts: "{{ lookup('env', 'APLATFORM64_TEST_PLATFORM') | default('all') }}"
+  gather_facts: false
+  tasks:
+    - name: "Discover platform"
+      ansible.builtin.setup:
+        gather_subset: "min"
+        gather_timeout: "10"
+
+    - name: "Load role variables"
+      ansible.builtin.include_role:
+        public: true
+        name: "sys_repository"
+
+    - name: "Identify installed repositories"
+      ansible.builtin.command:
+        argv:
+          - "{{ sys_repository_base['run']['flatpak'] }}"
+          - "remotes"
+      register: result
+      changed_when: false
+
+    - name: "Verify repository is installed"
+      ansible.builtin.assert:
+        that:
+          - result['stdout_lines'] is search( 'flathub' )
+...

@@ -1,0 +1,176 @@
+---
+- name: "Manage Cloud Control Nodes"
+  hosts: "cloud_control_nodes"
+  gather_facts: false
+
+  pre_tasks:
+
+    - name: "Discover Target Platform"
+      tags:
+        - "always"
+      ansible.builtin.setup:
+        gather_subset: "min"
+        gather_timeout: "10"
+
+    - name: "Initialize global variables"
+      tags:
+        - "always"
+      ansible.builtin.set_fact:
+        manage_cloud_control_nodes_yum_distro: "
+          {%- if (ansible_distribution == 'CentOS') or
+                  (ansible_distribution == 'OracleLinux')
+          -%}
+            {{ 'RHEL' }}
+          {%- elif (ansible_distribution == 'Fedora') -%}
+            {{ 'fedora' }}
+          {%- endif -%}
+          "
+        manage_cloud_control_nodes_deb_distro: "{{ ansible_facts['lsb']['codename'] | default('focal') }}"
+
+    - name: "Prepare package repositories"
+      tags:
+        - "always"
+      vars:
+        sys_repository:
+          prepare: true
+          deploy: true
+          setup: true
+          provision: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "always"
+        name: "serdigital64.system.sys_repository"
+
+    - name: "Prepare archive manager"
+      tags:
+        - "always"
+      vars:
+        bkp_archive:
+          deploy: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "always"
+        name: "serdigital64.backup.bkp_archive"
+
+    - name: "Prepare package installer"
+      tags:
+        - "always"
+      vars:
+        sys_package:
+          prepare: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "always"
+        name: "serdigital64.system.sys_package"
+
+    - name: "Cloud / AWS / CLI / Prerequisite / Install OS tools"
+      tags:
+        - "always"
+      vars:
+        sys_tools:
+          deploy: true
+        sys_tools_catalog:
+          less: true
+          groff: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "always"
+        name: "serdigital64.system.sys_tools"
+
+  tasks:
+
+    - name: "Provision AWS CLI"
+      tags:
+        - "aws"
+      vars:
+        cloud_aws_cli:
+          prepare: true
+          deploy: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "aws"
+        name: "serdigital64.cloud.cloud_aws_cli"
+      when:
+        - cloud_control_nodes_apps['aws'] is defined
+        - cloud_control_nodes_apps['aws']
+
+    - name: "Provision Azure CLI"
+      tags:
+        - "aws"
+      vars:
+        cloud_azure_cli:
+          deploy: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "azure"
+        name: "serdigital64.cloud.cloud_azure_cli"
+      when:
+        - cloud_control_nodes_apps['azure'] is defined
+        - cloud_control_nodes_apps['azure']
+
+    - name: "Provision Google Cloud CLI"
+      tags:
+        - "google"
+      vars:
+        cloud_google_cli:
+          deploy: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "google"
+        name: "serdigital64.cloud.cloud_google_cli"
+      when:
+        - cloud_control_nodes_apps['google'] is defined
+        - cloud_control_nodes_apps['google']
+
+    - name: "Provision IBM Cloud CLI"
+      tags:
+        - "ibm"
+      vars:
+        cloud_ibm_cli:
+          deploy: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "ibm"
+        name: "serdigital64.cloud.cloud_ibm_cli"
+      when:
+        - cloud_control_nodes_apps['ibm'] is defined
+        - cloud_control_nodes_apps['ibm']
+
+    - name: "Provision Cloud Foundry CLI"
+      tags:
+        - "foundry"
+      vars:
+        cloud_foundry_cli:
+          deploy: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "foundry"
+        name: "serdigital64.cloud.cloud_foundry_cli"
+      when:
+        - cloud_control_nodes_apps['foundry'] is defined
+        - cloud_control_nodes_apps['foundry']
+
+    - name: "Provision Terraform tool"
+      tags:
+        - "terraform"
+      vars:
+        infra_terraform:
+          deploy: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "terraform"
+        name: "serdigital64.infrastructure.infra_terraform"
+      when:
+        - cloud_control_nodes_apps['terraform'] is defined
+        - cloud_control_nodes_apps['terraform']
+...

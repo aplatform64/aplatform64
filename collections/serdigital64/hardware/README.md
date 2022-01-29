@@ -1,0 +1,1 @@
+../../../docs/collections/hardware.md

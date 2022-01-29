@@ -1,0 +1,24 @@
+---
+- name: "Cloud / IBM / CLI / Prerequisite / Prepare package managers"
+  vars:
+    sys_repository:
+      prepare: true
+      deploy: true
+      setup: true
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_repository"
+
+- name: "Cloud / IBM / CLI / Prerequisite / Prepare archive manager"
+  vars:
+    bkp_archive:
+      deploy: true
+  ansible.builtin.include_role:
+    name: "serdigital64.backup.bkp_archive"
+
+- name: "Cloud / IBM / CLI / Prerequisite / Prepare package installer"
+  vars:
+    sys_package:
+      prepare: true
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_package"
+...

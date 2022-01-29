@@ -1,0 +1,30 @@
+---
+- name: "Automation / Ansible / Node / Initialize"
+  ansible.builtin.include_tasks:
+    file: "auto_ansible_node_initialize.yml"
+
+- name: "Automation / Ansible / Node / Prepare"
+  ansible.builtin.include_tasks:
+    file: "auto_ansible_node_prepare.yml"
+  when:
+    - "'prepare' in auto_ansible_node"
+    - "auto_ansible_node['prepare']"
+
+- name: "Automation / Ansible / Node / Deploy"
+  ansible.builtin.include_tasks:
+    file: "auto_ansible_node_deploy.yml"
+  when:
+    - "'deploy' in auto_ansible_node"
+    - "auto_ansible_node['deploy']"
+
+- name: "Automation / Ansible / Node / Provision"
+  ansible.builtin.include_tasks:
+    file: "auto_ansible_node_provision.yml"
+  when:
+    - "'provision' in auto_ansible_node"
+    - "auto_ansible_node['provision']"
+
+- name: "Automation / Ansible / Node / Finalize"
+  ansible.builtin.include_tasks:
+    file: "auto_ansible_node_finalize.yml"
+...

@@ -1,0 +1,27 @@
+---
+- name: "Automation / Ansible / Control / Setup / Keys / Generate public-private key pair for Ansible Managed Nodes"
+  vars:
+    sec_key_ssh:
+      setup: true
+    sec_key_ssh_pairs:
+      - file: "{{ auto_ansible_control_base['files']['managed_private_key'] | basename }}"
+        path: "{{ auto_ansible_control_base['paths']['site_keys'] }}"
+        owner: "{{ auto_ansible_control_base['access']['owner'] }}"
+        group: "{{ auto_ansible_control_base['access']['group'] }}"
+        type: "{{ auto_ansible_control_key['type'] | default(omit) }}"
+        size: "{{ auto_ansible_control_key['size'] | default(omit) }}"
+  ansible.builtin.include_role:
+    name: "serdigital64.security.sec_key_ssh"
+
+- name: "Automation / Ansible / Control / Setup / Keys / Generate default Ansible vault secret"
+  become: true
+  ansible.builtin.copy:
+    backup: false
+    follow: false
+    force: false
+    content: "**changeme_changeme_changeme**"
+    dest: "{{ auto_ansible_control_base['files']['control_secret'] }}"
+    owner: "{{ auto_ansible_control_base['access']['owner'] }}"
+    group: "{{ auto_ansible_control_base['access']['group'] }}"
+    mode: "{{ auto_ansible_control_base['access']['mode']['file'] }}"
+...

@@ -1,0 +1,16 @@
+---
+- name: "Cloud / Google / Initialize"
+  ansible.builtin.include_tasks:
+    file: "cloud_google_cli_initialize.yml"
+
+- name: "Cloud / Google / Deploy"
+  ansible.builtin.include_tasks:
+    file: "cloud_google_cli_deploy.yml"
+  when:
+    - "'deploy' in cloud_google_cli"
+    - "cloud_google_cli['deploy']"
+
+- name: "Cloud / Google / Finalize"
+  ansible.builtin.include_tasks:
+    file: "cloud_google_cli_finalize.yml"
+...

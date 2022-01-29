@@ -1,0 +1,16 @@
+---
+sec_openssh_client_base:
+  run:
+    ssh_keygen: "/usr/bin/ssh-keygen"
+    sshpass: "/usr/bin/sshpass"
+
+sec_openssh_client_profiles:
+  distro:
+    latest:
+      packages:
+        - name: "openssh-clients"
+        - name: "sshpass"
+
+sec_openssh_client_repository_catalog_distro:
+  epel: true
+...

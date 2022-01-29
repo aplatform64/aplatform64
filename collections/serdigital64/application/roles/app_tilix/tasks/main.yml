@@ -1,0 +1,16 @@
+---
+- name: "Application / Tilix / Initialize"
+  ansible.builtin.include_tasks:
+    file: "app_tilix_initialize.yml"
+
+- name: "Application / Tilix / Deploy"
+  ansible.builtin.include_tasks:
+    file: "app_tilix_deploy.yml"
+  when:
+    - "'deploy' in app_tilix"
+    - "app_tilix['deploy']"
+
+- name: "Application / Tilix / Finalize"
+  ansible.builtin.include_tasks:
+    file: "app_tilix_finalize.yml"
+...

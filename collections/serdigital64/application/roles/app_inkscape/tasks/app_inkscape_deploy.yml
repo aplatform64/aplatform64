@@ -1,0 +1,5 @@
+---
+- name: "Application / InkScape / Deploy / Package"
+  ansible.builtin.include_tasks:
+    file: "app_inkscape_deploy_package.yml"
+...

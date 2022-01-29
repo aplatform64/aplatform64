@@ -1,0 +1,16 @@
+---
+- name: "Cloud / IBM / CLI / Initialize"
+  ansible.builtin.include_tasks:
+    file: "cloud_ibm_cli_initialize.yml"
+
+- name: "Cloud / IBM / CLI / Deploy"
+  ansible.builtin.include_tasks:
+    file: "cloud_ibm_cli_deploy.yml"
+  when:
+    - "'deploy' in cloud_ibm_cli"
+    - cloud_ibm_cli['deploy']
+
+- name: "Cloud / IBM / CLI / Finalize"
+  ansible.builtin.include_tasks:
+    file: "cloud_ibm_cli_finalize.yml"
+...

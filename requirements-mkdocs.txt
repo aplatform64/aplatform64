@@ -1,0 +1,6 @@
+mdx-truly-sane-lists
+mkdocs-mermaid2-plugin
+mkdocs-markmap
+mkdocs-include-markdown-plugin
+mkdocs-minify-plugin
+mkdocs-material

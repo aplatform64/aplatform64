@@ -1,0 +1,9 @@
+---
+auto_ansible_node_python3:
+  - "python3.9"     # Package reference: dev_python/vars/platform-*.yml
+  - "python3-pip"   # Package reference: dev_python/vars/platform-*.yml
+auto_ansible_node_tools:
+  - "util-linux"    # provides su and runuser
+  - "lsb-release"   # Required to populate ansible.lsb_release
+  - "debianutils"
+...

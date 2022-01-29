@@ -1,0 +1,90 @@
+---
+- name: "Manage HPC Nodes"
+  hosts: "hpc_nodes"
+  gather_facts: false
+
+  pre_tasks:
+    - name: "Discover Target Platform"
+      tags:
+        - "always"
+      ansible.builtin.setup:
+        gather_subset: "min"
+        gather_timeout: "10"
+
+    - name: "Auto / A:Platform64 / Initialize / Check Platform compatibility"
+      ansible.builtin.assert:
+        quiet: true
+        fail_msg: "Target Platform not supported: {{ ansible_distribution + ansible_distribution_major_version }}"
+        that:
+          - ansible_distribution + ansible_distribution_major_version == "CentOS8"
+
+    - name: "Prepare package repositories"
+      tags:
+        - "always"
+      vars:
+        sys_repository:
+          prepare: true
+          deploy: true
+          setup: true
+          provision: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "always"
+        name: "serdigital64.system.sys_repository"
+
+    - name: "Prepare archive manager"
+      tags:
+        - "always"
+      vars:
+        bkp_archive:
+          deploy: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "always"
+        name: "serdigital64.backup.bkp_archive"
+
+    - name: "Prepare package installer"
+      tags:
+        - "always"
+      vars:
+        sys_package:
+          prepare: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "always"
+        name: "serdigital64.system.sys_package"
+
+  tasks:
+    - name: "Provision OpenCL environment"
+      tags:
+        - "opencl"
+      vars:
+        dev_opencl:
+          deploy: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "opencl"
+        name: "serdigital64.development.dev_opencl"
+      when:
+        - hpc_nodes_apps['opencl'] is defined
+        - hpc_nodes_apps['opencl']
+
+    - name: "Provision AMD GPU Drivers"
+      tags:
+        - "gpu_amd"
+      vars:
+        dev_gpu_amd:
+          deploy: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "gpu_amd"
+        name: "serdigital64.hardware.hw_gpu_amd"
+      when:
+        - hpc_nodes_apps['gpu_amd'] is defined
+        - hpc_nodes_apps['gpu_amd']
+...

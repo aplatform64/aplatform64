@@ -1,0 +1,13 @@
+---
+hpv_libvirt_client_application:
+  bin:
+    name: "libvirt"
+    type: "distro"
+    version: "latest"
+    installed: true
+  dev:
+    name: "libvirt_dev"
+    type: "distro"
+    version: "latest"
+    installed: false
+...

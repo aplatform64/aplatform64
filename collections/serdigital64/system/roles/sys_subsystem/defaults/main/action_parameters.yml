@@ -1,0 +1,6 @@
+---
+sys_subsystem:
+  resolve_prereq: false
+  deploy: false
+  setup: false
+...

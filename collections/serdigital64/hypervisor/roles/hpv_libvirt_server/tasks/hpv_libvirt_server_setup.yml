@@ -1,0 +1,24 @@
+---
+- name: "Hypervisor / LibVirt / Server / Setup / Server"
+  ansible.builtin.include_tasks:
+    file: "{{ 'hpv_libvirt_server_setup_server.yml' }}"
+  when:
+    - hpv_libvirt_server_server_options['tcp_access'] is defined
+    - hpv_libvirt_server_server_options['qemu'] is defined
+
+- name: "Hypervisor / LibVirt / Server / Setup / Subsystem"
+  ansible.builtin.include_tasks:
+    file: "{{ 'hpv_libvirt_server_setup_subsystem-' + hpv_libvirt_server_os_family + '.yml' }}"
+  when:
+    - hpv_libvirt_server_subsystem is defined
+    - hpv_libvirt_server_subsystem['enabled'] is defined
+    - hpv_libvirt_server_subsystem['status'] is defined
+
+- name: "Hypervisor / LibVirt / Server / Setup / Firewall"
+  ansible.builtin.include_tasks:
+    file: "{{ 'hpv_libvirt_server_setup_firewall.yml' }}"
+  when:
+    - hpv_libvirt_server_server_options['tcp_access'] is defined
+    - hpv_libvirt_server_server_options['qemu'] is defined
+    - hpv_libvirt_server_os_family == 'RedHat'
+...

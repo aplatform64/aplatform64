@@ -1,0 +1,47 @@
+---
+- name: "Automation / A:Platform64 / Initialize / Check Platform compatibility"
+  ansible.builtin.assert:
+    quiet: true
+    fail_msg: "Target Platform not supported: {{ ansible_distribution + ansible_distribution_major_version }}"
+    that:
+      - ansible_distribution + ansible_distribution_major_version in auto_aplatform64_platforms
+
+- name: "Automation / A:Platform64 / Initialize / Load Dependencies: auto_ansible_control"
+  ansible.builtin.include_role:
+    name: "serdigital64.automation.auto_ansible_control"
+    public: true
+
+- name: "Automation / A:Platform64 / Initialize / Load Dependencies: installer options({{
+    auto_ansible_control_base['paths']['etc_cfg'] + '/' + auto_aplatform64_base['files']['installer_yml'] }})"
+  ansible.builtin.include_vars:
+    file: "{{
+      auto_ansible_control_base['paths']['etc_cfg'] + '/' +
+      auto_aplatform64_base['files']['installer_yml']
+      }}"
+  when:
+    - auto_aplatform64_mode_test is not defined or
+      not auto_aplatform64_mode_test
+
+- name: "Automation / A:Platform64 / Initialize / Analyze Runtime Environment"
+  register: "auto_aplatform64___path_status"
+  ansible.builtin.stat:
+    follow: false
+    get_checksum: false
+    get_mime: false
+    get_attributes: false
+    path: "{{ auto_ansible_control_base['paths']['root'] }}"
+  when:
+    - ('prepare' in auto_aplatform64 and auto_aplatform64['prepare']) or
+      ('setup' in auto_aplatform64 and auto_aplatform64['setup']) or
+      ('provision' in auto_aplatform64 and auto_aplatform64['provision'])
+
+- name: "Automation / A:Platform64 / Initialize / Check Runtime Environment"
+  ansible.builtin.assert:
+    quiet: true
+    that:
+      - auto_aplatform64___path_status['stat']['exists']
+  when:
+    - ('prepare' in auto_aplatform64 and auto_aplatform64['prepare']) or
+      ('setup' in auto_aplatform64 and auto_aplatform64['setup']) or
+      ('provision' in auto_aplatform64 and auto_aplatform64['provision'])
+...

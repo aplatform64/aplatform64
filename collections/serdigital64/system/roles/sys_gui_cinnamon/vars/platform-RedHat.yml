@@ -1,0 +1,15 @@
+---
+sys_gui_cinnamon_profiles:
+  distro:
+    latest:
+      supported: true
+      packages:
+        - name: "cinnamon"
+
+sys_gui_cinnamon_repository_custom_yum: []
+sys_gui_cinnamon_repository_custom_apt: []
+
+sys_gui_cinnamon_repository_catalog_distro: {}
+sys_gui_cinnamon_repository_catalog_yum: {}
+sys_gui_cinnamon_repository_catalog_apt: {}
+...

@@ -1,0 +1,9 @@
+---
+roles: []
+collections:
+  - name: "community.general"
+  - name: "../../../../../build/serdigital64-automation.tar.gz"
+    type: "file"
+  - name: "../../../../../build/serdigital64-system.tar.gz"
+    type: "file"
+...

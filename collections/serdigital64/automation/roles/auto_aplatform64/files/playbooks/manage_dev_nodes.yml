@@ -1,0 +1,200 @@
+---
+- name: "Manage Dev Nodes"
+  hosts: "dev_nodes"
+  gather_facts: false
+
+  pre_tasks:
+    - name: "Discover Target Platform"
+      tags:
+        - "always"
+      ansible.builtin.setup:
+        gather_subset: "min"
+        gather_timeout: "10"
+
+    - name: "Initialize global variables"
+      tags:
+        - "always"
+      ansible.builtin.set_fact:
+        manage_dev_nodes_yum_distro: "
+          {%- if (ansible_distribution == 'CentOS') or
+                  (ansible_distribution == 'OracleLinux')
+          -%}
+            {{ 'RHEL' }}
+          {%- elif (ansible_distribution == 'Fedora') -%}
+            {{ 'fedora' }}
+          {%- endif -%}
+          "
+        manage_dev_nodes_deb_distro: "{{ ansible_facts['lsb']['codename'] | default('focal') }}"
+        manage_dev_nodes_catalog_distro: "
+          {%- if (ansible_distribution == 'CentOS') or
+                  (ansible_distribution == 'OracleLinux')
+          -%}
+            { 'epel': true }
+          {%- elif (ansible_distribution == 'Fedora') -%}
+            { 'updates': true }
+          {%- else -%}
+            {}
+          {%- endif -%}
+          "
+
+    - name: "Prepare package repositories"
+      tags:
+        - "always"
+      vars:
+        sys_repository:
+          prepare: true
+          deploy: true
+          setup: true
+          provision: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "always"
+        name: "serdigital64.system.sys_repository"
+
+    - name: "Prepare archive manager"
+      tags:
+        - "always"
+      vars:
+        bkp_archive:
+          deploy: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "always"
+        name: "serdigital64.backup.bkp_archive"
+
+    - name: "Prepare package installer"
+      tags:
+        - "always"
+      vars:
+        sys_package:
+          prepare: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "always"
+        name: "serdigital64.system.sys_package"
+
+  tasks:
+    - name: "Provision common development tools"
+      tags:
+        - "tools"
+      vars:
+        dev_tools:
+          deploy: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "tools"
+        name: "serdigital64.development.dev_tools"
+      when:
+        - dev_nodes_apps['tools'] is defined
+        - dev_nodes_apps['tools']
+
+    - name: "Provision GCC development environment"
+      tags:
+        - "gcc"
+      vars:
+        dev_gcc:
+          deploy: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "gcc"
+        name: "serdigital64.development.dev_gcc"
+      when:
+        - dev_nodes_apps['gcc'] is defined
+        - dev_nodes_apps['gcc']
+
+    - name: "Provision Ruby development environment"
+      tags:
+        - "ruby"
+      vars:
+        dev_ruby:
+          deploy: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "ruby"
+        name: "serdigital64.development.dev_ruby"
+      when:
+        - dev_nodes_apps['ruby'] is defined
+        - dev_nodes_apps['ruby']
+
+    - name: "Provision Java development environment"
+      tags:
+        - "java"
+      vars:
+        dev_java:
+          deploy: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "java"
+        name: "serdigital64.development.dev_java"
+      when:
+        - dev_nodes_apps['java'] is defined
+        - dev_nodes_apps['java']
+
+    - name: "Provision Python development environment"
+      tags:
+        - "python"
+      vars:
+        dev_python:
+          deploy: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "python"
+        name: "serdigital64.development.dev_python"
+      when:
+        - dev_nodes_apps['python'] is defined
+        - dev_nodes_apps['python']
+
+    - name: "Provision NodeJS development environment"
+      tags:
+        - "nodejs"
+      vars:
+        dev_nodejs:
+          deploy: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "nodejs"
+        name: "serdigital64.development.dev_nodejs"
+      when:
+        - dev_nodes_apps['nodejs'] is defined
+        - dev_nodes_apps['nodejs']
+
+    - name: "Provision Vagrant tool"
+      tags:
+        - "vagrant"
+      vars:
+        infra_vagrant:
+          deploy: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "vagrant"
+        name: "serdigital64.infrastructure.infra_vagrant"
+      when:
+        - dev_nodes_apps['vagrant'] is defined
+        - dev_nodes_apps['vagrant']
+
+    - name: "Provision VSCode IDE"
+      tags:
+        - "vscode"
+      vars:
+        app_vscode:
+          deploy: true
+          setup: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "vscode"
+        name: "serdigital64.application.app_vscode"
+      when:
+        - dev_nodes_apps['vscode'] is defined
+        - dev_nodes_apps['vscode']
+...

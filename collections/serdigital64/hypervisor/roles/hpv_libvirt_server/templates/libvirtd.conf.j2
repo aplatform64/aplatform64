@@ -1,0 +1,9 @@
+# {{ hpv_libvirt_server_alert_ansible_managed_file }}
+{% if( hpv_libvirt_server_server_options['tcp_access']['enabled'] ) %}
+listen_tcp = 1
+tcp_port = "{{ hpv_libvirt_server_server_options['tcp_access']['port'] }}"
+listen_addr = "{{ hpv_libvirt_server_server_options['tcp_access']['listen'] }}"
+auth_tcp = "{{ ( hpv_libvirt_server_server_options['tcp_access']['cleartext'] ) | ternary( 'none', 'sasl' ) }}"
+{% endif %}
+{{ '
+' }}

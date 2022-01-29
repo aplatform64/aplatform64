@@ -1,0 +1,21 @@
+---
+- name: "Automation / A:Platform64 / Setup / User / Configure Site Manager user profile"
+  vars:
+    sys_shell:
+      setup: true
+    sys_shell_catalog:
+      bash: true
+    sys_shell_users:
+      - user: "{{ auto_ansible_control_users['control']['name'] }}"
+        flavour: "bash"
+        home: "{{ auto_ansible_control_users['control']['home'] }}"
+        include_system: true
+        sources:
+          - "{{ auto_aplatform64_installer_vew_loader }}"
+        variables:
+          - name: "VIRTUALENVWRAPPER_PYTHON"
+            value: "{{ auto_aplatform64_installer_python_system }}"
+            export: true
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_shell"
+...

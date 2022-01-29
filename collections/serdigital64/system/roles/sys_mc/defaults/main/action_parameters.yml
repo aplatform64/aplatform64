@@ -1,0 +1,6 @@
+---
+sys_mc:
+  resolve_prereq: false
+  deploy: false
+  setup: false
+...

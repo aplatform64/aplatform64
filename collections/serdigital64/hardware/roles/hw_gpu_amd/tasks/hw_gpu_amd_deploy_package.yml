@@ -1,0 +1,10 @@
+---
+- name: "Hardware / GPU / AMD / Deploy / Package / Provision application"
+  vars:
+    sys_package:
+      provision: true
+    sys_package_application: "{{ hw_gpu_amd_application }}"
+    sys_package_profiles: "{{ hw_gpu_amd_profiles }}"
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_package"
+...

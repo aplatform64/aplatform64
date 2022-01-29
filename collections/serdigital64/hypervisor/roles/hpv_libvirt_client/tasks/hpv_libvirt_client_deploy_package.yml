@@ -1,0 +1,23 @@
+---
+- name: "Hypervisor / LibVirt / Client / Deploy / Package / Provision application"
+  vars:
+    sys_package:
+      provision: true
+    sys_package_application: "{{ hpv_libvirt_client_application['bin'] }}"
+    sys_package_profiles: "{{ hpv_libvirt_client_profiles['bin'] }}"
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_package"
+  when:
+    - hpv_libvirt_client_application['bin'] is defined
+
+- name: "Hypervisor / LibVirt / Client / Deploy / Package / Provision development libraries"
+  vars:
+    sys_package:
+      provision: true
+    sys_package_application: "{{ hpv_libvirt_client_application['dev'] }}"
+    sys_package_profiles: "{{ hpv_libvirt_client_profiles['dev'] }}"
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_package"
+  when:
+    - hpv_libvirt_client_application['dev'] is defined
+...

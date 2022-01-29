@@ -1,0 +1,19 @@
+---
+- name: "Development / GCC / Initialize / Check Platform compatibility"
+  ansible.builtin.assert:
+    quiet: true
+    fail_msg: "Target Platform not supported: {{ ansible_distribution + ansible_distribution_major_version }}"
+    that:
+      - ansible_distribution + ansible_distribution_major_version in dev_gcc_platforms
+
+- name: "Development / GCC / Initialize / Set Platform specific variables"
+  ansible.builtin.include_vars:
+    file: "platform-{{ ansible_distribution + ansible_distribution_major_version }}.yml"
+
+- name: "Development / GCC / Initialize / Resolve prerequisites"
+  ansible.builtin.include_tasks:
+    file: "dev_gcc_prerequisite.yml"
+  when:
+    - "'resolve_prereq' in dev_gcc"
+    - dev_gcc['resolve_prereq']
+...

@@ -1,0 +1,23 @@
+---
+- name: "Cloud / Azure / CLI / Prerequisite / Prepare package managers"
+  vars:
+    sys_repository:
+      prepare: true
+      deploy: true
+      setup: true
+      provision: true
+    sys_repository_catalog_yum: "{{ cloud_azure_cli_repository_catalog_yum }}"
+    sys_repository_catalog_apt: "{{ cloud_azure_cli_repository_catalog_apt }}"
+    sys_repository_custom_yum: "{{ cloud_azure_cli_repository_custom_yum }}"
+    sys_repository_custom_apt: "{{ cloud_azure_cli_repository_custom_apt }}"
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_repository"
+
+- name: "Cloud / Azure / CLI / Prerequisite / Prepare package installer"
+  vars:
+    sys_package:
+      prepare: true
+    sys_repository_catalog_distro: "{{ sec_openssh_client_repository_catalog_distro }}"
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_package"
+...

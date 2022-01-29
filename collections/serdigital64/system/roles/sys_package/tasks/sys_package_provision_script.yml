@@ -1,0 +1,21 @@
+---
+- name: "System / Package / Provision / Script / Detect script status ({{ sys_package___application['script'][0] }})"
+  become: true
+  ansible.builtin.stat:
+    follow: false
+    get_checksum: false
+    get_mime: false
+    get_attributes: false
+    path: "{{ sys_package___application['staging'] + '/' + sys_package___application['script'][0] }}"
+  register: "sys_package___provision_script_file"
+
+- name: "System / Package / Provision / Script / Execute"
+  become: true
+  ansible.builtin.command:
+    chdir: "{{ sys_package___application['staging'] }}"
+    argv: "{{ sys_package___application['script'] }}"
+  register: "sys_package___provision_script_status"
+  changed_when: sys_package___provision_script_status['rc'] == 0
+  when:
+    - sys_package___provision_script_file['stat']['exists']
+...

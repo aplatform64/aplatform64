@@ -1,0 +1,16 @@
+---
+- name: "Application / XMind / Initialize"
+  ansible.builtin.include_tasks:
+    file: "app_xmind_initialize.yml"
+
+- name: "Application / XMind / Deploy"
+  ansible.builtin.include_tasks:
+    file: "app_xmind_deploy.yml"
+  when:
+    - "'deploy' in app_xmind"
+    - "app_xmind['deploy']"
+
+- name: "Application / XMind / Finalize"
+  ansible.builtin.include_tasks:
+    file: "app_xmind_finalize.yml"
+...

@@ -1,0 +1,16 @@
+---
+- name: "Development / OpenCL / Initialize"
+  ansible.builtin.include_tasks:
+    file: "dev_opencl_initialize.yml"
+
+- name: "Development / OpenCL / Deploy"
+  ansible.builtin.include_tasks:
+    file: "dev_opencl_deploy.yml"
+  when:
+    - "'deploy' in dev_opencl"
+    - "dev_opencl['deploy']"
+
+- name: "Development / OpenCL / Finalize"
+  ansible.builtin.include_tasks:
+    file: "dev_opencl_finalize.yml"
+...

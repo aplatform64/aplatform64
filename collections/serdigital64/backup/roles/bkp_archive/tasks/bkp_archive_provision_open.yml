@@ -1,0 +1,89 @@
+---
+- name: "Backup / Archive / Provision / Open / Check required parameters"
+  ansible.builtin.assert:
+    quiet: true
+    that:
+      - bkp_archive___provision_item['archive'] is defined
+      - bkp_archive___provision_item['archive']['path'] is defined
+      - bkp_archive___provision_item['archive']['path'] | length > 0
+      - bkp_archive___provision_item['archive']['file'] is defined
+      - bkp_archive___provision_item['archive']['file'] | length > 0
+      - bkp_archive___provision_item['content'] is defined
+      - bkp_archive___provision_item['content']['path'] is defined
+      - bkp_archive___provision_item['content']['path'] | length > 0
+      - bkp_archive___provision_item['content']['name'] is defined
+      - bkp_archive___provision_item['content']['name'] | length > 0
+
+- name: "Backup / Archive / Provision / Open / Identify the archive type ({{
+    bkp_archive___provision_item['archive']['path'] + '/' + bkp_archive___provision_item['archive']['file'] }})"
+  become: true
+  ansible.builtin.stat:
+    get_checksum: false
+    follow: false
+    get_mime: true
+    get_attributes: false
+    path: "{{ bkp_archive___provision_item['archive']['path'] + '/' + bkp_archive___provision_item['archive']['file'] }}"
+  register: "bkp_archive___provision_archive_file"
+
+- name: "Backup / Archive / Provision / Open / Verify that the archive is present (exists: {{
+    bkp_archive___provision_archive_file['stat']['exists'] }})"
+  failed_when: false
+  ansible.builtin.assert:
+    quiet: true
+    fail_msg: "Warning: archive already opened and removed or not found. No further action taken."
+    that:
+      - bkp_archive___provision_archive_file['stat']['exists']
+
+- name: "Backup / Archive / Provision / Open / Check that the archive type is supported ({{
+    bkp_archive___provision_archive_file['stat']['mimetype'] }})"
+  ansible.builtin.assert:
+    quiet: true
+    fail_msg: "Unsupported archive format: {{ bkp_archive___provision_archive_file['stat']['mimetype'] | default('unknown') }}"
+    that:
+      - bkp_archive___provision_archive_file['stat']['mimetype'] in bkp_archive_formats['xz'] or
+        bkp_archive___provision_archive_file['stat']['mimetype'] in bkp_archive_formats['bzip2'] or
+        bkp_archive___provision_archive_file['stat']['mimetype'] in bkp_archive_formats['common']
+  when:
+    - bkp_archive___provision_archive_file['stat']['exists']
+
+- name: "Backup / Archive / Provision / Open / Identify if archive is encapsulated"
+  ansible.builtin.set_fact:
+    bkp_archive___provision_archive_encapsulated: "{{
+        bkp_archive___provision_item['archive']['file'] |
+        regex_search(
+          '\\.tar$|' +
+          '\\.tgz$|' +
+          '\\.tar\\.zip$|' +
+          '\\.tar\\.gz$|' +
+          '\\.tar\\.xz$|' +
+          '\\.tar\\.bzip2$|' +
+          '\\.tar\\.zst$'
+          )
+      }}"
+  when:
+    - bkp_archive___provision_archive_file['stat']['exists']
+
+- name: "Backup / Archive / Provision / Open / Format: xz"
+  ansible.builtin.include_tasks:
+    file: "bkp_archive_provision_open_xz.yml"
+  when:
+    - bkp_archive___provision_archive_file['stat']['exists']
+    - bkp_archive___provision_archive_file['stat']['mimetype'] in bkp_archive_formats['xz']
+    - bkp_archive___provision_archive_encapsulated | length == 0
+
+- name: "Backup / Archive / Provision / Open / Format: bzip2"
+  ansible.builtin.include_tasks:
+    file: "bkp_archive_provision_open_bzip2.yml"
+  when:
+    - bkp_archive___provision_archive_file['stat']['exists']
+    - bkp_archive___provision_archive_file['stat']['mimetype'] in bkp_archive_formats['bzip2']
+    - bkp_archive___provision_archive_encapsulated | length == 0
+
+- name: "Backup / Archive / Provision / Open / Format: common"
+  ansible.builtin.include_tasks:
+    file: "bkp_archive_provision_open_common.yml"
+  when:
+    - bkp_archive___provision_archive_file['stat']['exists']
+    - (bkp_archive___provision_archive_file['stat']['mimetype'] in bkp_archive_formats['common'] or
+      bkp_archive___provision_archive_encapsulated | length > 0 )
+...

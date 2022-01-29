@@ -1,0 +1,13 @@
+---
+- name: "System / Package / Provision / Type: binary / Uninstall / Check required parameters"
+  ansible.builtin.assert:
+    quiet: true
+    that:
+      - "'cleanup' in sys_package___application"
+      - sys_package___application['cleanup'] is not none
+      - sys_package___application['cleanup'] | length > 0
+
+- name: "System / Package / Provision / Type: binary / Uninstall / CleanUp"
+  ansible.builtin.include_tasks:
+    file: "sys_package_provision_cleanup.yml"
+...

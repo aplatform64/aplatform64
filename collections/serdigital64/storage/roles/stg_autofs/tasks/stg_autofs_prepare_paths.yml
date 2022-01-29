@@ -1,0 +1,18 @@
+---
+- name: "Storage / AutoFS / Prepare / Paths / Create"
+  become: true
+  ansible.builtin.file:
+    follow: false
+    force: false
+    unsafe_writes: false
+    recurse: false
+    state: "directory"
+    path: "{{ stg_autofs___prepare_path }}"
+    owner: "{{ stg_autofs_base['access']['user']['owner'] }}"
+    group: "{{ stg_autofs_base['access']['group']['owner'] }}"
+    mode: "{{ stg_autofs_base['access']['mode']['dir'] }}"
+  loop:
+    - "{{ stg_autofs_base['paths']['root'] }}"
+  loop_control:
+    loop_var: "stg_autofs___prepare_path"
+...

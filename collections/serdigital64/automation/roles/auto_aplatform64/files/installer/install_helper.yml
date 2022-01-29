@@ -1,0 +1,78 @@
+---
+- name: "Install A:Platform64"
+  hosts: localhost
+  gather_facts: false
+  tasks:
+
+    - name: "Discover platform"
+      ansible.builtin.setup:
+        gather_subset: "min"
+        gather_timeout: "10"
+
+    - name: "Load installer options"
+      ansible.builtin.include_vars:
+        file: "{{ lookup('env', 'APLATFORM64_PATH_INSTALLER_OPTIONS') }}"
+
+    - name: "Setup Ansible Control Node"
+      vars:
+        auto_ansible_control:
+          resolve_prereq: true
+          prepare: true
+          setup: true
+        auto_ansible_control_site: "{{ auto_aplatform64_installer_site }}"
+        auto_ansible_control_python: "{{ auto_aplatform64_installer_python_user }}"
+        auto_ansible_control_users:
+          control:
+            name: "{{ auto_aplatform64_installer_user_name }}"
+            group: "{{ auto_aplatform64_installer_user_group }}"
+            home: "{{ auto_aplatform64_installer_user_home }}"
+        auto_ansible_control_paths:
+          root: "{{ auto_aplatform64_installer_root }}"
+          var: "{{ auto_aplatform64_installer_var }}"
+      ansible.builtin.include_role:
+        name: "serdigital64.automation.auto_ansible_control"
+
+    - name: "Setup A:Platform64"
+      vars:
+        auto_aplatform64:
+          prepare: true
+          setup: true
+          provision: true
+        auto_ansible_control_site: "{{ auto_aplatform64_installer_site }}"
+        auto_ansible_control_python: "{{ auto_aplatform64_installer_python_user }}"
+        auto_ansible_control_users:
+          control:
+            name: "{{ auto_aplatform64_installer_user_name }}"
+            group: "{{ auto_aplatform64_installer_user_group }}"
+            home: "{{ auto_aplatform64_installer_user_home }}"
+        auto_ansible_control_paths:
+          root: "{{ auto_aplatform64_installer_root }}"
+          var: "{{ auto_aplatform64_installer_var }}"
+      ansible.builtin.include_role:
+        name: "serdigital64.automation.auto_aplatform64"
+
+    - name: "Setup Ansible Managed Node"
+      vars:
+        auto_ansible_node:
+          prepare: true
+          deploy: true
+          provision: true
+          bootstrap: false
+      ansible.builtin.include_role:
+        name: "serdigital64.automation.auto_ansible_node"
+
+    - name: "Setup GIT repository"
+      vars:
+        dops_git_client:
+          deploy: true
+          provision: true
+        dops_git_client_repositories:
+          - name: "A:Platform64 infrastructure-as-code"
+            path: "{{ auto_aplatform64_installer_root }}"
+            owner: "{{ auto_aplatform64_installer_user_name }}"
+            email: "{{ auto_aplatform64_installer_user_name + '@localhost' }}"
+            ignore:
+              - "collections/"
+      ansible.builtin.include_role:
+        name: "serdigital64.devops.dops_git_client"
+...

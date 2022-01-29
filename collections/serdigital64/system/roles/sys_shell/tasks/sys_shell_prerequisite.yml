@@ -1,0 +1,26 @@
+---
+- name: "System / Shell / Prerequisite / Prepare Ansible tools"
+  vars:
+    auto_ansible_node:
+      deploy: true
+  ansible.builtin.include_role:
+    name: "serdigital64.automation.auto_ansible_node"
+
+- name: "System / Shell / Prerequisite / Prepare package managers"
+  vars:
+    sys_repository:
+      prepare: true
+      deploy: true
+      setup: true
+    sys_repository_managers:
+      git: true
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_repository"
+
+- name: "System / Shell / Prerequisite / Prepare package installer"
+  vars:
+    sys_package:
+      prepare: true
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_package"
+...

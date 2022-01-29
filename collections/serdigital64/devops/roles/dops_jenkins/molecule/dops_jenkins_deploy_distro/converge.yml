@@ -1,0 +1,18 @@
+---
+- name: "Converge"
+  hosts: "{{ lookup('env', 'APLATFORM64_TEST_PLATFORM') | default('all') }}"
+  gather_facts: false
+  tasks:
+
+    - name: "Discover platform"
+      ansible.builtin.setup:
+        gather_subset: "min"
+        gather_timeout: "10"
+
+    - name: "Deploy required packages"
+      vars:
+        dops_jenkins:
+          deploy: true
+      ansible.builtin.include_role:
+        name: "dops_jenkins"
+...

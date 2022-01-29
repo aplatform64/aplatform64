@@ -1,0 +1,5 @@
+---
+- name: "Cloud / Google / Deploy / Package"
+  ansible.builtin.include_tasks:
+    file: "cloud_google_cli_deploy_package.yml"
+...

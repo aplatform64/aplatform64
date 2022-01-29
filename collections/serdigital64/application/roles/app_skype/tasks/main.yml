@@ -1,0 +1,16 @@
+---
+- name: "Application / Skype / Initialize"
+  ansible.builtin.include_tasks:
+    file: "app_skype_initialize.yml"
+
+- name: "Application / Skype / Deploy"
+  ansible.builtin.include_tasks:
+    file: "app_skype_deploy.yml"
+  when:
+    - "'deploy' in app_skype"
+    - app_skype['deploy']
+
+- name: "Application / Skype / Finalize"
+  ansible.builtin.include_tasks:
+    file: "app_skype_finalize.yml"
+...

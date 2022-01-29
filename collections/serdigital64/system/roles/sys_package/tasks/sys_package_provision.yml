@@ -1,0 +1,22 @@
+---
+- name:
+    "System / Package / Provision / Type: {{ sys_package___application['type'] }} (app: {{
+    sys_package___application['name'] }})"
+  ansible.builtin.include_tasks:
+    file: "{{
+      'sys_package_provision_type-' + sys_package___application['type'] + '-' +
+      (sys_package_application['installed']) | ternary( 'install', 'uninstall' ) + '.yml'
+      }}"
+  when:
+    - sys_package___application['supported']
+    - (
+      sys_package___application['type'] == "binary" or
+      sys_package___application['type'] == "distro" or
+      sys_package___application['type'] == "snap" or
+      sys_package___application['type'] == "flatpak" or
+      sys_package___application['type'] == "git" or
+      sys_package___application['type'] == "pip" or
+      (sys_package___application['type'] == "rpm" and sys_package_os_family == "RedHat") or
+      (sys_package___application['type'] == "deb" and sys_package_os_family == "Ubuntu")
+      )
+...

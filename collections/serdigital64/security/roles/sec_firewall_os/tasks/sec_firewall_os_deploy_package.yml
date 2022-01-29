@@ -1,0 +1,10 @@
+---
+- name: "Security / Firewall / OS / Deploy / Package / Provision application"
+  vars:
+    sys_package:
+      provision: true
+    sys_package_application: "{{ sec_firewall_os_application }}"
+    sys_package_profiles: "{{ sec_firewall_os_profiles }}"
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_package"
+...

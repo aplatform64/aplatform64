@@ -1,0 +1,17 @@
+---
+dops_git_client_profiles:
+  client:
+    distro:
+      latest:
+        packages:
+          - name: "git"
+  extras:
+    distro:
+      latest:
+        packages:
+          - name: "git-extras"
+            origin: "epel"
+
+dops_git_client_repository_catalog_distro:
+  epel: true
+...

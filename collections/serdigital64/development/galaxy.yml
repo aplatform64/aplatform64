@@ -1,0 +1,26 @@
+---
+namespace: "serdigital64"
+name: "development"
+version: "1.0.0"
+readme: "README.md"
+authors:
+  - "SerDigital64 <https://github.com/serdigital64>"
+description: "Ansible Roles for automating development environment provisioning"
+license:
+  - "GPL-3.0-or-later"
+tags:
+  - "development"
+  - "ruby"
+  - "gcc"
+  - "nodejs"
+  - "opencl"
+  - "python"
+  - "java"
+dependencies:
+  serdigital64.backup: "*"
+  serdigital64.system: "*"
+repository: "https://github.com/serdigital64/aplatform64"
+homepage: "https://github.com/serdigital64/aplatform64"
+issues: "https://github.com/serdigital64/aplatform64/issues"
+documentation: "https://aplatform64.readthedocs.io"
+...

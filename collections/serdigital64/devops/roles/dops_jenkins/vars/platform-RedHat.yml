@@ -1,0 +1,35 @@
+---
+dops_jenkins_base:
+  paths: "{{ dops_jenkins_base_common['paths'] }}"
+  templates: "{{ dops_jenkins_base_common['templates'] }}"
+  access: "{{ dops_jenkins_base_common['access'] }}"
+  files:
+    logrotate_d: "/etc/logrotate.d/jenkins"
+    sysconfig: "/etc/sysconfig/jenkins"
+
+dops_jenkins_profiles:
+  distro:
+    latest:
+      packages:
+        - name: "jenkins"
+
+dops_jenkins_repository_custom_yum:
+  - name: "jenkins"
+    description: "Jenkins package repository"
+    url: "http://pkg.jenkins.io/redhat-stable"
+    gpgkey: "https://pkg.jenkins.io/redhat-stable/jenkins.io.key"
+dops_jenkins_repository_custom_apt: []
+
+dops_jenkins_repository_catalog_distro:
+  epel: true    # Required for daemonize package
+dops_jenkins_repository_catalog_yum:
+  jenkins: true
+dops_jenkins_repository_catalog_apt: {}
+
+dops_jenkins_subsystem_profile:
+  service: "jenkins"
+  states:
+    started: "started"
+    stopped: "stopped"
+    refreshed: "refreshed"
+...

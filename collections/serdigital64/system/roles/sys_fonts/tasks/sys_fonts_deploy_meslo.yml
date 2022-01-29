@@ -1,0 +1,17 @@
+---
+- name: "System / Fonts / Deploy / Meslo / Provision"
+  vars:
+    sys_package:
+      provision: true
+    sys_package_application: "{{ sys_fonts_application['meslo'] }}"
+    sys_package_profiles: "{{ sys_fonts_profiles['meslo'] }}"
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_package"
+
+- name: "System / Fonts / Deploy / Meslo / Update font cache"
+  ansible.builtin.command:
+    argv:
+      - "{{ sys_fonts_base['run']['fc_cache'] }}"
+      - "{{ sys_fonts_base['paths']['fonts_meslo'] }}"
+  changed_when: false
+...

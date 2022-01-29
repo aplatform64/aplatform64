@@ -1,0 +1,23 @@
+---
+- name: "System / Package / Prerequisite / Prepare package managers"
+  vars:
+    sys_repository:
+      prepare: true
+      deploy: true
+      provision: true
+      setup: true
+    sys_repository_managers:
+      flatpak: "{{ sys_package_application['type'] is defined and sys_package_application['type'] == 'flatpak' }}"
+      snap: "{{ sys_package_application['type'] is defined and sys_package_application['type'] == 'snap' }}"
+      git: "{{ sys_package_application['type'] is defined and sys_package_application['type'] == 'git' }}"
+      pip: "{{ sys_package_application['type'] is defined and sys_package_application['type'] == 'pip' }}"
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_repository"
+
+- name: "System / Package / Prerequisite / Prepare archive manager"
+  vars:
+    bkp_archive:
+      deploy: true
+  ansible.builtin.include_role:
+    name: "serdigital64.backup.bkp_archive"
+...

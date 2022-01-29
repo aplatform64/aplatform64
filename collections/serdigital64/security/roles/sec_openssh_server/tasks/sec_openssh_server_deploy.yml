@@ -1,0 +1,9 @@
+---
+- name: "Security / OpenSSH / Server / Deploy / Package"
+  ansible.builtin.include_tasks:
+    file: "sec_openssh_server_deploy_package.yml"
+
+- name: "Security / OpenSSH / Server / Deploy / Options"
+  ansible.builtin.include_tasks:
+    file: "sec_openssh_server_deploy_options.yml"
+...

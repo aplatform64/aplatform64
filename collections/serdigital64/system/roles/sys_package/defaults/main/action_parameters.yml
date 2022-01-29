@@ -1,0 +1,10 @@
+---
+sys_package:
+  resolve_prereq: false
+  prepare: false
+  provision: false
+
+sys_package_application: {}
+
+sys_package_profiles: {}
+...

@@ -1,0 +1,17 @@
+---
+galaxy_info:
+  role_name: "sys_user"
+  author: "serdigital64"
+  description: "Manage Unix users and groups provisioning"
+  company: "none"
+  license: "GPL-3.0-or-later"
+  min_ansible_version: "2.10"
+  platforms:
+    - name: "GenericLinux"
+      versions:
+        - "any"
+  galaxy_tags:
+    - "user"
+    - "group"
+dependencies: []
+...

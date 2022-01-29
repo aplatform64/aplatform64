@@ -1,0 +1,56 @@
+---
+#
+# A:Platform64 / Ansible role settings / Site: {{ auto_ansible_control_site }}
+#
+# * Role settings are available only for the corresponding host group and associated playbook
+#
+
+sys_repository_managers:
+  flatpak: false
+  snap: false
+  git: true
+
+sys_repository_custom_yum:
+  - name: "vscode"
+    description: "VSCode official RPM Repository"
+    url: "https://packages.microsoft.com/yumrepos/vscode"
+    gpgkey: "https://packages.microsoft.com/keys/microsoft.asc"
+  - name: "hashicorp"
+    description: "Hashicorp official YUM repository"
+{%- raw %}
+    url: "{{
+      'https://rpm.releases.hashicorp.com/' +
+      manage_dev_nodes_yum_distro +
+      '/$releasever/$basearch/stable'
+      }}"
+{% endraw %}
+    gpgkey: "https://rpm.releases.hashicorp.com/gpg"
+
+sys_repository_custom_apt:
+  - name: "vscode"
+    suite: "stable"
+    component: "main"
+    url: "https://packages.microsoft.com/repos/code"
+    pgpkey: "https://packages.microsoft.com/keys/microsoft.asc"
+  - name: "hashicorp"
+{%- raw %}
+    suite: "{{ manage_dev_nodes_deb_distro }}"
+{% endraw %}
+    component: "main"
+    url: "https://apt.releases.hashicorp.com"
+    pgpkey: "https://rpm.releases.hashicorp.com/gpg"
+
+sys_repository_catalog_yum:
+  hashicorp: true
+  vscode: true
+
+sys_repository_catalog_apt:
+  hashicorp: true
+  vscode: true
+
+{%- raw %}
+sys_repository_catalog_distro: "{{ manage_dev_nodes_catalog_distro }}"
+{% endraw %}
+...
+{{ '
+' }}

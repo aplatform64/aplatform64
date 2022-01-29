@@ -1,0 +1,18 @@
+---
+dops_jenkins_application:
+  name: "jenkins"
+  type: "distro"
+  version: "latest"
+  installed: true
+
+dops_jenkins_subsystem:
+  enabled: false
+  status: "stopped"
+
+dops_jenkins_server_options:
+  port: "8080"
+  listen_address: ""
+
+dops_jenkins_firewall:
+  zone: "public"
+...

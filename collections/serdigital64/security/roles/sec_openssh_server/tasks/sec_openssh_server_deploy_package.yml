@@ -1,0 +1,10 @@
+---
+- name: "Security / OpenSSH / Server / Deploy / Package / Provision server"
+  vars:
+    sys_package:
+      provision: true
+    sys_package_application: "{{ sec_openssh_server_application }}"
+    sys_package_profiles: "{{ sec_openssh_server_profiles['openssh_server'] }}"
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_package"
+...

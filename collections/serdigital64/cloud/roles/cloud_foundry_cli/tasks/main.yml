@@ -1,0 +1,16 @@
+---
+- name: "Cloud / Foundry / CLI / Initialize"
+  ansible.builtin.include_tasks:
+    file: "cloud_foundry_cli_initialize.yml"
+
+- name: "Cloud / Foundry / CLI / Deploy"
+  ansible.builtin.include_tasks:
+    file: "cloud_foundry_cli_deploy.yml"
+  when:
+    - "'deploy' in cloud_foundry_cli"
+    - cloud_foundry_cli['deploy']
+
+- name: "Cloud / Foundry / CLI / Finalize"
+  ansible.builtin.include_tasks:
+    file: "cloud_foundry_cli_finalize.yml"
+...

@@ -1,0 +1,5 @@
+---
+- name: "Application / MS Teams / Deploy / Package"
+  ansible.builtin.include_tasks:
+    file: "app_msteams_deploy_package.yml"
+...

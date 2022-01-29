@@ -1,0 +1,82 @@
+---
+sys_fonts_platforms:
+  - "CentOS8"
+  - "OracleLinux8"
+  - "Ubuntu20"
+  - "Ubuntu21"
+  - "Fedora33"
+  - "Fedora35"
+  - "Debian10"
+  - "Debian11"
+
+sys_fonts_os_family: "
+  {%- if
+      ( ansible_distribution == 'CentOS' ) or
+      ( ansible_distribution == 'OracleLinux' ) or
+      ( ansible_distribution == 'Fedora' )
+  -%}
+    {{ 'RedHat' }}
+  {%- elif
+      ( ansible_distribution == 'Debian' ) or
+      ( ansible_distribution == 'Ubuntu' )
+  -%}
+    {{ 'Ubuntu' }}
+  {%- else -%}
+    {{ 'Linux' }}
+  {%- endif -%}
+  "
+
+sys_fonts_application:
+  config:
+    name: "config"
+    type: "distro"
+    version: "latest"
+    installed: true
+  urw:
+    name: "urw"
+    type: "distro"
+    version: "latest"
+    installed: true
+  meslo:
+    name: "meslo"
+    type: "binary"
+    version: "latest"
+    installed: true
+
+sys_fonts_profiles_common:
+  meslo:
+    binary:
+      latest:
+        origin: "https://github.com/romkatv/powerlevel10k-media/raw/master"
+        packages:
+          - file: "{{ 'MesloLGS NF Regular.ttf' }}"
+            uncompress: false
+          - file: "{{ 'MesloLGS NF Bold.ttf' }}"
+            uncompress: false
+          - file: "{{ 'MesloLGS NF Italic.ttf' }}"
+            uncompress: false
+          - file: "{{ 'MesloLGS NF Bold Italic.ttf' }}"
+            uncompress: false
+        paths:
+          - target: "{{ sys_fonts_base['paths']['fonts_meslo'] }}"
+            owner: "{{ sys_fonts_base['access']['owner'] }}"
+            mode: "{{ sys_fonts_base['access']['mode']['dir'] }}"
+        promotion:
+          - target: "{{ sys_fonts_base['paths']['fonts_meslo'] }}"
+            source: "MesloLGS NF Regular.ttf"
+            owner: "{{ sys_fonts_base['access']['owner'] }}"
+            mode: "{{ sys_fonts_base['access']['mode']['file'] }}"
+          - target: "{{ sys_fonts_base['paths']['fonts_meslo'] }}"
+            source: "MesloLGS NF Bold.ttf"
+            owner: "{{ sys_fonts_base['access']['owner'] }}"
+            mode: "{{ sys_fonts_base['access']['mode']['file'] }}"
+          - target: "{{ sys_fonts_base['paths']['fonts_meslo'] }}"
+            source: "MesloLGS NF Italic.ttf"
+            owner: "{{ sys_fonts_base['access']['owner'] }}"
+            mode: "{{ sys_fonts_base['access']['mode']['file'] }}"
+          - target: "{{ sys_fonts_base['paths']['fonts_meslo'] }}"
+            source: "MesloLGS NF Bold.ttf"
+            owner: "{{ sys_fonts_base['access']['owner'] }}"
+            mode: "{{ sys_fonts_base['access']['mode']['file'] }}"
+
+...

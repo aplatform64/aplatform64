@@ -1,0 +1,34 @@
+---
+#
+# A:Platform64 / Ansible role settings / Site: {{ auto_ansible_control_site }}
+#
+# * Role settings are available only for the corresponding host group and associated playbook
+#
+
+sys_repository_managers:
+  flatpak: false
+  snap: false
+  git: true
+
+sys_repository_custom_yum:
+  - name: "jenkins"
+    description: "Jenkins package repository"
+    url: "http://pkg.jenkins.io/redhat-stable"
+    gpgkey: "https://pkg.jenkins.io/redhat-stable/jenkins.io.key"
+
+sys_repository_custom_apt:
+  - name: "jenkins"
+    suite: "binary"
+#    component: ~
+    url: "https://pkg.jenkins.io/debian-stable"
+    pgpkey: "https://pkg.jenkins.io/debian-stable/jenkins.io.key"
+
+sys_repository_catalog_yum:
+  jenkins: true
+
+sys_repository_catalog_apt:
+  jenkins: true
+
+sys_repository_catalog_distro:
+  epel: true
+...

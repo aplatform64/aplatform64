@@ -1,0 +1,33 @@
+---
+- name: "Converge"
+  hosts: "{{ lookup('env', 'APLATFORM64_TEST_PLATFORM') | default('all') }}"
+  gather_facts: false
+  tasks:
+
+    - name: "Discover platform"
+      ansible.builtin.setup:
+        gather_subset: "min"
+        gather_timeout: "10"
+
+    - name: "Install public key file"
+      vars:
+        sec_key_ssh:
+          setup: true
+        sec_key_ssh_remotes:
+          - key_file: "/home/test/keys/rsa-4096b.pub"
+            host: "centos8"
+            user: "test2"
+      ansible.builtin.include_role:
+        name: "sec_key_ssh"
+
+    - name: "Install public key string"
+      vars:
+        sec_key_ssh:
+          setup: true
+        sec_key_ssh_remotes:
+          - key_string: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCyHPxqH0qiHH7/ctqHVWIdixOqGY58P/GyRLwQo61VqO2GfeSco3UyhLzWGrImZQDxXIvhUrYn0dWDycUBCGtr2poVX+Vjk5GFh8JjZziQedI0wVNj4eP0RE494FhcYtxeP7GFYcaqtRGlK9eJJiMFialSgBSh5hN+uwaqTSmpCYsb8S65XlNWG6V32rDoGQ5Xo8q1LcUt8kxZJJlvM8rI/q/kUBFpzXHhqRtvgfEjrUXQKVvWVLmMW0xyvqL/JWzQfCylF36lWjArlRYZ61EGuMehurhBA5xnIR0WmSU/ApOuFt1eP7vtFWXWawAgqbQSGMJKPiMwYFFE0IFV6q1PBq3CD6yK3s4UPxovOV95FSUdj7MRUj20ey79b5CQ3yBKHYc1ojt5W53g24q0diCso1uGyGznrnbOsLHEP0+spVnzq8kJWT9uVyNHIjJGa6XroqnyoXYhPHW4vPebILXXJNHhF0HH4EJ2ffjf7BKSaFuCOFbd+n6tYijx+PbWa1k= x@q"
+            host: "centos8"
+            user: "test"
+      ansible.builtin.include_role:
+        name: "sec_key_ssh"
+...

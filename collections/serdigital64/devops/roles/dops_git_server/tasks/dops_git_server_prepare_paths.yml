@@ -1,0 +1,18 @@
+---
+- name: "DevOps / GIT / Server / Prepare / Paths / Create"
+  become: true
+  ansible.builtin.file:
+    follow: false
+    force: false
+    unsafe_writes: false
+    recurse: false
+    state: "directory"
+    path: "{{ dops_git_server___prepare_path }}"
+    owner: "{{ dops_git_server_base['access']['owner'] }}"
+    group: "{{ dops_git_server_base['access']['group'] }}"
+    mode: "{{ dops_git_server_base['access']['mode']['dir'] }}"
+  loop:
+    - "{{ dops_git_server_base['paths']['root'] }}"
+  loop_control:
+    loop_var: "dops_git_server___prepare_path"
+...

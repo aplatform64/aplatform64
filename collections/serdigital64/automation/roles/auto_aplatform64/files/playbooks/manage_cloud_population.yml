@@ -1,0 +1,49 @@
+---
+- name: "Manage Cloud Population"
+  hosts: "cloud_realm"
+  gather_facts: false
+
+  pre_tasks:
+
+    - name: "Discover Target Platform"
+      tags:
+        - "always"
+      ansible.builtin.setup:
+        gather_subset: "min"
+        gather_timeout: "10"
+
+    - name: "Configure AWS CLI"
+      tags:
+        - "always"
+      vars:
+        cloud_aws_cli:
+          prepare: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "always"
+        name: "serdigital64.cloud.cloud_aws_cli"
+      when:
+        - cloud_population_cli['aws'] is defined
+        - cloud_population_cli['aws']
+
+  tasks:
+
+    - name: "Populate cloud infrastructure using Terraform projects"
+      tags:
+        - "terraform"
+      vars:
+        infra_terraform:
+          prepare: true
+          setup: true
+          provision: true
+          control: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "terraform"
+        name: "serdigital64.infrastructure.infra_terraform"
+      when:
+        - cloud_population_provisioner['terraform'] is defined
+        - cloud_population_provisioner['terraform']
+...

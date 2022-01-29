@@ -1,0 +1,18 @@
+---
+galaxy_info:
+  role_name: "sys_tools"
+  author: "serdigital64"
+  description: "Manage basic OS tools provisioning"
+  company: "none"
+  license: "GPL-3.0-or-later"
+  min_ansible_version: "2.10"
+  platforms:
+    - name: "GenericLinux"
+      versions:
+        - "any"
+  galaxy_tags:
+    - "file"
+    - "groff"
+    - "less"
+dependencies: []
+...

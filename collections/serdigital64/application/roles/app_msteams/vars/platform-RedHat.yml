@@ -1,0 +1,16 @@
+---
+app_msteams_profiles:
+  flatpak:
+    latest:
+      supported: true
+      origin: "flathub"
+      packages:
+        - name: "com.microsoft.Teams"
+
+app_msteams_repository_custom_yum: []
+app_msteams_repository_custom_apt: []
+
+app_msteams_repository_catalog_distro: {}
+app_msteams_repository_catalog_yum: {}
+app_msteams_repository_catalog_apt: {}
+...

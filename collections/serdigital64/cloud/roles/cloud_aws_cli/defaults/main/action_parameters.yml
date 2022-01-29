@@ -1,0 +1,6 @@
+---
+cloud_aws_cli:
+  resolve_prereq: false
+  prepare: false
+  deploy: false
+...

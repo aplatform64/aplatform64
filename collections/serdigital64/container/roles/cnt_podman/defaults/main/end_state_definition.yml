@@ -1,0 +1,7 @@
+---
+cnt_podman_application:
+  name: "podman"
+  type: "distro"
+  version: "latest"
+  installed: true
+...

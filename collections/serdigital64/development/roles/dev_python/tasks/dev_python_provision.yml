@@ -1,0 +1,8 @@
+---
+- name: "Development / Python / Provision / Application"
+  ansible.builtin.include_tasks:
+    file: "dev_python_provision_application.yml"
+  loop: "{{ dev_python_applications }}"
+  loop_control:
+    loop_var: "dev_python___provision_application"
+...

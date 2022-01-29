@@ -1,0 +1,16 @@
+---
+- name: "Application / LibreOffice / Initialize"
+  ansible.builtin.include_tasks:
+    file: "app_libreoffice_initialize.yml"
+
+- name: "Application / LibreOffice / Deploy"
+  ansible.builtin.include_tasks:
+    file: "app_libreoffice_deploy.yml"
+  when:
+    - "'deploy' in app_libreoffice"
+    - app_libreoffice['deploy']
+
+- name: "Application / LibreOffice / Finalize"
+  ansible.builtin.include_tasks:
+    file: "app_libreoffice_finalize.yml"
+...

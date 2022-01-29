@@ -1,0 +1,5 @@
+---
+cnt_podman:
+  resolve_prereq: false
+  deploy: false
+...

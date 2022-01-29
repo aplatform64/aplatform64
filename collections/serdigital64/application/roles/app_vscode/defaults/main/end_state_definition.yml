@@ -1,0 +1,14 @@
+---
+app_vscode_application:
+  name: "vscode"
+  type: "distro"
+  version: "latest"
+  installed: true
+
+app_vscode_users: []
+
+app_vscode_default_extensions:
+  - "icons"
+  - "themes"
+  - "tools"
+...

@@ -1,0 +1,23 @@
+---
+- name: "System / Subsystem / Initialize"
+  ansible.builtin.include_tasks:
+    file: "sys_subsystem_initialize.yml"
+
+- name: "System / Subsystem / Setup / Deploy"
+  ansible.builtin.include_tasks:
+    file: "sys_subsystem_deploy.yml"
+  when:
+    - "'deploy' in sys_subsystem"
+    - "sys_subsystem['deploy']"
+
+- name: "System / Subsystem / Setup"
+  ansible.builtin.include_tasks:
+    file: "sys_subsystem_setup.yml"
+  when:
+    - "'setup' in sys_subsystem"
+    - "sys_subsystem['setup']"
+
+- name: "System / Subsystem / Finalize"
+  ansible.builtin.include_tasks:
+    file: "sys_subsystem_finalize.yml"
+...

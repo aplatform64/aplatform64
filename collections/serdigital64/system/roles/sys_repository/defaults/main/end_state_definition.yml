@@ -1,0 +1,18 @@
+---
+sys_repository_managers:
+  flatpak: false
+  snap: false
+  git: false
+  pip: false
+
+sys_repository_catalog_distro: []
+sys_repository_catalog_flatpak:
+  flathub: true
+sys_repository_catalog_yum: []
+sys_repository_catalog_apt: []
+
+sys_repository_custom_distro: []
+sys_repository_custom_flatpak: []
+sys_repository_custom_yum: []
+sys_repository_custom_apt: []
+...

@@ -1,0 +1,7 @@
+---
+app_gimp_application:
+  name: "gimp"
+  type: "flatpak"
+  installed: true
+  version: "latest"
+...

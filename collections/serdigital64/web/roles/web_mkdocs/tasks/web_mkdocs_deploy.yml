@@ -1,0 +1,5 @@
+---
+- name: "Web / MkDocs / Deploy / Package"
+  ansible.builtin.include_tasks:
+    file: "web_mkdocs_deploy_package.yml"
+...

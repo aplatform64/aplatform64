@@ -1,0 +1,86 @@
+---
+- name: "System / Package / Provision / Type: binary / Install / Detect if package is already in the repository ({{
+    sys_package___application['repository'] + '/' + sys_package___provision_binary['file'] }})"
+  become: true
+  ansible.builtin.stat:
+    follow: false
+    get_checksum: false
+    get_mime: false
+    get_attributes: false
+    path: "{{
+      sys_package___application['repository'] + '/' +
+      sys_package___provision_binary['file']
+      }}"
+  register: "sys_package___provision_repository_status"
+
+- name: "System / Package / Provision / Type: binary / Install / Dowload package to repository"
+  vars:
+    sys_package___download_headers: "
+      {%- if(sys_package___provision_binary['referer'] is defined) -%}
+        {{ { 'referer': sys_package___provision_binary['referer'] } }}
+      {%- else -%}
+        {{ {} }}
+      {%- endif -%}
+      "
+    sys_package___download_url: "{{ sys_package___application['origin'] }}"
+    sys_package___download_file: "{{ sys_package___provision_binary['file'] }}"
+    sys_package___download_dest: "{{ sys_package___application['repository'] }}"
+  ansible.builtin.include_tasks:
+    file: "sys_package_provision_download.yml"
+  when:
+    - not sys_package___provision_repository_status['stat']['exists']
+
+- name: "System / Package / Provision / Type: binary / Install / Uncompress package to staging ({{
+    sys_package___application['staging'] }})"
+  vars:
+    bkp_archive:
+      provision: true
+    bkp_archive_files:
+      - archive:
+          path: "{{ sys_package___application['repository'] }}"
+          file: "{{ sys_package___provision_binary['file'] }}"
+          keep: true
+        content:
+          path: "{{ sys_package___application['staging'] }}"
+          name: "{{
+              sys_package___provision_binary['file'] |
+              regex_replace(
+                '\\.gz$|' +
+                '\\.xz$|' +
+                '\\.bz2$|' +
+                '\\.bzip2$|' +
+                '\\.zip$|' +
+                '\\.tgz$|' +
+                '\\.tar$|' +
+                '\\.tar\\.gz$|' +
+                '\\.tar\\.xz$|' +
+                '\\.tar\\.bz2$|' +
+                '\\.tar\\.bzip2$|' +
+                '\\.tar\\.zip$'
+                )
+            }}"
+  ansible.builtin.include_role:
+    name: "serdigital64.backup.bkp_archive"
+  when:
+    - not sys_package___provision_repository_status['stat']['exists']
+    - sys_package___provision_binary['uncompress'] | default( false )
+
+- name: "System / Package / Provision / Type: binary / Install / Copy content to staging ({{
+    sys_package___application['staging'] }})"
+  become: true
+  ansible.builtin.copy:
+    backup: false
+    follow: false
+    force: false
+    remote_src: true
+    src: "{{
+      sys_package___application['repository'] + '/' +
+      sys_package___provision_binary['file']
+      }}"
+    dest: "{{ sys_package___application['staging'] }}"
+    mode: "{{ sys_package_base['access']['mode']['private'] }}"
+    owner: "{{ sys_package_base['access']['owner'] }}"
+  when:
+    - not sys_package___provision_repository_status['stat']['exists']
+    - not (sys_package___provision_binary['uncompress'] | default( false ))
+...

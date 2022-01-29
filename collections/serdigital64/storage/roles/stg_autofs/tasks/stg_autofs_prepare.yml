@@ -1,0 +1,5 @@
+---
+- name: "Storage / AutoFS / Prepare / Paths"
+  ansible.builtin.include_tasks:
+    file: "{{ 'stg_autofs_prepare_paths.yml' }}"
+...

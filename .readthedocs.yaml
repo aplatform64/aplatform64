@@ -1,0 +1,11 @@
+---
+version: 2
+formats: []
+python:
+  version: "3.7"
+  install:
+    - requirements: requirements-mkdocs.txt
+mkdocs:
+  configuration: "mkdocs.yml"
+  fail_on_warning: false
+...

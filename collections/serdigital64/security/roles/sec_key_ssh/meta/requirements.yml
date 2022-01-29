@@ -1,0 +1,6 @@
+---
+roles: []
+collections:
+  - "community.crypto"
+  - "ansible.posix"
+...

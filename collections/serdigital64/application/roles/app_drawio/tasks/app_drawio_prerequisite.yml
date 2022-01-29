@@ -1,0 +1,21 @@
+---
+- name: "Application / DrawIO / Prerequisite / Prepare package managers"
+  vars:
+    sys_repository:
+      prepare: true
+      deploy: true
+      setup: true
+      provision: true
+    sys_repository_managers:
+      flatpak: "{{ app_drawio_application['type'] == 'flatpak' }}"
+      snap: "{{ app_drawio_application['type'] == 'snap' }}"
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_repository"
+
+- name: "Application / DrawIO / Prerequisite / Prepare package installer"
+  vars:
+    sys_package:
+      prepare: true
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_package"
+...

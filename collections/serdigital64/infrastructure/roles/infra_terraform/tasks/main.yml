@@ -1,0 +1,44 @@
+---
+- name: "Infrastructure / Terraform / Initialize"
+  ansible.builtin.include_tasks:
+    file: "infra_terraform_initialize.yml"
+
+- name: "Infrastructure / Terraform / Prepare"
+  ansible.builtin.include_tasks:
+    file: "infra_terraform_prepare.yml"
+  when:
+    - "'prepare' in infra_terraform"
+    - "infra_terraform['prepare']"
+
+- name: "Infrastructure / Terraform / Deploy"
+  ansible.builtin.include_tasks:
+    file: "infra_terraform_deploy.yml"
+  when:
+    - "'deploy' in infra_terraform"
+    - "infra_terraform['deploy']"
+
+- name: "Infrastructure / Terraform / Setup"
+  ansible.builtin.include_tasks:
+    file: "infra_terraform_setup.yml"
+  when:
+    - "'setup' in infra_terraform"
+    - "infra_terraform['setup']"
+
+- name: "Infrastructure / Terraform / Provision"
+  ansible.builtin.include_tasks:
+    file: "infra_terraform_provision.yml"
+  when:
+    - "'provision' in infra_terraform"
+    - "infra_terraform['provision']"
+
+- name: "Infrastructure / Terraform / Control"
+  ansible.builtin.include_tasks:
+    file: "infra_terraform_control.yml"
+  when:
+    - "'control' in infra_terraform"
+    - "infra_terraform['control']"
+
+- name: "Infrastructure / Terraform / Finalize"
+  ansible.builtin.include_tasks:
+    file: "infra_terraform_finalize.yml"
+...

@@ -1,0 +1,18 @@
+---
+stg_autofs_application:
+  name: "autofs"
+  type: "distro"
+  version: "latest"
+  installed: true
+
+stg_autofs_subsystem:
+  enabled: false
+  status: "stopped"
+
+stg_autofs_server_options:
+  timeout: "100"
+  logging: "none"
+  root: "/autofs"
+
+stg_autofs_maps: []
+...

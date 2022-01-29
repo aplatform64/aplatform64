@@ -1,0 +1,13 @@
+---
+- name: "Hypervisor / LibVirt / Server / Control / Subsystem / Set state (service: {{
+    hpv_libvirt_server_subsystem_profile['service'] }})"
+  become: true
+  ansible.builtin.systemd:
+    no_block: false
+    scope: "system"
+    name: "{{ hpv_libvirt_server_subsystem_profile['service'] }}"
+    state: "{{
+      hpv_libvirt_server_subsystem_profile['states']
+      [hpv_libvirt_server_subsystem['status']]
+      }}"
+...

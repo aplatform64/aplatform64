@@ -1,0 +1,5 @@
+---
+- name: "Application / Skype / Deploy / Package"
+  ansible.builtin.include_tasks:
+    file: "app_skype_deploy_package.yml"
+...

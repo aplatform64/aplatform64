@@ -1,0 +1,5 @@
+---
+- name: "Automation / A:Platform64 / Prepare / Paths"
+  ansible.builtin.include_tasks:
+    file: "auto_aplatform64_prepare_paths.yml"
+...

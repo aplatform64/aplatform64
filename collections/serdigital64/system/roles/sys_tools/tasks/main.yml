@@ -1,0 +1,16 @@
+---
+- name: "System / Tools / Initialize"
+  ansible.builtin.include_tasks:
+    file: "sys_tools_initialize.yml"
+
+- name: "System / Tools / Deploy"
+  ansible.builtin.include_tasks:
+    file: "sys_tools_deploy.yml"
+  when:
+    - "'deploy' in sys_tools"
+    - "sys_tools['deploy']"
+
+- name: "System / Tools / Finalize"
+  ansible.builtin.include_tasks:
+    file: "sys_tools_finalize.yml"
+...

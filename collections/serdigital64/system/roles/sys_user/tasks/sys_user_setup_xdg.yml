@@ -1,0 +1,8 @@
+---
+- name: "System / User / Setup / XDG / Paths"
+  ansible.builtin.include_tasks:
+    file: "sys_user_setup_xdg_paths.yml"
+  loop: "{{ sys_user_accounts }}"
+  loop_control:
+    loop_var: "sys_user___setup_user3"
+...

@@ -1,0 +1,27 @@
+---
+- name: "Infrastructure / Vagrant / Prerequisite / Prepare package managers"
+  vars:
+    sys_repository:
+      prepare: true
+      deploy: true
+      setup: true
+      provision: true
+    sys_repository_managers:
+      flatpak: "{{ infra_vagrant_application['type'] == 'flatpak' }}"
+      snap: "{{ infra_vagrant_application['type'] == 'snap' }}"
+      git: "{{ infra_vagrant_application['type'] == 'git' }}"
+    sys_repository_catalog_distro: "{{ infra_vagrant_repository_catalog_distro }}"
+    sys_repository_catalog_yum: "{{ infra_vagrant_repository_catalog_yum }}"
+    sys_repository_catalog_apt: "{{ infra_vagrant_repository_catalog_apt }}"
+    sys_repository_custom_yum: "{{ infra_vagrant_repository_custom_yum }}"
+    sys_repository_custom_apt: "{{ infra_vagrant_repository_custom_apt }}"
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_repository"
+
+- name: "Infrastructure / Vagrant / Prerequisite / Prepare package installer"
+  vars:
+    sys_package:
+      prepare: true
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_package"
+...

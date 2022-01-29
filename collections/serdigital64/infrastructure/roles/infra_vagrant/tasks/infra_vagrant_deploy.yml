@@ -1,0 +1,5 @@
+---
+- name: "Infrastructure / Vagrant / Deploy / Package"
+  ansible.builtin.include_tasks:
+    file: "infra_vagrant_deploy_package.yml"
+...

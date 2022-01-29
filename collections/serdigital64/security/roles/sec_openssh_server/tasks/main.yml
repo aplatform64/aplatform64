@@ -1,0 +1,16 @@
+---
+- name: "Security / OpenSSH / Server / Initialize"
+  ansible.builtin.include_tasks:
+    file: "sec_openssh_server_initialize.yml"
+
+- name: "Security / OpenSSH / Server / Deploy"
+  ansible.builtin.include_tasks:
+    file: "sec_openssh_server_deploy.yml"
+  when:
+    - "'deploy' in sec_openssh_server"
+    - "sec_openssh_server['deploy']"
+
+- name: "Security / OpenSSH / Server / Finalize"
+  ansible.builtin.include_tasks:
+    file: "sec_openssh_server_finalize.yml"
+...

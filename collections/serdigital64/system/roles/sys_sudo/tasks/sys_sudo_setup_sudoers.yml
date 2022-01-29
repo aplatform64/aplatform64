@@ -1,0 +1,20 @@
+---
+- name: "System / SuDo / Setup / Sudoers / Process user rule"
+  become: true
+  ansible.builtin.lineinfile:
+    backup: true
+    create: false
+    firstmatch: false
+    line: "{{ sys_sudo_setup___item['name'] + ' ' + sys_sudo_setup___item['rule'] }}"
+    state: "{{ (sys_sudo_setup___item['present'] | default( true )) | ternary('present', 'absent') }}"
+    validate: "{{ sys_sudo_base['run']['visudo'] }} -cf %s"
+    path: "{{ sys_sudo_base['etc']['sudoers'] }}"
+  loop: "{{ sys_sudo_rules['user'] }}"
+  loop_control:
+    loop_var: sys_sudo_setup___item
+  when:
+    - "'name' in sys_sudo_setup___item"
+    - sys_sudo_setup___item['name'] | length > 0
+    - "'rule' in sys_sudo_setup___item"
+    - sys_sudo_setup___item['rule'] | length > 0
+...

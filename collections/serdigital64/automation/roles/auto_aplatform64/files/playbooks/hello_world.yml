@@ -1,0 +1,29 @@
+---
+- name: "Ansible Controller Node / Hello World!"
+  hosts: "ansible_control_nodes"
+  gather_facts: false
+
+  tasks:
+    - name: "A:Platform64 automation platform details"
+      ansible.builtin.debug:
+        msg: "{{
+          'Site name: ' + auto_ansible_control_site + ', ' +
+          'Running as user: ' + ansible_user + '@' + ansible_host + ', ' +
+          'Python interpreter: ' + (ansible_python_interpreter | default('UNDEFINED')) + ', ' +
+          'Installed on: ' + auto_ansible_control_paths['root'] + ', ' +
+          'Group membership: [' + (group_names | join(',')) + ']'
+          }}"
+
+- name: "Ansible Managed Node / Hello World!"
+  hosts: "ansible_managed_nodes"
+  gather_facts: false
+
+  tasks:
+    - name: "A:Platform64 automation platform details"
+      ansible.builtin.debug:
+        msg: "{{
+          'Running as user: ' + ansible_user + '@' + ansible_host + ', ' +
+          'Python interpreter: ' + (ansible_python_interpreter | default('UNDEFINED')) + ', ' +
+          'Group membership: [' + (group_names | join(',')) + ']'
+          }}"
+...

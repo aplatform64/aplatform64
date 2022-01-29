@@ -1,0 +1,12 @@
+---
+- name: "Storage / AutoFS / Control / Subsystem"
+  ansible.builtin.include_tasks:
+    file: "{{ 'stg_autofs_control_subsystem-' + stg_autofs_os_family + '.yml' }}"
+  when:
+    - stg_autofs_subsystem is defined
+    - stg_autofs_subsystem['enabled'] is defined
+    - stg_autofs_subsystem['enabled']
+    - stg_autofs_subsystem['status'] is defined
+    - stg_autofs_subsystem_profile['states']
+      [stg_autofs_subsystem['status']] is defined
+...

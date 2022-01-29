@@ -1,0 +1,15 @@
+---
+- name: "System / Kernel / Setup / Tunables / Network"
+  ansible.builtin.include_tasks:
+    file: "{{ 'sys_kernel_setup_tunables_network.yml' }}"
+  when:
+    - sys_kernel_tunables['net'] is defined
+    - sys_kernel_tunables['net'] | list | length > 0
+
+- name: "System / Kernel / Setup / Tunables / Filesystem"
+  ansible.builtin.include_tasks:
+    file: "{{ 'sys_kernel_setup_tunables_filesystem.yml' }}"
+  when:
+    - sys_kernel_tunables['fs'] is defined
+    - sys_kernel_tunables['fs'] | list | length > 0
+...

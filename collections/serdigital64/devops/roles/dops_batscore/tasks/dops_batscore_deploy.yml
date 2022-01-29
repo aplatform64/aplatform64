@@ -1,0 +1,5 @@
+---
+- name: "DevOps / BatsCore / Deploy / Package"
+  ansible.builtin.include_tasks:
+    file: "dops_batscore_deploy_package.yml"
+...

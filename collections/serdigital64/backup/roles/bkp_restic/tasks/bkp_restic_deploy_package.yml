@@ -1,0 +1,10 @@
+---
+- name: "Backup / Restic / Deploy / Package / Provision application"
+  vars:
+    sys_package:
+      provision: true
+    sys_package_application: "{{ bkp_restic_application }}"
+    sys_package_profiles: "{{ bkp_restic_profiles }}"
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_package"
+...

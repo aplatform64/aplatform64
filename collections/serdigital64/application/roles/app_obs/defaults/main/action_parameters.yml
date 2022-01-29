@@ -1,0 +1,5 @@
+---
+app_obs:
+  resolve_prereq: false
+  deploy: false
+...

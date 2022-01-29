@@ -1,0 +1,13 @@
+---
+- name: "DevOps / Jenkins / Setup / Firewall / Configure access rule"
+  vars:
+    sec_firewall_os:
+      setup: true
+    sec_firewall_os_rules:
+      - id: "{{ dops_jenkins_firewall_predefined['id'] }}"
+        zone: "{{ dops_jenkins_firewall['zone'] }}"
+        port: "{{ dops_jenkins_server_options['port'] + '/tcp' }}"
+        allow: "{{ dops_jenkins_subsystem['enabled'] }}"
+  ansible.builtin.include_role:
+    name: "serdigital64.sec.sec_firewall_os"
+...

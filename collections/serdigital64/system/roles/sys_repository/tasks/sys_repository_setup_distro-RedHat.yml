@@ -1,0 +1,45 @@
+---
+- name: "System / Repository / Setup / Distro / Detect repositories"
+  ansible.builtin.command:
+    argv:
+      - "{{ sys_repository_base['run']['dnf'] }}"
+      - "--quiet"
+      - "--all"
+      - "repolist"
+  register: "sys_repository___setup_result"
+  changed_when: false
+
+- name: "System / Repository / Setup / Distro / Set repository state to enabled"
+  become: true
+  ansible.builtin.command:
+    argv:
+      - "{{ sys_repository_base['run']['dnf'] }}"
+      - "config-manager"
+      - "--set-enabled"
+      - "{{ sys_repository___setup_repo_enable }}"
+  changed_when:
+    - sys_repository___setup_result['rc'] == 0
+  loop: "{{ sys_repository_catalog_distro | list }}"
+  loop_control:
+    loop_var: "sys_repository___setup_repo_enable"
+  when:
+    - sys_repository_catalog_distro[sys_repository___setup_repo_enable]
+    - sys_repository___setup_result['stdout_lines'] | select( 'match', '^' + sys_repository___setup_repo_enable + ' .* disabled$' ) | length > 0
+
+- name: "System / Repository / Setup / Distro / Set repository state to disabled"
+  become: true
+  ansible.builtin.command:
+    argv:
+      - "{{ sys_repository_base['run']['dnf'] }}"
+      - "config-manager"
+      - "--set-disabled"
+      - "{{ sys_repository___setup_repo_disable }}"
+  changed_when:
+    - sys_repository___setup_result['rc'] == 0
+  loop: "{{ sys_repository_catalog_distro | list }}"
+  loop_control:
+    loop_var: "sys_repository___setup_repo_disable"
+  when:
+    - not sys_repository_catalog_distro[sys_repository___setup_repo_disable]
+    - sys_repository___setup_result['stdout_lines'] | select( 'match', '^' + sys_repository___setup_repo_disable + ' .* enabled$' ) | length > 0
+...

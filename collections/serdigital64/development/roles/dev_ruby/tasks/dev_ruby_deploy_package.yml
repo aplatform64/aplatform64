@@ -1,0 +1,10 @@
+---
+- name: "Development / Ruby / Deploy / Package / GIT"
+  vars:
+    sys_package:
+      provision: true
+    sys_package_application: "{{ dev_ruby_application }}"
+    sys_package_profiles: "{{ dev_ruby_profiles }}"
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_package"
+...

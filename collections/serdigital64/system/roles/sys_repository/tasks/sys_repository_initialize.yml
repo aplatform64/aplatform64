@@ -1,0 +1,22 @@
+---
+- name: "System / Repository / Initialize / Check Platform compatibility"
+  ansible.builtin.assert:
+    quiet: true
+    fail_msg: "Target Platform not supported: {{ ansible_distribution + ansible_distribution_major_version }}"
+    that:
+      - ansible_distribution + ansible_distribution_major_version in sys_repository_platforms
+
+- name: "System / Repository / Initialize / Check required parameters: Deploy, Provision"
+  ansible.builtin.assert:
+    quiet: true
+    that:
+      - sys_repository_managers is defined
+      - sys_repository_managers | length > 0
+  when:
+    - ('deploy' in sys_repository and sys_repository['deploy']) or
+      ('provision' in sys_repository and sys_repository['provision'])
+
+- name: "System / Repository / Set Platform specific variables"
+  ansible.builtin.include_vars:
+    file: "platform-{{ ansible_distribution + ansible_distribution_major_version }}.yml"
+...

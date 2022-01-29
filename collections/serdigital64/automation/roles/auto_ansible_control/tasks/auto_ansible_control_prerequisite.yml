@@ -1,0 +1,26 @@
+---
+- name: "Automation / Ansible / Control / Prepare package managers"
+  vars:
+    sys_repository:
+      prepare: true
+      deploy: true
+      setup: true
+      provision: true
+    sys_repository_catalog_distro: "{{ auto_ansible_control_repositories['catalog']['distro'] }}"
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_repository"
+
+- name: "Automation / Ansible / Control / Prepare package installer"
+  vars:
+    sys_package:
+      prepare: true
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_package"
+
+- name: "Automation / Ansible / Control / Install OpenSSH Client"
+  vars:
+    sec_openssh_client:
+      deploy: true
+  ansible.builtin.include_role:
+    name: "serdigital64.security.sec_openssh_client"
+...

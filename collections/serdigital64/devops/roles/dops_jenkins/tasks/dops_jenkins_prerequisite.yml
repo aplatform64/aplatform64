@@ -1,0 +1,48 @@
+---
+- name: "DevOps / Jenkins / Prepare package managers"
+  vars:
+    sys_repository:
+      prepare: true
+      deploy: true
+      setup: true
+      provision: true
+    sys_repository_managers:
+      flatpak: "{{ dops_jenkins_application['type'] == 'flatpak' }}"
+      snap: "{{ dops_jenkins_application['type'] == 'snap' }}"
+      git: "{{ dops_jenkins_application['type'] == 'git' }}"
+    sys_repository_catalog_distro: "{{ dops_jenkins_repository_catalog_distro }}"
+    sys_repository_catalog_yum: "{{ dops_jenkins_repository_catalog_yum }}"
+    sys_repository_catalog_apt: "{{ dops_jenkins_repository_catalog_apt }}"
+    sys_repository_custom_yum: "{{ dops_jenkins_repository_custom_yum }}"
+    sys_repository_custom_apt: "{{ dops_jenkins_repository_custom_apt }}"
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_repository"
+
+- name: "DevOps / Jenkins / Prepare package installer"
+  vars:
+    sys_package:
+      prepare: true
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_package"
+
+- name: "DevOps / Jenkins / Prepare subsystem manager"
+  vars:
+    sys_subsystem:
+      resolve_prereq: true
+      deploy: true
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_subsystem"
+
+- name: "DevOps / Jenkins / Prepare Java runtime environment"
+  vars:
+    dev_java:
+      deploy: true
+    dev_java_application:
+      openjdk_jdk_v1_11:
+        name: "openjdk_jdk_v1_11"
+        type: "distro"
+        version: "latest"
+        installed: true
+  ansible.builtin.include_role:
+    name: "serdigital64.development.dev_java"
+...

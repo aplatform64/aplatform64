@@ -1,0 +1,5 @@
+---
+app_chrome:
+  resolve_prereq: false
+  deploy: false
+...

@@ -1,0 +1,19 @@
+---
+- name: "System / Kernel / Initialize / Check Platform compatibility"
+  ansible.builtin.assert:
+    quiet: true
+    fail_msg: "Target Platform not supported: {{ ansible_distribution + ansible_distribution_major_version }}"
+    that:
+      - ansible_distribution + ansible_distribution_major_version in sys_kernel_platforms
+
+- name: "System / Kernel / Initialize / Set Platform specific variables"
+  ansible.builtin.include_vars:
+    file: "{{ 'platform-' + sys_kernel_os_family + '.yml' }}"
+
+- name: "System / Kernel / Initialize / Resolve prerequisites"
+  ansible.builtin.include_tasks:
+    file: "sys_kernel_prerequisite.yml"
+  when:
+    - "'resolve_prereq' in sys_kernel"
+    - sys_kernel['resolve_prereq']
+...

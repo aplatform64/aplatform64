@@ -1,0 +1,7 @@
+---
+app_obs_application:
+  name: "obs"
+  type: "flatpak"
+  installed: true
+  version: "latest"
+...

@@ -1,0 +1,82 @@
+---
+- name: "Backup / Archive / Provision / Open / Format: xz / Identify content type"
+  ansible.builtin.set_fact:
+    bkp_archive___provision_content_type: "
+      {%- if(bkp_archive___provision_item['content']['access']['mode']['file'] is defined) -%}
+        {{ 'file' }}
+      {%- elif(bkp_archive___provision_item['content']['access']['mode']['dir'] is defined) -%}
+        {{ 'directory' }}
+      {%- else -%}
+        {{ 'omit' }}
+      {%- endif -%}
+      "
+    bkp_archive___provision_content_mode: "
+      {%- if(bkp_archive___provision_item['content']['access']['mode']['file'] is defined) -%}
+        {{ bkp_archive___provision_item['content']['access']['mode']['file'] }}
+      {%- elif(bkp_archive___provision_item['content']['access']['mode']['dir'] is defined) -%}
+        {{ bkp_archive___provision_item['content']['access']['mode']['dir'] }}
+      {%- else -%}
+        {{ omit }}
+      {%- endif -%}
+      "
+
+- name: "Backup / Archive / Provision / Open / Format: xz / Check if content is not already extracted
+    ({{ bkp_archive___provision_item['content']['path'] + '/' + bkp_archive___provision_item['content']['name'] }})"
+  become: true
+  ansible.builtin.stat:
+    get_checksum: false
+    follow: false
+    get_mime: true
+    get_attributes: false
+    path: "{{ bkp_archive___provision_item['content']['path'] + '/' + bkp_archive___provision_item['content']['name'] }}"
+  register: "bkp_archive___provision_content_file"
+
+- name: "Backup / Archive / Provision / Open / Format: xz / Extract from archive to destination
+    ({{ bkp_archive___provision_item['content']['path'] }})"
+  become: true
+  ansible.builtin.command:
+    argv:
+      - "{{ bkp_archive_base['run']['xz'] }}"
+      - "--decompress"
+      - "--quiet"
+      - "{{ bkp_archive___provision_item['archive']['keep'] | ternary( '--keep', '--' ) }}"
+      - "{{ bkp_archive___provision_item['archive']['path'] + '/' + bkp_archive___provision_item['archive']['file'] }}"
+  register: "bkp_archive___provision_extraction_result"
+  changed_when:
+    - bkp_archive___provision_extraction_result['rc'] == 0
+  when:
+    - not bkp_archive___provision_content_file['stat']['exists']
+
+- name: "Backup / Archive / Provision / Open / Format: xz / Move content to destination if not already there
+    ({{ bkp_archive___provision_item['content']['path'] }})"
+  become: true
+  ansible.builtin.command:
+    argv:
+      - "{{ bkp_archive_base['run']['mv'] }}"
+      - "{{ bkp_archive___provision_item['archive']['path'] + '/' + bkp_archive___provision_item['content']['name'] }}"
+      - "{{ bkp_archive___provision_item['content']['path'] }}"
+  register: "bkp_archive___provision_movement_result"
+  changed_when:
+    - bkp_archive___provision_movement_result['rc'] == 0
+  when:
+    - not bkp_archive___provision_content_file['stat']['exists']
+    - bkp_archive___provision_extraction_result['rc'] == 0
+    - bkp_archive___provision_item['archive']['path'] != bkp_archive___provision_item['content']['path']
+
+- name: "Backup / Archive / Provision / Open / Format: xz / Set content file permissions and ownership"
+  become: true
+  ansible.builtin.file:
+    follow: false
+    force: false
+    unsafe_writes: false
+    state: "{{ bkp_archive___provision_content_type }}"
+    path: "{{ bkp_archive___provision_item['content']['path'] + '/' + bkp_archive___provision_item['content']['name'] }}"
+    owner: "{{ bkp_archive___provision_item['content']['access']['owner'] | default(omit) }}"
+    group: "{{ bkp_archive___provision_item['content']['access']['group'] | default(omit) }}"
+    mode: "{{ bkp_archive___provision_content_mode }}"
+    setype: "{{ bkp_archive___provision_item['content']['access']['mode']['setype'] | default(omit) }}"
+  when:
+    - not bkp_archive___provision_content_file['stat']['exists']
+    - bkp_archive___provision_extraction_result['rc'] == 0
+    - bkp_archive___provision_content_type != 'omit'
+...

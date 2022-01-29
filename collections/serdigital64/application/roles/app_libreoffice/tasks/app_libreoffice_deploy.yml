@@ -1,0 +1,5 @@
+---
+- name: "Application / LibreOffice / Deploy / Package"
+  ansible.builtin.include_tasks:
+    file: "app_libreoffice_deploy_package.yml"
+...

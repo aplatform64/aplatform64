@@ -1,0 +1,1 @@
+../../../docs/collections/cloud.md

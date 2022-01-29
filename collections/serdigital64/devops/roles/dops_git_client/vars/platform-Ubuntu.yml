@@ -1,0 +1,15 @@
+---
+dops_git_client_profiles:
+  client:
+    distro:
+      latest:
+        packages:
+          - name: "git"
+  extras:
+    distro:
+      latest:
+        packages:
+          - name: "git-extras"
+
+dops_git_client_repository_catalog_distro: {}
+...

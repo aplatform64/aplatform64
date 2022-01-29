@@ -1,0 +1,21 @@
+---
+- name: "Verify"
+  hosts: "{{ lookup('env', 'APLATFORM64_TEST_PLATFORM') | default('all') }}"
+  gather_facts: false
+  tasks:
+    - name: "Discover platform"
+      ansible.builtin.setup:
+        gather_subset: "min"
+        gather_timeout: "10"
+
+    - name: "Load role variables"
+      ansible.builtin.include_role:
+        public: true
+        name: "dev_ruby"
+
+    - name: "Verify that core variables are set"
+      ansible.builtin.assert:
+        that:
+          - dev_ruby_platforms is defined
+          - dev_ruby_base is defined
+...

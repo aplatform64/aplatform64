@@ -1,0 +1,15 @@
+---
+- name: "Application / Kryta / Initialize / Check Platform compatibility"
+  ansible.builtin.assert:
+    quiet: true
+    fail_msg: "Target Platform not supported: {{ ansible_distribution + ansible_distribution_major_version }}"
+    that:
+      - ansible_distribution + ansible_distribution_major_version in app_kryta_platforms
+
+- name: "Application / Kryta / Resolve prerequisites"
+  ansible.builtin.include_tasks:
+    file: "app_kryta_prerequisite.yml"
+  when:
+    - "'resolve_prereq' in app_kryta"
+    - app_kryta['resolve_prereq']
+...

@@ -1,0 +1,26 @@
+---
+- name: "Development / Python / Initialize"
+  ansible.builtin.include_tasks:
+    file: "dev_python_initialize.yml"
+
+- name: "Development / Python / Deploy"
+  ansible.builtin.include_tasks:
+    file: "dev_python_deploy.yml"
+  when:
+    - "'deploy' in dev_python"
+    - "dev_python['deploy']"
+
+- name: "Development / Python / Provision"
+  ansible.builtin.include_tasks:
+    file: "dev_python_provision.yml"
+  when:
+    - "'provision' in dev_python"
+    - "dev_python['provision']"
+    - dev_python_applications is defined
+    - dev_python_applications | length > 0
+
+- name: "Development / Python / Finalize"
+
+  ansible.builtin.include_tasks:
+    file: "dev_python_finalize.yml"
+...

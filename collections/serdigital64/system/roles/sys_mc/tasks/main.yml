@@ -1,0 +1,23 @@
+---
+- name: "System / MC / Initialize"
+  ansible.builtin.include_tasks:
+    file: "sys_mc_initialize.yml"
+
+- name: "System / MC / Deploy"
+  ansible.builtin.include_tasks:
+    file: "sys_mc_deploy.yml"
+  when:
+    - "'deploy' in sys_mc"
+    - "sys_mc['deploy']"
+
+- name: "System / MC / Setup"
+  ansible.builtin.include_tasks:
+    file: "sys_mc_setup.yml"
+  when:
+    - "'setup' in sys_mc"
+    - "sys_mc['setup']"
+
+- name: "System / MC / Finalize"
+  ansible.builtin.include_tasks:
+    file: "sys_mc_finalize.yml"
+...

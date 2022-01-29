@@ -1,0 +1,24 @@
+---
+- name: "DevOps / Jenkins / Setup / Server"
+  ansible.builtin.include_tasks:
+    file: "{{ 'dops_jenkins_setup_server.yml' }}"
+  when:
+    - dops_jenkins_server_options is defined
+
+- name: "DevOps / Jenkins / Setup / Subsystem"
+  ansible.builtin.include_tasks:
+    file: "{{ 'dops_jenkins_setup_subsystem-' + dops_jenkins_os_family + '.yml' }}"
+  when:
+    - dops_jenkins_subsystem is defined
+    - dops_jenkins_subsystem['enabled'] is defined
+    - dops_jenkins_subsystem['status'] is defined
+
+- name: "DevOps / Jenkins / Setup / Firewall"
+  ansible.builtin.include_tasks:
+    file: "{{ 'dops_jenkins_setup_firewall.yml' }}"
+  when:
+    - dops_jenkins_server_options is defined
+    - dops_jenkins_subsystem is defined
+    - dops_jenkins_firewall is defined
+    - dops_jenkins_os_family == 'RedHat'
+...

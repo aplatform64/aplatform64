@@ -1,0 +1,5 @@
+---
+app_xmind:
+  resolve_prereq: false
+  deploy: false
+...

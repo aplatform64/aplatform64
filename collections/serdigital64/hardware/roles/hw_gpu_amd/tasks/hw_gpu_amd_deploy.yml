@@ -1,0 +1,5 @@
+---
+- name: "Hardware / GPU / AMD / Deploy / Package"
+  ansible.builtin.include_tasks:
+    file: "hw_gpu_amd_deploy_package.yml"
+...

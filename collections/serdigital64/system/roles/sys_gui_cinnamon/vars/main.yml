@@ -1,0 +1,27 @@
+---
+sys_gui_cinnamon_platforms:
+  - "Ubuntu20"
+  - "Ubuntu21"
+  - "Fedora33"
+  - "Fedora35"
+  - "Debian10"
+  - "Debian11"
+
+sys_gui_cinnamon_os_family: "
+  {%- if
+      ( ansible_distribution == 'CentOS' ) or
+      ( ansible_distribution == 'OracleLinux' ) or
+      ( ansible_distribution == 'Fedora' )
+  -%}
+    {{ 'RedHat' }}
+  {%- elif
+      ( ansible_distribution == 'Debian' ) or
+      ( ansible_distribution == 'Ubuntu' )
+  -%}
+    {{ 'Ubuntu' }}
+  {%- else -%}
+    {{ 'Linux' }}
+  {%- endif -%}
+  "
+
+...

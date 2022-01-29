@@ -1,0 +1,5 @@
+---
+- name: "Cloud / IBM / CLI / Deploy / Package"
+  ansible.builtin.include_tasks:
+    file: "cloud_ibm_cli_deploy_package.yml"
+...

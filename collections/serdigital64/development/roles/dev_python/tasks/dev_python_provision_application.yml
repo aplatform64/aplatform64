@@ -1,0 +1,33 @@
+---
+- name: "Development / Python / Provision / Check required parameters"
+  ansible.builtin.assert:
+    fail_msg: "Required end-state parameters are missing ({{ dev_python___provision_application }})"
+    quiet: true
+    that:
+      - dev_python___provision_application['name'] is defined
+      - dev_python___provision_application['location'] is defined
+      - dev_python___provision_application['modules'] is defined
+      - dev_python___provision_application['modules'] | length > 0
+
+- name: "Development / Python / Provision / Application / Install Python modules"
+  become: true
+  ansible.builtin.pip:
+    editable: false
+    state: "present"
+    name: "{{ dev_python___provision_application['modules'] }}"
+    virtualenv: "{{ dev_python___provision_application['location'] }}"
+    virtualenv_command: "{{ dev_python_base['run']['python_latest'] }} -m venv --system-site-packages"
+
+- name: "Development / Python / Provision / Application / Update location path ownership"
+  become: true
+  ansible.builtin.file:
+    follow: false
+    force: false
+    unsafe_writes: false
+    recurse: false
+    state: "directory"
+    path: "{{ dev_python___provision_application['location'] }}"
+    owner: "{{ dev_python___provision_application['owner'] | default(dev_python_base['access']['user']['owner']) }}"
+    group: "{{ dev_python___provision_application['group'] | default(dev_python_base['access']['group']['owner']) }}"
+    mode: "{{ dev_python_base['access']['mode']['dir'] }}"
+...

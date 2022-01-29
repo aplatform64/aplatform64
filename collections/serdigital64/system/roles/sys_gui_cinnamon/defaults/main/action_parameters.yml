@@ -1,0 +1,5 @@
+---
+sys_gui_cinnamon:
+  resolve_prereq: false
+  deploy: false
+...

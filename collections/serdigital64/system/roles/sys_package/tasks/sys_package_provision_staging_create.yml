@@ -1,0 +1,22 @@
+---
+- name: "System / Package / Provision / Staging / Remove if existing ({{ sys_package___application['staging'] }})"
+  become: true
+  ansible.builtin.file:
+    follow: false
+    unsafe_writes: false
+    state: "absent"
+    path: "{{ sys_package___application['staging'] }}"
+  changed_when: false
+
+- name: "System / Package / Provision / Staging / Create ({{ sys_package___application['staging'] }})"
+  become: true
+  ansible.builtin.file:
+    follow: false
+    unsafe_writes: false
+    state: "directory"
+    owner: "{{ sys_package_base['access']['owner'] }}"
+    group: "{{ sys_package_base['access']['group'] }}"
+    mode: "{{ sys_package_base['access']['mode']['dir'] }}"
+    path: "{{ sys_package___application['staging'] }}"
+  changed_when: false
+...

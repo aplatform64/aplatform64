@@ -1,0 +1,26 @@
+---
+- name: "Automation / A:Platform64 / Setup / GroupVars / Playbook / Create default settings"
+  become: true
+  ansible.builtin.template:
+    backup: false
+    follow: false
+    force: true
+    unsafe_writes: false
+    owner: "{{ auto_ansible_control_base['access']['owner'] }}"
+    group: "{{ auto_ansible_control_base['access']['group'] }}"
+    mode: "{{ auto_ansible_control_base['access']['mode']['file'] }}"
+    src: "{{
+      auto_aplatform64_base['templates']['playbooks'] + '/' +
+      auto_aplatform64___setup_group_play['playbook'] + '.yml.j2'
+      }}"
+    dest: "{{
+      auto_ansible_control_base['paths']['site_group_vars'] +
+      '/' + auto_aplatform64___setup_group_play['host_group'] +
+      '/' + auto_aplatform64___setup_group_play['playbook'] + '.yml'
+      }}"
+  loop: "{{ auto_aplatform64_group_vars }}"
+  loop_control:
+    loop_var: "auto_aplatform64___setup_group_play"
+  when:
+    - auto_aplatform64___setup_group_play['playbook'] is defined
+...

@@ -1,0 +1,51 @@
+---
+- name: "Verify"
+  hosts: "{{ lookup('env', 'APLATFORM64_TEST_PLATFORM') | default('all') }}"
+  gather_facts: false
+  tasks:
+    - name: "Discover platform"
+      ansible.builtin.setup:
+        gather_subset: "min"
+        gather_timeout: "10"
+
+    - name: "Load role variables"
+      ansible.builtin.include_role:
+        public: true
+        name: "app_vscode"
+
+    - name: "Discover path: preferences"
+      ansible.builtin.stat:
+        get_checksum: false
+        follow: false
+        get_mime: false
+        get_attributes: false
+        path: "{{
+          '/home/test1/' +
+          app_vscode_base['paths']['etc_user'] + '/' +
+          app_vscode_base['files']['user_settings']
+        }}"
+      register: test_path_stats
+
+    - name: "Verify the path was created"
+      ansible.builtin.assert:
+        that:
+          - test_path_stats['stat']['exists']
+
+    - name: "Discover path: extensions"
+      ansible.builtin.stat:
+        get_checksum: false
+        follow: false
+        get_mime: false
+        get_attributes: false
+        path: "{{
+          '/home/test1/' +
+          app_vscode_base['paths']['etc_user'] + '/' +
+          app_vscode_base['files']['user_extensions']
+        }}"
+      register: test_path_stats
+
+    - name: "Verify the path was created"
+      ansible.builtin.assert:
+        that:
+          - test_path_stats['stat']['exists']
+...

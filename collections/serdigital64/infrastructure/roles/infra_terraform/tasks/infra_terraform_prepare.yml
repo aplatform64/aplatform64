@@ -1,0 +1,9 @@
+---
+- name: "Infrastructure / Terraform / Prepare / Users"
+  ansible.builtin.include_tasks:
+    file: "{{ 'infra_terraform_prepare_users.yml' }}"
+
+- name: "Infrastructure / Terraform / Prepare / Paths"
+  ansible.builtin.include_tasks:
+    file: "{{ 'infra_terraform_prepare_paths.yml' }}"
+...

@@ -1,0 +1,13 @@
+---
+# WARNING: automation, security:  only required for molecule testing
+roles: []
+collections:
+  - name: "../../../../../build/serdigital64-automation.tar.gz"
+    type: "file"
+  - name: "../../../../../build/serdigital64-security.tar.gz"
+    type: "file"
+  - name: "../../../../../build/serdigital64-application.tar.gz"
+    type: "file"
+  - name: "../../../../../build/serdigital64-system.tar.gz"
+    type: "file"
+...

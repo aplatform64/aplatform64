@@ -1,0 +1,8 @@
+---
+auto_ansible_node_python3:
+  - "python39"         # Package reference: dev_python/vars/platform-*.yml
+  - "python39-pip"     # Package reference: dev_python/vars/platform-*.yml
+auto_ansible_node_tools:
+  - "util-linux"    # provides su and runuser
+  - "which"            # Package reference: dev_python/vars/platform-*.yml
+...

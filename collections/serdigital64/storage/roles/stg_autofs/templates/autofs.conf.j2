@@ -1,0 +1,21 @@
+# {{ stg_autofs_managed_file }}
+
+[ autofs ]
+timeout = {{ stg_autofs_server_options['timeout'] | default(stg_autofs_server_presets['timeout']) }}
+logging = {{ stg_autofs_server_options['logging'] | default( stg_autofs_server_presets['logging'] ) }}
+master_wait = 10
+negative_timeout = 60
+mount_verbose = yes
+mount_wait = -1
+umount_wait = 12
+browse_mode = no
+mount_nfs_default_protocol = 4
+append_options = yes
+use_hostname_for_mounts = no
+
+[ amd ]
+dismount_interval = 300
+map_type = file
+autofs_use_lofs = yes
+{{ '
+' }}

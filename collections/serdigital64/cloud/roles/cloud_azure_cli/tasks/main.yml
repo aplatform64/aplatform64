@@ -1,0 +1,16 @@
+---
+- name: "Cloud / Azure / CLI / Initialize"
+  ansible.builtin.include_tasks:
+    file: "cloud_azure_cli_initialize.yml"
+
+- name: "Cloud / Azure / CLI / Deploy"
+  ansible.builtin.include_tasks:
+    file: "cloud_azure_cli_deploy.yml"
+  when:
+    - "'deploy' in cloud_azure_cli"
+    - cloud_azure_cli['deploy']
+
+- name: "Cloud / Azure / CLI / Finalize"
+  ansible.builtin.include_tasks:
+    file: "cloud_azure_cli_finalize.yml"
+...

@@ -1,0 +1,27 @@
+---
+- name: "Development / Python / Prepare package managers"
+  vars:
+    sys_repository:
+      prepare: true
+      deploy: true
+      setup: true
+      provision: true
+    sys_repository_managers:
+      flatpak: "{{ dev_python_application['type'] == 'flatpak' }}"
+      snap: "{{ dev_python_application['type'] == 'snap' }}"
+      git: "{{ dev_python_application['type'] == 'git' }}"
+    sys_repository_catalog_distro: "{{ dev_python_repository_catalog_distro }}"
+    sys_repository_catalog_yum: "{{ dev_python_repository_catalog_yum }}"
+    sys_repository_catalog_apt: "{{ dev_python_repository_catalog_apt }}"
+    sys_repository_custom_yum: "{{ dev_python_repository_custom_yum }}"
+    sys_repository_custom_apt: "{{ dev_python_repository_custom_apt }}"
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_repository"
+
+- name: "Development / Python / Prepare package installer"
+  vars:
+    sys_package:
+      prepare: true
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_package"
+...

@@ -1,0 +1,39 @@
+---
+- name: "Infrastructure / Terraform / Setup / Projects / Create source repository"
+  become: true
+  ansible.builtin.file:
+    follow: false
+    force: false
+    unsafe_writes: false
+    recurse: false
+    state: "directory"
+    path: "{{
+      infra_terraform_base['paths']['src'] + '/' +
+      infra_terraform___setup_project['name']
+      }}"
+    owner: "{{ infra_terraform_base['access']['user']['terraform'] }}"
+    group: "{{ infra_terraform_base['access']['group']['terraform'] }}"
+    mode: "{{ infra_terraform_base['access']['mode']['dir'] }}"
+  loop: "{{ infra_terraform_projects }}"
+  loop_control:
+    loop_var: "infra_terraform___setup_project"
+
+- name: "Infrastructure / Terraform / Setup / Projects / Create state repository"
+  become: true
+  ansible.builtin.file:
+    follow: false
+    force: false
+    unsafe_writes: false
+    recurse: false
+    state: "directory"
+    path: "{{
+      infra_terraform_base['paths']['states'] + '/' +
+      infra_terraform___setup_project['name']
+      }}"
+    owner: "{{ infra_terraform_base['access']['user']['terraform'] }}"
+    group: "{{ infra_terraform_base['access']['group']['terraform'] }}"
+    mode: "{{ infra_terraform_base['access']['mode']['dir'] }}"
+  loop: "{{ infra_terraform_projects }}"
+  loop_control:
+    loop_var: "infra_terraform___setup_project"
+...

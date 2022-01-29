@@ -1,0 +1,75 @@
+---
+- name: "System / Package / Initialize / Check Platform compatibility"
+  ansible.builtin.assert:
+    quiet: true
+    fail_msg: "Target Platform not supported: {{ ansible_distribution + ansible_distribution_major_version }}"
+    that:
+      - ansible_distribution + ansible_distribution_major_version in sys_package_platforms
+
+- name: "System / Package / Load Dependencies: sys_repository"
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_repository"
+    public: true
+
+- name: "System / Package / Initialize / Check required parameters: Provision"
+  ansible.builtin.assert:
+    quiet: true
+    fail_msg: "required parameters are missing ({{ sys_package_application }}/{{ sys_package_profiles }})"
+    that:
+      - sys_package_application is defined
+      - "'name' in sys_package_application"
+      - sys_package_application['name'] is not none
+      - sys_package_application['name'] | length > 0
+      - "'type' in sys_package_application"
+      - sys_package_application['type'] is not none
+      - sys_package_application['type'] in sys_package_flavours
+      - "'version' in sys_package_application"
+      - sys_package_application['version'] is not none
+      - sys_package_application['version'] | length > 0
+      - "'installed' in sys_package_application"
+      - sys_package_application['installed'] is not none
+      - sys_package_profiles is defined
+      - sys_package_application['type'] in sys_package_profiles
+      - sys_package_application['version'] in sys_package_profiles[sys_package_application['type']]
+  when:
+    - "'provision' in sys_package"
+    - sys_package['provision']
+
+- name: "System / Package / Initialize / Analyze Runtime Environment: Provision"
+  register: "sys_package___initialize_status"
+  ansible.builtin.stat:
+    follow: false
+    get_checksum: false
+    get_mime: false
+    get_attributes: false
+    path: "{{ sys_package___initialize_path }}"
+  loop:
+    - sys_package_base['paths']['var']
+    - sys_package_base['paths']['staging']
+    - sys_package_base['paths']['repository']
+  loop_control:
+    loop_var: "sys_package___initialize_path"
+  when:
+    - "'provision' in sys_package"
+    - sys_package['provision']
+
+- name: "System / Package / Initialize / Check Runtime Environment: Provision"
+  ansible.builtin.assert:
+    quiet: true
+    that:
+      - sys_package___initialize_check['stat']['exists']
+  loop: "{{ sys_package___initialize_path }}"
+  loop_control:
+    loop_var: "sys_package___initialize_check"
+  when:
+    - "'provision' in sys_package"
+    - sys_package['provision']
+    - sys_package___initialize_path is defined
+
+- name: "System / Package / Initialize / Resolve prerequisites"
+  ansible.builtin.include_tasks:
+    file: "sys_package_prerequisite.yml"
+  when:
+    - "'resolve_prereq' in sys_package"
+    - sys_package['resolve_prereq']
+...

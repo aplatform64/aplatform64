@@ -1,0 +1,16 @@
+---
+- name: "Application / Zoom / Initialize"
+  ansible.builtin.include_tasks:
+    file: "app_zoom_initialize.yml"
+
+- name: "Application / Zoom / Deploy"
+  ansible.builtin.include_tasks:
+    file: "app_zoom_deploy.yml"
+  when:
+    - "'deploy' in app_zoom"
+    - app_zoom['deploy']
+
+- name: "Application / Zoom / Finalize"
+  ansible.builtin.include_tasks:
+    file: "app_zoom_finalize.yml"
+...

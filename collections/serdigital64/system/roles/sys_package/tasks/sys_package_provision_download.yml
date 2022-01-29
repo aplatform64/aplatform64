@@ -1,0 +1,21 @@
+---
+- name: "System / Package / Provision / Download / Dowload Package (source: {{
+    sys_package___download_url }} / file: {{ sys_package___download_file }})"
+  become: true
+  ansible.builtin.get_url:
+    backup: false
+    force: false
+    unsafe_writes: false
+    use_proxy: true
+    mode: "0600"
+    timeout: "{{ sys_package_configuration['download']['timeout'] }}"
+    owner: "{{ sys_package_base['access']['owner'] }}"
+    group: "{{ sys_package_base['access']['group'] }}"
+    tmp_dest: "{{ sys_package___application['repository'] }}"
+    # urlencode the filename just in case it contains non printable chars
+    url: "{{ sys_package___download_url + '/' + (sys_package___download_file | urlencode()) }}"
+    headers: "{{ sys_package___download_headers }}"
+    # ensure the save file has the same original name
+    dest: "{{ sys_package___download_dest  + '/' + sys_package___download_file }}"
+  register: "sys_package___provision_download_status"
+...

@@ -1,0 +1,16 @@
+# sys_repository_alert_ansible_managed_file
+
+[{{ sys_repository___provision_repo['name'] }}]
+name={{ sys_repository___provision_repo['description'] }}
+baseurl={{ sys_repository___provision_repo['url'] }}
+enabled=1
+{%if 'gpgkey' in sys_repository___provision_repo%}
+gpgcheck=1
+gpgkey={{ sys_repository___provision_repo['gpgkey'] }}
+{%endif%}
+{%if 'sslcacert' in sys_repository___provision_repo%}
+sslverify=1
+sslcacert={{ sys_repository___provision_repo['sslcacert'] }}
+{%endif%}
+{{ '
+' }}

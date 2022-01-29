@@ -1,0 +1,13 @@
+---
+cloud_foundry_cli_repository_custom_yum: []
+cloud_foundry_cli_repository_custom_apt:
+  - name: "cfoundry_cli"
+    suite: "stable"
+    component: "main"
+    url: "https://packages.cloudfoundry.org/debian"
+    pgpkey: "https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key"
+
+cloud_foundry_cli_repository_catalog_yum: {}
+cloud_foundry_cli_repository_catalog_apt:
+  cfoundry_cli: true
+...

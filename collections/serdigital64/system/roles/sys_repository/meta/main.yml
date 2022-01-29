@@ -1,0 +1,25 @@
+---
+galaxy_info:
+  role_name: "sys_repository"
+  author: "serdigital64"
+  description: "Manage application package repositories"
+  company: "none"
+  license: "GPL-3.0-or-later"
+  min_ansible_version: "2.10"
+  platforms:
+    - name: "GenericLinux"
+      versions:
+        - "any"
+  galaxy_tags:
+    - "package"
+    - "dnf"
+    - "apt"
+    - "yum"
+    - "rpm"
+    - "deb"
+    - "snap"
+    - "flatpak"
+    - "git"
+    - "archive"
+dependencies: []
+...

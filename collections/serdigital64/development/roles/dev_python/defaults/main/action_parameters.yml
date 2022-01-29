@@ -1,0 +1,6 @@
+---
+dev_python:
+  resolve_prereq: false
+  deploy: false
+  provision: false
+...

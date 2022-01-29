@@ -1,0 +1,15 @@
+---
+- name: "Development / NodeJS / Initialize"
+  ansible.builtin.include_tasks:
+    file: "dev_nodejs_initialize.yml"
+
+- name: "Development / NodeJS / Deploy"
+  ansible.builtin.include_tasks:
+    file: "dev_nodejs_deploy.yml"
+  when:
+    - "'deploy' in dev_nodejs"
+    - dev_nodejs['deploy']
+
+- name: "Development / NodeJS / Finalize"
+  include_tasks: dev_nodejs_finalize.yml
+...

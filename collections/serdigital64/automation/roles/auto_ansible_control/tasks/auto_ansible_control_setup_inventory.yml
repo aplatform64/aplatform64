@@ -1,0 +1,15 @@
+---
+- name: "Automation / Ansible / Control / Setup / Inventory / Default site hosts.ini
+    ({{ auto_ansible_control_base['files']['ansible_inventory'] }})"
+  become: true
+  ansible.builtin.template:
+    backup: false
+    follow: false
+    force: false
+    unsafe_writes: false
+    dest: "{{ auto_ansible_control_base['files']['ansible_inventory'] }}"
+    owner: "{{ auto_ansible_control_base['access']['owner'] }}"
+    group: "{{ auto_ansible_control_base['access']['group'] }}"
+    mode: "{{ auto_ansible_control_base['access']['mode']['file'] }}"
+    src: "{{ auto_ansible_control_base['templates']['ansible_inventory'] }}"
+...

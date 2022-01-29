@@ -1,0 +1,46 @@
+---
+cnt_podman_base:
+  run:
+    podman: "/usr/bin/podman"
+
+cnt_podman_profiles:
+  main:
+    distro:
+      latest:
+        origin: "kubic"
+        packages:
+          - name: "podman"
+  prereqs:
+    distro:
+      latest:
+        packages:
+          - name: "uidmap"
+          - name: "slirp4netns"
+          - name: "fuse3"
+          - name: "fuse-overlayfs"
+    deb:
+      v2_5_1:
+        origin: "http://http.us.debian.org/debian/pool/main/libs/libseccomp"
+        packages:
+          - file: "libseccomp2_2.5.1-1~bpo10+1_amd64.deb"
+
+# Manually install backported prerequisite
+cnt_podman_application_prereqs_debian10:
+  name: "prereqs"
+  type: "deb"
+  version: "v2_5_1"
+  installed: "true"
+
+cnt_podman_repository_custom_yum: []
+cnt_podman_repository_custom_apt:
+  - name: "kubic"
+    suite: "/"
+    component: ""
+    url: "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_20.04"
+    pgpkey: "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_20.04/Release.key"
+
+cnt_podman_repository_catalog_distro: {}
+cnt_podman_repository_catalog_yum: {}
+cnt_podman_repository_catalog_apt:
+  kubic: true
+...

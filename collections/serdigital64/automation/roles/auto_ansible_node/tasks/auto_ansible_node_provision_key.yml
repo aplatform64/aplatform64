@@ -1,0 +1,11 @@
+---
+- name: "Automation / Ansible / Node / Provision / Key ({{ auto_ansible_node_base['files']['authorized_keys'] }})"
+  become: true
+  ansible.posix.authorized_key:
+    exclusive: true
+    manage_dir: true
+    state: "present"
+    path: "{{ auto_ansible_node_base['files']['authorized_keys'] }}"
+    user: "{{ auto_ansible_node_user['name'] }}"
+    key: "{{ lookup( 'file', auto_ansible_node_user['control_key'] ) }}"
+...

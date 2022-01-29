@@ -1,0 +1,5 @@
+---
+- name: "Cloud / Foundry / CLI / Deploy / Package"
+  ansible.builtin.include_tasks:
+    file: "cloud_foundry_cli_deploy_package.yml"
+...

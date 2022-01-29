@@ -1,0 +1,29 @@
+# {{ sys_subsystem_alert_ansible_managed_file }}
+
+[Unit]
+Description={{ sys_subsystem___setup_service['description'] | default( 'Service ' + sys_subsystem_custom.0.name ) }}
+
+[Service]
+User={{ sys_subsystem___setup_service['user'] | default( 'root') }}
+{% if sys_subsystem___setup_service['type']['simple'] %}Type=simple{% endif %}
+{% if sys_subsystem___setup_service['working_directory'] is defined %}
+WorkingDirectory={{ sys_subsystem___setup_service['working_directory'] }}
+{%- endif -%}
+{% if sys_subsystem___setup_service['exec_start'] is defined %}
+ExecStart={{ sys_subsystem___setup_service['exec_start'] }}
+{%- endif -%}
+{% if sys_subsystem___setup_service['restart'] is defined %}
+{%   if sys_subsystem___setup_service['restart']['on_failure'] %}Restart=on-failure{% endif %}
+{%- endif -%}
+{% if sys_subsystem___setup_service['std_error'] is defined %}
+{%   if sys_subsystem___setup_service['std_output']['journal'] %}StandardOutput=journal{% endif %}
+{%- endif -%}
+{% if sys_subsystem___setup_service['std_error'] is defined %}
+{%   if sys_subsystem___setup_service['std_error']['journal'] %}StandardError=journal{% endif %}
+{%- endif %}
+[Install]
+{% if sys_subsystem___setup_service['wanted_by'] is defined %}
+{%   if sys_subsystem___setup_service['wanted_by']['multi_user'] %}WantedBy=multi-user.target{% endif %}
+{%- endif -%}
+{{ '
+' }}

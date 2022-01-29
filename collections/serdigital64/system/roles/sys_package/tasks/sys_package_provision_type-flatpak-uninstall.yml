@@ -1,0 +1,28 @@
+---
+- name: "System / Package / Provision / Type: flatpak / Uninstall / Check required parameters"
+  ansible.builtin.assert:
+    quiet: true
+    that:
+      - "'packages' in sys_package___application"
+      - sys_package___application['packages'] is not none
+      - sys_package___application['packages'] | length > 0
+
+- name: "System / Package / Provision / Type: flatpak / Uninstall / Install"
+  become: true
+  community.general.flatpak:
+    executable: "{{ sys_repository_base['run']['flatpak'] }}"
+    name: "{{ sys_package___provision_flatpak['name'] }}"
+    method: "system"
+    state: "absent"
+  loop: "{{ sys_package___application['packages'] }}"
+  loop_control:
+    loop_var: "sys_package___provision_flatpak"
+
+- name: "System / Package / Provision / Type: flatpak / Uninstall / CleanUp"
+  ansible.builtin.include_tasks:
+    file: "sys_package_provision_cleanup.yml"
+  when:
+    - "'cleanup' in sys_package___application"
+    - sys_package___application['cleanup'] is not none
+    - sys_package___application['cleanup'] | length > 0
+...

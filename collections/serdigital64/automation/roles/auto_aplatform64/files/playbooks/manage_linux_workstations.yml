@@ -1,0 +1,165 @@
+---
+- name: "Manage Linux Workstations"
+  hosts: "linux_workstations"
+  gather_facts: false
+
+  pre_tasks:
+    - name: "Discover Target Platform"
+      tags:
+        - "always"
+      ansible.builtin.setup:
+        gather_subset: "min"
+        gather_timeout: "10"
+
+    - name: "Prepare package repositories"
+      tags:
+        - "always"
+      vars:
+        sys_repository:
+          prepare: true
+          deploy: true
+          setup: true
+          provision: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "always"
+        name: "serdigital64.system.sys_repository"
+
+    - name: "Prepare archive manager"
+      tags:
+        - "always"
+      vars:
+        bkp_archive:
+          deploy: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "always"
+        name: "serdigital64.backup.bkp_archive"
+
+    - name: "Prepare package installer"
+      tags:
+        - "always"
+      vars:
+        sys_package:
+          prepare: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "always"
+        name: "serdigital64.system.sys_package"
+
+  tasks:
+
+    - name: "Provision AutoFS"
+      tags:
+        - "autofs"
+      vars:
+        stg_autofs:
+          prepare: true
+          deploy: true
+          control: true
+          setup: true
+          provision: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "autofs"
+        name: "serdigital64.storage.stg_autofs"
+      when:
+        - linux_workstations_component['autofs'] is defined
+        - linux_workstations_component['autofs']
+
+    - name: "Provision fonts"
+      tags:
+        - "fonts"
+      vars:
+        sys_fonts:
+          deploy: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "fonts"
+        name: "serdigital64.system.sys_fonts"
+      when:
+        - linux_workstations_component['fonts'] is defined
+        - linux_workstations_component['fonts']
+
+    - name: "Provision unix users and groups"
+      tags:
+        - "users"
+      vars:
+        sys_user:
+          setup: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "users"
+        name: "serdigital64.system.sys_user"
+      when:
+        - linux_workstations_component['users'] is defined
+        - linux_workstations_component['users']
+
+    - name: "Provision unix shells"
+      tags:
+        - "shell"
+      vars:
+        sys_shell:
+          deploy: true
+          setup: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "shell"
+        name: "serdigital64.system.sys_shell"
+      when:
+        - linux_workstations_component['shell'] is defined
+        - linux_workstations_component['shell']
+
+    - name: "Provision Cinnamon desktop manager"
+      tags:
+        - "cinnamon"
+      vars:
+        sys_gui_cinnamon:
+          deploy: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "cinnamon"
+        name: "serdigital64.system.sys_gui_cinnamon"
+      when:
+        - linux_workstations_component['cinnamon'] is defined
+        - linux_workstations_component['cinnamon']
+
+    - name: "Provision MC tool"
+      tags:
+        - "mc"
+      vars:
+        sys_mc:
+          deploy: true
+          setup: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "mc"
+        name: "serdigital64.system.sys_mc"
+      when:
+        - linux_workstations_component['mc'] is defined
+        - linux_workstations_component['mc']
+
+    - name: "Provision Tilix tool"
+      tags:
+        - "tilix"
+      vars:
+        app_tilix:
+          deploy: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "tilix"
+        name: "serdigital64.application.app_tilix"
+      when:
+        - linux_workstations_component['tilix'] is defined
+        - linux_workstations_component['tilix']
+...

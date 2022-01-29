@@ -1,0 +1,7 @@
+---
+app_msteams_application:
+  name: "msteams"
+  type: "flatpak"
+  version: "latest"
+  installed: true
+...

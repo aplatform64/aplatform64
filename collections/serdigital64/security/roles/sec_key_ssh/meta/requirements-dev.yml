@@ -1,0 +1,13 @@
+---
+roles: []
+# WARNING: serdigital64-* are required only for testing with molecule to setup openssh-client
+collections:
+  - name: "community.crypto"
+  - name: "ansible.posix"
+  - name: "../../../../../build/serdigital64-backup.tar.gz"
+    type: "file"
+  - name: "../../../../../build/serdigital64-system.tar.gz"
+    type: "file"
+  - name: "../../../../../build/serdigital64-security.tar.gz"
+    type: "file"
+...

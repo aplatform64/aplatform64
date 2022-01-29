@@ -1,0 +1,16 @@
+---
+galaxy_info:
+  role_name: "auto_ansible_control"
+  author: "serdigital64"
+  description: "Automate the management of Ansible Control Node"
+  company: "none"
+  license: "GPL-3.0-or-later"
+  min_ansible_version: "2.10"
+  platforms:
+    - name: "GenericLinux"
+      versions:
+        - "any"
+  galaxy_tags:
+    - "ansible"
+dependencies: []
+...

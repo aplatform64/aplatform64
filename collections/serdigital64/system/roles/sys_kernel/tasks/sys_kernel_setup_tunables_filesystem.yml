@@ -1,0 +1,45 @@
+---
+- name: "System / Kernel / Setup / Tunables / Filesystem / Tunable: file_max"
+  become: true
+  ansible.posix.sysctl:
+    name: "fs.file-max"
+    value: "{{ sys_kernel_tunables['fs']['file_max'] }}"
+    state: present
+    reload: true
+  when:
+    - sys_kernel_tunables['fs']['file_max'] is defined
+    - sys_kernel_tunables['fs']['file_max'] | length > 0
+
+- name: "System / Kernel / Setup / Tunables / Filesystem / Tunable: max_queued_events"
+  become: true
+  ansible.posix.sysctl:
+    name: "fs.inotify.max_queued_events"
+    value: "{{ sys_kernel_tunables['fs']['inotify']['max_queued_events'] }}"
+    state: present
+    reload: true
+  when:
+    - sys_kernel_tunables['fs']['inotify']['max_queued_events'] is defined
+    - sys_kernel_tunables['fs']['inotify']['max_queued_events'] | length > 0
+
+- name: "System / Kernel / Setup / Tunables / Filesystem / Tunable: max_user_instances"
+  become: true
+  ansible.posix.sysctl:
+    name: "fs.inotify.max_user_instances"
+    value: "{{ sys_kernel_tunables['fs']['inotify']['max_user_instances'] }}"
+    state: present
+    reload: true
+  when:
+    - sys_kernel_tunables['fs']['inotify']['max_user_instances'] is defined
+    - sys_kernel_tunables['fs']['inotify']['max_user_instances'] | length > 0
+
+- name: "System / Kernel / Setup / Tunables / Filesystem / Tunable: max_user_watches"
+  become: true
+  ansible.posix.sysctl:
+    name: "fs.inotify.max_user_watches"
+    value: "{{ sys_kernel_tunables['fs']['inotify']['max_user_watches'] }}"
+    state: present
+    reload: true
+  when:
+    - sys_kernel_tunables['fs']['inotify']['max_user_watches'] is defined
+    - sys_kernel_tunables['fs']['inotify']['max_user_watches'] | length > 0
+...

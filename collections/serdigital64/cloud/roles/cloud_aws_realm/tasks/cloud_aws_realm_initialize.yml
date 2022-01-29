@@ -1,0 +1,29 @@
+---
+- name: "Cloud / AWS / Realm / Initialize / Check Platform compatibility"
+  ansible.builtin.assert:
+    quiet: true
+    fail_msg: "Target Platform not supported: {{ ansible_distribution + ansible_distribution_major_version }}"
+    that:
+      - ansible_distribution + ansible_distribution_major_version in cloud_aws_realm_platforms
+
+- name: "Cloud / AWS / Realm / Initialize / Load Dependencies: cloud_aws_cli"
+  ansible.builtin.include_role:
+    name: "serdigital64.cloud.cloud_aws_cli"
+    public: true
+
+- name: "Cloud / AWS / Realm / Initialize / Check required parameters: Provision"
+  ansible.builtin.assert:
+    quiet: true
+    that:
+      - cloud_aws_realm_account['id'] is defined
+      - cloud_aws_realm_account['id'] | length > 0
+      - cloud_aws_realm_account['name'] is defined
+      - cloud_aws_realm_account['name'] | length > 0
+      - cloud_aws_realm_api['iam_manager_auto']['key'] is defined
+      - cloud_aws_realm_api['iam_manager_auto']['key'] | length > 0
+      - cloud_aws_realm_api['iam_manager_auto']['secret'] is defined
+      - cloud_aws_realm_api['iam_manager_auto']['secret'] | length > 0
+  when:
+    - "'provision' in cloud_aws_realm"
+    - cloud_aws_realm['provision']
+...

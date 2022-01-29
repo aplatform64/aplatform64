@@ -1,0 +1,32 @@
+---
+sys_subsystem_base:
+  paths:
+    etc: "/etc/systemd"
+    units: "/etc/systemd/system"
+  run:
+    systemd_analyze: "/usr/bin/systemd-analyze"
+    systemctl: "/bin/systemctl"
+  templates: "{{ sys_subsystem_base_all['templates'] }}"
+  access:
+    group: "root"
+    owner: "root"
+    mode:
+      file: "0644"
+      dir: "0755"
+      exe: "0755"
+
+sys_subsystem_manager: "systemd"
+
+sys_subsystem_profiles:
+  distro:
+    latest:
+      packages:
+        - name: "daemonize"
+
+sys_subsystem_repository_custom_yum: []
+sys_subsystem_repository_custom_apt: []
+
+sys_subsystem_repository_catalog_distro: {}
+sys_subsystem_repository_catalog_yum: {}
+sys_subsystem_repository_catalog_apt: {}
+...

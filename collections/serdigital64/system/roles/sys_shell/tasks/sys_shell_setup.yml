@@ -1,0 +1,8 @@
+---
+- name: "System / Shell / Setup / Profile"
+  include_tasks:
+    file: "sys_shell_setup_profile.yml"
+  when:
+    - sys_shell_users is defined
+    - sys_shell_users | length > 0
+...

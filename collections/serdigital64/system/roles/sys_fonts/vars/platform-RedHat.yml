@@ -1,0 +1,34 @@
+---
+sys_fonts_base:
+  access:
+    group: "root"
+    owner: "root"
+    mode:
+      dir: "0755"
+      file: "0644"
+  paths:
+    fonts_system: "/usr/share/fonts"
+    fonts_meslo: "/opt/fonts-meslo"
+  run:
+    fc_cache: "/usr/bin/fc-cache"
+
+sys_fonts_profiles:
+  config:
+    distro:
+      latest:
+        packages:
+          - name: "fontconfig"
+  urw:
+    distro:
+      latest:
+        packages:
+          - name: "urw-base35-fonts"
+  meslo: "{{ sys_fonts_profiles_common['meslo']  }}"
+
+sys_fonts_repository_custom_yum: []
+sys_fonts_repository_custom_apt: []
+
+sys_fonts_repository_catalog_distro: {}
+sys_fonts_repository_catalog_yum: {}
+sys_fonts_repository_catalog_apt: {}
+...

@@ -1,0 +1,16 @@
+---
+- name: "Application / KeePassX / Initialize"
+  ansible.builtin.include_tasks:
+    file: "app_keepassx_initialize.yml"
+
+- name: "Application / KeePassX / Deploy"
+  ansible.builtin.include_tasks:
+    file: "app_keepassx_deploy.yml"
+  when:
+    - "'deploy' in app_keepassx"
+    - app_keepassx['deploy']
+
+- name: "Application / KeePassX / Finalize"
+  ansible.builtin.include_tasks:
+    file: "app_keepassx_finalize.yml"
+...

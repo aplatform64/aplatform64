@@ -1,0 +1,16 @@
+---
+- name: "Application / ShotCut / Initialize"
+  ansible.builtin.include_tasks:
+    file: "app_shotcut_initialize.yml"
+
+- name: "Application / ShotCut / Deploy"
+  ansible.builtin.include_tasks:
+    file: "app_shotcut_deploy.yml"
+  when:
+    - "'deploy' in app_shotcut"
+    - app_shotcut['deploy']
+
+- name: "Application / ShotCut / Finalize"
+  ansible.builtin.include_tasks:
+    file: "app_shotcut_finalize.yml"
+...

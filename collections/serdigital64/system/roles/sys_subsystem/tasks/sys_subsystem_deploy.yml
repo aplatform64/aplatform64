@@ -1,0 +1,5 @@
+---
+- name: "System / Subsystem / Setup / Deploy / Package"
+  ansible.builtin.include_tasks:
+    file: "sys_subsystem_deploy_package.yml"
+...

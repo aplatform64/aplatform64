@@ -1,0 +1,7 @@
+---
+app_chrome_application:
+  name: "chrome"
+  type: "native"
+  version: "latest"
+  installed: true
+...

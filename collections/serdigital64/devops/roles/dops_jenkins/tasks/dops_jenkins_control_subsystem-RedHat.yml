@@ -1,0 +1,13 @@
+---
+- name: "DevOps / Jenkins / Control / Subsystem / Set state (service: {{
+    dops_jenkins_subsystem_profile['service'] }})"
+  become: true
+  ansible.builtin.systemd:
+    no_block: false
+    scope: "system"
+    name: "{{ dops_jenkins_subsystem_profile['service'] }}"
+    state: "{{
+      dops_jenkins_subsystem_profile['states']
+      [dops_jenkins_subsystem['status']]
+      }}"
+...

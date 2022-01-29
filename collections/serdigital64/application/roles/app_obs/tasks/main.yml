@@ -1,0 +1,16 @@
+---
+- name: "Application / OBS / Initialize"
+  ansible.builtin.include_tasks:
+    file: "app_obs_initialize.yml"
+
+- name: "Application / OBS / Deploy"
+  ansible.builtin.include_tasks:
+    file: "app_obs_deploy.yml"
+  when:
+    - "'deploy' in app_obs"
+    - app_obs['deploy']
+
+- name: "Application / OBS / Finalize"
+  ansible.builtin.include_tasks:
+    file: "app_obs_finalize.yml"
+...

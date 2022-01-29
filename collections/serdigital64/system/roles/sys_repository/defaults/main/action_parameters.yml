@@ -1,0 +1,7 @@
+---
+sys_repository:
+  prepare: false
+  deploy: false
+  setup: false
+  provision: false
+...

@@ -1,0 +1,12 @@
+---
+- name: "Security / Firewall / OS / Provision / Rule"
+  ansible.builtin.include_tasks:
+    file: "{{ 'sec_firewall_os_provision_rule-' + sec_firewall_os_os_family + '.yml' }}"
+  loop: "{{ sec_firewall_os_rules }}"
+  loop_control:
+    loop_var: "sec_firewall_os___provision_rule"
+  when:
+    - sec_firewall_os_os_family == "RedHat"
+    - sec_firewall_os_rules is defined
+    - sec_firewall_os_rules | length > 0
+...

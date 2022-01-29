@@ -1,0 +1,5 @@
+---
+- name: "Application / OBS / Deploy / Package"
+  ansible.builtin.include_tasks:
+    file: "app_obs_deploy_package.yml"
+...

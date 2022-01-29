@@ -1,0 +1,23 @@
+---
+- name: "Converge"
+  hosts: "{{ lookup('env', 'APLATFORM64_TEST_PLATFORM') | default('all') }}"
+  gather_facts: false
+  tasks:
+
+    - name: "Discover platform"
+      ansible.builtin.setup:
+        gather_subset: "min"
+        gather_timeout: "10"
+
+    - name: "Prepare"
+      vars:
+        dops_git_server:
+          provision: true
+        dops_git_server_repositories:
+          - name: "test1"
+            description: "Test GIT remote repository"
+            public_keys:
+              - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCyHPxqH0qiHH7/ctqHVWIdixOqGY58P/GyRLwQo61VqO2GfeSco3UyhLzWGrImZQDxXIvhUrYn0dWDycUBCGtr2poVX+Vjk5GFh8JjZziQedI0wVNj4eP0RE494FhcYtxeP7GFYcaqtRGlK9eJJiMFialSgBSh5hN+uwaqTSmpCYsb8S65XlNWG6V32rDoGQ5Xo8q1LcUt8kxZJJlvM8rI/q/kUBFpzXHhqRtvgfEjrUXQKVvWVLmMW0xyvqL/JWzQfCylF36lWjArlRYZ61EGuMehurhBA5xnIR0WmSU/ApOuFt1eP7vtFWXWawAgqbQSGMJKPiMwYFFE0IFV6q1PBq3CD6yK3s4UPxovOV95FSUdj7MRUj20ey79b5CQ3yBKHYc1ojt5W53g24q0diCso1uGyGznrnbOsLHEP0+spVnzq8kJWT9uVyNHIjJGa6XroqnyoXYhPHW4vPebILXXJNHhF0HH4EJ2ffjf7BKSaFuCOFbd+n6tYijx+PbWa1k= x@q"
+      ansible.builtin.include_role:
+        name: "dops_git_server"
+...

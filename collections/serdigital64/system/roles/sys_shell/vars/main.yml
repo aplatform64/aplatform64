@@ -1,0 +1,216 @@
+---
+sys_shell_platforms:
+  - "CentOS8"
+  - "OracleLinux8"
+  - "Ubuntu20"
+  - "Ubuntu21"
+  - "Fedora33"
+  - "Fedora35"
+  - "Debian10"
+  - "Debian11"
+
+sys_shell_os_family: "
+  {%- if
+      ( ansible_distribution == 'CentOS' ) or
+      ( ansible_distribution == 'OracleLinux' ) or
+      ( ansible_distribution == 'Fedora' )
+  -%}
+    {{ 'RedHat' }}
+  {%- elif
+      ( ansible_distribution == 'Debian' ) or
+      ( ansible_distribution == 'Ubuntu' )
+  -%}
+    {{ 'Ubuntu' }}
+  {%- else -%}
+    {{ 'Linux' }}
+  {%- endif -%}
+  "
+
+sys_shell_base:
+  paths:
+    ohmyzsh: "/opt/ohmyzsh"
+    p10k: "/opt/powerlevel10k"
+    p10k_themes_usr: ".oh-my-zsh/custom/themes"
+    ohmyzsh_usr: ".oh-my-zsh"
+    custom_p10k_themes: "files/custom_p10k_themes"
+  files:
+    bash_profile: ".bash_profile"
+    bash_rc: ".bashrc"
+    zshrc: ".zshrc"
+    p10k_zsh: ".p10k.zsh"
+  run:
+    ohmysh_install: "/opt/ohmyzsh/install.sh"
+    bash: "/bin/bash"
+    zsh: "/bin/zsh"
+    csh: "/bin/csh"
+    ksh: "/bin/ksh"
+  access:
+    owner: "root"
+    group: "root"
+    mode:
+      dir: "0755"
+      file: "0644"
+      exe: "0755"
+  templates:
+    bash_profile: "bash_profile.bash.j2"
+    bash_rc: "bash_rc.bash.j2"
+    zshrc: "zshrc.zsh.j2"
+
+sys_shell_application:
+  zsh:
+    name: "zsh"
+    type: "distro"
+    version: "latest"
+    installed: "{{ sys_shell_catalog['zsh'] | default(false) }}"
+  bash:
+    name: "bash"
+    type: "distro"
+    version: "latest"
+    installed: "{{ sys_shell_catalog['bash'] | default(false) }}"
+  ksh:
+    name: "ksh"
+    type: "distro"
+    version: "latest"
+    installed: "{{ sys_shell_catalog['ksh'] | default(false) }}"
+  csh:
+    name: "csh"
+    type: "distro"
+    version: "latest"
+    installed: "{{ sys_shell_catalog['csh'] | default(false) }}"
+  ohmyzsh:
+    name: "ohmyzsh"
+    type: "binary"
+    version: "latest"
+    installed: "{{ sys_shell_catalog['zsh'] | default(false) }}"
+  p10k:
+    name: "p10k"
+    type: "git"
+    version: "latest"
+    installed: "{{ sys_shell_catalog['zsh'] | default(false) }}"
+
+sys_shell_profiles:
+  zsh:
+    distro:
+      latest:
+        packages:
+          - name: "zsh"
+  bash:
+    distro:
+      latest:
+        packages:
+          - name: "bash"
+  ksh:
+    distro:
+      latest:
+        packages:
+          - name: "ksh"
+  csh:
+    distro:
+      latest:
+        packages:
+          - name: "tcsh"
+  ohmyzsh:
+    binary:
+      latest:
+        origin: "https://raw.github.com/ohmyzsh/ohmyzsh/master/tools"
+        packages:
+          - file: "install.sh"
+        paths:
+          - target: "{{ sys_shell_base['paths']['ohmyzsh'] }}"
+            mode: "{{ sys_shell_base['access']['mode']['dir'] }}"
+        promotion:
+          - target: "{{ sys_shell_base['paths']['ohmyzsh'] }}"
+            source: "install.sh"
+            mode: "{{ sys_shell_base['access']['mode']['exe'] }}"
+  p10k:
+    git:
+      latest:
+        origin: "https://github.com/romkatv"
+        packages:
+          - file: "powerlevel10k.git"
+        paths:
+          - target: "{{ sys_shell_base['paths']['p10k'] }}"
+            owner: "{{ sys_shell_base['access']['owner'] }}"
+            group: "{{ sys_shell_base['access']['group'] }}"
+            mode: "{{ sys_shell_base['access']['mode']['dir'] }}"
+        promotion:
+          - target: "{{ sys_shell_base['paths']['p10k'] }}"
+            source: "powerlevel10k/powerlevel10k.zsh-theme"
+            mode: "{{ sys_shell_base['access']['mode']['file'] }}"
+          - target: "{{ sys_shell_base['paths']['p10k'] }}"
+            source: "powerlevel10k/powerlevel9k.zsh-theme"
+            mode: "{{ sys_shell_base['access']['mode']['file'] }}"
+          - target: "{{ sys_shell_base['paths']['p10k'] }}"
+            source: "powerlevel10k/gitstatus"
+            mode: "{{ sys_shell_base['access']['mode']['dir'] }}"
+          - target: "{{ sys_shell_base['paths']['p10k'] }}"
+            source: "powerlevel10k/internal"
+            mode: "{{ sys_shell_base['access']['mode']['dir'] }}"
+          - target: "{{ sys_shell_base['paths']['p10k'] }}"
+            source: "powerlevel10k/config"
+            mode: "{{ sys_shell_base['access']['mode']['dir'] }}"
+
+sys_shell_flavour:
+  - "zsh"
+  - "bash"
+  - "ksh"
+  - "csh"
+
+sys_shell_plugins:
+  zsh:
+    os:
+      - "debian"
+      - "dnf"
+      - "yum"
+      - "systemd"
+    color:
+      - "colored-man-pages"
+      - "colorize"
+    python:
+      - "pip"
+      - "python"
+      - "virtualenv"
+    git:
+      - "git"
+    java:
+      - "ant"
+      - "jenv"
+      - "java_version"
+    node:
+      - "nvm"
+      - "nodenv"
+      - "nodeenv"
+      - "node_version"
+      - "package"
+    flutter:
+      - "fvm"
+    terraform:
+      - "terraform"
+    aws:
+      - "aws"
+      - "aws_eb_env"
+    azure:
+      - "azure"
+
+sys_shell_user_default:
+  theme: "p10k-full2.zsh"
+  modules:
+    - "color"
+    - "python"
+    - "git"
+    - "os"
+  access:
+    mode:
+      dir: "0700"
+      file: "0600"
+
+sys_shell_alert_ansible_managed_file:
+  "Warning: This file is automatically generated by the Ansible Role: serdigital64.system.sys_shell. Do not modify."
+
+#sys_shell___setup_user: ~
+sys_shell___setup_group: ~
+sys_shell___setup_plugin: ~
+sys_shell___setup_path: ""
+sys_shell___setup_item: ""
+sys_shell___setup_profile: ~
+...

@@ -1,0 +1,8 @@
+---
+sys_sudo:
+  resolve_prereq: false
+  deploy: false
+  setup: false
+
+sys_sudo_rules: {}
+...

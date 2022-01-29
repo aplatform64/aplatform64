@@ -1,0 +1,21 @@
+---
+- name: "System / Package / Provision / Type: distro / Platform: {{ ansible_distribution + ansible_distribution_major_version }} / Process packages"
+  become: true
+  ansible.builtin.dnf:
+    skip_broken: true
+    update_cache: false
+    lock_timeout: "{{ sys_package_configuration['dnf']['lock_timeout'] }}"
+    validate_certs: true
+    state: "{{
+      (sys_package_application['installed']) |
+      ternary(
+        'present',
+        'absent'
+      )
+      }}"
+    name: "{{
+      sys_package___application['packages'] |
+      map( attribute = 'name' ) |
+      list()
+      }}"
+...

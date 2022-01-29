@@ -1,0 +1,20 @@
+---
+- name: "Automation / Ansible / Node / Prepare / User / Create managed node group ({{ auto_ansible_node_user['group'] }})"
+  become: true
+  ansible.builtin.group:
+    name: "{{ auto_ansible_node_user['group'] }}"
+    state: "present"
+
+- name: "Automation / Ansible / Node / Prepare / User / Create managed node user ({{ auto_ansible_node_user['name'] }}"
+  become: true
+  ansible.builtin.user:
+    create_home: true
+    expires: -1
+    state: "present"
+    system: true
+    generate_ssh_key: false
+    comment: "{{ auto_ansible_node_user['description'] }}"
+    home: "{{ auto_ansible_node_user['home'] }}"
+    name: "{{ auto_ansible_node_user['name'] }}"
+    group: "{{ auto_ansible_node_user['group'] }}"
+...

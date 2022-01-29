@@ -1,0 +1,55 @@
+#
+# A:Platform64 / Ansible Inventory / Site: {{ auto_ansible_control_site }}
+#
+# * Do not modify group names
+#
+
+#
+# Ansible Control Nodes
+#
+# : Linux nodes providing Ansible Control services
+#
+# * localhost must be always present
+#
+# Playbooks using this group:
+#   - manage_ansible_control_nodes
+#
+[ansible_control_nodes]
+localhost
+
+#
+# Ansible Managed Nodes
+#
+# : Linux nodes that are already prepared for Ansible management
+#
+# * localhost must be always present
+#
+# Playbooks using this group:
+#   - manage_ansible_managed_nodes
+#
+[ansible_managed_nodes]
+localhost
+
+#
+# Ansible Managed Nodes / Bootstrap
+#
+# : Parent group to register all boostrap types
+# * Do not modify this group
+# * Required to share common group_vars with all types of bootstrap nodes
+#
+# Playbooks using this group:
+#   - bootstrap_ansible_managed_nodes
+#
+[bootstrap_ansible_managed_nodes:children]
+bootstrap_ansible_managed_nodes_distro
+
+#
+# Ansible Managed Nodes / Bootstrap distro
+#
+# : Group for initial Ansible deployment (bootstrap) on Linux nodes installed from distribution media
+# * Remove the host from this group after the bootstrap is complete
+#
+# Playbooks using this group:
+#   - bootstrap_ansible_managed_nodes
+#
+[bootstrap_ansible_managed_nodes_distro]

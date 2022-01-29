@@ -1,0 +1,24 @@
+---
+cloud_google_cli_base:
+  run:
+    gcloud: "/usr/bin/gcloud"
+
+cloud_google_cli_profiles:
+  distro:
+    latest:
+      packages:
+        - name: "google-cloud-sdk"
+
+cloud_google_cli_repository_custom_yum: []
+cloud_google_cli_repository_custom_apt:
+  - name: "google_cloud_sdk"
+    description: "Google Cloud SDK"
+    suite: "cloud-sdk"
+    component: "main"
+    url: "https://packages.cloud.google.com/apt"
+    pgpkey: "https://packages.cloud.google.com/apt/doc/apt-key.gpg"
+cloud_google_cli_repository_catalog_distro: {}
+cloud_google_cli_repository_catalog_yum: {}
+cloud_google_cli_repository_catalog_apt:
+  google_cloud_sdk: true
+...

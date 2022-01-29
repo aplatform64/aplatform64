@@ -1,0 +1,44 @@
+---
+- name: "System / Package / Provision / Type: rpm / Install / Item / Detect if App is already installed ({{
+    sys_package___provision_rpm['name'] }})"
+  ansible.builtin.command:
+    argv:
+      - "{{ sys_repository_base['run']['rpm'] }}"
+      - "-q"
+      - "{{ sys_package___provision_rpm['name'] }}"
+  changed_when: false
+  failed_when: 1 == 2
+  register: "sys_package___provision_test"
+
+- name: "System / Package / Provision / Type: rpm / Install / Item / Dowload Package to the Repository"
+  vars:
+    sys_package___download_headers: "
+      {%- if(sys_package___provision_rpm['referer'] is defined) -%}
+        {{ { 'referer': sys_package___provision_rpm['referer'] } }}
+      {%- else -%}
+        {{ {} }}
+      {%- endif -%}
+      "
+    sys_package___download_url: "{{ sys_package___application['origin'] }}"
+    sys_package___download_file: "{{ sys_package___provision_rpm['file'] }}"
+    sys_package___download_dest: "{{ sys_package___application['repository'] }}"
+  ansible.builtin.include_tasks:
+    file: "sys_package_provision_download.yml"
+  when:
+    - sys_package___provision_test['stdout_lines'] is search( 'not installed' )
+
+- name: "System / Package / Provision / Type: rpm / Install / Item / Install package ({{ sys_package___provision_rpm['file'] }})"
+  become: true
+  ansible.builtin.command:
+    argv:
+      - "{{ sys_repository_base['run']['dnf'] }}"
+      - "--color=never"
+      - "--assumeyes"
+      - "install"
+      - "{{ sys_package___application['repository'] + '/' + sys_package___provision_rpm['file'] }}"
+  register: "sys_package___provision_result"
+  changed_when:
+    - sys_package___provision_result['rc'] == 0
+  when:
+    - sys_package___provision_test['stdout_lines'] is search( 'not installed' )
+...

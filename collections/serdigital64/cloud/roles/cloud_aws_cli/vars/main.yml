@@ -1,0 +1,50 @@
+---
+cloud_aws_cli_platforms:
+  - "CentOS8"
+  - "OracleLinux8"
+  - "Ubuntu20"
+  - "Ubuntu21"
+  - "Fedora33"
+  - "Fedora35"
+  - "Debian10"
+  - "Debian11"
+
+cloud_aws_cli_base:
+  paths:
+    root: "/opt/aws"
+    bin: "/opt/aws/bin"
+    versions: "/opt/aws/versions"
+    etc: "{{ cloud_aws_cli_paths['etc'] | default(none) }}"
+  run:
+    aws: "/opt/aws/bin/aws"
+    install: "aws/install"
+  access:
+    user:
+      root: "root"
+      cloudadm: "{{ cloud_aws_cli_users['cloudadm']['name'] | default(omit) }}"
+    group:
+      root: "root"
+      cloudadm: "{{ cloud_aws_cli_users['cloudadm']['group'] | default(omit) }}"
+    mode:
+      dir: "0755"
+      file: "0644"
+      exe: "0755"
+
+cloud_aws_cli_profiles:
+  binary:
+    latest:
+      packages:
+        - file: "awscli-exe-linux-x86_64.zip"
+          uncompress: true
+      origin: "https://awscli.amazonaws.com"
+      script:
+        - "aws/install"
+        - "--install-dir"
+        - "{{ cloud_aws_cli_base['paths']['versions'] }}"
+        - "--bin-dir"
+        - "{{ cloud_aws_cli_base['paths']['bin'] }}"
+        - "--update"
+
+# cloud_aws_cli___prepare_path: ~
+# cloud_aws_cli___prepare_cfg: ~
+...

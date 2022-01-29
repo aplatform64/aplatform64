@@ -1,0 +1,6 @@
+---
+sys_tools_catalog:
+  file: false
+  groff: false
+  less: false
+...

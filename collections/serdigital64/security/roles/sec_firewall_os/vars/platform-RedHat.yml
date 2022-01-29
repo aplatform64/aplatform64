@@ -1,0 +1,20 @@
+---
+sec_firewall_os_base:
+  run:
+    firewall_cmd: "/usr/bin/firewall-cmd"
+
+sec_firewall_os_profiles:
+  distro:
+    latest:
+      packages:
+        - name: "firewalld"
+        - name: "firewalld-filesystem"
+        - name: "python3-firewall"
+
+sec_firewall_os_subsystems:
+  service: "firewalld"
+  states:
+    started: "started"
+    stopped: "stopped"
+    refreshed: "refreshed"
+...

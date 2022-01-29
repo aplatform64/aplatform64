@@ -1,0 +1,13 @@
+---
+cloud_azure_cli_repository_custom_yum: []
+cloud_azure_cli_repository_custom_apt:
+  - name: "azure_cli"
+    suite: "focal"
+    component: "main"
+    url: "https://packages.microsoft.com/repos/azure-cli"
+    pgpkey: "https://packages.microsoft.com/keys/microsoft.asc"
+
+cloud_azure_cli_repository_catalog_yum: {}
+cloud_azure_cli_repository_catalog_apt:
+  azure_cli: true
+...

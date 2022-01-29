@@ -1,0 +1,6 @@
+[user]
+	name = {{ dops_git_client___provision_repo['owner'] }}
+	email = {{ dops_git_client___provision_repo['email'] }}
+
+[init]
+    defaultBranch = {{ dops_git_client___provision_repo['branch'] | default(dops_git_client_defaults['branch']) }}

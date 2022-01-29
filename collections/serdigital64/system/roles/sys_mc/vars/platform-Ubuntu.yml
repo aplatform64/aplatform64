@@ -1,0 +1,21 @@
+---
+sys_mc_base:
+  run: "{{ sys_mc_base_common['run']  }}"
+  etc: "{{ sys_mc_base_common['etc']  }}"
+  access: "{{ sys_mc_base_common['access']  }}"
+  templates: "{{ sys_mc_base_common['templates']  }}"
+
+sys_mc_profiles:
+  distro:
+    latest:
+      supported: true
+      packages:
+        - name: "mc"
+
+sys_mc_repository_custom_yum: []
+sys_mc_repository_custom_apt: []
+
+sys_mc_repository_catalog_distro: {}
+sys_mc_repository_catalog_yum: {}
+sys_mc_repository_catalog_apt: {}
+...

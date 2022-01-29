@@ -1,0 +1,13 @@
+---
+- name: "Storage / AutoFS / Setup / Server"
+  ansible.builtin.include_tasks:
+    file: "stg_autofs_setup_server.yml"
+
+- name: "Storage / AutoFS / Setup / Subsystem"
+  ansible.builtin.include_tasks:
+    file: "{{ 'stg_autofs_setup_subsystem-' + stg_autofs_os_family + '.yml' }}"
+  when:
+    - stg_autofs_subsystem is defined
+    - stg_autofs_subsystem['enabled'] is defined
+    - stg_autofs_subsystem['status'] is defined
+...

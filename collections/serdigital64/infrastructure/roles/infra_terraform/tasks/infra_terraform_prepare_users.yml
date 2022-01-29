@@ -1,0 +1,14 @@
+---
+- name: "Infrastructure / Terraform / Prepare / Users / Create"
+  vars:
+    sys_user:
+      setup: true
+    sys_user_accounts:
+      - name: "{{ infra_terraform_users['terraform']['name'] }}"
+        home: "{{ infra_terraform_users['terraform']['home'] }}"
+        group: "{{ infra_terraform_users['terraform']['group'] }}"
+        locked: false
+        system: false
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_user"
+...

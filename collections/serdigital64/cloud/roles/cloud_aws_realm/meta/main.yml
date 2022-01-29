@@ -1,0 +1,19 @@
+---
+galaxy_info:
+  role_name: "cloud_aws_realm"
+  author: "serdigital64"
+  description: "Manage AWS Accounts, IAM and Organizations"
+  company: "none"
+  license: "GPL-3.0-or-later"
+  min_ansible_version: "2.10"
+  platforms:
+    - name: "GenericLinux"
+      versions:
+        - "any"
+  galaxy_tags:
+    - "aws"
+    - "iam"
+    - "organization"
+    - "account"
+dependencies: []
+...

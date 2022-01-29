@@ -1,0 +1,11 @@
+---
+cloud_aws_cli_application:
+  name: "awscli"
+  type: "binary"
+  version: "latest"
+  installed: true
+
+cloud_aws_cli_paths: {}
+
+cloud_aws_cli_users: {}
+...

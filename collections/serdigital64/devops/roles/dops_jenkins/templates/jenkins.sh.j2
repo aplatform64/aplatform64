@@ -1,0 +1,18 @@
+# {{ dops_jenkins_alert_ansible_managed_file }}
+JENKINS_HOME="{{ dops_jenkins_server_predefined['home'] }}"
+JENKINS_JAVA_CMD="{{ dops_jenkins_server_predefined['java_cmd'] }}"
+JENKINS_USER="{{ dops_jenkins_server_predefined['user'] }}"
+JENKINS_JAVA_OPTIONS="{{ dops_jenkins_server_predefined['java_options'] }}"
+JENKINS_HTTPS_PORT="{{ dops_jenkins_server_predefined['https_port'] }}"
+JENKINS_HTTPS_LISTEN_ADDRESS="{{ dops_jenkins_server_predefined['https_listen_address'] }}"
+JENKINS_ENABLE_ACCESS_LOG="{{ dops_jenkins_server_predefined['enable_access_log'] }}"
+JENKINS_HANDLER_MAX="{{ dops_jenkins_server_predefined['handler_max'] }}"
+JENKINS_HANDLER_IDLE="{{ dops_jenkins_server_predefined['handler_idle'] }}"
+{% if dops_jenkins_server_options['port'] is defined %}
+JENKINS_PORT="{{ dops_jenkins_server_options['port'] }}"
+{% endif %}
+{% if dops_jenkins_server_options['listen_address'] is defined %}
+JENKINS_LISTEN_ADDRESS="{{ dops_jenkins_server_options['listen_address'] }}"
+{% endif %}
+{{ '
+' }}

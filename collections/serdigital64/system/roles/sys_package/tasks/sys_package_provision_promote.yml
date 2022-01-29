@@ -1,0 +1,15 @@
+---
+- name: "System / Package / Provision / Promote / Copy Files to Destination ({{
+    sys_package___provision_promote['target'] }})"
+  become: true
+  ansible.builtin.copy:
+    remote_src: true
+    backup: false
+    follow: false
+    force: true
+    mode: "{{ sys_package___provision_promote['mode'] | default(omit) }}"
+    owner: "{{ sys_package___provision_promote['owner'] | default(omit) }}"
+    group: "{{ sys_package___provision_promote['group'] | default(omit) }}"
+    src: "{{ sys_package___application['staging'] + '/' + sys_package___provision_promote['source'] }}"
+    dest: "{{ sys_package___provision_promote['target'] }}"
+...

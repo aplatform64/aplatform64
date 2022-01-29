@@ -1,0 +1,62 @@
+---
+- name: "System / Package / Provision / Type: binary / Install / Check required parameters"
+  ansible.builtin.assert:
+    quiet: true
+    that:
+      - "'origin' in sys_package___application"
+      - sys_package___application['origin'] is not none
+      - sys_package___application['origin'] | length > 0
+      - "'packages' in sys_package___application"
+      - sys_package___application['packages'] is not none
+      - sys_package___application['packages'] | length > 0
+
+- name: "System / Package / Provision / Type: binary / Install / Prepare App Staging"
+  ansible.builtin.include_tasks:
+    file: "sys_package_provision_staging_create.yml"
+
+- name: "System / Package / Provision / Type: binary / Install / Prepare App Repository"
+  ansible.builtin.include_tasks:
+    file: "sys_package_provision_repository.yml"
+
+- name: "System / Package / Provision / Type: binary / Install / Paths"
+  ansible.builtin.include_tasks:
+    file: "sys_package_provision_paths.yml"
+  when:
+    - "'paths' in sys_package___application"
+    - sys_package___application['paths'] is not none
+    - sys_package___application['paths'] | length > 0
+
+- name: "System / Package / Provision / Type: binary / Install / Prepare packages"
+  ansible.builtin.include_tasks:
+    file: "sys_package_provision_type-binary-install_item.yml"
+  loop: "{{ sys_package___application['packages'] }}"
+  loop_control:
+    loop_var: "sys_package___provision_binary"
+
+- name: "System / Package / Provision / Type: binary / Install / Execute Staging Script"
+  ansible.builtin.include_tasks:
+    file: "sys_package_provision_script.yml"
+  when:
+    - "'script' in sys_package___application"
+    - sys_package___application['script'] is not none
+    - sys_package___application['script'] | length > 0
+    - sys_package___provision_download_status['changed'] is defined
+    - sys_package___provision_download_status['changed']
+
+- name: "System / Package / Provision / Type: binary / Install / Promote"
+  ansible.builtin.include_tasks:
+    file: "sys_package_provision_promote.yml"
+  loop: "{{ sys_package___application['promotion'] }}"
+  loop_control:
+    loop_var: "sys_package___provision_promote"
+  when:
+    - "'promotion' in sys_package___application"
+    - sys_package___application['promotion'] is not none
+    - sys_package___application['promotion'] | length > 0
+    - sys_package___provision_download_status['changed'] is defined
+    - sys_package___provision_download_status['changed']
+
+- name: "System / Package / Provision / Type: binary / Install / Cleanup Staging"
+  ansible.builtin.include_tasks:
+    file: "sys_package_provision_staging_remove.yml"
+...

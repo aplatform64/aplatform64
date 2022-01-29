@@ -1,0 +1,19 @@
+---
+- name: "DevOps / GIT / Client / Deploy / Package / Install client"
+  vars:
+    sys_package:
+      provision: true
+    sys_package_application: "{{ dops_git_client_application['client'] }}"
+    sys_package_profiles: "{{ dops_git_client_profiles['client'] }}"
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_package"
+
+- name: "DevOps / GIT / Client / Deploy / Package / Install extras"
+  vars:
+    sys_package:
+      provision: true
+    sys_package_application: "{{ dops_git_client_application['extras'] }}"
+    sys_package_profiles: "{{ dops_git_client_profiles['extras'] }}"
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_package"
+...

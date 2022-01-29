@@ -1,0 +1,27 @@
+---
+- name: "Development / OpenCL / Prepare package managers"
+  vars:
+    sys_repository:
+      prepare: true
+      deploy: true
+      setup: true
+      provision: true
+    sys_repository_managers:
+      flatpak: "{{ dev_opencl_application['type'] == 'flatpak' }}"
+      snap: "{{ dev_opencl_application['type'] == 'snap' }}"
+      git: "{{ dev_opencl_application['type'] == 'git' }}"
+    sys_repository_catalog_distro: "{{ dev_opencl_repository_catalog_distro }}"
+    sys_repository_catalog_yum: "{{ dev_opencl_repository_catalog_yum }}"
+    sys_repository_catalog_apt: "{{ dev_opencl_repository_catalog_apt }}"
+    sys_repository_custom_yum: "{{ dev_opencl_repository_custom_yum }}"
+    sys_repository_custom_apt: "{{ dev_opencl_repository_custom_apt }}"
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_repository"
+
+- name: "Development / OpenCL / Prepare package installer"
+  vars:
+    sys_package:
+      prepare: true
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_package"
+...

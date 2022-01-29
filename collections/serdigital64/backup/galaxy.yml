@@ -1,0 +1,20 @@
+---
+namespace: "serdigital64"
+name: "backup"
+version: "1.0.0"
+readme: "README.md"
+authors:
+  - "SerDigital64 <https://github.com/serdigital64>"
+description: "Ansible Roles for automating backup tools provisioning"
+license:
+  - "GPL-3.0-or-later"
+tags:
+  - "backup"
+  - "system"
+dependencies:
+  serdigital64.system: "*"
+repository: "https://github.com/serdigital64/aplatform64"
+homepage: "https://github.com/serdigital64/aplatform64"
+issues: "https://github.com/serdigital64/aplatform64/issues"
+documentation: "https://aplatform64.readthedocs.io"
+...

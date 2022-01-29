@@ -1,0 +1,108 @@
+---
+- name: "System / Repository / Provision / APT / Check required parameters"
+  ansible.builtin.assert:
+    quiet: true
+    that:
+      - sys_repository___provision_repo['name'] is defined
+      - sys_repository___provision_repo['name'] | length > 0
+      - sys_repository___provision_repo['url'] is defined
+      - sys_repository___provision_repo['url'] | length > 0
+      - sys_repository___provision_repo['suite'] is defined
+      - sys_repository___provision_repo['suite'] | length > 0
+
+- name: "System / Repository / Provision / APT / Detect if repo is already installed (repo: {{ sys_repository___provision_repo['name'] }})"
+  ansible.builtin.stat:
+    follow: false
+    get_checksum: false
+    get_mime: false
+    get_attributes: false
+    path: "{{
+      sys_repository_base['etc']['sources_list_d'] + '/' +
+      sys_repository___provision_repo['name'] + '.list'
+      }}"
+  register: "sys_repository___provision_test"
+
+- name: "System / Repository / Provision / APT / Create definition file (repo: {{ sys_repository___provision_repo['name'] }})"
+  become: true
+  ansible.builtin.template:
+    backup: false
+    follow: false
+    force: true
+    unsafe_writes: false
+    owner: "{{ sys_repository_base['access']['owner'] }}"
+    group: "{{ sys_repository_base['access']['group'] }}"
+    mode: "{{ sys_repository_base['access']['mode']['file'] }}"
+    src: "{{ sys_repository_base['templates']['apt_list'] }}"
+    dest: "{{
+      sys_repository_base['etc']['sources_list_d'] + '/' +
+      sys_repository___provision_repo['name'] + '.list'
+      }}"
+  when:
+    - not sys_repository___provision_test['stat']['exists']
+
+- name: "System / Repository / Provision / APT / Install GPG Key (repo: {{ sys_repository___provision_repo['name'] }})"
+  become: true
+  ansible.builtin.command:
+    argv:
+      - "{{ sys_repository_base['run']['curl'] }}"
+      - "-fsSLo"
+      - "{{
+        sys_repository_base['etc']['trusted_gpg'] + '/' +
+        sys_repository___provision_repo['name'] + '.gpg'
+        }}"
+      - "{{ sys_repository___provision_repo['gpgkey'] }}"
+  register: "sys_repository___provision_result"
+  changed_when:
+    - sys_repository___provision_result['rc'] == 0
+  when:
+    - not sys_repository___provision_test['stat']['exists']
+    - "'gpgkey' in sys_repository___provision_repo"
+    - sys_repository___provision_repo['gpgkey'] is not none
+
+- name: "System / Repository / Provision / APT / Download PGP Key"
+  become: true
+  ansible.builtin.command:
+    argv:
+      - "{{ sys_repository_base['run']['curl'] }}"
+      - "-fsSLo"
+      - "{{
+        sys_repository_base['etc']['keyrings'] + '/' +
+        sys_repository___provision_repo['name'] + '.key'
+        }}"
+      - "{{ sys_repository___provision_repo['pgpkey'] }}"
+  register: "sys_repository___provision_result"
+  changed_when:
+    - sys_repository___provision_result['rc'] == 0
+  when:
+    - not sys_repository___provision_test['stat']['exists']
+    - "'pgpkey' in sys_repository___provision_repo"
+    - sys_repository___provision_repo['pgpkey'] is not none
+
+- name: "System / Repository / Provision / APT / Install PGP Key (repo: {{ sys_repository___provision_repo['name'] }})"
+  become: true
+  ansible.builtin.command:
+    argv:
+      - "{{ sys_repository_base['run']['apt_key'] }}"
+      - "add"
+      - "{{
+        sys_repository_base['etc']['keyrings'] + '/' +
+        sys_repository___provision_repo['name'] + '.key'
+        }}"
+  register: "sys_repository___provision_result"
+  changed_when:
+    - sys_repository___provision_result['rc'] == 0
+  when:
+    - not sys_repository___provision_test['stat']['exists']
+    - "'pgpkey' in sys_repository___provision_repo"
+    - sys_repository___provision_repo['pgpkey'] is not none
+
+- name: "System / Repository / Provision / APT / Update APT cache"
+  become: true
+  no_log: true
+  ansible.builtin.command:
+    argv:
+      - "{{ sys_repository_base['run']['apt_get'] }}"
+      - "--quiet"
+      - "update"
+  changed_when: false
+...

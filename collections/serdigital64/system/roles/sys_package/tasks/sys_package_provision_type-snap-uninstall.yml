@@ -1,0 +1,29 @@
+---
+- name: "System / Package / Provision / Type: snap / Uninstall / Check required parameters"
+  ansible.builtin.assert:
+    quiet: true
+    that:
+      - "'packages' in sys_package___application"
+      - sys_package___application['packages'] is not none
+      - sys_package___application['packages'] | length > 0
+      - "'cleanup' in sys_package___application"
+      - sys_package___application['cleanup'] is not none
+      - sys_package___application['cleanup'] | length > 0
+
+- name: "System / Package / Provision / Type: snap / Uninstall / Remove"
+  become: true
+  community.general.snap:
+    name: "{{ sys_package___provision_snap['name'] }}"
+    state: "absent"
+  loop: "{{ sys_package___application['packages'] }}"
+  loop_control:
+    loop_var: "sys_package___provision_snap"
+
+- name: "System / Package / Provision / Type: snap / Uninstall / CleanUp"
+  ansible.builtin.include_tasks:
+    file: "sys_package_provision_cleanup.yml"
+  when:
+    - "'cleanup' in sys_package___application"
+    - sys_package___application['cleanup'] is not none
+    - sys_package___application['cleanup'] | length > 0
+...

@@ -1,0 +1,5 @@
+---
+- name: "Application / DrawIO / Deploy / Package"
+  ansible.builtin.include_tasks:
+    file: "app_drawio_deploy_package.yml"
+...

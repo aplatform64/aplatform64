@@ -1,0 +1,13 @@
+---
+sec_openssh_server_profiles:
+  openssh_server:
+    distro:
+      latest:
+        packages:
+          - name: "openssh-server"
+  xauth:
+    distro:
+      latest:
+        packages:
+          - name: "xauth"
+...

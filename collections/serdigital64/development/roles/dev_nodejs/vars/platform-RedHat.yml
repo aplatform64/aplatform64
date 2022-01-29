@@ -1,0 +1,8 @@
+---
+dev_nodejs_profiles:
+  distro:
+    latest:
+      packages:
+        - name: "nodejs"
+        - name: "npm"
+...

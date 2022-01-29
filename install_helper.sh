@@ -1,0 +1,1 @@
+collections/serdigital64/automation/roles/auto_aplatform64/files/installer/install_helper.sh

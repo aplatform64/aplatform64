@@ -1,0 +1,15 @@
+---
+- name: "Converge"
+  hosts: "{{ lookup('env', 'APLATFORM64_TEST_PLATFORM') | default('all') }}"
+  gather_facts: false
+  tasks:
+
+    - name: "Discover platform"
+      ansible.builtin.setup:
+        gather_subset: "min"
+        gather_timeout: "10"
+
+    - name: "Initialize Role with defaults"
+      ansible.builtin.include_role:
+        name: "app_zoom"
+...

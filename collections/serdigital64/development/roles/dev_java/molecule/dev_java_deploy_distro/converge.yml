@@ -1,0 +1,34 @@
+---
+- name: "Converge"
+  hosts: "{{ lookup('env', 'APLATFORM64_TEST_PLATFORM') | default('all') }}"
+  gather_facts: false
+  tasks:
+
+    - name: "Discover platform"
+      ansible.builtin.setup:
+        gather_subset: "min"
+        gather_timeout: "10"
+
+    - name: "Deploy required packages"
+      vars:
+        dev_java:
+          deploy: true
+        dev_java_application:
+          openjdk_jdk_v1_8:
+            name: "openjdk_jdk_v1_8"
+            type: "distro"
+            version: "latest"
+            installed: true
+          openjdk_jdk_v1_11:
+            name: "openjdk_jdk_v1_11"
+            type: "distro"
+            version: "latest"
+            installed: true
+          openjdk_jdk_v1_17:
+            name: "openjdk_jdk_v1_17"
+            type: "distro"
+            version: "latest"
+            installed: true
+      ansible.builtin.include_role:
+        name: "dev_java"
+...

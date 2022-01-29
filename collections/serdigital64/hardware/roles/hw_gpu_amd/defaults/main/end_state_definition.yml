@@ -1,0 +1,7 @@
+---
+hw_gpu_amd_application:
+  name: "amdgpu"
+  type: "binary"
+  version: "v21_30"
+  installed: true
+...

@@ -1,0 +1,73 @@
+---
+- name: "Manage GIT Server Nodes"
+  hosts: "git_server_nodes"
+  gather_facts: false
+
+  pre_tasks:
+
+    - name: "Discover Target Platform"
+      tags:
+        - "always"
+      ansible.builtin.setup:
+        gather_subset: "min"
+        gather_timeout: "10"
+
+    - name: "Prepare package repositories"
+      tags:
+        - "always"
+      vars:
+        sys_repository:
+          prepare: true
+          deploy: true
+          setup: true
+          provision: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "always"
+        name: "serdigital64.system.sys_repository"
+
+    - name: "Prepare archive manager"
+      tags:
+        - "always"
+      vars:
+        bkp_archive:
+          deploy: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "always"
+        name: "serdigital64.backup.bkp_archive"
+
+    - name: "Prepare package installer"
+      tags:
+        - "always"
+      vars:
+        sys_package:
+          prepare: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "always"
+        name: "serdigital64.system.sys_package"
+
+  tasks:
+
+    - name: "Provision GIT Server"
+      tags:
+        - "git"
+      vars:
+        dops_git_server:
+          resolve_prereq: true
+          prepare: true
+          deploy: true
+          provision: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "git"
+        name: "serdigital64.devops.dops_git_server"
+      when:
+        - git_server_nodes_apps['git'] is defined
+        - git_server_nodes_apps['git']
+...

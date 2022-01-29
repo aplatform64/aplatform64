@@ -1,0 +1,31 @@
+---
+- name: "Manage Cloud Realm"
+  hosts: cloud_realm
+  gather_facts: false
+
+  pre_tasks:
+
+    - name: "Discover Target Platform"
+      tags:
+        - "always"
+      ansible.builtin.setup:
+        gather_subset: "min"
+        gather_timeout: "10"
+
+  tasks:
+
+    - name: "Manage AWS Realm"
+      tags:
+        - "aws"
+      vars:
+        cloud_aws_realm:
+          provision: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "aws"
+        name: "serdigital64.cloud.cloud_aws_realm"
+      when:
+        - cloud_realm_provider['aws'] is defined
+        - cloud_realm_provider['aws']
+...

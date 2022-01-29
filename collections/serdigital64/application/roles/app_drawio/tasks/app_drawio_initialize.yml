@@ -1,0 +1,15 @@
+---
+- name: "Application / DrawIO / Initialize / Check Platform compatibility"
+  ansible.builtin.assert:
+    quiet: true
+    fail_msg: "Target Platform not supported: {{ ansible_distribution + ansible_distribution_major_version }}"
+    that:
+      - ansible_distribution + ansible_distribution_major_version in app_drawio_platforms
+
+- name: "Application / DrawIO / Resolve prerequisites"
+  ansible.builtin.include_tasks:
+    file: "app_drawio_prerequisite.yml"
+  when:
+    - "'resolve_prereq' in app_drawio"
+    - app_drawio['resolve_prereq']
+...

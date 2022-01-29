@@ -1,0 +1,23 @@
+---
+- name: "Infrastructure / Terraform / Provision / Project / Copy source to state"
+  become: true
+  ansible.builtin.copy:
+    backup: false
+    follow: false
+    force: true
+    remote_src: true
+    owner: "{{ infra_terraform_base['access']['user']['terraform'] }}"
+    group: "{{ infra_terraform_base['access']['group']['terraform'] }}"
+    mode: "{{ infra_terraform_base['access']['mode']['dir'] }}"
+    src: "{{
+      infra_terraform_base['paths']['src'] + '/' +
+      infra_terraform___provision_project['name'] + '/'
+      }}"
+    dest: "{{
+      infra_terraform_base['paths']['states'] + '/' +
+      infra_terraform___provision_project['name']
+      }}"
+  loop: "{{ infra_terraform_projects }}"
+  loop_control:
+    loop_var: "infra_terraform___provision_project"
+...

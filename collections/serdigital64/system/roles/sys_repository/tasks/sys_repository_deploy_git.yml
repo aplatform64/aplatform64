@@ -1,0 +1,8 @@
+---
+# WARNING: do not use the dops_git_client to avoid circular dependencies
+- name: "System / Repository / Deploy / GIT / CLI"
+  become: true
+  ansible.builtin.package:
+    state: "present"
+    name: "{{ sys_repository_packages['git'] }}"
+...

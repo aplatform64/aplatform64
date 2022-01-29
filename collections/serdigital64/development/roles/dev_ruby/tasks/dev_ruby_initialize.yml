@@ -1,0 +1,19 @@
+---
+- name: "Development / Ruby / Initialize / Check Platform compatibility"
+  ansible.builtin.assert:
+    quiet: true
+    fail_msg: "Target Platform not supported: {{ ansible_distribution + ansible_distribution_major_version }}"
+    that:
+      - ansible_distribution + ansible_distribution_major_version in dev_ruby_platforms
+
+- name: "Development / Ruby / Initialize / Set Platform specific variables"
+  ansible.builtin.include_vars:
+    file: "{{ 'platform-' + dev_ruby_os_family + '.yml' }}"
+
+- name: "Development / Ruby / Initialize / Resolve prerequisites"
+  ansible.builtin.include_tasks:
+    file: "dev_ruby_prerequisite.yml"
+  when:
+    - "'resolve_prereq' in dev_ruby"
+    - dev_ruby['resolve_prereq']
+...

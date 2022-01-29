@@ -1,0 +1,12 @@
+---
+- name: "System / Tools / Deploy / Package"
+  ansible.builtin.include_tasks:
+    file: "sys_tools_deploy_package.yml"
+  loop: "{{ sys_tools_catalog | list }}"
+  loop_control:
+    loop_var: sys_tools___deploy_tool
+  when:
+    - sys_tools_catalog is defined
+    - sys_tools_catalog | list | length > 0
+    - sys_tools_application[sys_tools___deploy_tool] is defined
+...

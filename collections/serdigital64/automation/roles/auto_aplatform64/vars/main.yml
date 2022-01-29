@@ -1,0 +1,289 @@
+---
+auto_aplatform64_platforms:
+  - "CentOS8"
+  - "OracleLinux8"
+  - "Ubuntu20"
+  - "Ubuntu21"
+  - "Fedora33"
+  - "Fedora35"
+  - "Debian10"
+  - "Debian11"
+
+auto_aplatform64_base:
+  paths:
+    scripts: "files/scripts"
+    playbooks: "files/playbooks"
+    installer: "files/installer"
+  templates:
+    catalog_csv: "playbooks/catalog.csv.j2"
+    ap64_sh: "bin/ap64.sh.j2"
+    aplatform64_env: "bin/aplatform64.env.j2"
+    inventories: "inventories"
+    playbooks: "playbooks"
+    roles: "roles"
+    host_vars: "host_vars"
+    group_vars: "group_vars"
+    auto_aplatform64_yml: "group_vars/auto_aplatform64.yml.j2"
+    ansible_site_yml: "group_vars/ansible_site.yml.j2"
+    ansible_localhost_yml: "host_vars/ansible.yml.j2"
+  files:
+    ap64_sh: "{{
+      auto_ansible_control_base['paths']['bin'] +
+      '/ap64.sh'
+      }}"
+    catalog_csv: "{{
+      auto_ansible_control_base['paths']['site_playbooks'] +
+      '/catalog.csv'
+      }}"
+    aplatform64_env: "{{
+      auto_ansible_control_base['paths']['bin'] +
+      '/aplatform64.env'
+      }}"
+    auto_aplatform64_yml: "{{
+      auto_ansible_control_base['paths']['site_group_vars_all'] +
+      '/auto_aplatform64.yml'
+      }}"
+    ansible_site_yml: "{{
+      auto_ansible_control_base['paths']['site_group_vars_all'] +
+      '/ansible_site.yml'
+      }}"
+    ansible_localhost_yml: "{{
+      auto_ansible_control_base['paths']['site_host_vars'] +
+      '/localhost/ansible_site.yml'
+      }}"
+    installer_yml: "installer.yml"
+    install_log: "{{
+      auto_ansible_control_base['paths']['site_logs'] +
+      '/install.log'
+      }}"
+
+auto_aplatform64_group_vars:
+  - role: "auto_ansible_control"
+    host_group: "ansible_control_nodes"
+    template: "auto_ansible_control"
+  - role: "auto_ansible_node"
+    host_group: "ansible_managed_nodes"
+    template: "auto_ansible_node-ansible_managed_nodes"
+  - role: "auto_ansible_node"
+    host_group: "bootstrap_ansible_managed_nodes"
+    template: "auto_ansible_node-bootstrap_ansible_managed_nodes"
+  - role: "sys_repository"
+    host_group: "office_nodes"
+    template: "sys_repository-office_nodes"
+  - role: "sys_repository"
+    host_group: "cloud_control_nodes"
+    template: "sys_repository-cloud_control_nodes"
+  - role: "sys_repository"
+    host_group: "dev_nodes"
+    template: "sys_repository-dev_nodes"
+  - role: "sys_repository"
+    host_group: "hpc_nodes"
+    template: "sys_repository-hpc_nodes"
+  - role: "sys_repository"
+    host_group: "jenkins_controller_nodes"
+    template: "sys_repository-jenkins_controller_nodes"
+  - role: "sys_repository"
+    host_group: "linux_workstations"
+    template: "sys_repository-linux_workstations"
+  - role: "sys_repository"
+    host_group: "jenkins_worker_nodes"
+    template: "sys_repository-jenkins_worker_nodes"
+  - role: "sys_repository"
+    host_group: "doc_sites"
+    template: "sys_repository-doc_sites"
+  - role: "sys_repository"
+    host_group: "test_nodes"
+    template: "sys_repository-test_nodes"
+  - role: "dev_java"
+    host_group: "dev_nodes"
+    template: "dev_java-dev_nodes"
+  - role: "app_vscode"
+    host_group: "dev_nodes"
+    template: "app_vscode"
+  - role: "cloud_aws_realm"
+    host_group: "cloud_realm"
+    template: "cloud_aws_realm"
+  - role: "infra_terraform"
+    host_group: "cloud_realm"
+    template: "infra_terraform"
+  - role: "cloud_aws_cli"
+    host_group: "cloud_realm"
+    template: "cloud_aws_cli"
+  - role: "dops_jenkins"
+    host_group: "jenkins_controller_nodes"
+    template: "dops_jenkins"
+  - role: "dev_java"
+    host_group: "jenkins_controller_nodes"
+    template: "dev_java-jenkins_controller_nodes"
+  - role: "dev_java"
+    host_group: "jenkins_worker_nodes"
+    template: "dev_java-jenkins_worker_nodes"
+  - role: "sys_user"
+    host_group: "jenkins_worker_nodes"
+    template: "sys_user-jenkins_worker_nodes"
+  - role: "stg_autofs"
+    host_group: "linux_workstations"
+    template: "stg_autofs"
+  - role: "sys_mc"
+    host_group: "linux_workstations"
+    template: "sys_mc"
+  - role: "sys_user"
+    host_group: "linux_workstations"
+    template: "sys_user-linux_workstations"
+  - role: "sys_shell"
+    host_group: "linux_workstations"
+    template: "sys_shell-linux_workstations"
+  - role: "dops_git_server"
+    host_group: "git_server_nodes"
+    template: "dops_git_server"
+  - playbook: "manage_cloud_control_nodes"
+    host_group: "cloud_control_nodes"
+  - playbook: "manage_cloud_population"
+    host_group: "cloud_realm"
+  - playbook: "manage_office_nodes"
+    host_group: "office_nodes"
+  - playbook: "manage_dev_nodes"
+    host_group: "dev_nodes"
+  - playbook: "manage_hpc_nodes"
+    host_group: "hpc_nodes"
+  - playbook: "manage_cloud_realm"
+    host_group: "cloud_realm"
+  - playbook: "manage_doc_sites"
+    host_group: "doc_sites"
+  - playbook: "manage_jenkins_controller_nodes"
+    host_group: "jenkins_controller_nodes"
+  - playbook: "manage_jenkins_worker_nodes"
+    host_group: "jenkins_worker_nodes"
+  - playbook: "manage_git_server_nodes"
+    host_group: "git_server_nodes"
+  - playbook: "manage_linux_workstations"
+    host_group: "linux_workstations"
+  - playbook: "manage_test_nodes"
+    host_group: "test_nodes"
+
+auto_aplatform64_playbooks:
+  - playbook: "bootstrap_ansible_managed_nodes"
+    inventory: "ansible_service"
+    group: "bootstrap_ansible_managed_nodes"
+    info: "Bootstrap Ansible Managed nodes"
+  - playbook: "hello_world"
+    inventory: "ansible_service"
+    group: "ansible_control_nodes"
+    info: "Test Ansible Deployment"
+  - playbook: "manage_ansible_control_nodes"
+    inventory: "ansible_service"
+    group: "ansible_control_nodes"
+    info: "Manage Ansible Control node"
+  - playbook: "manage_ansible_managed_nodes"
+    inventory: "ansible_service"
+    group: "ansible_managed_nodes"
+    info: "Manage Ansible Managed nodes"
+  - playbook: "manage_cloud_control_nodes"
+    inventory: "cloud_control_nodes"
+    group: "cloud_control_nodes"
+    info: "Provision public cloud management tools"
+  - playbook: "manage_cloud_realm"
+    inventory: "cloud_control_nodes"
+    group: "cloud_realm"
+    info: "Manage cloud provider accounts, users and organizations as a single entity"
+  - playbook: "manage_dev_nodes"
+    inventory: "dev_nodes"
+    group: "dev_nodes"
+    info: "Provision software development environments"
+  - playbook: "manage_doc_sites"
+    inventory: "doc_sites"
+    group: "doc_sites"
+    info: "Provision documentation site management tools"
+  - playbook: "manage_git_server_nodes"
+    inventory: "git_service"
+    group: "git_server_nodes"
+    info: "Manage GIT server nodes"
+  - playbook: "manage_hpc_nodes"
+    inventory: "hpc_nodes"
+    group: "hpc_nodes"
+    info: "Provision high-performance computing environments"
+  - playbook: "manage_jenkins_controller_nodes"
+    inventory: "jenkins_service"
+    group: "jenkins_controller_nodes"
+    info: "Manage Jenkins Controller nodes"
+  - playbook: "manage_jenkins_worker_nodes"
+    inventory: "jenkins_service"
+    group: "jenkins_worker_nodes"
+    info: "Manage Jenkins Worker nodes"
+  - playbook: "manage_linux_workstations"
+    inventory: "linux_workstations"
+    group: "linux_workstations"
+    info: "Manage Linux Workstations"
+  - playbook: "manage_office_nodes"
+    inventory: "office_nodes"
+    group: "office_nodes"
+    info: "Provision office productivity applications"
+  - playbook: "manage_test_nodes"
+    inventory: "test_nodes"
+    group: "test_nodes"
+    info: "Provision software testing tools"
+  - playbook: "manage_cloud_population"
+    inventory: "cloud_control_nodes"
+    group: "cloud_realm"
+    info: "Manage provisioning of cloud objects"
+
+auto_aplatform64_host_groups:
+  - "ansible_control_nodes"
+  - "ansible_managed_nodes"
+  - "bootstrap_ansible_managed_nodes"
+  - "cloud_control_nodes"
+  - "cloud_realm"
+  - "dev_nodes"
+  - "doc_sites"
+  - "git_server_nodes"
+  - "hpc_nodes"
+  - "jenkins_controller_nodes"
+  - "jenkins_worker_nodes"
+  - "linux_workstations"
+  - "office_nodes"
+  - "test_nodes"
+
+auto_aplatform64_inventories:
+  - "ansible_service"
+  - "cloud_control_nodes"
+  - "dev_nodes"
+  - "doc_sites"
+  - "git_service"
+  - "hpc_nodes"
+  - "jenkins_service"
+  - "linux_workstations"
+  - "office_nodes"
+  - "test_nodes"
+
+auto_aplatform64_bashlib64:
+  - "bashlib64.bash"
+
+auto_platform64_managed_file:
+  "Warning: This file is automatically generated by the Ansible Role: serdigital64.automation.auto_aplatform64. Do not modify."
+
+auto_aplatform64___path_status: ~
+auto_aplatform64___provision_record: ~
+auto_aplatform64___setup_extension: ~
+#auto_aplatform64___prepare_path_inventory: ~
+#auto_aplatform64___prepare_path_var: ~
+#auto_aplatform64___prepare_path_etc: ~
+#auto_aplatform64___prepare_path_file: ~
+#auto_aplatform64___provision_playbook: ~
+#auto_aplatform64___setup_lib: ~
+#auto_aplatform64___setup_group_play: ~
+#auto_aplatform64___setup_group_role: ~
+#auto_aplatform64___prepare_path_host: ~
+#auto_aplatform64___setup_inventory: ~
+
+# Variables declared in cfg/installer.yml. Do not uncomment
+# auto_aplatform64_installer_vew_loader
+# auto_aplatform64_installer_vew_home
+# auto_aplatform64_installer_vew_space
+# auto_aplatform64_installer_python_system
+# auto_aplatform64_installer_python_user
+# auto_aplatform64_installer_user_name
+# auto_aplatform64_installer_user_home
+# auto_aplatform64_installer_root
+# auto_aplatform64_installer_var
+# auto_aplatform64_installer_site
+...

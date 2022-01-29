@@ -1,0 +1,20 @@
+---
+- name: "Converge"
+  hosts: centos
+  gather_facts: false
+  tasks:
+
+    - name: "Discover platform"
+      ansible.builtin.setup:
+        gather_subset: "min"
+        gather_timeout: "10"
+
+    - name: "Provision distro repo"
+      vars:
+        sys_repository:
+          setup: true
+        sys_repository_catalog_distro:
+          powertools: true
+      ansible.builtin.include_role:
+        name: "sys_repository"
+...

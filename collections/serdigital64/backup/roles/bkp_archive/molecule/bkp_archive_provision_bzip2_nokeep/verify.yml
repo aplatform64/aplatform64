@@ -1,0 +1,45 @@
+---
+- name: "Verify"
+  hosts: "{{ lookup('env', 'APLATFORM64_TEST_PLATFORM') | default('all') }}"
+  gather_facts: false
+  vars:
+    test_path: "/tmp"
+    test_file: "test_file_00001.sh"
+    test_target: "/tmp/bkp_archive_provision_bzip2_test_target"
+    test_archive: "test_file_00001.sh.bz2"
+  tasks:
+
+    - name: "Discover platform"
+      ansible.builtin.setup:
+        gather_subset: "min"
+        gather_timeout: "10"
+
+    - name: "Discover test file"
+      ansible.builtin.stat:
+        get_checksum: false
+        follow: false
+        get_mime: false
+        get_attributes: false
+        path: "{{ test_target + '/' + test_file }}"
+      register: test_file_stats
+
+    - name: "Discover archive file"
+      ansible.builtin.stat:
+        get_checksum: false
+        follow: false
+        get_mime: false
+        get_attributes: false
+        path: "{{ test_path + '/' + test_archive }}"
+      register: test_archive_stats
+
+    - name: "Verify that the content was extracted"
+      ansible.builtin.assert:
+        that:
+          - test_file_stats['stat']['exists']
+
+    - name: "Verify that the archive was removed"
+      ansible.builtin.assert:
+        that:
+          - not test_archive_stats['stat']['exists']
+
+...

@@ -1,0 +1,23 @@
+---
+- name: "Infrastructure / Terraform / Prepare / Paths / Create"
+  become: true
+  ansible.builtin.file:
+    follow: false
+    force: false
+    unsafe_writes: false
+    recurse: false
+    state: "directory"
+    path: "{{ infra_terraform___prepare_path }}"
+    owner: "{{ infra_terraform_base['access']['user']['terraform'] }}"
+    group: "{{ infra_terraform_base['access']['group']['terraform'] }}"
+    mode: "{{ infra_terraform_base['access']['mode']['dir'] }}"
+  loop:
+    - "{{ infra_terraform_base['paths']['root'] }}"
+    - "{{ infra_terraform_base['paths']['etc'] }}"
+    - "{{ infra_terraform_base['paths']['src'] }}"
+    - "{{ infra_terraform_base['paths']['var'] }}"
+    - "{{ infra_terraform_base['paths']['cache'] }}"
+    - "{{ infra_terraform_base['paths']['states'] }}"
+  loop_control:
+    loop_var: "infra_terraform___prepare_path"
+...

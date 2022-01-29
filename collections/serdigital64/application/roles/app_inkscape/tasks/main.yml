@@ -1,0 +1,16 @@
+---
+- name: "Application / InkScape / Initialize"
+  ansible.builtin.include_tasks:
+    file: "app_inkscape_initialize.yml"
+
+- name: "Application / InkScape / Deploy"
+  ansible.builtin.include_tasks:
+    file: "app_inkscape_deploy.yml"
+  when:
+    - "'deploy' in app_inkscape"
+    - app_inkscape['deploy']
+
+- name: "Application / InkScape / Finalize"
+  ansible.builtin.include_tasks:
+    file: "app_inkscape_finalize.yml"
+...

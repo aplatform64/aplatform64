@@ -1,0 +1,34 @@
+---
+- name: "Hypervisor / LibVirt / Server / Prepare package managers"
+  vars:
+    sys_repository:
+      prepare: true
+      deploy: true
+      setup: true
+      provision: true
+    sys_repository_managers:
+      flatpak: "{{ hpv_libvirt_server_application['type'] == 'flatpak' }}"
+      snap: "{{ hpv_libvirt_server_application['type'] == 'snap' }}"
+      git: "{{ hpv_libvirt_server_application['type'] == 'git' }}"
+    sys_repository_catalog_distro: "{{ hpv_libvirt_server_repository_catalog_distro }}"
+    sys_repository_catalog_yum: "{{ hpv_libvirt_server_repository_catalog_yum }}"
+    sys_repository_catalog_apt: "{{ hpv_libvirt_server_repository_catalog_apt }}"
+    sys_repository_custom_yum: "{{ hpv_libvirt_server_repository_custom_yum }}"
+    sys_repository_custom_apt: "{{ hpv_libvirt_server_repository_custom_apt }}"
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_repository"
+
+- name: "Hypervisor / LibVirt / Server / Prepare package installer"
+  vars:
+    sys_package:
+      prepare: true
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_package"
+
+- name: "Hypervisor / LibVirt / Server / Prepare kernel tuning tools"
+  vars:
+    sys_kernel:
+      deploy: true
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_kernel"
+...

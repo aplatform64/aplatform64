@@ -1,0 +1,53 @@
+---
+sys_repository_base:
+  access: "{{ sys_repository_base_access }}"
+  templates: "{{ sys_repository_base_templates }}"
+  etc:
+    sources_list_d: "/etc/apt/sources.list.d"
+    keyrings: "/usr/share/keyrings"
+    trusted_gpg: "/etc/apt/trusted.gpg.d"
+  run:
+    systemctl: "/usr/bin/systemctl"
+    curl: "/usr/bin/curl"
+    flatpak: "/usr/bin/flatpak"
+    snap: "/usr/bin/snap"
+    apt_get: "/usr/bin/apt-get"
+    apt_key: "/usr/bin/apt-key"
+    git: "/usr/bin/git"
+    python: "/usr/bin/python3.10"
+  paths:
+    snap_root: "/snap"
+    snap_bin: "/snap/bin"
+    snap_var: "/var/lib/snapd/snap"
+
+sys_repository_packages:
+  distro:
+    - "apt-utils"
+    - "apt-transport-https"
+    - "ca-certificates"
+    - "curl"
+    - "gnupg"
+    - "lsb-release"
+  flatpak:
+    - "flatpak"
+  git:
+    - "git"
+  tools:
+    - "curl"
+  snap:
+    - "snapd"
+  pip:    # source: dev_python_profiles@dev_python
+    - "python3.10"
+    - "python3.10-venv"
+    - "python3-pip"
+    - "python3-setuptools"
+    - "python3-wheel"
+
+sys_repository_sources:
+  distro: []
+  flatpak:
+    - name: "flathub"
+      url: "https://flathub.org/repo/flathub.flatpakrepo"
+  yum: []
+  apt: []
+...

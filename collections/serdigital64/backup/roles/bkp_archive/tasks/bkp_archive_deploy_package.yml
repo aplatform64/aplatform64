@@ -1,0 +1,10 @@
+---
+- name: "Backup / Archive / Deploy / Package / Archive and Compression tools"
+  become: true
+  ansible.builtin.package:
+    state: "{{
+      ( bkp_archive_packages_installed ) |
+      ternary( 'present', 'absent' )
+    }}"
+    name: "{{ bkp_archive_packages }}"
+...

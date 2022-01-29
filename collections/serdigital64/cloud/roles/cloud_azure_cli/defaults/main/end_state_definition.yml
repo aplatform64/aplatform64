@@ -1,0 +1,7 @@
+---
+cloud_azure_cli_application:
+  name: "azurecli"
+  type: "distro"
+  version: "latest"
+  installed: true
+...

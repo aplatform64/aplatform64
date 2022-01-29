@@ -1,0 +1,10 @@
+---
+roles: []
+collections:
+  - name: "../../../../../build/serdigital64-backup.tar.gz"
+    type: "file"
+  - name: "../../../../../build/serdigital64-system.tar.gz"
+    type: "file"
+  - name: "../../../../../build/serdigital64-automation.tar.gz"
+    type: "file"
+...

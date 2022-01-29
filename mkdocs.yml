@@ -1,0 +1,167 @@
+---
+site_name: "A:Platform64 Project"
+site_description: "A:Platform64 is an automated infrastructure-as-code management solution for small to medium computing environments"
+site_author: "SerDigital64"
+
+site_url: "https://aplatform64.readthedocs.io"
+repo_url: "https://github.com/serdigital64/aplatform64"
+
+copyright: "GPL-3.0-or-later"
+docs_dir: "docs/"
+site_dir: "site/"
+strict: false
+
+extra_css:
+  - "css/pygments-tango.css"
+
+plugins:
+  - search
+  - include-markdown
+  - minify:
+      minify_html: true
+      htmlmin_opts:
+          remove_comments: true
+
+theme:
+  name: readthedocs
+  analytics:
+    gtag: "G-KMX4RGXREV"
+  highlightjs: false
+markdown_extensions:
+  - codehilite:
+      linenums: false
+      guess_lang: false
+      use_pygments: true
+  - mdx_truly_sane_lists:
+      nested_indent: 2
+      truly_sane: true
+  - toc:
+      permalink: true
+      baselevel: 2
+  - markdown.extensions.admonition:
+  - markdown.extensions.smarty:
+      smart_quotes: false
+  - pymdownx.betterem:
+  - markdown.extensions.attr_list:
+  - markdown.extensions.def_list:
+  - markdown.extensions.tables:
+  - markdown.extensions.abbr:
+  - markdown.extensions.footnotes:
+  - markdown.extensions.md_in_html:
+  - pymdownx.tilde:
+  - pymdownx.caret:
+  - pymdownx.smartsymbols:
+  - pymdownx.escapeall:
+  - pymdownx.tasklist:
+  - pymdownx.progressbar:
+  - pymdownx.mark:
+  - pymdownx.striphtml:
+  - pymdownx.details:
+  - pymdownx.tabbed:
+  - pymdownx.saneheaders:
+  - pymdownx.inlinehilite:
+
+nav:
+  - Home: "index.md"
+  - Scripts:
+    - ap64: "bin/ap64.md"
+    - install: "bin/install.md"
+  - Playbooks:
+    - bootstrap_ansible_managed_nodes: "playbooks/bootstrap_ansible_managed_nodes.md"
+    - manage_ansible_control_nodes: "playbooks/manage_ansible_control_nodes.md"
+    - manage_ansible_managed_nodes: "playbooks/manage_ansible_managed_nodes.md"
+    - manage_cloud_control_nodes: "playbooks/manage_cloud_control_nodes.md"
+    - manage_cloud_realm: "playbooks/manage_cloud_realm.md"
+    - manage_dev_nodes: "playbooks/manage_dev_nodes.md"
+    - manage_doc_sites: "playbooks/manage_doc_sites.md"
+    - manage_git_server_nodes: "playbooks/manage_git_server_nodes.md"
+    - manage_hpc_nodes: "playbooks/manage_hpc_nodes.md"
+    - manage_jenkins_controller_nodes: "playbooks/manage_jenkins_controller_nodes.md"
+    - manage_jenkins_worker_nodes: "playbooks/manage_jenkins_worker_nodes.md"
+    - manage_linux_workstations: "playbooks/manage_linux_workstations.md"
+    - manage_office_nodes: "playbooks/manage_office_nodes.md"
+    - manage_test_nodes: "playbooks/manage_test_nodes.md"
+  - Collections:
+    - application: "collections/application.md"
+    - automation: "collections/automation.md"
+    - backup: "collections/backup.md"
+    - cloud: "collections/cloud.md"
+    - container: "collections/container.md"
+    - development: "collections/development.md"
+    - devops: "collections/devops.md"
+    - hardware: "collections/hardware.md"
+    - hypervisor: "collections/hypervisor.md"
+    - infrastructure: "collections/infrastructure.md"
+    - security: "collections/security.md"
+    - storage: "collections/storage.md"
+    - system: "collections/system.md"
+    - web: "collections/web.md"
+  - Roles:
+    - app_chrome: "roles/app_chrome.md"
+    - app_drawio: "roles/app_drawio.md"
+    - app_gimp: "roles/app_gimp.md"
+    - app_inkscape: "roles/app_inkscape.md"
+    - app_keepassx: "roles/app_keepassx.md"
+    - app_kryta: "roles/app_kryta.md"
+    - app_libreoffice: "roles/app_libreoffice.md"
+    - app_msteams: "roles/app_msteams.md"
+    - app_obs: "roles/app_obs.md"
+    - app_shotcut: "roles/app_shotcut.md"
+    - app_skype: "roles/app_skype.md"
+    - app_spotify: "roles/app_spotify.md"
+    - app_tilix: "roles/app_tilix.md"
+    - app_vscode: "roles/app_vscode.md"
+    - app_xmind: "roles/app_xmind.md"
+    - app_zoom: "roles/app_zoom.md"
+    - auto_ansible_control: "roles/auto_ansible_control.md"
+    - auto_ansible_node: "roles/auto_ansible_node.md"
+    - auto_aplatform64: "roles/auto_aplatform64.md"
+    - bkp_rclone_server: "roles/bkp_rclone_server.md"
+    - bkp_restic: "roles/bkp_restic.md"
+    - cloud_aws_cli: "roles/cloud_aws_cli.md"
+    - cloud_aws_realm: "roles/cloud_aws_realm.md"
+    - cloud_azure_cli: "roles/cloud_azure_cli.md"
+    - cloud_foundry_cli: "roles/cloud_foundry_cli.md"
+    - cloud_google_cli: "roles/cloud_google_cli.md"
+    - cloud_ibm_cli: "roles/cloud_ibm_cli.md"
+    - cnt_podman: "roles/cnt_podman.md"
+    - bkp_archive: "roles/bkp_archive.md"
+    - sec_key_ssh: "roles/sec_key_ssh.md"
+    - sys_package: "roles/sys_package.md"
+    - sys_repository: "roles/sys_repository.md"
+    - sec_firewall_os: "roles/sec_firewall_os.md"
+    - sys_shell: "roles/sys_shell.md"
+    - sys_subsystem: "roles/sys_subsystem.md"
+    - sys_user: "roles/sys_user.md"
+    - dev_gcc: "roles/dev_gcc.md"
+    - dev_java: "roles/dev_java.md"
+    - dev_opencl: "roles/dev_opencl.md"
+    - dev_python: "roles/dev_python.md"
+    - dev_nodejs: "roles/dev_nodejs.md"
+    - dev_ruby: "roles/dev_ruby.md"
+    - dev_tools: "roles/dev_tools.md"
+    - dops_batscore: "roles/dops_batscore.md"
+    - dops_git_client: "roles/dops_git_client.md"
+    - dops_git_server: "roles/dops_git_server.md"
+    - dops_jenkins: "roles/dops_jenkins.md"
+    - hpv_libvirt_client: "roles/hpv_libvirt_client.md"
+    - hpv_libvirt_server: "roles/hpv_libvirt_server.md"
+    - hw_gpu_amd: "roles/hw_gpu_amd.md"
+    - infra_terraform: "roles/infra_terraform.md"
+    - infra_vagrant: "roles/infra_vagrant.md"
+    - sec_firewall_os: "roles/sec_firewall_os.md"
+    - sec_openssh_client: "roles/sec_openssh_client.md"
+    - sec_openssh_server: "roles/sec_openssh_server.md"
+    - stg_autofs: "roles/stg_autofs.md"
+    - sys_fonts: "roles/sys_fonts.md"
+    - sys_gui_cinnamon: "roles/sys_gui_cinnamon.md"
+    - sys_kernel: "roles/sys_kernel.md"
+    - sys_mc: "roles/sys_mc.md"
+    - sys_sudo: "roles/sys_sudo.md"
+    - sys_tools: "roles/sys_tools.md"
+    - web_mkdocs: "roles/web_mkdocs.md"
+  - Contributing:
+    - guidelines: "contributing/guidelines.md"
+    - design: "contributing/design.md"
+    - conduct: "contributing/cod.md"
+    - license: "contributing/license.md"

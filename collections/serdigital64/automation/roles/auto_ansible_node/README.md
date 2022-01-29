@@ -1,0 +1,1 @@
+../../../../../docs/roles/auto_ansible_node.md

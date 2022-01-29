@@ -1,0 +1,11 @@
+---
+- name: "System / Package / Provision / Staging / Remove ({{ sys_package___application['staging'] }}"
+  become: true
+  failed_when: false
+  changed_when: false
+  ansible.builtin.file:
+    follow: false
+    unsafe_writes: false
+    state: "absent"
+    path: "{{ sys_package___application['staging'] }}"
+...

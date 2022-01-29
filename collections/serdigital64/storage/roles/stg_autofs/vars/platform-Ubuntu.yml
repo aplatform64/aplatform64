@@ -1,0 +1,33 @@
+---
+# Define platform specific paths
+stg_autofs_base:
+  paths: "{{ stg_autofs_base_common['paths'] }}"
+  etc: "{{ stg_autofs_base_common['etc'] }}"
+  templates: "{{ stg_autofs_base_common['templates'] }}"
+  access: "{{ stg_autofs_base_common['access'] }}"
+
+# Define application package details
+stg_autofs_profiles:
+  distro:
+    latest:
+      supported: true
+      packages:
+        - name: "autofs"
+
+# Define custom package repositories
+stg_autofs_repository_custom_yum: []
+stg_autofs_repository_custom_apt: []
+
+# Set package repositories states
+stg_autofs_repository_catalog_distro: {}
+stg_autofs_repository_catalog_yum: {}
+stg_autofs_repository_catalog_apt: {}
+
+# Define OS subsystem states
+stg_autofs_subsystem_profile:
+  service: "autofs"
+  states:
+    started: "started"
+    stopped: "stopped"
+    refreshed: "refreshed"
+...

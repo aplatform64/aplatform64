@@ -1,0 +1,7 @@
+---
+- name: "System / Repository / Deploy / PIP / Tools"
+  become: true
+  ansible.builtin.package:
+    state: "present"
+    name: "{{ sys_repository_packages['pip'] }}"
+...

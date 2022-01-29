@@ -1,0 +1,7 @@
+---
+cloud_foundry_cli_application:
+  name: "cloudfoundry"
+  type: "distro"
+  version: "v7"
+  installed: true
+...

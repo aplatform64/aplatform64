@@ -1,0 +1,5 @@
+---
+dev_java:
+  resolve_prereq: false
+  deploy: false
+...

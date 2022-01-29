@@ -1,0 +1,7 @@
+---
+dops_batscore_application:
+  name: "batscore"
+  type: "git"
+  version: "v1_5"
+  installed: true
+...

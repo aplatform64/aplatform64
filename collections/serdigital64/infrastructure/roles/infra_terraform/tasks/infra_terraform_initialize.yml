@@ -1,0 +1,35 @@
+---
+- name: "Infrastructure / Terraform / Initialize / Check Platform compatibility"
+  ansible.builtin.assert:
+    quiet: true
+    fail_msg: "Target Platform not supported: {{ ansible_distribution + ansible_distribution_major_version }}"
+    that:
+      - ansible_distribution + ansible_distribution_major_version in infra_terraform_platforms
+
+- name: "Infrastructure / Terraform / Initialize / Check required parameters: prepare"
+  ansible.builtin.assert:
+    quiet: true
+    fail_msg: "Required end-state parameters are missing (infra_terraform_paths,infra_terraform_users)"
+    that:
+      - infra_terraform_paths['root'] is defined
+      - infra_terraform_paths['etc'] is defined
+      - infra_terraform_paths['src'] is defined
+      - infra_terraform_paths['var'] is defined
+      - infra_terraform_users['terraform']['name'] is defined
+      - infra_terraform_users['terraform']['group'] is defined
+      - infra_terraform_users['terraform']['home'] is defined
+  when:
+    - "'prepare' in infra_terraform"
+    - infra_terraform['prepare']
+
+- name: "Infrastructure / Terraform / Initialize / Set Platform specific variables"
+  ansible.builtin.include_vars:
+    file: "{{ 'platform-' + infra_terraform_os_family + '.yml' }}"
+
+- name: "Infrastructure / Terraform / Initialize / Resolve prerequisites"
+  ansible.builtin.include_tasks:
+    file: "infra_terraform_prerequisite.yml"
+  when:
+    - "'resolve_prereq' in infra_terraform"
+    - infra_terraform['resolve_prereq']
+...

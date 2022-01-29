@@ -1,0 +1,18 @@
+---
+- name: "System / Tools / Usage example"
+  hosts: "localhost"
+  gather_facts: true
+
+  tasks:
+    - name: "Example: Install OS tools"
+      vars:
+        sys_tools:
+          resolve_prereq: true
+          deploy: true
+        sys_tools_catalog:
+          less: true
+          groff: true
+          file: true
+      ansible.builtin.include_role:
+        name: "serdigital64.system.sys_tools"
+...

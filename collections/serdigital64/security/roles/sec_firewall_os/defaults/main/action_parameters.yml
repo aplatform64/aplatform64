@@ -1,0 +1,8 @@
+---
+sec_firewall_os:
+  resolve_prereq: false
+  deploy: false
+  setup: false
+  control: false
+  provision: false
+...

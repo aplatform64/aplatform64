@@ -1,0 +1,29 @@
+---
+- name: "Automation / Ansible / Node / Initialize / Discover Target Platform"
+  ansible.builtin.setup:
+    gather_subset: "min"
+    gather_timeout: "5"
+
+- name: "Automation / Ansible / Node / Initialize / Check Platform compatibility"
+  ansible.builtin.assert:
+    quiet: true
+    fail_msg: "Target Platform not supported: {{ ansible_distribution + ansible_distribution_major_version }}"
+    that:
+      - ansible_distribution + ansible_distribution_major_version in auto_ansible_node_platforms
+
+- name: "Automation / Ansible / Node / Initialize / Check required parameters"
+  ansible.builtin.assert:
+    quiet: true
+    that:
+      - auto_ansible_node_user is defined
+      - auto_ansible_node_user['name'] is defined
+      - auto_ansible_node_user['group'] is defined
+      - auto_ansible_node_user['home'] is defined
+  when:
+    - ('prepare' in auto_ansible_node and auto_ansible_node['prepare']) or
+      ('provision' in auto_ansible_node and auto_ansible_node['provision'])
+
+- name: "Automation / Ansible / Node / Initialize / Set Platform specific variables"
+  ansible.builtin.include_vars:
+    file: "{{ 'platform-' + ansible_distribution + ansible_distribution_major_version + '.yml' }}"
+...

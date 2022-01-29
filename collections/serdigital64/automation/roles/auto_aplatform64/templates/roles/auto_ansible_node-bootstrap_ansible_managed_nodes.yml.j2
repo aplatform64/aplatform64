@@ -1,0 +1,30 @@
+---
+#
+# A:Platform64 / Ansible role settings / Site: {{ auto_ansible_control_site }}
+#
+# * Role settings are available only for the corresponding host group and associated playbook
+#
+
+auto_ansible_node_user:
+  name: "amnode"
+  group: "amnode"
+  home: "/home/amnode"
+  description: "Ansible managed node"
+  control_key: "{{ auto_ansible_control_base['files']['managed_public_key'] }}"
+  become_method: "sudo"
+
+auto_ansible_node_bootstrap:
+  user: "bootstrap"
+  password: "**changeme**"
+  become_method: "sudo"
+  become_password: "**changeme**"
+
+ansible_python_interpreter: "/usr/bin/python3"
+
+ansible_ssh_common_args: "-o PreferredAuthentications=password -o PubkeyAuthentication=no -o StrictHostKeyChecking=no"
+ansible_user: "{{ '{{ auto_ansible_node_bootstrap.user }}' }}"
+ansible_password: "{{ '{{ auto_ansible_node_bootstrap.password }}' }}"
+
+ansible_become_method: "{{ '{{ auto_ansible_node_bootstrap.become_method }}' }}"
+ansible_become_password: "{{ '{{ auto_ansible_node_bootstrap.become_password }}' }}"
+...

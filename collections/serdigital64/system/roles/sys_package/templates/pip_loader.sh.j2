@@ -1,0 +1,11 @@
+#!/bin/sh
+# {{ sys_package_alert_ansible_managed_file }}
+
+# Activate the Python Virtual Environment (venv)
+. "{{ sys_package___application['options']['pip']['path'] + '/bin/activate' }}"
+
+# Run the Python module CLI
+"{{
+    sys_package___application['options']['pip']['path'] + '/bin/' +
+    sys_package___application['options']['pip']['cli']
+}}" "$@"

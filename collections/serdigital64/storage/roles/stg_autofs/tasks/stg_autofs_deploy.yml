@@ -1,0 +1,7 @@
+---
+- name: "Storage / AutoFS / Deploy / Package"
+  ansible.builtin.include_tasks:
+    file: "stg_autofs_deploy_package.yml"
+  when:
+    - stg_autofs_application is defined
+...

@@ -1,0 +1,54 @@
+---
+test_site: "site"
+test_name: "sitectl"
+test_group: "sitectl"
+test_home: "/home/sitectl"
+test_root: "/opt/aplatform64"
+test_bin: "/opt/aplatform64/bin"
+test_var: "/var/opt/aplatform64"
+test_control_users:
+  control:
+    name: "{{ test_name }}"
+    group: "{{ test_group }}"
+    home: "{{ test_home }}"
+test_control_paths:
+  root: "{{ test_root }}"
+  var: "{{ test_var }}"
+test_control_managed:
+  - "localhost"
+
+test_src_installer: "{{ lookup('env', 'APLATFORM64_ROOT') +
+  '/collections/serdigital64/automation/roles/auto_aplatform64/files/installer' }}"
+test_src_scripts: "{{ lookup('env', 'APLATFORM64_ROOT') +
+  '/collections/serdigital64/automation/roles/auto_aplatform64/files/scripts' }}"
+test_src_templates: "{{ lookup('env', 'APLATFORM64_ROOT') +
+  '/collections/serdigital64/automation/roles/auto_aplatform64/templates/bin' }}"
+
+test_auto_aplatform64_installer_ve_loader: "{{ test_home }}/.local/bin/virtualenv"
+test_auto_aplatform64_installer_vew_loader: "{{ test_home }}/.local/bin/virtualenvwrapper.sh"
+test_auto_aplatform64_installer_vew_home: "{{ test_home }}/.virtualenvs"
+test_auto_aplatform64_installer_vew_space: "aplatform64"
+test_auto_aplatform64_installer_python_system: "/usr/bin/python3.9"
+test_auto_aplatform64_installer_python_user: "{{ test_home }}/.virtualenvs/aplatform64/bin/python3.9"
+test_auto_aplatform64_installer_user_name: "{{ test_name }}"
+test_auto_aplatform64_installer_user_group: "{{ test_group }}"
+test_auto_aplatform64_installer_user_home: "{{ test_home }}"
+test_auto_aplatform64_installer_root: "{{ test_root }}"
+test_auto_aplatform64_installer_var: "{{ test_var }}"
+test_auto_aplatform64_installer_site: "{{ test_site }}"
+test_auto_aplatform64_installer_pip_cache: "{{ test_var }}/cache/pip"
+
+auto_aplatform64_mode_test: true
+auto_aplatform64_installer_ve_loader: "{{ test_auto_aplatform64_installer_ve_loader }}"
+auto_aplatform64_installer_vew_loader: "{{ test_auto_aplatform64_installer_vew_loader }}"
+auto_aplatform64_installer_vew_home: "{{ test_auto_aplatform64_installer_vew_home }}"
+auto_aplatform64_installer_vew_space: "{{ test_auto_aplatform64_installer_vew_space }}"
+auto_aplatform64_installer_python_system: "{{ test_auto_aplatform64_installer_python_system }}"
+auto_aplatform64_installer_python_user: "{{ test_auto_aplatform64_installer_python_user }}"
+auto_aplatform64_installer_pip_cache: "{{ test_auto_aplatform64_installer_pip_cache }}"
+auto_aplatform64_installer_user_name: "{{ test_auto_aplatform64_installer_user_name }}"
+auto_aplatform64_installer_user_home: "{{ test_auto_aplatform64_installer_user_home }}"
+auto_aplatform64_installer_root: "{{ test_auto_aplatform64_installer_root }}"
+auto_aplatform64_installer_var: "{{ test_auto_aplatform64_installer_var }}"
+auto_aplatform64_installer_site: "{{ test_auto_aplatform64_installer_site }}"
+...

@@ -1,0 +1,37 @@
+---
+# Define platform specific paths
+hpv_libvirt_server_base:
+  files:
+    dev_kvm: "/dev/kvm"
+    libvirtd_conf: "/etc/libvirt/libvirtd.conf"
+    qemu_conf: "/etc/libvirt/qemu.conf"
+  paths:
+    var: "/var/lib/libvirt"
+  templates: "{{ hpv_libvirt_server_base_common['templates'] }}"
+  access: "{{ hpv_libvirt_server_base_common['access'] }}"
+
+# Define application package details
+hpv_libvirt_server_profiles:
+  distro:
+    latest:
+      packages:
+        - name: "libvirt-daemon-kvm"
+        - name: "libguestfs-tools"
+
+# Define custom package repositories
+hpv_libvirt_server_repository_custom_yum: []
+hpv_libvirt_server_repository_custom_apt: []
+
+# Set package repositories states
+hpv_libvirt_server_repository_catalog_distro: {}
+hpv_libvirt_server_repository_catalog_yum: {}
+hpv_libvirt_server_repository_catalog_apt: {}
+
+# Define OS subsystem states
+hpv_libvirt_server_subsystem_profile:
+  service: "libvirtd"
+  states:
+    started: "started"
+    stopped: "stopped"
+    refreshed: "refreshed"
+...

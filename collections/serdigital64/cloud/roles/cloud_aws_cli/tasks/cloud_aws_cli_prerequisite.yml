@@ -1,0 +1,35 @@
+---
+- name: "Cloud / AWS / CLI / Prerequisite / Prepare package managers"
+  vars:
+    sys_repository:
+      prepare: true
+      deploy: true
+      setup: true
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_repository"
+
+- name: "Cloud / AWS / CLI / Prerequisite / Prepare archive manager"
+  vars:
+    bkp_archive:
+      deploy: true
+  ansible.builtin.include_role:
+    name: "serdigital64.backup.bkp_archive"
+
+- name: "Cloud / AWS / CLI / Prerequisite / Prepare package installer"
+  vars:
+    sys_package:
+      prepare: true
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_package"
+
+- name: "Cloud / AWS / CLI / Prerequisite / Install OS tools"
+  vars:
+    sys_tools:
+      resolve_prereq: true
+      deploy: true
+    sys_tools_catalog:
+      less: true
+      groff: true
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_tools"
+...

@@ -1,0 +1,44 @@
+---
+- name: "System / MC / Initialize"
+  ansible.builtin.include_tasks:
+    file: "sys_mc_initialize.yml"
+
+- name: "System / MC / Prepare"
+  ansible.builtin.include_tasks:
+    file: "sys_mc_prepare.yml"
+  when:
+    - "'prepare' in sys_mc"
+    - "sys_mc['prepare']"
+
+- name: "System / MC / Deploy"
+  ansible.builtin.include_tasks:
+    file: "sys_mc_deploy.yml"
+  when:
+    - "'deploy' in sys_mc"
+    - "sys_mc['deploy']"
+
+- name: "System / MC / Setup"
+  ansible.builtin.include_tasks:
+    file: "sys_mc_setup.yml"
+  when:
+    - "'setup' in sys_mc"
+    - "sys_mc['setup']"
+
+- name: "System / MC / Control"
+  ansible.builtin.include_tasks:
+    file: "sys_mc_control.yml"
+  when:
+    - "'control' in sys_mc"
+    - "sys_mc['control']"
+
+- name: "System / MC / Provision"
+  ansible.builtin.include_tasks:
+    file: "sys_mc_provision.yml"
+  when:
+    - "'provision' in sys_mc"
+    - "sys_mc['provision']"
+
+- name: "System / MC / Finalize"
+  ansible.builtin.include_tasks:
+    file: "sys_mc_finalize.yml"
+...

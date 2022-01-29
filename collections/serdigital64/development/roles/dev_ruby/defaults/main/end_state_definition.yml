@@ -1,0 +1,7 @@
+---
+dev_ruby_application:
+  name: "ruby"
+  type: "distro"
+  version: "latest"
+  installed: true
+...

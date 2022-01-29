@@ -1,0 +1,28 @@
+---
+- name: "System / Shell / Deploy / App / ZSH"
+  vars:
+    sys_package:
+      provision: true
+    sys_package_application: "{{ sys_shell_application['zsh'] }}"
+    sys_package_profiles: "{{ sys_shell_profiles['zsh'] }}"
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_package"
+
+- name: "System / Shell / Deploy / App / Oh-My-ZSH"
+  vars:
+    sys_package:
+      provision: true
+    sys_package_application: "{{ sys_shell_application['ohmyzsh'] }}"
+    sys_package_profiles: "{{ sys_shell_profiles['ohmyzsh'] }}"
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_package"
+
+- name: "System / Shell / Deploy / App / PowerLevel10k"
+  vars:
+    sys_package:
+      provision: true
+    sys_package_application: "{{ sys_shell_application['p10k'] }}"
+    sys_package_profiles: "{{ sys_shell_profiles['p10k'] }}"
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_package"
+...

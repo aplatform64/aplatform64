@@ -1,0 +1,13 @@
+---
+sec_firewall_os_application:
+  name: "firewall_manager"
+  type: "distro"
+  version: "latest"
+  installed: true
+
+sec_firewall_os_subsystem:
+  enabled: false
+  status: "stopped"
+
+sec_firewall_os_rules: []
+...

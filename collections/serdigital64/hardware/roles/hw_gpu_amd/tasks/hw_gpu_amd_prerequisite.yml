@@ -1,0 +1,34 @@
+---
+- name: "Hardware / GPU / AMD / Prepare package managers"
+  vars:
+    sys_repository:
+      prepare: true
+      deploy: true
+      setup: true
+      provision: true
+    sys_repository_managers:
+      flatpak: "{{ hw_gpu_amd_application['type'] == 'flatpak' }}"
+      snap: "{{ hw_gpu_amd_application['type'] == 'snap' }}"
+      git: "{{ hw_gpu_amd_application['type'] == 'git' }}"
+    sys_repository_catalog_distro: "{{ hw_gpu_amd_repository_catalog_distro }}"
+    sys_repository_catalog_yum: "{{ hw_gpu_amd_repository_catalog_yum }}"
+    sys_repository_catalog_apt: "{{ hw_gpu_amd_repository_catalog_apt }}"
+    sys_repository_custom_yum: "{{ hw_gpu_amd_repository_custom_yum }}"
+    sys_repository_custom_apt: "{{ hw_gpu_amd_repository_custom_apt }}"
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_repository"
+
+- name: "Hardware / GPU / AMD / Prerequisite / Prepare archive manager"
+  vars:
+    bkp_archive:
+      deploy: true
+  ansible.builtin.include_role:
+    name: "serdigital64.backup.bkp_archive"
+
+- name: "Hardware / GPU / AMD / Prepare package installer"
+  vars:
+    sys_package:
+      prepare: true
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_package"
+...

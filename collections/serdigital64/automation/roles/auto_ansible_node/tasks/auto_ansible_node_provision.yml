@@ -1,0 +1,8 @@
+---
+- name: "Automation / Ansible / Node / Provision / Key"
+  ansible.builtin.include_tasks:
+    file: "auto_ansible_node_provision_key.yml"
+  when:
+    - auto_ansible_node_user['control_key'] is defined
+    - auto_ansible_node_user['control_key'] | length > 0
+...

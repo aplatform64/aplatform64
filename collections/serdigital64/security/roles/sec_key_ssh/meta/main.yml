@@ -1,0 +1,17 @@
+---
+galaxy_info:
+  role_name: "sec_key_ssh"
+  author: "serdigital64"
+  description: "Manage SSH Keys provisioning"
+  company: "none"
+  license: "GPL-3.0-or-later"
+  min_ansible_version: "2.10"
+  platforms:
+    - name: "GenericLinux"
+      versions:
+        - "any"
+  galaxy_tags:
+    - "ssh"
+    - "keypair"
+dependencies: []
+...

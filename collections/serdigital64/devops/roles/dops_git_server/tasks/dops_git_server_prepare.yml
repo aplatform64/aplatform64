@@ -1,0 +1,5 @@
+---
+- name: "DevOps / GIT / Server / Prepare / Paths"
+  ansible.builtin.include_tasks:
+    file: "{{ 'dops_git_server_prepare_paths.yml' }}"
+...

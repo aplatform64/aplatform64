@@ -1,0 +1,20 @@
+---
+hpv_libvirt_server_application:
+  name: "libvirt_server"
+  type: "distro"
+  version: "latest"
+  installed: true
+
+hpv_libvirt_server_subsystem:
+  enabled: false
+  status: "stopped"
+
+hpv_libvirt_server_server_options:
+  tcp_access:
+    enabled: false
+    port: "16509"
+    listen: "127.0.0.1"
+    cleartext: false
+  qemu:
+    security_driver: false
+...

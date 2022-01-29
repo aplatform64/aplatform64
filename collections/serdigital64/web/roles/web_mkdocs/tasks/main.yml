@@ -1,0 +1,16 @@
+---
+- name: "Web / MkDocs / Initialize"
+  ansible.builtin.include_tasks:
+    file: "web_mkdocs_initialize.yml"
+
+- name: "Web / MkDocs / Deploy"
+  ansible.builtin.include_tasks:
+    file: "web_mkdocs_deploy.yml"
+  when:
+    - "'deploy' in web_mkdocs"
+    - "web_mkdocs['deploy']"
+
+- name: "Web / MkDocs / Finalize"
+  ansible.builtin.include_tasks:
+    file: "web_mkdocs_finalize.yml"
+...

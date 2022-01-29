@@ -1,0 +1,29 @@
+---
+- name: "Converge"
+  hosts: "{{ lookup('env', 'APLATFORM64_TEST_PLATFORM') | default('all') }}"
+  gather_facts: false
+  tasks:
+
+    - name: "Load common test vars"
+      ansible.builtin.include_vars:
+        file: "../test_vars.yml"
+
+    - name: "Discover platform"
+      ansible.builtin.setup:
+        gather_subset: "min"
+        gather_timeout: "10"
+
+    - name: "Control service"
+      vars:
+        stg_autofs:
+          setup: true
+        stg_autofs_subsystem:
+          enabled: true
+          status: "started"
+        stg_autofs_server_options:
+          timeout: "150"
+          logging: "debug"
+          root: "/test_autofs"
+      ansible.builtin.include_role:
+        name: "stg_autofs"
+...

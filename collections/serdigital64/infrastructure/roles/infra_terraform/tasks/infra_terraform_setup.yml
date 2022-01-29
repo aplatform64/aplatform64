@@ -1,0 +1,12 @@
+---
+- name: "Infrastructure / Terraform / Setup / CLI"
+  ansible.builtin.include_tasks:
+    file: "{{ 'infra_terraform_setup_cli.yml' }}"
+
+- name: "Infrastructure / Terraform / Setup / Projects"
+  ansible.builtin.include_tasks:
+    file: "{{ 'infra_terraform_setup_projects.yml' }}"
+  when:
+    - infra_terraform_projects is defined
+    - infra_terraform_projects | length > 0
+...

@@ -1,0 +1,44 @@
+---
+- name: "Storage / AutoFS / Initialize"
+  ansible.builtin.include_tasks:
+    file: "stg_autofs_initialize.yml"
+
+- name: "Storage / AutoFS / Prepare"
+  ansible.builtin.include_tasks:
+    file: "stg_autofs_prepare.yml"
+  when:
+    - "'prepare' in stg_autofs"
+    - "stg_autofs['prepare']"
+
+- name: "Storage / AutoFS / Deploy"
+  ansible.builtin.include_tasks:
+    file: "stg_autofs_deploy.yml"
+  when:
+    - "'deploy' in stg_autofs"
+    - "stg_autofs['deploy']"
+
+- name: "Storage / AutoFS / Setup"
+  ansible.builtin.include_tasks:
+    file: "stg_autofs_setup.yml"
+  when:
+    - "'setup' in stg_autofs"
+    - "stg_autofs['setup']"
+
+- name: "Storage / AutoFS / Control"
+  ansible.builtin.include_tasks:
+    file: "stg_autofs_control.yml"
+  when:
+    - "'control' in stg_autofs"
+    - "stg_autofs['control']"
+
+- name: "Storage / AutoFS / Provision"
+  ansible.builtin.include_tasks:
+    file: "stg_autofs_provision.yml"
+  when:
+    - "'provision' in stg_autofs"
+    - "stg_autofs['provision']"
+
+- name: "Storage / AutoFS / Finalize"
+  ansible.builtin.include_tasks:
+    file: "stg_autofs_finalize.yml"
+...

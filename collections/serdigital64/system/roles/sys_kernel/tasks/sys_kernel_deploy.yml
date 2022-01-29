@@ -1,0 +1,5 @@
+---
+- name: "System / Kernel / Deploy / Package"
+  ansible.builtin.include_tasks:
+    file: "sys_kernel_deploy_package.yml"
+...

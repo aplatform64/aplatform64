@@ -1,0 +1,14 @@
+---
+- name: "DevOps / Jenkins / Setup / Server / Configure daemon"
+  become: true
+  ansible.builtin.template:
+    backup: false
+    follow: false
+    force: true
+    unsafe_writes: false
+    owner: "{{ dops_jenkins_base['access']['owner'] }}"
+    group: "{{ dops_jenkins_base['access']['group'] }}"
+    mode: "{{ dops_jenkins_base['access']['mode']['file'] }}"
+    src: "{{ dops_jenkins_base['templates']['jenkins_sh'] }}"
+    dest: "{{ dops_jenkins_base['files']['sysconfig'] }}"
+...

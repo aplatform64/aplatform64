@@ -1,0 +1,33 @@
+---
+cnt_podman_base:
+  run:
+    podman: "/usr/bin/podman"
+
+cnt_podman_profiles:
+  main:
+    distro:
+      latest:
+        packages:
+          - name: "podman"
+  prereqs:
+    distro:
+      latest:
+        packages:
+          - name: "uidmap"
+          - name: "slirp4netns"
+          - name: "fuse3"
+          - name: "fuse-overlayfs"
+
+cnt_podman_repository_custom_yum: []
+cnt_podman_repository_custom_apt:
+  - name: "kubic"
+    suite: "/"
+    component: ""
+    url: "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_20.04"
+    pgpkey: "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_20.04/Release.key"
+
+cnt_podman_repository_catalog_distro: {}
+cnt_podman_repository_catalog_yum: {}
+cnt_podman_repository_catalog_apt:
+  kubic: true
+...

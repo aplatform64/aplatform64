@@ -1,0 +1,41 @@
+---
+hw_gpu_amd_base:
+  paths:
+    root: "/opt/amdgpu"
+    source: "amdgpu-pro-21.30-1290604-rhel-8.4"
+  access:
+    owner: "root"
+    group: "root"
+    mode:
+      dir: "0755"
+      file: "0644"
+      exe: "0755"
+  run:
+    amdgpu_install: "/opt/amdgpu/amdgpu-pro-21.30-1290604-rhel-8.4/amdgpu-install"
+    amdgpu_pro_install: "/opt/amdgpu/amdgpu-pro-21.30-1290604-rhel-8.4/amdgpu-pro-install"
+
+hw_gpu_amd_profiles:
+  binary:
+    v21_30:
+      origin: "https://drivers.amd.com/drivers/linux"
+      packages:
+        - file: "amdgpu-pro-21.30-1290604-rhel-8.4.tar.xz"
+          uncompress: true
+          referer: "https://www.amd.com/en/support/kb/release-notes/rn-amdgpu-unified-linux-21-30"
+      paths:
+        - target: "{{ hw_gpu_amd_base['paths']['root'] }}"
+          owner: "{{ hw_gpu_amd_base['access']['owner'] }}"
+          mode: "{{ hw_gpu_amd_base['access']['mode']['dir'] }}"
+      promotion:
+        - target: "{{ hw_gpu_amd_base['paths']['root'] }}"
+          source: "{{ hw_gpu_amd_base['paths']['source'] }}"
+          owner: "{{ hw_gpu_amd_base['access']['owner'] }}"
+          mode: "{{ hw_gpu_amd_base['access']['mode']['dir'] }}"
+
+hw_gpu_amd_repository_custom_yum: []
+hw_gpu_amd_repository_custom_apt: []
+
+hw_gpu_amd_repository_catalog_distro: {}
+hw_gpu_amd_repository_catalog_yum: {}
+hw_gpu_amd_repository_catalog_apt: {}
+...

@@ -1,0 +1,7 @@
+---
+app_libreoffice_application:
+  name: "libreoffice"
+  type: "flatpak"
+  installed: true
+  version: "latest"
+...

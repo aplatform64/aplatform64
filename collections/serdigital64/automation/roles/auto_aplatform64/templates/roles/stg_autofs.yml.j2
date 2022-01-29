@@ -1,0 +1,24 @@
+---
+#
+# A:Platform64 / Ansible role settings / Site: {{ auto_ansible_control_site }}
+#
+# * Role settings are available only for the corresponding host group and associated playbook
+#
+
+stg_autofs_application:
+  name: "autofs"
+  type: "distro"
+  version: "latest"
+  installed: true
+
+stg_autofs_subsystem:
+  enabled: true
+  status: "started"
+
+stg_autofs_server_options:
+  timeout: "100"
+  logging: "none"
+  root: "/autofs"
+
+stg_autofs_maps: []
+...

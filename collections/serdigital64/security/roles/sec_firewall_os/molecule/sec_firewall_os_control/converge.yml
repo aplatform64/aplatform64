@@ -1,0 +1,21 @@
+---
+- name: "Converge"
+  hosts: "{{ lookup('env', 'APLATFORM64_TEST_PLATFORM') | default('all') }}"
+  gather_facts: false
+  tasks:
+
+    - name: "Discover platform"
+      ansible.builtin.setup:
+        gather_subset: "min"
+        gather_timeout: "10"
+
+    - name: "Control service"
+      vars:
+        sec_firewall_os:
+          control: true
+        sec_firewall_os_subsystem:
+          enabled: true
+          status: "started"
+      ansible.builtin.include_role:
+        name: "sec_firewall_os"
+...

@@ -1,0 +1,15 @@
+---
+- name: "Cloud / AWS / CLI / Initialize / Check Platform compatibility"
+  ansible.builtin.assert:
+    quiet: true
+    fail_msg: "Target Platform not supported: {{ ansible_distribution + ansible_distribution_major_version }}"
+    that:
+      - ansible_distribution + ansible_distribution_major_version in cloud_aws_cli_platforms
+
+- name: "Cloud / AWS / CLI / Initialize / Resolve prerequisites"
+  ansible.builtin.include_tasks:
+    file: "cloud_aws_cli_prerequisite.yml"
+  when:
+    - "'resolve_prereq' in cloud_aws_cli"
+    - cloud_aws_cli['resolve_prereq']
+...

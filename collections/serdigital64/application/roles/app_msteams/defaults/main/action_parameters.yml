@@ -1,0 +1,5 @@
+---
+app_msteams:
+  resolve_prereq: false
+  deploy: false
+...

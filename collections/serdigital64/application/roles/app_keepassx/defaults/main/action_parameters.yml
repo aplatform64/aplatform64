@@ -1,0 +1,5 @@
+---
+app_keepassx:
+  resolve_prereq: false
+  deploy: false
+...

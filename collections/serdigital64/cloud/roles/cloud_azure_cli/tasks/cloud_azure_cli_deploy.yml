@@ -1,0 +1,5 @@
+---
+- name: "Cloud / Azure / CLI / Deploy / Package"
+  ansible.builtin.include_tasks:
+    file: "cloud_azure_cli_deploy_package.yml"
+...

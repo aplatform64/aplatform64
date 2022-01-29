@@ -1,0 +1,18 @@
+---
+sec_firewall_os_base:
+  run:
+    uwf: "/usr/bin/uwf"
+
+sec_firewall_os_profiles:
+  distro:
+    latest:
+      packages:
+        - name: "ufw"
+
+sec_firewall_os_subsystems:
+  service: "ufw"
+  states:
+    started: "started"
+    stopped: "stopped"
+    refreshed: "refreshed"
+...

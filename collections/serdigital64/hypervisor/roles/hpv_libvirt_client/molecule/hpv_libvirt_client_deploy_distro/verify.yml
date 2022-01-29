@@ -1,0 +1,43 @@
+---
+- name: "Verify"
+  hosts: "{{ lookup('env', 'APLATFORM64_TEST_PLATFORM') | default('all') }}"
+  gather_facts: false
+  tasks:
+    - name: "Discover platform"
+      ansible.builtin.setup:
+        gather_subset: "min"
+        gather_timeout: "10"
+
+    - name: "Discover packages"
+      ansible.builtin.package_facts:
+        manager: "auto"
+
+    - name: "Load role variables"
+      ansible.builtin.include_role:
+        public: true
+        name: "hpv_libvirt_client"
+
+    - name: "Verify required packages are deployed (package: {{ item }})"
+      ansible.builtin.assert:
+        that:
+          - item['name'] in ansible_facts['packages']
+      loop: "{{
+        hpv_libvirt_client_profiles['bin'][
+          hpv_libvirt_client_application['bin']['type']
+        ][
+          hpv_libvirt_client_application['bin']['version']
+        ]['packages']
+        }}"
+
+    - name: "Verify required packages are deployed (package: {{ item }})"
+      ansible.builtin.assert:
+        that:
+          - item['name'] in ansible_facts['packages']
+      loop: "{{
+        hpv_libvirt_client_profiles['dev'][
+          hpv_libvirt_client_application['dev']['type']
+        ][
+          hpv_libvirt_client_application['dev']['version']
+        ]['packages']
+        }}"
+...

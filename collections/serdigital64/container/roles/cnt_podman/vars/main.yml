@@ -1,0 +1,35 @@
+---
+cnt_podman_platforms:
+  - "CentOS8"
+  - "OracleLinux8"
+  - "Ubuntu20"
+  - "Ubuntu21"
+  - "Fedora33"
+  - "Fedora35"
+  - "Debian10"
+  - "Debian11"
+
+cnt_podman_os_family: "
+  {%- if
+      ( ansible_distribution == 'CentOS' ) or
+      ( ansible_distribution == 'OracleLinux' ) or
+      ( ansible_distribution == 'Fedora' )
+  -%}
+    {{ 'RedHat' }}
+  {%- elif
+      ( ansible_distribution == 'Debian' ) or
+      ( ansible_distribution == 'Ubuntu' )
+  -%}
+    {{ 'Ubuntu' }}
+  {%- else -%}
+    {{ 'Linux' }}
+  {%- endif -%}
+  "
+
+# Inherit application properties from the main package
+cnt_podman_application_prereqs:
+  name: "prereqs"
+  type: "{{ cnt_podman_application['type'] }}"
+  version: "{{ cnt_podman_application['version'] }}"
+  installed: "{{ cnt_podman_application['installed'] }}"
+...

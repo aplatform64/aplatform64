@@ -1,0 +1,46 @@
+---
+- name: "Converge"
+  hosts: "{{ lookup('env', 'APLATFORM64_TEST_PLATFORM') | default('all') }}"
+  gather_facts: false
+  vars:
+    test_target: "/tmp/test_sys_package_provision_binary_bzip2_target"
+    test_bin: "restic_0.12.0_linux_amd64"
+  tasks:
+
+    - name: "Load common test vars"
+      ansible.builtin.include_vars:
+        file: "../test_vars.yml"
+
+    - name: "Discover platform"
+      ansible.builtin.setup:
+        gather_subset: "min"
+        gather_timeout: "10"
+
+    - name: "Deploy required packages"
+      vars:
+        sys_package:
+          provision: true
+        sys_package_application:
+          name: "restic"
+          type: "binary"
+          installed: true
+          version: "v0_12"
+        sys_package_profiles:
+          binary:
+            v0_12:
+              origin: "https://github.com/restic/restic/releases/download/v0.12.0"
+              packages:
+                - file: "restic_0.12.0_linux_amd64.bz2"
+                  uncompress: true
+              paths:
+                - target: "{{ test_target }}"
+                  owner: "root"
+                  mode: "0755"
+              promotion:
+                - target: "{{ test_target }}"
+                  source: "{{ test_bin }}"
+                  owner: "root"
+                  mode: "0755"
+      ansible.builtin.include_role:
+        name: "sys_package"
+...

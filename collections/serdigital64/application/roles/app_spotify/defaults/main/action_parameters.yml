@@ -1,0 +1,5 @@
+---
+app_spotify:
+  resolve_prereq: false
+  deploy: false
+...

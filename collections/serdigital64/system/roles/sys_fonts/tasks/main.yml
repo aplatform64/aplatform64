@@ -1,0 +1,16 @@
+---
+- name: "System / Fonts / Initialize"
+  ansible.builtin.include_tasks:
+    file: "sys_fonts_initialize.yml"
+
+- name: "System / Fonts / Deploy"
+  ansible.builtin.include_tasks:
+    file: "sys_fonts_deploy.yml"
+  when:
+    - "'deploy' in sys_fonts"
+    - "sys_fonts['deploy']"
+
+- name: "System / Fonts / Finalize"
+  ansible.builtin.include_tasks:
+    file: "sys_fonts_finalize.yml"
+...

@@ -1,0 +1,26 @@
+---
+- name: "Automation / A:Platform64 / Setup / Localhost / Create host_vars repository"
+  become: true
+  ansible.builtin.file:
+    follow: false
+    unsafe_writes: false
+    force: false
+    state: "directory"
+    owner: "{{ auto_ansible_control_base['access']['owner'] }}"
+    group: "{{ auto_ansible_control_base['access']['group'] }}"
+    mode: "{{ auto_ansible_control_base['access']['mode']['dir'] }}"
+    dest: "{{ auto_ansible_control_base['paths']['site_host_vars'] + '/localhost' }}"
+
+- name: "Automation / A:Platform64 / Setup / Localhost / Create default settings"
+  become: true
+  ansible.builtin.template:
+    backup: false
+    follow: false
+    force: true
+    unsafe_writes: false
+    owner: "{{ auto_ansible_control_base['access']['owner'] }}"
+    group: "{{ auto_ansible_control_base['access']['group'] }}"
+    mode: "{{ auto_ansible_control_base['access']['mode']['file'] }}"
+    src: "{{ auto_aplatform64_base['templates']['ansible_localhost_yml'] }}"
+    dest: "{{ auto_aplatform64_base['files']['ansible_localhost_yml'] }}"
+...

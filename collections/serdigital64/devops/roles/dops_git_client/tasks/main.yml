@@ -1,0 +1,22 @@
+---
+- name: "DevOps / GIT / Client / Initialize"
+  ansible.builtin.include_tasks:
+    file: "dops_git_client_initialize.yml"
+
+- name: "DevOps / GIT / Client / Deploy"
+  ansible.builtin.include_tasks:
+    file: "dops_git_client_deploy.yml"
+  when:
+    - "'deploy' in dops_git_client"
+    - dops_git_client['deploy']
+
+- name: "DevOps / GIT / Client / Provision"
+  ansible.builtin.include_tasks:
+    file: "dops_git_client_provision.yml"
+  when:
+    - "'provision' in dops_git_client"
+    - dops_git_client['provision']
+
+- name: "DevOps / GIT / Client / Finalize"
+  include_tasks: dops_git_client_finalize.yml
+...

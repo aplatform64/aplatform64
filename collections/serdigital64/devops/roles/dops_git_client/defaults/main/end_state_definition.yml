@@ -1,0 +1,15 @@
+---
+dops_git_client_application:
+  client:
+    name: "git"
+    type: "distro"
+    version: "latest"
+    installed: true
+  extras:
+    name: "extras"
+    type: "distro"
+    version: "latest"
+    installed: false
+
+dops_git_client_repositories: []
+...

@@ -1,0 +1,6 @@
+---
+dops_git_client:
+  resolve_prereq: false
+  deploy: false
+  provision: false
+...

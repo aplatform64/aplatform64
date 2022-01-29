@@ -1,0 +1,38 @@
+---
+cloud_foundry_cli_platforms:
+  - "CentOS8"
+  - "OracleLinux8"
+  - "Ubuntu20"
+  - "Ubuntu21"
+  - "Fedora33"
+  - "Fedora35"
+  - "Debian10"
+  - "Debian11"
+
+cloud_foundry_cli_os_family: "
+  {%- if
+      ( ansible_distribution == 'CentOS' ) or
+      ( ansible_distribution == 'OracleLinux' ) or
+      ( ansible_distribution == 'Fedora' )
+  -%}
+    {{ 'RedHat' }}
+  {%- elif
+      ( ansible_distribution == 'Debian' ) or
+      ( ansible_distribution == 'Ubuntu' )
+  -%}
+    {{ 'Ubuntu' }}
+  {%- else -%}
+    {{ 'Linux' }}
+  {%- endif -%}
+"
+
+cloud_foundry_cli_base:
+  run:
+    cf: "/usr/bin/cf7"
+
+cloud_foundry_cli_profiles:
+  distro:
+    v7:
+      packages:
+        - name: "cf7-cli"
+...

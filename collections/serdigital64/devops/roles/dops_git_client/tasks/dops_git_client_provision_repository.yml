@@ -1,0 +1,108 @@
+---
+- name: "DevOps / GIT / Client / Provision / Repository / Check required parameters"
+  ansible.builtin.assert:
+    quiet: true
+    that:
+      - dops_git_client___provision_repo['owner'] is defined
+      - dops_git_client___provision_repo['email'] is defined
+      - dops_git_client___provision_repo['path'] is defined
+      - dops_git_client___provision_repo['name'] is defined
+
+- name: "DevOps / GIT / Client / Provision / Repository / Create base directory ({{
+    dops_git_client___provision_repo['path'] }})"
+  become: true
+  ansible.builtin.file:
+    follow: false
+    force: false
+    unsafe_writes: false
+    recurse: false
+    state: "directory"
+    owner: "{{ dops_git_client___provision_repo['owner'] }}"
+    group: "{{ dops_git_client___provision_repo['owner'] }}"
+    mode: "{{ dops_git_client_base['access']['mode']['dir'] }}"
+    path: "{{
+      dops_git_client___provision_repo['path'] + '/' +
+      dops_git_client_base['paths']['project_git']
+      }}"
+  register: "dops_git_client___provision_status"
+
+- name: "DevOps / GIT / Client / Provision / Repository / Set project GIT options ({{
+      dops_git_client___provision_repo['path'] + '/' + dops_git_client_base['paths']['project_git_config'] }})"
+  become: true
+  ansible.builtin.template:
+    backup: false
+    follow: false
+    force: false
+    unsafe_writes: false
+    owner: "{{ dops_git_client___provision_repo['owner'] }}"
+    group: "{{ dops_git_client___provision_repo['owner'] }}"
+    mode: "{{ dops_git_client_base['access']['mode']['file'] }}"
+    src: "{{ dops_git_client_base['templates']['config'] }}"
+    dest: "{{
+      dops_git_client___provision_repo['path'] + '/' +
+      dops_git_client_base['paths']['project_git_config']
+      }}"
+  when:
+    - dops_git_client___provision_status['changed']
+
+- name: "DevOps / GIT / Client / Provision / Repository / Create gitignore ({{
+      dops_git_client___provision_repo['path'] + '/' + dops_git_client_base['paths']['project_gitignore'] }})"
+  become: true
+  ansible.builtin.template:
+    backup: false
+    follow: false
+    force: false
+    unsafe_writes: false
+    owner: "{{ dops_git_client___provision_repo['owner'] }}"
+    group: "{{ dops_git_client___provision_repo['owner'] }}"
+    mode: "{{ dops_git_client_base['access']['mode']['file'] }}"
+    src: "{{ dops_git_client_base['templates']['gitignore'] }}"
+    dest: "{{
+      dops_git_client___provision_repo['path'] + '/' +
+      dops_git_client_base['paths']['project_gitignore']
+      }}"
+  when:
+    - dops_git_client___provision_repo['ignore'] is defined
+    - dops_git_client___provision_repo['ignore'] | length > 0
+    - dops_git_client___provision_status['changed']
+
+- name: "DevOps / GIT / Client / Provision / Repository / Initialize"
+  become: true
+  register: "dops_git_client___provision_git"
+  environment:
+    GIT_CONFIG: "{{ dops_git_client___provision_repo['path'] + '/' +
+      dops_git_client_base['paths']['project_git_config']
+      }}"
+  vars:
+    ansible_shell_allow_world_readable_temp: true
+  ansible.builtin.command:
+    chdir: "{{ dops_git_client___provision_repo['path'] }}"
+    creates: "{{
+        dops_git_client___provision_repo['path'] + '/' +
+        dops_git_client_base['paths']['project_git_head']
+        }}"
+    argv:
+      - "{{ dops_git_client_base['run']['git'] }}"
+      - "init"
+  changed_when:
+    - dops_git_client___provision_git['rc'] == 0
+  when:
+    - dops_git_client___provision_status['changed']
+
+- name: "DevOps / GIT / Client / Provision / Repository / Adjust ownership ({{
+    dops_git_client___provision_repo['path'] }})"
+  become: true
+  ansible.builtin.file:
+    follow: false
+    force: true
+    unsafe_writes: false
+    recurse: true
+    state: "directory"
+    owner: "{{ dops_git_client___provision_repo['owner'] }}"
+    path: "{{
+      dops_git_client___provision_repo['path'] + '/' +
+      dops_git_client_base['paths']['project_git']
+      }}"
+  when:
+    - dops_git_client___provision_status['changed']
+...

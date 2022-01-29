@@ -1,0 +1,101 @@
+---
+cloud_aws_realm_platforms:
+  - "CentOS8"
+  - "OracleLinux8"
+  - "Ubuntu20"
+  - "Ubuntu21"
+  - "Fedora33"
+  - "Fedora35"
+  - "Debian10"
+  - "Debian11"
+
+cloud_aws_realm_os_family: "
+  {%- if
+      ( ansible_distribution == 'CentOS' ) or
+      ( ansible_distribution == 'OracleLinux' ) or
+      ( ansible_distribution == 'Fedora' )
+  -%}
+    {{ 'RedHat' }}
+  {%- elif
+      ( ansible_distribution == 'Debian' ) or
+      ( ansible_distribution == 'Ubuntu' )
+  -%}
+    {{ 'Ubuntu' }}
+  {%- else -%}
+    {{ 'Linux' }}
+  {%- endif -%}
+  "
+
+cloud_aws_realm_structure_managers:
+  iam_manager_auto:
+    name: "iam_manager_auto"
+    description: "Automatic IAM Management account"
+  cloud_manager_auto:
+    name: "cloud_manager_auto"
+    description: "Automatic Cloud Infrastructure Management account"
+
+cloud_aws_realm_structure_policies:
+  billing_full_access:
+    name: "BillingFullAccess"
+    description: "Full access to AWS Billing"
+    template: "billing_full_access.json.j2"
+    arn: "{{ 'arn:aws:iam::' + cloud_aws_realm_account['id'] + ':policy/BillingFullAccess' }}"
+  billing_view_access:
+    name: "BillingViewAccess"
+    description: "View only access to AWS Billing"
+    template: "billing_view_access.json.j2"
+    arn: "{{ 'arn:aws:iam::' + cloud_aws_realm_account['id'] + ':policy/BillingViewAccess' }}"
+
+cloud_aws_realm_structure_groups:
+  billing_managers:
+    name: "BillingManagers"
+    private: false
+    managed_policies:
+      - "{{ cloud_aws_realm_structure_policies['billing_full_access']['arn'] }}"
+  billing_auditors:
+    name: "BillingAuditors"
+    private: false
+    managed_policies:
+      - "{{ cloud_aws_realm_structure_policies['billing_view_access']['arn'] }}"
+  iam_managers_auto:
+    name: "IAMManagersAuto"
+    private: true
+    managed_policies:
+      - "arn:aws:iam::aws:policy/IAMFullAccess"
+    users:
+      - "{{ cloud_aws_realm_structure_managers['iam_manager_auto']['name'] }}"
+  iam_managers:
+    name: "IAMManagers"
+    private: false
+    managed_policies:
+      - "arn:aws:iam::aws:policy/IAMFullAccess"
+  iam_auditors:
+    name: "IAMAuditors"
+    private: false
+    managed_policies:
+      - "arn:aws:iam::aws:policy/IAMReadOnlyAccess"
+  cloud_managers_auto:
+    name: "CloudManagers"
+    private: false
+    managed_policies:
+      - "arn:aws:iam::aws:policy/AdministratorAccess"
+    users:
+      - "{{ cloud_aws_realm_structure_managers['cloud_manager_auto']['name'] }}"
+  cloud_managers:
+    name: "CloudManagers"
+    private: false
+    managed_policies:
+      - "arn:aws:iam::aws:policy/AdministratorAccess"
+  cloud_auditors:
+    name: "CloudAuditors"
+    private: false
+    managed_policies:
+      - "arn:aws:iam::aws:policy/ReadOnlyAccess"
+
+cloud_aws_realm___provision_iam: ~
+#cloud_aws_realm___provision_policy: ~
+#cloud_aws_realm___provision_group_auto: ~
+#cloud_aws_realm___provision_user_auto: ~
+#cloud_aws_realm___provision_group: ~
+#cloud_aws_realm___provision_user: ~
+...

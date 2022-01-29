@@ -1,0 +1,16 @@
+---
+- name: "System / User / Initialize"
+  ansible.builtin.include_tasks:
+    file: "sys_user_initialize.yml"
+
+- name: "System / User / Setup"
+  ansible.builtin.include_tasks:
+    file: "sys_user_setup.yml"
+  when:
+    - "'setup' in sys_user"
+    - sys_user['setup']
+
+- name: "System / User / Finalize"
+  ansible.builtin.include_tasks:
+    file: "sys_user_finalize.yml"
+...

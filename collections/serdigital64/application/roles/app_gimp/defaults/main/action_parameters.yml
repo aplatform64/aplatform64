@@ -1,0 +1,5 @@
+---
+app_gimp:
+  resolve_prereq: false
+  deploy: false
+...

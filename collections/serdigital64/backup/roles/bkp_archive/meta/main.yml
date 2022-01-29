@@ -1,0 +1,23 @@
+---
+galaxy_info:
+  role_name: "bkp_archive"
+  author: "serdigital64"
+  description: "Extract file archives"
+  company: "none"
+  license: "GPL-3.0-or-later"
+  min_ansible_version: "2.10"
+  platforms:
+    - name: "GenericLinux"
+      versions:
+        - "any"
+  galaxy_tags:
+    - "backup"
+    - "uncompress"
+    - "archive"
+    - "zip"
+    - "bzip2"
+    - "xz"
+    - "compress"
+    - "tar"
+dependencies: []
+...

@@ -1,0 +1,5 @@
+---
+- name: "Hypervisor / LibVirt / Client / Deploy / Package"
+  ansible.builtin.include_tasks:
+    file: "hpv_libvirt_client_deploy_package.yml"
+...

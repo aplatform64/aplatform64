@@ -1,0 +1,33 @@
+---
+- name: "Converge"
+  hosts: "{{ lookup('env', 'APLATFORM64_TEST_PLATFORM') | default('all') }}"
+  gather_facts: false
+  tasks:
+
+    - name: "Load common test vars"
+      ansible.builtin.include_vars:
+        file: "../test_vars.yml"
+
+    - name: "Discover platform"
+      ansible.builtin.setup:
+        gather_subset: "min"
+        gather_timeout: "10"
+
+    - name: "Deploy required packages"
+      vars:
+        sys_package:
+          provision: true
+        sys_package_application:
+          type: "deb"
+          version: "v1_54_1"
+          name: "rclone"
+          installed: true
+        sys_package_profiles:
+          deb:
+            v1_54_1:
+              origin: "https://downloads.rclone.org/v1.54.1"
+              packages:
+                - file: "rclone-v1.54.1-linux-amd64.deb"
+      ansible.builtin.include_role:
+        name: "sys_package"
+...

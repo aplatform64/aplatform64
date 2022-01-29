@@ -1,0 +1,68 @@
+---
+- name: "Manage Doc Sites"
+  hosts: "doc_sites"
+  gather_facts: false
+
+  pre_tasks:
+    - name: "Discover Target Platform"
+      tags:
+        - "always"
+      ansible.builtin.setup:
+        gather_subset: "min"
+        gather_timeout: "10"
+
+    - name: "Prepare package repositories"
+      tags:
+        - "always"
+      vars:
+        sys_repository:
+          prepare: true
+          deploy: true
+          setup: true
+          provision: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "always"
+        name: "serdigital64.system.sys_repository"
+
+    - name: "Prepare archive manager"
+      tags:
+        - "always"
+      vars:
+        bkp_archive:
+          deploy: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "always"
+        name: "serdigital64.backup.bkp_archive"
+
+    - name: "Prepare package installer"
+      tags:
+        - "always"
+      vars:
+        sys_package:
+          prepare: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "always"
+        name: "serdigital64.system.sys_package"
+
+  tasks:
+    - name: "Provision MkDocs"
+      tags:
+        - "mkdocs"
+      vars:
+        web_mkdocs:
+          deploy: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "mkdocs"
+        name: "serdigital64.web.web_mkdocs"
+      when:
+        - doc_sites_apps['mkdocs'] is defined
+        - doc_sites_apps['mkdocs']
+...

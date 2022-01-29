@@ -1,0 +1,50 @@
+---
+parseable: true
+quiet: false
+verbosity: 1
+loop_var_prefix: "{role}___"
+var_naming_pattern: "^[a-z_][a-z0-9_]*$"
+use_default_rules: true
+offline: true
+#skip_action_validation: false
+
+# mock_modules: []
+# mock_roles: []
+# extra_vars: {}
+
+kinds:
+  - tasks: "**/tasks/*.yml"
+  - vars: "**/vars/*.yml"
+  - meta: "**/meta/main.yml"
+
+exclude_paths:
+  - ".cache/"
+  - ".github/"
+  - ".vscode/"
+  - "var/"
+  - "dev/"
+  - "build/"
+  - "dist/"
+  - "docs/"
+  - "files/"
+  - "molecule/"
+  - "meta/"
+  - "files/"
+  - "templates/"
+
+# YAML Linting done by Molecular
+skip_list:
+  - "yaml"
+
+enable_list:
+  - "fqcn-builtins"
+  - "no-log-password"
+  - "no-same-owner"
+
+warn_list:
+  - "git-latest"
+  - "no-loop-var-prefix"
+  - "no-handler"
+  - "command-instead-of-module"
+  - "package-latest"
+...

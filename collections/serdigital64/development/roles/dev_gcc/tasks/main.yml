@@ -1,0 +1,15 @@
+---
+- name: "Development / GCC / Initialize"
+  ansible.builtin.include_tasks:
+    file: "dev_gcc_initialize.yml"
+
+- name: "Development / GCC / Deploy"
+  ansible.builtin.include_tasks:
+    file: "dev_gcc_deploy.yml"
+  when:
+    - "'deploy' in dev_gcc"
+    - dev_gcc['deploy']
+
+- name: "Development / GCC / Finalize"
+  include_tasks: dev_gcc_finalize.yml
+...

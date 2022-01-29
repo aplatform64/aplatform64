@@ -1,0 +1,16 @@
+---
+- name: "Infrastructure / Vagrant / Initialize"
+  ansible.builtin.include_tasks:
+    file: "infra_vagrant_initialize.yml"
+
+- name: "Infrastructure / Vagrant / Deploy"
+  ansible.builtin.include_tasks:
+    file: "infra_vagrant_deploy.yml"
+  when:
+    - "'deploy' in infra_vagrant"
+    - infra_vagrant['deploy']
+
+- name: "Infrastructure / Vagrant / Finalize"
+  ansible.builtin.include_tasks:
+    file: "infra_vagrant_finalize.yml"
+...

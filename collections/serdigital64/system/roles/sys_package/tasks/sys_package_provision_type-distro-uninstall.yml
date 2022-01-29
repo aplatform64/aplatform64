@@ -1,0 +1,26 @@
+---
+- name: "System / Package / Provision / Type: distro / Uninstall / Check required parameters"
+  ansible.builtin.assert:
+    quiet: true
+    that:
+      - "'packages' in sys_package___application"
+      - sys_package___application['packages'] is not none
+      - sys_package___application['packages'] | length > 0
+
+- name: "System / Package / Provision / Type: distro / Platform: {{ ansible_distribution + ansible_distribution_major_version }}"
+  ansible.builtin.include_tasks:
+    file: "{{
+      'sys_package_provision_type-distro-' +
+        ansible_distribution +
+        ansible_distribution_major_version +
+        '.yml'
+    }}"
+
+- name: "System / Package / Provision / Type: distro / Uninstall / CleanUp"
+  ansible.builtin.include_tasks:
+    file: "sys_package_provision_cleanup.yml"
+  when:
+    - "'cleanup' in sys_package___application"
+    - sys_package___application['cleanup'] is not none
+    - sys_package___application['cleanup'] | length > 0
+...

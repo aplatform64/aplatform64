@@ -1,0 +1,7 @@
+---
+app_shotcut_application:
+  name: "shotcut"
+  type: "flatpak"
+  installed: true
+  version: "latest"
+...

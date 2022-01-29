@@ -1,0 +1,11 @@
+---
+- name: "System / MC / Setup / User"
+  ansible.builtin.include_tasks:
+    file: "sys_mc_setup_user.yml"
+  loop: "{{ sys_mc_users }}"
+  loop_control:
+    loop_var: sys_mc___setup_user
+  when:
+    - sys_mc_users is defined
+    - sys_mc_users | length > 0
+...

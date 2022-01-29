@@ -1,0 +1,15 @@
+---
+- name: "Application / XMind / Initialize / Check Platform compatibility"
+  ansible.builtin.assert:
+    quiet: true
+    fail_msg: "Target Platform not supported: {{ ansible_distribution + ansible_distribution_major_version }}"
+    that:
+      - ansible_distribution + ansible_distribution_major_version in app_xmind_platforms
+
+- name: "Application / XMind / Initialize / Resolve prerequisites"
+  ansible.builtin.include_tasks:
+    file: "app_xmind_prerequisite.yml"
+  when:
+    - "'resolve_prereq' in app_xmind"
+    - app_xmind['resolve_prereq']
+...

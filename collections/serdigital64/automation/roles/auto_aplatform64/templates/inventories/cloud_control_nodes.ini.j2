@@ -1,0 +1,28 @@
+#
+# A:Platform64 / Ansible Inventory / Site: {{ auto_ansible_control_site }}
+#
+# * Do not modify group names
+#
+
+#
+# Cloud Control Nodes
+#
+# : Linux nodes used to manage cloud providers
+#
+# Playbooks using this group:
+#   - manage_cloud_control_nodes
+#
+[cloud_control_nodes]
+localhost
+
+#
+# Cloud Realm
+#
+# : Ansible Managed node from where cloud tasks will run
+#
+# Playbooks using this group:
+#   - manage_cloud_realm
+#   - manage_cloud_population
+#
+[cloud_realm]
+localhost

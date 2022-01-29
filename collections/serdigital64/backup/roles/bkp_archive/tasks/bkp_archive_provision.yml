@@ -1,0 +1,8 @@
+---
+- name: "Backup / Archive / Provision / Open"
+  ansible.builtin.include_tasks:
+    file: "bkp_archive_provision_open.yml"
+  loop: "{{ bkp_archive_files }}"
+  loop_control:
+    loop_var: "bkp_archive___provision_item"
+...

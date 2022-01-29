@@ -1,0 +1,29 @@
+---
+- name: "Prepare"
+  hosts: "{{ lookup('env', 'APLATFORM64_TEST_PLATFORM') | default('all') }}"
+  gather_facts: false
+  tasks:
+
+    - name: "Discover platform"
+      ansible.builtin.setup:
+        gather_subset: "min"
+        gather_timeout: "10"
+
+    - name: "Prepare shell"
+      vars:
+        sys_shell:
+          resolve_prereq: true
+          deploy: true
+        sys_shell_catalog:
+          zsh: true
+      ansible.builtin.include_role:
+        name: "sys_shell"
+
+    - name: "Create test user"
+      become: true
+      ansible.builtin.user:
+        create_home: true
+        system: false
+        state: "present"
+        name: "test"
+...

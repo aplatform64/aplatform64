@@ -1,0 +1,9 @@
+---
+- name: "Security / Firewall / OS / Control / Subsystem / Set enabled state (service: {{ sec_firewall_os_subsystems['service'] }})"
+  become: true
+  ansible.builtin.systemd:
+    no_block: false
+    scope: "system"
+    name: "{{ sec_firewall_os_subsystems['service'] }}"
+    enabled: "{{ sec_firewall_os_subsystem['enabled'] }}"
+...

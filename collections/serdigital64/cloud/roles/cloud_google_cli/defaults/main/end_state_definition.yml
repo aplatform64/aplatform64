@@ -1,0 +1,7 @@
+---
+cloud_google_cli_application:
+  name: "gcloud"
+  type: "distro"
+  version: "latest"
+  installed: true
+...

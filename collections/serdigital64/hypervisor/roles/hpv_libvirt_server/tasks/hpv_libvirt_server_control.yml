@@ -1,0 +1,12 @@
+---
+- name: "Hypervisor / LibVirt / Server / Control / Subsystem"
+  ansible.builtin.include_tasks:
+    file: "{{ 'hpv_libvirt_server_control_subsystem-' + hpv_libvirt_server_os_family + '.yml' }}"
+  when:
+    - hpv_libvirt_server_subsystem is defined
+    - hpv_libvirt_server_subsystem['enabled'] is defined
+    - hpv_libvirt_server_subsystem['enabled']
+    - hpv_libvirt_server_subsystem['status'] is defined
+    - hpv_libvirt_server_subsystem_profile['states']
+      [hpv_libvirt_server_subsystem['status']] is defined
+...

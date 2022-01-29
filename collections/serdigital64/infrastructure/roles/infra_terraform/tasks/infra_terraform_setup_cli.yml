@@ -1,0 +1,15 @@
+---
+- name: "Infrastructure / Terraform / Setup / CLI / Create configuration file ({{
+    infra_terraform_base['files']['terraform_rc'] }})"
+  become: true
+  ansible.builtin.template:
+    backup: false
+    follow: false
+    force: true
+    unsafe_writes: false
+    owner: "{{ infra_terraform_base['access']['user']['terraform'] }}"
+    group: "{{ infra_terraform_base['access']['group']['terraform'] }}"
+    mode: "{{ infra_terraform_base['access']['mode']['file'] }}"
+    src: "{{ infra_terraform_base['templates']['terraform_rc'] }}"
+    dest: "{{ infra_terraform_base['files']['terraform_rc'] }}"
+...

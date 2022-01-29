@@ -1,0 +1,20 @@
+---
+- name: "System / Repository / Provision / Distro / Check required parameters"
+  ansible.builtin.assert:
+    quiet: true
+    that:
+      - sys_repository___provision_repo['name'] is defined
+      - sys_repository___provision_repo['name'] | length > 0
+      - sys_repository___provision_repo['package'] is defined
+      - sys_repository___provision_repo['package'] | length > 0
+
+- name: "System / Repository / Provision / Distro / Install package repository (repo: {{ sys_repository___provision_repo['name'] }})"
+  become: true
+  ansible.builtin.package:
+    name: "{{ sys_repository___provision_repo['package'] }}"
+    state: "present"
+
+- name: "System / Repository / Provision / Distro / Refresh repository cache"
+  ansible.builtin.include_tasks:
+    file: "sys_repository_prepare.yml"
+...

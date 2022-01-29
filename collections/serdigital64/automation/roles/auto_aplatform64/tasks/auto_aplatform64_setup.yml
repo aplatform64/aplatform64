@@ -1,0 +1,33 @@
+---
+- name: "Automation / A:Platform64 / Setup / Inventory"
+  ansible.builtin.include_tasks:
+    file: "auto_aplatform64_setup_inventory.yml"
+
+- name: "Automation / A:Platform64 / Setup / GroupVars / Playbooks"
+  ansible.builtin.include_tasks:
+    file: "auto_aplatform64_setup_groupvars-playbooks.yml"
+
+- name: "Automation / A:Platform64 / Setup / GroupVars / Roles"
+  ansible.builtin.include_tasks:
+    file: "auto_aplatform64_setup_groupvars-roles.yml"
+
+- name: "Automation / A:Platform64 / Setup / Localhost"
+  ansible.builtin.include_tasks:
+    file: "auto_aplatform64_setup_localhost.yml"
+
+- name: "Automation / A:Platform64 / Setup / Engine"
+  ansible.builtin.include_tasks:
+    file: "auto_aplatform64_setup_engine.yml"
+
+- name: "Automation / A:Platform64 / Setup / Module"
+  ansible.builtin.include_tasks:
+    file: "auto_aplatform64_setup_module.yml"
+
+- name: "Automation / A:Platform64 / Setup / CLI"
+  ansible.builtin.include_tasks:
+    file: "auto_aplatform64_setup_cli.yml"
+
+- name: "Automation / A:Platform64 / Setup / User"
+  ansible.builtin.include_tasks:
+    file: "auto_aplatform64_setup_user.yml"
+...

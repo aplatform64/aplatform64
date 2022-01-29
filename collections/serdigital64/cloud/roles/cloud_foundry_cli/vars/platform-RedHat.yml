@@ -1,0 +1,12 @@
+---
+cloud_foundry_cli_repository_custom_yum:
+  - name: "cfoundry_cli"
+    description: "Cloud Foundry CLI official RPM Repository"
+    url: "https://packages.cloudfoundry.org/fedora"
+    gpgkey: "https://packages.cloudfoundry.org/fedora/cli.cloudfoundry.org.key"
+cloud_foundry_cli_repository_custom_apt: []
+
+cloud_foundry_cli_repository_catalog_yum:
+  cfoundry_cli: true
+cloud_foundry_cli_repository_catalog_apt: {}
+...

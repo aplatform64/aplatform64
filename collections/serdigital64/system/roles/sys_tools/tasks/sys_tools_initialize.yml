@@ -1,0 +1,19 @@
+---
+- name: "System / Tools / Initialize / Check Platform compatibility"
+  ansible.builtin.assert:
+    quiet: true
+    fail_msg: "Target Platform not supported: {{ ansible_distribution + ansible_distribution_major_version }}"
+    that:
+      - ansible_distribution + ansible_distribution_major_version in sys_tools_platforms
+
+- name: "System / Tools / Initialize / Set Platform specific variables"
+  ansible.builtin.include_vars:
+    file: "{{ 'platform-' + sys_tools_os_family + '.yml' }}"
+
+- name: "System / Tools / Initialize / Resolve prerequisites"
+  ansible.builtin.include_tasks:
+    file: "sys_tools_prerequisite.yml"
+  when:
+    - "'resolve_prereq' in sys_tools"
+    - sys_tools['resolve_prereq']
+...

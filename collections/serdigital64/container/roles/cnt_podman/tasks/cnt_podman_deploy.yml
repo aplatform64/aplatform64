@@ -1,0 +1,5 @@
+---
+- name: "Container / Podman / Deploy / Package"
+  ansible.builtin.include_tasks:
+    file: "cnt_podman_deploy_package.yml"
+...

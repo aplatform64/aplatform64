@@ -1,0 +1,5 @@
+---
+app_shotcut:
+  resolve_prereq: false
+  deploy: false
+...

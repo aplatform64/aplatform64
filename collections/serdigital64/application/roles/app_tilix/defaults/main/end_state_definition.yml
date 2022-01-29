@@ -1,0 +1,7 @@
+---
+app_tilix_application:
+  name: "tilix"
+  type: "distro"
+  version: "latest"
+  installed: true
+...

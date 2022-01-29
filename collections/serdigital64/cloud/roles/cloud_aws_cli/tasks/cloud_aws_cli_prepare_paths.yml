@@ -1,0 +1,40 @@
+---
+- name: "Cloud / AWS / CLI / Prepare / Paths / Create base structure"
+  become: true
+  ansible.builtin.file:
+    follow: false
+    force: false
+    unsafe_writes: false
+    recurse: false
+    state: "directory"
+    path: "{{ cloud_aws_cli___prepare_path }}"
+    owner: "{{ cloud_aws_cli_base['access']['user']['root'] }}"
+    group: "{{ cloud_aws_cli_base['access']['group']['root'] }}"
+    mode: "{{ cloud_aws_cli_base['access']['mode']['dir'] }}"
+  loop:
+    - "{{ cloud_aws_cli_base['paths']['root'] }}"
+    - "{{ cloud_aws_cli_base['paths']['bin'] }}"
+    - "{{ cloud_aws_cli_base['paths']['versions'] }}"
+  loop_control:
+    loop_var: "cloud_aws_cli___prepare_path"
+
+- name: "Cloud / AWS / CLI / Prepare / Paths / Create configuration structure"
+  become: true
+  ansible.builtin.file:
+    follow: false
+    force: false
+    unsafe_writes: false
+    recurse: false
+    state: "directory"
+    path: "{{ cloud_aws_cli___prepare_cfg }}"
+    owner: "{{ cloud_aws_cli_base['access']['user']['cloudadm'] }}"
+    group: "{{ cloud_aws_cli_base['access']['group']['cloudadm'] }}"
+    mode: "{{ cloud_aws_cli_base['access']['mode']['dir'] }}"
+  loop:
+    - "{{ cloud_aws_cli_base['paths']['etc'] }}"
+  loop_control:
+    loop_var: "cloud_aws_cli___prepare_cfg"
+  when:
+    - cloud_aws_cli_paths['etc'] is defined
+    - cloud_aws_cli_paths['etc'] is not none
+...

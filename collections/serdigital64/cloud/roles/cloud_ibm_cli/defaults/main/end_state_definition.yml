@@ -1,0 +1,7 @@
+---
+cloud_ibm_cli_application:
+  name: "ibmcli"
+  type: "binary"
+  version: "latest"
+  installed: true
+...

@@ -1,0 +1,58 @@
+# {{ sys_shell_alert_ansible_managed_file }}
+
+#
+# Oh-My-ZSH + PowerLevel10K
+#
+export ZSH="{{ sys_shell___setup_profile['home'] + '/' + sys_shell_base['paths']['ohmyzsh_usr'] }}"
+
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+ZSH_THEME="powerlevel10k/powerlevel10k"
+
+CASE_SENSITIVE="false"
+HYPHEN_INSENSITIVE="true"
+DISABLE_AUTO_UPDATE="true"
+DISABLE_UPDATE_PROMPT="false"
+ENABLE_CORRECTION="true"
+HIST_STAMPS="yyyy-mm-dd"
+
+{% if 'modules' in sys_shell___setup_profile and sys_shell___setup_profile['modules'] | length > 0 %}
+plugins=(
+{%   for sys_shell___setup_group in sys_shell___setup_profile['modules'] %}
+{%     for sys_shell___setup_plugin in sys_shell_plugins['zsh'][sys_shell___setup_group] %}
+{{ sys_shell___setup_plugin }}
+{%     endfor %}
+{%   endfor %}
+)
+{% endif %}
+
+source "$ZSH/oh-my-zsh.sh"
+source "{{ sys_shell___setup_profile['home'] + '/' + sys_shell_base['files']['p10k_zsh'] }}"
+
+{% if 'variables' in sys_shell___setup_profile and sys_shell___setup_profile['variables']['0']['name'] is not none %}
+{%   for sys_shell___setup_item in sys_shell___setup_profile['variables'] %}
+{{ sys_shell___setup_item['name'] }}='{{ sys_shell___setup_item['value'] }}'
+{%     if sys_shell___setup_item['export'] %}
+export {{ sys_shell___setup_item['name'] }}
+{%     endif %}
+{%   endfor %}
+{% endif %}
+
+{% if 'sources' in sys_shell___setup_profile and (sys_shell___setup_profile['sources'] | length > 0) %}
+{%   for sys_shell___setup_item in sys_shell___setup_profile['sources'] %}
+source "{{ sys_shell___setup_item }}"
+{%   endfor %}
+{% endif %}
+
+{% if 'paths' in sys_shell___setup_profile  and (sys_shell___setup_profile['paths'] | length > 0) %}
+{%   set sys_shell___setup_path = namespace( x = '' ) %}
+{%   for sys_shell___setup_item in sys_shell___setup_profile['paths'] %}
+{%     set sys_shell___setup_path.x = sys_shell___setup_path.x + ':' + sys_shell___setup_item %}
+{%   endfor %}
+PATH="/usr/bin{{ sys_shell___setup_path.x }}"
+export PATH
+{% endif %}
+{{ '
+' }}

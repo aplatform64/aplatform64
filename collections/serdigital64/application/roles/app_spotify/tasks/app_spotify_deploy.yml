@@ -1,0 +1,5 @@
+---
+- name: "Application / Spotify / Deploy / Package"
+  ansible.builtin.include_tasks:
+    file: "app_spotify_deploy_package.yml"
+...

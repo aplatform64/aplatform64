@@ -1,0 +1,8 @@
+---
+- name: "Automation / Ansible / Control / Provision / Key / Host"
+  ansible.builtin.include_tasks:
+    file: "auto_ansible_control_provision_key_host.yml"
+  when:
+    - auto_ansible_control_managed is defined
+    - auto_ansible_control_managed | length > 0
+...

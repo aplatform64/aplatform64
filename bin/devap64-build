@@ -1,0 +1,160 @@
+#!/bin/bash
+#######################################
+# Build ansible galaxy packages
+#
+# Author: serdigital64 (https://github.com/serdigital64)
+# License: GPL-3.0-or-later (https://www.gnu.org/licenses/gpl-3.0.txt)
+# Repository: https://github.com/serdigital64/aplatform64
+# Version: 1.0.0
+#######################################
+
+[[ -d "$APLATFORM64_BIN" ]] || exit 1
+
+# shellcheck disable=SC2034
+BL64_LIB_STRICT='0'
+# shellcheck disable=SC1091
+source "${APLATFORM64_BIN}/bashlib64.bash" || exit 1
+
+readonly DEVAP64_BUILD_NAMESPACE='serdigital64'
+
+function devap64_build_test() {
+
+  local collection=''
+
+  cd "$APLATFORM64_BUILD" || return 1
+
+  bl64_msg_show_task 'remove old package versions'
+  $BL64_OS_ALIAS_RM_FILE $DEVAP64_BUILD_NAMESPACE-*gz
+
+  bl64_msg_show_task 'generate new packages'
+  for collection in $(
+    cd "$APLATFORM64_COLLECTIONS" || return 1
+    echo *
+  ); do
+    "$APLATFORM64_CMD_ANSIBLE_GALAXY" collection build "$APLATFORM64_COLLECTIONS/$collection"
+  done
+
+  bl64_msg_show_task 'remove version tag from package file names'
+  for collection in $DEVAP64_BUILD_NAMESPACE-*-*.tar.gz; do
+    $BL64_OS_ALIAS_MV "$collection" "${collection%-*}.tar.gz"
+  done
+
+}
+
+function devap64_build_prod() {
+
+  local collection=''
+
+  cd "$APLATFORM64_DIST" || return 1
+
+  bl64_msg_show_task 'remove old package versions'
+  $BL64_OS_ALIAS_RM_FILE $DEVAP64_BUILD_NAMESPACE-*-*.tar.gz
+
+  bl64_msg_show_task 'generate new packages'
+  for collection in $(
+    cd "$APLATFORM64_COLLECTIONS" || return 1
+    echo *
+  ); do
+    "$APLATFORM64_CMD_ANSIBLE_GALAXY" collection build "$APLATFORM64_COLLECTIONS/$collection"
+  done
+
+}
+
+function devap64_build_publish() {
+
+  local collection=''
+
+  cd "$APLATFORM64_DIST" || return 1
+  source "$APLATFORM64_SECRETS"
+
+  for collection in $DEVAP64_BUILD_NAMESPACE-*-*.tar.gz; do
+    "$APLATFORM64_CMD_ANSIBLE_GALAXY" collection publish --token "$APLATFORM64_SECRET_GALAXY_TOKEN" "$collection"
+  done
+
+}
+
+function devap64_build_check() {
+
+  bl64_check_directory "$APLATFORM64_BUILD" &&
+    bl64_check_directory "$APLATFORM64_DIST" &&
+    bl64_check_directory "$APLATFORM64_ROOT" &&
+    bl64_check_directory "$APLATFORM64_COLLECTIONS" &&
+    bl64_check_file "$APLATFORM64_VEW_LOADER" &&
+    bl64_check_file "$APLATFORM64_SECRETS"
+
+}
+
+function devap64_build_help() {
+
+  bl64_msg_show_usage \
+    '-t|-p|u [-h]' \
+    'Build ansible galaxy packages' \
+    '
+  -t : build testing packages
+  -p : build production packages
+  -u : publish production packages (needs Galaxy token set in APLATFORM64_SECRET_GALAXY_TOKEN)
+    ' '' ''
+
+}
+
+#
+# Main
+#
+
+declare devap64_build_status=1
+declare devap64_build_command=''
+declare devap64_build_option=''
+
+(($# == 0)) && devap64_build_help && exit 1
+while getopts ':tpuh' devap64_build_option; do
+  case "$devap64_build_option" in
+  t)
+    devap64_build_command='devap64_build_test'
+    devap64_build_command_tag='testing package build'
+    ;;
+  p)
+    devap64_build_command='devap64_build_prod'
+    devap64_build_command_tag='production package build'
+    ;;
+  u)
+    devap64_build_command='devap64_build_publish'
+    devap64_build_command_tag='publishing packages'
+    ;;
+  h) devap64_build_help && exit ;;
+  \?) devap64_build_help && exit 1 ;;
+  esac
+done
+[[ -z "$devap64_build_command" ]] && devap64_build_help && exit 1
+devap64_build_check || exit 1
+cd "$APLATFORM64_ROOT" || exit 1
+
+# Activate the Python virtual environment
+if [[ -z "$VIRTUALENVWRAPPER_ENV_BIN_DIR" ]]; then
+  bl64_msg_show_task "load Python virtual environment wrapper ($APLATFORM64_VEW_LOADER)"
+  # shellcheck disable=SC1090
+  source "$APLATFORM64_VEW_LOADER"
+fi
+
+if [[ -z "$VIRTUAL_ENV" ]]; then
+  bl64_msg_show_task "set Python virtual environment to: $APLATFORM64_VEW_WORKSPACE"
+  workon "$APLATFORM64_VEW_WORKSPACE"
+fi
+
+if [[ -z "$VIRTUAL_ENV" ]]; then
+  bl64_msg_show_error 'unable to initialize the Python virtual environment for Ansible'
+  exit 1
+fi
+
+bl64_msg_show_info "starting ${devap64_build_command_tag} process"
+case "$devap64_build_command" in
+'devap64_build_test' | 'devap64_build_prod' | 'devap64_build_publish') "$devap64_build_command" ;;
+esac
+devap64_build_status=$?
+
+if ((devap64_build_status == 0)); then
+  bl64_msg_show_info "${devap64_build_command_tag} process complete"
+else
+  bl64_msg_show_info "${devap64_build_command_tag} process complete with errors (error: $devap64_build_status)"
+fi
+
+exit $devap64_build_status

@@ -1,0 +1,13 @@
+# {{ hpv_libvirt_server_alert_ansible_managed_file }}
+
+{% if( hpv_libvirt_server_server_options['qemu']['security_driver'] ) %}
+{%   if( hpv_libvirt_server_os_family == 'RedHat' ) %}
+security_driver = "selinux"
+{%   elif( hpv_libvirt_server_os_family == 'Ubuntu' ) %}
+security_driver = "apparmor"
+{%   endif %}
+{% else %}
+security_driver = "none"
+{% endif %}
+{{ '
+' }}

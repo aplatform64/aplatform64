@@ -1,0 +1,33 @@
+---
+- name: "Verify"
+  hosts: "{{ lookup('env', 'APLATFORM64_TEST_PLATFORM') | default('all') }}"
+  gather_facts: false
+  tasks:
+    - name: "Load common test vars"
+      ansible.builtin.include_vars:
+        file: "../test_vars.yml"
+
+    - name: "Discover platform"
+      ansible.builtin.setup:
+        gather_subset: "min"
+        gather_timeout: "10"
+
+    - name: "Load role variables"
+      ansible.builtin.include_role:
+        public: true
+        name: "auto_ansible_node"
+
+    - name: "Discover path: inventory"
+      ansible.builtin.stat:
+        get_checksum: false
+        follow: false
+        get_mime: false
+        get_attributes: false
+        path: "{{ auto_ansible_node_user['home'] }}"
+      register: test_path_stats
+
+    - name: "Verify that the remote user was created"
+      ansible.builtin.assert:
+        that:
+          - test_path_stats['stat']['exists']
+...

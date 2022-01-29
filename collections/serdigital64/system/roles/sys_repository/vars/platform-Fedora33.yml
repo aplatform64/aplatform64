@@ -1,0 +1,47 @@
+---
+sys_repository_base:
+  access: "{{ sys_repository_base_access }}"
+  templates: "{{ sys_repository_base_templates }}"
+  etc:
+    yum_repos_d: "/etc/yum.repos.d"
+  run:
+    systemctl: "/usr/bin/systemctl"
+    curl: "/usr/bin/curl"
+    flatpak: "/usr/bin/flatpak"
+    snap: "/usr/bin/snap"
+    dnf: "/usr/bin/dnf"
+    rpm: "/usr/bin/rpm"
+    git: "/usr/bin/git"
+    python: "/usr/bin/python3.9"
+  paths:
+    snap_root: "/snap"
+    snap_bin: "/snap/bin"
+    snap_var: "/var/lib/snapd/snap"
+
+sys_repository_packages:
+  distro:
+    - "dnf-plugins-core"
+    - "ca-certificates"
+  flatpak:
+    - "flatpak"
+  git:
+    - "git"
+  tools:
+    - "curl"
+  snap:
+    - "snapd"
+  pip:    # source: dev_python_profiles@dev_python
+    - "python3"
+    - "python3-pip"
+    - "python3-wheel"
+    - "python3-setuptools"
+    - "which"
+
+sys_repository_sources:
+  distro: []
+  flatpak:
+    - name: "flathub"
+      url: "https://flathub.org/repo/flathub.flatpakrepo"
+  yum: []
+  apt: []
+...

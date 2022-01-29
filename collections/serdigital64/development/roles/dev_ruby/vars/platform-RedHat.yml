@@ -1,0 +1,8 @@
+---
+dev_ruby_profiles:
+  distro:
+    latest:
+      packages:
+        - name: "ruby"
+        - name: "rubygem-bundler"
+...

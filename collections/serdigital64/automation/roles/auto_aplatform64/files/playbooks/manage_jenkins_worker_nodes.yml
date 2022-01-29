@@ -1,0 +1,75 @@
+---
+- name: "Manage Jenkins Worker Nodes"
+  hosts: "jenkins_worker_nodes"
+  gather_facts: false
+
+  pre_tasks:
+    - name: "Discover Target Platform"
+      tags:
+        - "always"
+      ansible.builtin.setup:
+        gather_subset: "min"
+        gather_timeout: "10"
+
+    - name: "Prepare package repositories"
+      tags:
+        - "always"
+      vars:
+        sys_repository:
+          prepare: true
+          deploy: true
+          setup: true
+          provision: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "always"
+        name: "serdigital64.system.sys_repository"
+
+    - name: "Prepare archive manager"
+      tags:
+        - "always"
+      vars:
+        bkp_archive:
+          deploy: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "always"
+        name: "serdigital64.backup.bkp_archive"
+
+    - name: "Prepare package installer"
+      tags:
+        - "always"
+      vars:
+        sys_package:
+          prepare: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "always"
+        name: "serdigital64.system.sys_package"
+
+  tasks:
+    - name: "Provision OpenJDK 11 for Jenkins"
+      tags:
+        - "jenkins"
+      vars:
+        dev_java:
+          deploy: true
+      ansible.builtin.include_role:
+        apply:
+          tags:
+            - "jenkins"
+        name: "serdigital64.development.dev_java"
+      when:
+        - jenkins_worker_nodes_apps['jenkins'] is defined
+        - jenkins_worker_nodes_apps['jenkins']
+
+    - name: "Provision worker users"
+      vars:
+        sys_user:
+          setup: true
+      ansible.builtin.include_role:
+        name: "serdigital64.system.sys_user"
+...

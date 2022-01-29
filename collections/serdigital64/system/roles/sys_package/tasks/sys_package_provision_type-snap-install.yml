@@ -1,0 +1,26 @@
+---
+- name: "System / Package / Provision / Type: snap / Install / Check required parameters"
+  ansible.builtin.assert:
+    quiet: true
+    that:
+      - "'packages' in sys_package___application"
+      - sys_package___application['packages'] is not none
+      - sys_package___application['packages'] | length > 0
+
+- name: "System / Package / Provision / Type: snap / Install / Install application ({{ sys_package___application['name'] }})"
+  become: true
+  community.general.snap:
+    name: "{{ sys_package___provision_snap['name'] }}"
+    classic: "{{
+      (
+        'snap' in sys_package___provision_snap and
+        'classic' in sys_package___provision_snap['snap'] and
+        sys_package___provision_snap['snap']['classic']
+      ) |
+      ternary( true, omit )
+      }}"
+    state: "present"
+  loop: "{{ sys_package___application['packages'] }}"
+  loop_control:
+    loop_var: "sys_package___provision_snap"
+...

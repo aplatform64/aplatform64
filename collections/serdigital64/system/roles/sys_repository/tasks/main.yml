@@ -1,0 +1,35 @@
+---
+- name: "System / Repository / Initialize"
+  include_tasks: sys_repository_initialize.yml
+
+- name: "System / Repository / Prepare"
+  ansible.builtin.include_tasks:
+    file: "sys_repository_prepare.yml"
+  when:
+    - "'prepare' in sys_repository"
+    - sys_repository['prepare']
+
+- name: "System / Repository / Deploy"
+  ansible.builtin.include_tasks:
+    file: "sys_repository_deploy.yml"
+  when:
+    - "'deploy' in sys_repository"
+    - sys_repository['deploy']
+
+- name: "System / Repository / Provision"
+  ansible.builtin.include_tasks:
+    file: "sys_repository_provision.yml"
+  when:
+    - "'provision' in sys_repository"
+    - sys_repository['provision']
+
+- name: "System / Repository / Setup"
+  ansible.builtin.include_tasks:
+    file: "sys_repository_setup.yml"
+  when:
+    - "'setup' in sys_repository"
+    - sys_repository['setup']
+
+- name: "System / Repository / Finalize"
+  include_tasks: sys_repository_finalize.yml
+...

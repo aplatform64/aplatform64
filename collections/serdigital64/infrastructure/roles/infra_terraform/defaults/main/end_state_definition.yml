@@ -1,0 +1,22 @@
+---
+infra_terraform_application:
+  name: "terraform"
+  type: "distro"
+  version: "latest"
+  installed: true
+
+infra_terraform_paths:
+  root: "/opt/terraform"
+  etc: "/opt/terraform/etc"
+  src: "/opt/terraform/src"
+  var: "/var/opt/terraform"
+
+infra_terraform_users:
+  terraform:
+    name: "terraform"
+    group: "terraform"
+    home: "/home/terraform"
+
+infra_terraform_projects:
+  - name: "default"
+...

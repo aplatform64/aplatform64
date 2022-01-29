@@ -1,0 +1,8 @@
+---
+- name: "Infrastructure / Terraform / Provision / Project"
+  ansible.builtin.include_tasks:
+    file: "infra_terraform_provision_project.yml"
+  when:
+    - infra_terraform_projects is defined
+    - infra_terraform_projects | length > 0
+...

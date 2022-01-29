@@ -1,0 +1,22 @@
+---
+#
+# A:Platform64 / Ansible playbook settings / Site: {{ auto_ansible_control_site }}
+#
+# * Common to all playbooks
+# * If needed create per-group or per-host settings under group_vars or host_vars
+#
+
+#
+# Ansible Connection settings
+#
+
+ignore_unreachable: true
+
+ansible_ssh_common_args: "{{
+    '-o UserKnownHostsFile=' +
+    auto_ansible_control_base['files']['known_hosts']
+}}"
+
+ansible_user: "{{ auto_ansible_node_user['name'] }}"
+ansible_become_method: "{{ auto_ansible_node_user['become_method'] }}"
+...

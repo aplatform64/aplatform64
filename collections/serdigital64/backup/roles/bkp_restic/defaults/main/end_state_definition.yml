@@ -1,0 +1,7 @@
+---
+bkp_restic_application:
+  name: "restic"
+  type: "binary"
+  installed: true
+  version: "v0_12"
+...

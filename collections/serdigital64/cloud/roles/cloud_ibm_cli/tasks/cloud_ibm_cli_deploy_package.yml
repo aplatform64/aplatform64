@@ -1,0 +1,10 @@
+---
+- name: "Cloud / IBM / CLI / Deploy / Package / Provision application"
+  vars:
+    sys_package:
+      provision: true
+    sys_package_application: "{{ cloud_ibm_cli_application }}"
+    sys_package_profiles: "{{ cloud_ibm_cli_profiles }}"
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_package"
+...

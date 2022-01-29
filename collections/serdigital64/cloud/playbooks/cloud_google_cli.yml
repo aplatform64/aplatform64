@@ -1,0 +1,14 @@
+---
+- name: "Cloud / Google / CLI / Usage example"
+  hosts: "localhost"
+  gather_facts: true
+
+  tasks:
+    - name: "Example: Install Google CLI"
+      vars:
+        cloud_google_cli:
+          resolve_prereq: true
+          deploy: true
+      ansible.builtin.include_role:
+        name: "serdigital64.cloud.cloud_google_cli"
+...

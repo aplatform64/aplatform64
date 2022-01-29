@@ -1,0 +1,22 @@
+---
+app_libreoffice_platforms:
+  - "CentOS8"
+  - "OracleLinux8"
+  - "Ubuntu20"
+  - "Ubuntu21"
+  - "Fedora33"
+  - "Fedora35"
+  - "Debian10"
+  - "Debian11"
+
+app_libreoffice_profiles:
+  snap:
+    latest:
+      packages:
+        - name: "libreoffice"
+  flatpak:
+    latest:
+      origin: "flathub"
+      packages:
+        - name: "org.libreoffice.LibreOffice"
+...

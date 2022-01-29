@@ -1,0 +1,14 @@
+# sys_repository_alert_ansible_managed_file
+
+deb {%if 'gpgkey' in sys_repository___provision_repo %}[signed-by={{
+    sys_repository_base['etc']['keyrings'] + '/' +
+    sys_repository___provision_repo['name'] + '.gpg'
+}}]{% endif %} {{
+    sys_repository___provision_repo['url']
+}} {{
+    sys_repository___provision_repo['suite']
+}} {{
+    sys_repository___provision_repo['component'] | default('')
+}}
+{{ '
+' }}

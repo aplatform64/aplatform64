@@ -1,0 +1,5 @@
+---
+app_libreoffice:
+  resolve_prereq: false
+  deploy: false
+...

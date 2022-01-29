@@ -1,0 +1,27 @@
+---
+- name: "System / Fonts / Prepare package managers"
+  vars:
+    sys_repository:
+      prepare: true
+      deploy: true
+      setup: true
+      provision: true
+    sys_repository_managers:
+      flatpak: false
+      snap: false
+      git: false
+    sys_repository_catalog_distro: "{{ sys_fonts_repository_catalog_distro }}"
+    sys_repository_catalog_yum: "{{ sys_fonts_repository_catalog_yum }}"
+    sys_repository_catalog_apt: "{{ sys_fonts_repository_catalog_apt }}"
+    sys_repository_custom_yum: "{{ sys_fonts_repository_custom_yum }}"
+    sys_repository_custom_apt: "{{ sys_fonts_repository_custom_apt }}"
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_repository"
+
+- name: "System / Fonts / Prepare package installer"
+  vars:
+    sys_package:
+      prepare: true
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_package"
+...

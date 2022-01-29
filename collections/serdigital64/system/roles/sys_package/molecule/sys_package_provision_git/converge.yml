@@ -1,0 +1,44 @@
+---
+- name: "Converge"
+  hosts: "{{ lookup('env', 'APLATFORM64_TEST_PLATFORM') | default('all') }}"
+  gather_facts: false
+  tasks:
+
+    - name: "Load common test vars"
+      ansible.builtin.include_vars:
+        file: "../test_vars.yml"
+
+    - name: "Discover platform"
+      ansible.builtin.setup:
+        gather_subset: "min"
+        gather_timeout: "10"
+
+    - name: "Deploy required packages"
+      vars:
+        sys_package:
+          provision: true
+        sys_package_application:
+          name: "aplatform64"
+          type: "git"
+          version: "latest"
+          installed: true
+        sys_package_profiles:
+          git:
+            latest:
+              origin: "https://github.com/serdigital64"
+              packages:
+                - file: "aplatform64.git"
+                  git:
+                    branch: "develop"
+              paths:
+                - target: "/tmp/testdir"
+                  owner: "root"
+                  mode: "0755"
+              promotion:
+                - source: "aplatform64/docs"
+                  target: "/tmp/testdir"
+                  owner: "root"
+                  mode: "0755"
+      ansible.builtin.include_role:
+        name: "sys_package"
+...

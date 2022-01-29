@@ -1,0 +1,16 @@
+---
+galaxy_info:
+  role_name: "dev_python"
+  author: "serdigital64"
+  description: "Manage provision of Python"
+  company: "none"
+  license: "GPL-3.0-or-later"
+  min_ansible_version: "2.10"
+  platforms:
+    - name: "GenericLinux"
+      versions:
+        - "any"
+  galaxy_tags:
+    - "python"
+dependencies: []
+...

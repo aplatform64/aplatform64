@@ -1,0 +1,8 @@
+---
+- name: "Automation / Ansible / Node / Deploy / Python / Deploy Python3 and PIP"
+  become: true
+  ansible.builtin.apt:
+    update_cache: true
+    state: "present"
+    name: "{{ auto_ansible_node_python3 }}"
+...

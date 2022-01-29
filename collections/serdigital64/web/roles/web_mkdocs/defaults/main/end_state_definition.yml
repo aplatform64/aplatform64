@@ -1,0 +1,7 @@
+---
+web_mkdocs_application:
+  name: "mkdocs"
+  type: "pip"
+  version: "latest"
+  installed: true
+...

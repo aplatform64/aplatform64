@@ -1,0 +1,16 @@
+---
+- name: "Application / Kryta / Initialize"
+  ansible.builtin.include_tasks:
+    file: "app_kryta_initialize.yml"
+
+- name: "Application / Kryta / Deploy"
+  ansible.builtin.include_tasks:
+    file: "app_kryta_deploy.yml"
+  when:
+    - "'deploy' in app_kryta"
+    - app_kryta['deploy']
+
+- name: "Application / Kryta / Finalize"
+  ansible.builtin.include_tasks:
+    file: "app_kryta_finalize.yml"
+...

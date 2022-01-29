@@ -1,0 +1,21 @@
+---
+- name: "Application / VSCode / Setup / Preferences"
+  ansible.builtin.include_tasks:
+    file: "app_vscode_setup_preferences.yml"
+  when:
+    - app_vscode_users is defined
+    - app_vscode_users | length > 0
+  loop: "{{ app_vscode_users }}"
+  loop_control:
+    loop_var: app_vscode___setup_user
+
+- name: "Application / VSCode / Setup / Extensions"
+  ansible.builtin.include_tasks:
+    file: "app_vscode_setup_extensions.yml"
+  when:
+    - app_vscode_users is defined
+    - app_vscode_users | length > 0
+  loop: "{{ app_vscode_users }}"
+  loop_control:
+    loop_var: app_vscode___setup_user
+...

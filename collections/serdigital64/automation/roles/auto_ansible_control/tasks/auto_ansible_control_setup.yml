@@ -1,0 +1,17 @@
+---
+- name: "Automation / Ansible / Control / Setup / Engine"
+  ansible.builtin.include_tasks:
+    file: "auto_ansible_control_setup_engine.yml"
+
+- name: "Automation / Ansible / Control / Setup / Inventory"
+  ansible.builtin.include_tasks:
+    file: "auto_ansible_control_setup_inventory.yml"
+
+- name: "Automation / Ansible / Control / Setup / Loader"
+  ansible.builtin.include_tasks:
+    file: "auto_ansible_control_setup_loader.yml"
+
+- name: "Automation / Ansible / Control / Setup / Keys"
+  ansible.builtin.include_tasks:
+    file: "auto_ansible_control_setup_keys.yml"
+...

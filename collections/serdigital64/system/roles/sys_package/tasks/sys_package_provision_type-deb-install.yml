@@ -1,0 +1,23 @@
+---
+- name: "System / Package / Provision / Type: deb / Install / Check required parameters"
+  ansible.builtin.assert:
+    quiet: true
+    that:
+      - "'origin' in sys_package___application"
+      - sys_package___application['origin'] is not none
+      - sys_package___application['origin'] | length > 0
+      - "'packages' in sys_package___application"
+      - sys_package___application['packages'] is not none
+      - sys_package___application['packages'] | length > 0
+
+- name: "System / Package / Provision / Type: deb / Install / Prepare App Repository"
+  ansible.builtin.include_tasks:
+    file: "sys_package_provision_repository.yml"
+
+- name: "System / Package / Provision / Type: deb / Install / Install application ({{ sys_package___application['name'] }})"
+  ansible.builtin.include_tasks:
+    file: "sys_package_provision_type-deb-install_item.yml"
+  loop: "{{ sys_package___application['packages'] }}"
+  loop_control:
+    loop_var: "sys_package___provision_deb"
+...

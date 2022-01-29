@@ -1,0 +1,23 @@
+---
+- name: "Backup / Archive / Initialize"
+  ansible.builtin.include_tasks:
+    file: "bkp_archive_initialize.yml"
+
+- name: "Backup / Archive / Deploy"
+  ansible.builtin.include_tasks:
+    file: "bkp_archive_deploy.yml"
+  when:
+    - "'deploy' in bkp_archive"
+    - bkp_archive['deploy']
+
+- name: "Backup / Archive / Provision"
+  ansible.builtin.include_tasks:
+    file: "bkp_archive_provision.yml"
+  when:
+    - "'provision' in bkp_archive"
+    - bkp_archive['provision']
+
+- name: "Backup / Archive / Finalize"
+  ansible.builtin.include_tasks:
+    file: "bkp_archive_finalize.yml"
+...

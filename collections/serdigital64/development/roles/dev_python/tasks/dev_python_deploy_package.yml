@@ -1,0 +1,10 @@
+---
+- name: "Development / Python / Deploy / Package / Provision application"
+  vars:
+    sys_package:
+      provision: true
+    sys_package_application: "{{ dev_python_application }}"
+    sys_package_profiles: "{{ dev_python_profiles }}"
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_package"
+...

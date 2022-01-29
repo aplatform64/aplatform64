@@ -1,0 +1,10 @@
+{% for auto_aplatform64___provision_record in auto_aplatform64_playbooks %}
+{{
+  auto_aplatform64___provision_record['playbook'] + ':' +
+  auto_aplatform64___provision_record['inventory'] + ':' +
+  auto_aplatform64___provision_record['group'] + ':' +
+  auto_aplatform64___provision_record['info']
+}}
+{% endfor %}
+{{ '
+' }}

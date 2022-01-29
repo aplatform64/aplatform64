@@ -1,0 +1,12 @@
+---
+cloud_azure_cli_repository_custom_yum:
+  - name: "azure_cli"
+    description: "Azure CLI official RPM Repository"
+    url: "https://packages.microsoft.com/yumrepos/azure-cli"
+    gpgkey: "https://packages.microsoft.com/keys/microsoft.asc"
+cloud_azure_cli_repository_custom_apt: []
+
+cloud_azure_cli_repository_catalog_yum:
+  azure_cli: true
+cloud_azure_cli_repository_catalog_apt: {}
+...

@@ -1,0 +1,29 @@
+---
+- name: "System / User / Setup / XDG / Paths / Create (user: {{ sys_user___setup_user3['name'] }})"
+  vars:
+    sys_user___setup_home: "{{
+      ('home' in sys_user___setup_user3) |
+      ternary(
+        sys_user___setup_user3['home'],
+        sys_user_base['paths']['home'] + '/' + sys_user___setup_user3['name']
+      )
+      }}"
+  become: true
+  ansible.builtin.file:
+    follow: false
+    unsafe_writes: false
+    force: false
+    state: "directory"
+    mode: "{{ sys_user_base['access']['mode']['dir'] }}"
+    path: "{{ sys_user___setup_home + '/' + sys_user___setup_path }}"
+    owner: "{{ sys_user___setup_user3['name'] }}"
+    group: "{{ sys_user___setup_user3['group'] | default( sys_user___setup_user3['name'] ) }}"
+  loop:
+    - "{{ sys_user_base['paths']['xdg_config'] }}"
+  loop_control:
+    loop_var: "sys_user___setup_path"
+  when:
+    - "'options' in sys_user___setup_user3"
+    - "'xdg' in sys_user___setup_user3['options']"
+    - sys_user___setup_user3['options']['xdg']
+...

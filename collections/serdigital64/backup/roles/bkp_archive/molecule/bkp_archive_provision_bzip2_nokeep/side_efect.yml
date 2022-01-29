@@ -1,0 +1,26 @@
+---
+- name: "Side Efect"
+  hosts: "{{ lookup('env', 'APLATFORM64_TEST_PLATFORM') | default('all') }}"
+  gather_facts: false
+  vars:
+    test_path: "/tmp"
+    test_target: "/tmp/bkp_archive_provision_bzip2_test_target"
+    test_file: "test_file_00001.sh"
+    test_archive: "test_file_00001.sh.bz2"
+  tasks:
+
+    - name: "Remove test file"
+      ansible.builtin.file:
+        state: "absent"
+        path: "{{ test_path + '/' + test_file }}"
+
+    - name: "Remove test archive"
+      ansible.builtin.file:
+        state: "absent"
+        path: "{{ test_path + '/' + test_archive }}"
+
+    - name: "Remove test destination"
+      ansible.builtin.file:
+        state: "absent"
+        path: "{{ test_target }}"
+...

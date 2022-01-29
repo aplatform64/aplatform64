@@ -1,0 +1,9 @@
+---
+- name: "Automation / Ansible / Node / Prepare / User"
+  ansible.builtin.include_tasks:
+    file: "auto_ansible_node_prepare_user.yml"
+
+- name: "Automation / Ansible / Node / Prepare / Sudoers"
+  ansible.builtin.include_tasks:
+    file: "auto_ansible_node_prepare_sudoers.yml"
+...

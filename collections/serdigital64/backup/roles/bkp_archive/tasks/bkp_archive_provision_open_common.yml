@@ -1,0 +1,29 @@
+---
+- name: "Backup / Archive / Provision / Open / Format: common / Extract content from archive to destination
+    ({{ bkp_archive___provision_item['content']['path'] }})"
+  become: true
+  no_log: true
+  ansible.builtin.unarchive:
+    creates: "{{ bkp_archive___provision_item['content']['path'] + '/' + bkp_archive___provision_item['content']['name'] }}"
+    decrypt: false
+    keep_newer: false
+    remote_src: true
+    unsafe_writes: false
+    src: "{{ bkp_archive___provision_item['archive']['path'] + '/' + bkp_archive___provision_item['archive']['file'] }}"
+    dest: "{{ bkp_archive___provision_item['content']['path'] }}"
+    group: "{{ bkp_archive___provision_item['content']['access']['group'] | default(omit) }}"
+    mode: "{{ bkp_archive___provision_item['content']['access']['mode']['file'] | default(omit) }}"
+    owner: "{{ bkp_archive___provision_item['content']['access']['owner'] | default(omit) }}"
+
+- name: "Backup / Archive / Provision / Open / Format: common / Keep archive ?
+    ({{ bkp_archive___provision_item['archive']['keep'] }})"
+  become: true
+  ansible.builtin.file:
+    follow: false
+    force: false
+    unsafe_writes: false
+    state: "absent"
+    path: "{{ bkp_archive___provision_item['archive']['path'] + '/' + bkp_archive___provision_item['archive']['file'] }}"
+  when:
+    - not bkp_archive___provision_item['archive']['keep']
+...

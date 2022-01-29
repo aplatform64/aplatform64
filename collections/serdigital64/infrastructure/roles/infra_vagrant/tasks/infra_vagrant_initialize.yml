@@ -1,0 +1,19 @@
+---
+- name: "Infrastructure / Vagrant / Initialize / Check Platform compatibility"
+  ansible.builtin.assert:
+    quiet: true
+    fail_msg: "Target Platform not supported: {{ ansible_distribution + ansible_distribution_major_version }}"
+    that:
+      - ansible_distribution + ansible_distribution_major_version in infra_vagrant_platforms
+
+- name: "Infrastructure / Vagrant / Initialize / Set Platform specific variables"
+  ansible.builtin.include_vars:
+    file: "platform-{{ infra_vagrant_os_family }}.yml"
+
+- name: "Infrastructure / Vagrant / Initialize / Resolve prerequisites"
+  ansible.builtin.include_tasks:
+    file: "infra_vagrant_prerequisite.yml"
+  when:
+    - "'resolve_prereq' in infra_vagrant"
+    - infra_vagrant['resolve_prereq']
+...

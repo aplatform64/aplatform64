@@ -1,0 +1,7 @@
+---
+app_xmind_application:
+  name: "xmind"
+  type: "flatpak"
+  version: "latest"
+  installed: true
+...

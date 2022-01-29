@@ -1,0 +1,29 @@
+---
+- name: "Verify"
+  hosts: "{{ lookup('env', 'APLATFORM64_TEST_PLATFORM') | default('all') }}"
+  gather_facts: false
+  tasks:
+    - name: "Discover platform"
+      ansible.builtin.setup:
+        gather_subset: "min"
+        gather_timeout: "10"
+
+    - name: "Load role variables"
+      ansible.builtin.include_role:
+        public: true
+        name: "sec_firewall_os"
+
+    - name: "Identify service status"
+      ansible.builtin.command:
+        argv:
+          - "systemctl"
+          - "is-enabled"
+          - "{{ sec_firewall_os_subsystems['service'] }}"
+      changed_when: false
+      register: result
+
+    - name: "Check that the service is active"
+      ansible.builtin.assert:
+        that:
+          - result['stdout_lines'] is search( 'enabled' )
+...

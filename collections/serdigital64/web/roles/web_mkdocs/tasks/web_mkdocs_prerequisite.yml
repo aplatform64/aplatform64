@@ -1,0 +1,35 @@
+---
+- name: "Web / MkDocs / Prerequisite / Prepare package managers"
+  vars:
+    sys_repository:
+      prepare: true
+      deploy: true
+      setup: true
+      provision: true
+    sys_repository_managers:
+      flatpak: "{{ web_mkdocs_application['type'] == 'flatpak' }}"
+      snap: "{{ web_mkdocs_application['type'] == 'snap' }}"
+      git: "{{ web_mkdocs_application['type'] == 'git' }}"
+      pip: "{{ web_mkdocs_application['type'] == 'pip' }}"
+    sys_repository_catalog_distro: "{{ web_mkdocs_repository_catalog_distro }}"
+    sys_repository_catalog_yum: "{{ web_mkdocs_repository_catalog_yum }}"
+    sys_repository_catalog_apt: "{{ web_mkdocs_repository_catalog_apt }}"
+    sys_repository_custom_yum: "{{ web_mkdocs_repository_custom_yum }}"
+    sys_repository_custom_apt: "{{ web_mkdocs_repository_custom_apt }}"
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_repository"
+
+- name: "Web / MkDocs / Prerequisite / Prepare archive manager"
+  vars:
+    bkp_archive:
+      deploy: true
+  ansible.builtin.include_role:
+    name: "serdigital64.backup.bkp_archive"
+
+- name: "Web / MkDocs / Prerequisite / Prepare package installer"
+  vars:
+    sys_package:
+      prepare: true
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_package"
+...
