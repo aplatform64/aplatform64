@@ -151,19 +151,26 @@ function aplatform64_InstallPython {
   local Status=0
   local PythonPackage=''
 
-  bl64_log_task 'Install Python 3'
+  bl64_log_task 'Install Tools'
+
+  case "$BL64_OS_DISTRO" in
+  UBUNTU-*|DEBIAN-*) PythonPackage='debianutils' ;;
+  FEDORA-*|CENTOS-*|OL-*) PythonPackage='which' ;;
+  esac
+  aplatform64_InstallOSPackage $PythonPackage
+
   if [[ -x "$APLATFORM64_CMD_PYTHON3" ]]; then
     bl64_log_warning "Python3 already installed ($APLATFORM64_CMD_PYTHON3)"
     return 0
   fi
 
   case "$BL64_OS_DISTRO" in
-  UBUNTU-*) PythonPackage='python3.9 python3-pip debianutils' ;;
-  FEDORA-*) PythonPackage='python3 python3-pip which' ;;
-  CENTOS-*) PythonPackage='python39 python39-pip which' ;;
-  OL-*) PythonPackage='python39 python39-pip which' ;;
-  DEBIAN-10*) PythonPackage='python3.7 python3-pip debianutils' ;;
-  DEBIAN-11*) PythonPackage='python3.9 python3-pip debianutils' ;;
+  UBUNTU-*) PythonPackage='python3.9 python3-pip' ;;
+  FEDORA-*) PythonPackage='python3 python3-pip' ;;
+  CENTOS-*) PythonPackage='python39 python39-pip' ;;
+  OL-*) PythonPackage='python39 python39-pip' ;;
+  DEBIAN-10*) PythonPackage='python3.7 python3-pip' ;;
+  DEBIAN-11*) PythonPackage='python3.9 python3-pip' ;;
   esac
 
   aplatform64_InstallOSPackage $PythonPackage
