@@ -48,7 +48,7 @@ Install the [A:Platform64](https://aplatform64.readthedocs.io) environment.
 
 ## Command Line Interface
 
-> `[-x] [-6] [-p] [-w] [-u] [-s] [-a] [-k] [-t SITE]  [-y PYTHON] [-m USER] [-v VENV] [-r PATH] [-o PATH] [-h]`
+> `./install.sh [-x] [-6] [-p] [-w] [-u] [-s] [-a] [-k] [-t SITE]  [-y PYTHON] [-m USER] [-v VENV] [-r PATH] [-o PATH] [-h]`
 
 ### Commands
 
