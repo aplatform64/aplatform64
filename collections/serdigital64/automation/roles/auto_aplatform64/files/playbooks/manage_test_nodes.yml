@@ -5,15 +5,11 @@
 
   pre_tasks:
     - name: "Discover Target Platform"
-      tags:
-        - "always"
       ansible.builtin.setup:
         gather_subset: "min"
         gather_timeout: "10"
 
     - name: "Prepare package repositories"
-      tags:
-        - "always"
       vars:
         sys_repository:
           prepare: true
@@ -21,46 +17,28 @@
           setup: true
           provision: true
       ansible.builtin.include_role:
-        apply:
-          tags:
-            - "always"
         name: "serdigital64.system.sys_repository"
 
     - name: "Prepare archive manager"
-      tags:
-        - "always"
       vars:
         bkp_archive:
           deploy: true
       ansible.builtin.include_role:
-        apply:
-          tags:
-            - "always"
         name: "serdigital64.backup.bkp_archive"
 
     - name: "Prepare package installer"
-      tags:
-        - "always"
       vars:
         sys_package:
           prepare: true
       ansible.builtin.include_role:
-        apply:
-          tags:
-            - "always"
         name: "serdigital64.system.sys_package"
 
   tasks:
     - name: "Provision Bats Core"
-      tags:
-        - "batscore"
       vars:
         dops_batscore:
           deploy: true
       ansible.builtin.include_role:
-        apply:
-          tags:
-            - "batscore"
         name: "serdigital64.devops.dops_batscore"
       when:
         - test_nodes_apps['batscore'] is defined
