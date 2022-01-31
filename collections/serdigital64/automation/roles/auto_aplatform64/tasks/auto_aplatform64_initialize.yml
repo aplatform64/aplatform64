@@ -6,6 +6,7 @@
     that:
       - ansible_distribution + ansible_distribution_major_version in auto_aplatform64_platforms
 
+# Load variables only, the role has prepared the environment at installation time
 - name: "Automation / A:Platform64 / Initialize / Load Dependencies: auto_ansible_control"
   ansible.builtin.include_role:
     name: "serdigital64.automation.auto_ansible_control"
@@ -38,6 +39,7 @@
 - name: "Automation / A:Platform64 / Initialize / Check Runtime Environment"
   ansible.builtin.assert:
     quiet: true
+    fail_msg: "A:Platform64 not installed properly. Please run the installation procedure and retry"
     that:
       - auto_aplatform64___path_status['stat']['exists']
   when:
