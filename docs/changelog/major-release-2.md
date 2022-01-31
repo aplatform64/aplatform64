@@ -9,6 +9,7 @@
 - automation-1.0.1
   - installer: add pip upgrade
   - playbooks: update inventory defaults
+  - cli: add remove site
 
 ## Release: 2.0.0
 
