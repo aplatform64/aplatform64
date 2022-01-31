@@ -13,26 +13,37 @@
         gather_subset: "min"
         gather_timeout: "10"
 
-    - name: "Load role variables"
+    # - name: "Load role variables"
+    #   vars:
+    #     auto_ansible_control_site: "{{ test_site }}"
+    #     auto_ansible_control_users: "{{ test_control_users }}"
+    #     auto_ansible_control_paths: "{{ test_control_paths }}"
+    #     auto_ansible_control_managed: "{{ test_control_managed }}"
+    #   ansible.builtin.include_role:
+    #     public: true
+    #     name: "auto_aplatform64"
+
+    # - name: "Create A:Platform64 command line interface"
+    #   become: true
+    #   ansible.builtin.template:
+    #     backup: false
+    #     follow: false
+    #     force: true
+    #     unsafe_writes: false
+    #     owner: "{{ auto_ansible_control_base['access']['owner'] }}"
+    #     group: "{{ auto_ansible_control_base['access']['group'] }}"
+    #     mode: "{{ auto_ansible_control_base['access']['mode']['exe'] }}"
+    #     src: "{{ auto_aplatform64_base['templates']['ap64_sh'] }}"
+    #     dest: "{{ auto_aplatform64_base['files']['ap64_sh'] }}"
+
+    - name: "Create CLI"
       vars:
+        auto_aplatform64:
+          prepare: setup
         auto_ansible_control_site: "{{ test_site }}"
         auto_ansible_control_users: "{{ test_control_users }}"
         auto_ansible_control_paths: "{{ test_control_paths }}"
         auto_ansible_control_managed: "{{ test_control_managed }}"
       ansible.builtin.include_role:
-        public: true
         name: "auto_aplatform64"
-
-    - name: "Create A:Platform64 command line interface"
-      become: true
-      ansible.builtin.template:
-        backup: false
-        follow: false
-        force: true
-        unsafe_writes: false
-        owner: "{{ auto_ansible_control_base['access']['owner'] }}"
-        group: "{{ auto_ansible_control_base['access']['group'] }}"
-        mode: "{{ auto_ansible_control_base['access']['mode']['exe'] }}"
-        src: "{{ auto_aplatform64_base['templates']['ap64_sh'] }}"
-        dest: "{{ auto_aplatform64_base['files']['ap64_sh'] }}"
 ...

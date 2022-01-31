@@ -25,6 +25,7 @@
       vars:
         auto_ansible_control:
           prepare: true
+          setup: true
         auto_ansible_control_site: "{{ test_site }}"
         auto_ansible_control_users: "{{ test_control_users }}"
         auto_ansible_control_paths: "{{ test_control_paths }}"
