@@ -1,7 +1,14 @@
 # Releases
 
 - [Releases](#releases)
+  - [Release: 2.1.0](#release-210)
   - [Release: 2.0.0](#release-200)
+
+## Release: 2.1.0
+
+- automation-1.0.1
+  - installer: add pip upgrade
+  - playbooks: update inventory defaults
 
 ## Release: 2.0.0
 

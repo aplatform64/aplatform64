@@ -128,6 +128,49 @@ function ap64_create() {
 
 }
 
+function ap64_remove() {
+
+  local site="$1"
+  local target=''
+  local path=''
+
+  if [[ -z "$site" ]]; then
+    bl64_msg_show_error 'site not selected. Please specify the new site name using the "-s Site" option'
+    return 1
+  fi
+
+  targets='{{
+    auto_ansible_control_base['paths']['bin'] + ' ' +
+    auto_ansible_control_base['paths']['docs'] + ' ' +
+    auto_ansible_control_base['paths']['inventories'] + ' ' +
+    auto_ansible_control_base['paths']['files'] + ' ' +
+    auto_ansible_control_base['paths']['files_groups'] + ' ' +
+    auto_ansible_control_base['paths']['playbooks'] + ' ' +
+    auto_ansible_control_base['paths']['tests'] + ' ' +
+    auto_ansible_control_base['paths']['roles'] + ' ' +
+    auto_ansible_control_base['paths']['etc_cfg'] + ' ' +
+    auto_ansible_control_base['paths']['etc_keys'] + ' ' +
+    auto_ansible_control_base['paths']['etc_groups'] + ' ' +
+    auto_ansible_control_base['paths']['vars'] + ' ' +
+    auto_ansible_control_base['paths']['var_groups'] + ' ' +
+    auto_ansible_control_base['paths']['templates'] + ' ' +
+    auto_ansible_control_base['paths']['logs'] + ' ' +
+    auto_ansible_control_base['paths']['tmp'] + ' ' +
+    auto_ansible_control_base['paths']['cache'] + ' ' +
+    auto_ansible_control_base['paths']['persistence']
+  }}'
+
+  for path in $targets; do
+    if [[ -d "${path}/${site}" ]]; then
+      bl64_os_rm_full "${path}/${site}"
+    else
+      next
+    fi
+  done
+  :
+
+}
+
 function ap64_upgrade() {
 
   local collection=''
@@ -156,9 +199,10 @@ function ap64_check() {
 function ap64_help() {
 
   bl64_msg_show_usage \
-    '<-c|-r|-u|-l|-n|-t> [-s Site] [-p Playbook] [-g Tag] [-d] [-h]' \
+    '<-c|-o|-r|-u|-l|-n|-t> [-s Site] [-p Playbook] [-g Tag] [-d] [-h]' \
     'A:Platform64 command line interface' '
   -c         : Create a A:Platform64 site
+  -o         : Remove a A:Platform64 site
   -r         : Refresh A:Platform64 site configuration by rerunning the setup process
   -u         : Upgrade A:Platform64 Ansible collections to the latest version in Ansible Galaxy
   -l         : List available playbooks
@@ -190,11 +234,15 @@ declare ap64_diff='0'
 declare ap64_tag=''
 
 (($# == 0)) && ap64_help && exit 1
-while getopts ':crulntds:p:g:h' Option; do
+while getopts ':corulntds:p:g:h' Option; do
   case "$Option" in
   n)
     ap64_command='ap64_run'
     ap64_command_tag='run-playbook'
+    ;;
+  o)
+    ap64_command='ap64_remove'
+    ap64_command_tag='remove-site'
     ;;
   t)
     ap64_command='ap64_list_sites'
@@ -288,8 +336,8 @@ fi
 bl64_msg_show_info "starting ${ap64_command_tag} process"
 case "$ap64_command" in
 'ap64_list_sites' | 'ap64_upgrade' | 'ap64_refresh') "$ap64_command" ;;
-'ap64_create') "$ap64_command" "$ap64_site" ;;
-'ap64_run') "$ap64_command" "$ap64_playbook" "$ap64_diff" "$ap64_tag";;
+'ap64_create' | 'ap64_remove') "$ap64_command" "$ap64_site" ;;
+'ap64_run') "$ap64_command" "$ap64_playbook" "$ap64_diff" "$ap64_tag" ;;
 'ap64_list_plays') "$ap64_command" "$ap64_playbook" ;;
 esac
 ap64_status=$?
