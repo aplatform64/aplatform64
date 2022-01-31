@@ -38,7 +38,6 @@ auto_ansible_control_base:
     root: "{{ auto_ansible_control_paths['root'] }}"
     bin: "{{ auto_ansible_control_paths['root'] + '/bin' }}"
     docs: "{{ auto_ansible_control_paths['root'] + '/docs' }}"
-    var: "{{ auto_ansible_control_paths['var'] }}"
     collections: "{{ auto_ansible_control_paths['root'] + '/collections' }}"
     filter_plugins: "{{ auto_ansible_control_paths['root'] + '/filter_plugins' }}"
     inventories: "{{ auto_ansible_control_paths['root'] + '/inventories' }}"
@@ -47,13 +46,17 @@ auto_ansible_control_base:
     templates: "{{ auto_ansible_control_paths['root'] + '/templates' }}"
     vars: "{{ auto_ansible_control_paths['root'] + '/vars' }}"
     etc: "{{ auto_ansible_control_paths['root'] + '/etc' }}"
+    etc_groups: "{{ auto_ansible_control_paths['root'] + '/etc/groups' }}"
     etc_cfg: "{{ auto_ansible_control_paths['root'] + '/etc/cfg' }}"
     etc_keys: "{{ auto_ansible_control_paths['root'] + '/etc/keys' }}"
     etc_tokens: "{{ auto_ansible_control_paths['root'] + '/etc/tokens' }}"
     files: "{{ auto_ansible_control_paths['root'] + '/files' }}"
+    files_groups: "{{ auto_ansible_control_paths['root'] + '/files/groups' }}"
     roles: "{{ auto_ansible_control_paths['root'] + '/roles' }}"
     playbooks: "{{ auto_ansible_control_paths['root'] + '/playbooks' }}"
     tests: "{{ auto_ansible_control_paths['root'] + '/tests' }}"
+    var: "{{ auto_ansible_control_paths['var'] }}"
+    var_groups: "{{ auto_ansible_control_paths['var'] + '/groups' }}"
     cache: "{{ auto_ansible_control_paths['var'] + '/cache' }}"
     tmp: "{{ auto_ansible_control_paths['var'] + '/tmp' }}"
     logs: "{{ auto_ansible_control_paths['var'] + '/logs' }}"
@@ -72,24 +75,6 @@ auto_ansible_control_base:
       auto_ansible_control_paths['root'] +
       '/inventories/' +
       auto_ansible_control_site
-      }}"
-    site_group_vars: "{{
-      auto_ansible_control_paths['root'] +
-      '/inventories/' +
-      auto_ansible_control_site +
-      '/group_vars'
-      }}"
-    site_group_vars_all: "{{
-      auto_ansible_control_paths['root'] +
-      '/inventories/' +
-      auto_ansible_control_site +
-      '/group_vars/all'
-      }}"
-    site_host_vars: "{{
-      auto_ansible_control_paths['root'] +
-      '/inventories/' +
-      auto_ansible_control_site +
-      '/host_vars'
       }}"
     site_files: "{{
       auto_ansible_control_paths['root'] +
@@ -114,6 +99,21 @@ auto_ansible_control_base:
     site_keys: "{{
       auto_ansible_control_paths['root'] +
       '/etc/keys/'
+      + auto_ansible_control_site
+      }}"
+    site_vars: "{{
+      auto_ansible_control_paths['root'] +
+      '/vars/'
+      + auto_ansible_control_site
+      }}"
+    site_templates: "{{
+      auto_ansible_control_paths['root'] +
+      '/templates/'
+      + auto_ansible_control_site
+      }}"
+    site_roles: "{{
+      auto_ansible_control_paths['root'] +
+      '/roles/'
       + auto_ansible_control_site
       }}"
     site_logs: "{{
@@ -151,6 +151,24 @@ auto_ansible_control_base:
       '/files/' +
       auto_ansible_control_site +
       '/groups'
+      }}"
+    site_group_vars: "{{
+      auto_ansible_control_paths['root'] +
+      '/inventories/' +
+      auto_ansible_control_site +
+      '/group_vars'
+      }}"
+    site_group_vars_all: "{{
+      auto_ansible_control_paths['root'] +
+      '/inventories/' +
+      auto_ansible_control_site +
+      '/group_vars/all'
+      }}"
+    site_host_vars: "{{
+      auto_ansible_control_paths['root'] +
+      '/inventories/' +
+      auto_ansible_control_site +
+      '/host_vars'
       }}"
   files:
     control_secret: "{{
