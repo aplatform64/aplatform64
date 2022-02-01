@@ -6,16 +6,6 @@
     that:
       - ansible_distribution + ansible_distribution_major_version in sys_sudo_platforms
 
-- name: "System / Sudo / Initialize / Check required parameters: Setup"
-  ansible.builtin.assert:
-    quiet: true
-    that:
-      - sys_sudo_rules is defined
-      - sys_sudo_rules | length > 0
-  when:
-    - "'setup' in sys_sudo"
-    - sys_sudo['setup']
-
 - name: "System / Sudo / Initialize / Resolve prerequisites"
   ansible.builtin.include_tasks:
     file: "sys_sudo_prerequisite.yml"
