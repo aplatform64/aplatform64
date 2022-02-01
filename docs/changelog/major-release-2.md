@@ -8,7 +8,9 @@
 
 - devops-1.1.0
   - dops_git_client: add user default config
-- automation-1.0.1
+- system-1.0.1
+  - sys_sudo: optimize code
+- automation-1.1.0
   - installer: add pip upgrade
   - playbooks: update inventory defaults
   - cli: add remove site
