@@ -3,17 +3,11 @@
   hosts: "localhost"
   gather_facts: true
   vars:
-    test_user: "testusr64"
-
-  pre_tasks:
-    - name: "Create test users"
-      vars:
-        sys_user:
-          setup: true
-        sys_user_accounts:
-          - name: "{{ test_user }}"
-      ansible.builtin.include_role:
-        name: "serdigital64.system.sys_user"
+    target_user: "{{ lookup('env','USER') }}"
+    target_users:
+      - name: "{{ target_user }}"
+        group: "{{ target_user }}"
+        home: "/home/{{ target_user }}"
 
   tasks:
     - name: "Example: Install MC tool and deploy default user configuration"
@@ -22,10 +16,7 @@
           resolve_prereq: true
           deploy: true
           setup: true
-        sys_mc_users:
-          - name: "{{ test_user }}"
-            group: "{{ test_user }}"
-            home: "/home/{{ test_user }}"
+        sys_mc_users: "{{ target_users }}"
       ansible.builtin.include_role:
         name: "serdigital64.system.sys_mc"
 ...

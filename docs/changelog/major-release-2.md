@@ -1,7 +1,19 @@
 # Releases
 
 - [Releases](#releases)
+  - [Release: 2.1.0](#release-210)
   - [Release: 2.0.0](#release-200)
+
+## Release: 2.1.0
+
+- devops-1.1.0
+  - dops_git_client: add user default config
+- system-1.0.1
+  - sys_sudo: optimize code
+- automation-1.1.0
+  - installer: add pip upgrade
+  - playbooks: update inventory defaults
+  - cli: add remove site
 
 ## Release: 2.0.0
 

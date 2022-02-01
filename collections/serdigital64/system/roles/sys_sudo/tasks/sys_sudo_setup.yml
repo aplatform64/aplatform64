@@ -2,4 +2,7 @@
 - name: "System / SuDo / Setup / Sudoers"
   ansible.builtin.include_tasks:
     file: "sys_sudo_setup_sudoers.yml"
+  when:
+    - sys_sudo_rules['user'] is defined
+    - sys_sudo_rules['user'] | length > 0
 ...

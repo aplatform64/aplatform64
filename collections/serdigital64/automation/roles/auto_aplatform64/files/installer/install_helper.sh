@@ -148,7 +148,7 @@ function InstallVEW {
   export WORKON_HOME="$APLATFORM64_PATH_WORKON"
   export PIP_DOWNLOAD_CACHE="$APLATFORM64_PATH_CACHE_PIP"
 
-  local PreModules='setuptools wheel stevedore'
+  local PreModules='pip setuptools wheel stevedore'
   local Modules='virtualenvwrapper virtualenv-clone virtualenv'
   PATH="${APLATFORM64_USR_CONTROL_HOME}/.local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
@@ -165,10 +165,12 @@ function InstallVEW {
   # shellcheck disable=SC2086
   "$APLATFORM64_CMD_PYTHON3" -m pip \
     install \
+    --upgrade \
     --user \
     $PreModules &&
     "$APLATFORM64_CMD_PYTHON3" -m pip \
       install \
+      --upgrade \
       --user \
       $Modules
 

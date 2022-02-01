@@ -5,15 +5,11 @@
 
   pre_tasks:
     - name: "Discover Target Platform"
-      tags:
-        - "always"
       ansible.builtin.setup:
         gather_subset: "min"
         gather_timeout: "10"
 
     - name: "Prepare package repositories"
-      tags:
-        - "always"
       vars:
         sys_repository:
           prepare: true
@@ -21,227 +17,149 @@
           setup: true
           provision: true
       ansible.builtin.include_role:
-        apply:
-          tags:
-            - "always"
         name: "serdigital64.system.sys_repository"
 
     - name: "Prepare archive manager"
-      tags:
-        - "always"
       vars:
         bkp_archive:
           deploy: true
       ansible.builtin.include_role:
-        apply:
-          tags:
-            - "always"
         name: "serdigital64.backup.bkp_archive"
 
     - name: "Prepare package installer"
-      tags:
-        - "always"
       vars:
         sys_package:
           prepare: true
       ansible.builtin.include_role:
-        apply:
-          tags:
-            - "always"
         name: "serdigital64.system.sys_package"
 
   tasks:
 
     - name: "Provision Google Chrome application"
-      tags:
-        - "chrome"
       vars:
         app_chrome:
           deploy: true
       ansible.builtin.include_role:
-        apply:
-          tags:
-            - "chrome"
         name: "serdigital64.application.app_chrome"
       when:
         - office_nodes_apps['chrome'] is defined
         - office_nodes_apps['chrome']
 
     - name: "Provision GIMP application"
-      tags:
-        - "gimp"
       vars:
         app_gimp:
           deploy: true
       ansible.builtin.include_role:
-        apply:
-          tags:
-            - "gimp"
         name: "serdigital64.application.app_gimp"
       when:
         - office_nodes_apps['gimp'] is defined
         - office_nodes_apps['gimp']
 
     - name: "Provision DrawIO application"
-      tags:
-        - "drawio"
       vars:
         app_drawio:
           deploy: true
       ansible.builtin.include_role:
-        apply:
-          tags:
-            - "drawio"
         name: "serdigital64.application.app_drawio"
       when:
         - office_nodes_apps['drawio'] is defined
         - office_nodes_apps['drawio']
 
     - name: "Provision InkScape application"
-      tags:
-        - "inkscape"
       vars:
         app_inkscape:
           deploy: true
       ansible.builtin.include_role:
-        apply:
-          tags:
-            - "inkscape"
         name: "serdigital64.application.app_inkscape"
       when:
         - office_nodes_apps['inkscape'] is defined
         - office_nodes_apps['inkscape']
 
     - name: "Provision KeePassX application"
-      tags:
-        - "keepassx"
       vars:
         app_keepassx:
           deploy: true
       ansible.builtin.include_role:
-        apply:
-          tags:
-            - "keepassx"
         name: "serdigital64.application.app_keepassx"
       when:
         - office_nodes_apps['keepassx'] is defined
         - office_nodes_apps['keepassx']
 
     - name: "Provision Kryta application"
-      tags:
-        - "kryta"
       vars:
         app_kryta:
           deploy: true
       ansible.builtin.include_role:
-        apply:
-          tags:
-            - "kryta"
         name: "serdigital64.application.app_kryta"
       when:
         - office_nodes_apps['kryta'] is defined
         - office_nodes_apps['kryta']
 
     - name: "Provision LibreOffice application"
-      tags:
-        - "libreoffice"
       vars:
         app_libreoffice:
           deploy: true
       ansible.builtin.include_role:
-        apply:
-          tags:
-            - "libreoffice"
         name: "serdigital64.application.app_libreoffice"
       when:
         - office_nodes_apps['libreoffice'] is defined
         - office_nodes_apps['libreoffice']
 
     - name: "Provision MS Teams application"
-      tags:
-        - "msteams"
       vars:
         app_msteams:
           deploy: true
       ansible.builtin.include_role:
-        apply:
-          tags:
-            - "msteams"
         name: "serdigital64.application.app_msteams"
       when:
         - office_nodes_apps['msteams'] is defined
         - office_nodes_apps['msteams']
 
     - name: "Provision OBS application"
-      tags:
-        - "obs"
       vars:
         app_obs:
           deploy: true
       ansible.builtin.include_role:
-        apply:
-          tags:
-            - "obs"
         name: "serdigital64.application.app_obs"
       when:
         - office_nodes_apps['obs'] is defined
         - office_nodes_apps['obs']
 
     - name: "Provision ShotCut application"
-      tags:
-        - "shotcut"
       vars:
         app_shotcut:
           deploy: true
       ansible.builtin.include_role:
-        apply:
-          tags:
-            - "shotcut"
         name: "serdigital64.application.app_shotcut"
       when:
         - office_nodes_apps['shotcut'] is defined
         - office_nodes_apps['shotcut']
 
     - name: "Provision Skype application"
-      tags:
-        - "skype"
       vars:
         app_skype:
           deploy: true
       ansible.builtin.include_role:
-        apply:
-          tags:
-            - "skype"
         name: "serdigital64.application.app_skype"
       when:
         - office_nodes_apps['skype'] is defined
         - office_nodes_apps['skype']
 
     - name: "Provision Spotify application"
-      tags:
-        - "spotify"
       vars:
         app_spotify:
           deploy: true
       ansible.builtin.include_role:
-        apply:
-          tags:
-            - "spotify"
         name: "serdigital64.application.app_spotify"
       when:
         - office_nodes_apps['spotify'] is defined
         - office_nodes_apps['spotify']
 
     - name: "Provision Zoom application"
-      tags:
-        - "zoom"
       vars:
         app_zoom:
           deploy: true
       ansible.builtin.include_role:
-        apply:
-          tags:
-            - "zoom"
         name: "serdigital64.application.app_zoom"
       when:
         - office_nodes_apps['zoom'] is defined

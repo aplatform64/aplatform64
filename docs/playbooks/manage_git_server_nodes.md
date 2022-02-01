@@ -63,7 +63,7 @@ Additional role specific settings are available to further customize the playboo
 
 | A:Platform64 role                                                                  | group_vars file                                                      |
 | ---------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| [serdigital64.system.sys_repository](../roles/sys_repository.md#role-parameters)   | `inventories/<SITE>/group_vars/git_server_nodes/sys_repository.yml` |
+| [serdigital64.system.sys_repository](../roles/sys_repository.md#role-parameters)   | `inventories/<SITE>/group_vars/git_server_nodes/sys_repository.yml`  |
 | [serdigital64.devops.dops_git_server](../roles/dops_git_server.md#role-parameters) | `inventories/<SITE>/group_vars/git_server_nodes/dops_git_server.yml` |
 
 ## Deployment
