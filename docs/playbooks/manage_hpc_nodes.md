@@ -62,8 +62,8 @@ manage_hpc_nodes_apps:
 
 Additional role specific settings are available to further customize the playbook:
 
-| A:Platform64 role                                                                | group_vars file                                               |
-| -------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| A:Platform64 role                                                                | group_vars file                                              |
+| -------------------------------------------------------------------------------- | ------------------------------------------------------------ |
 | [serdigital64.system.sys_repository](../roles/sys_repository.md#role-parameters) | `inventories/<SITE>/group_vars/hpc_nodes/sys_repository.yml` |
 
 ## Deployment

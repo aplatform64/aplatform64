@@ -19,8 +19,13 @@ Manage provisioning of client side GIT.
 Supported features in the current version:
 
 - Deploy application. Packages are defined in the variable `dops_git_client_profiles`.
-- Create GIT local repositories:
-  - sets initial git config
+- Setup user configuration
+  - Create default gitconfig
+    - user.name
+    - user.email
+    - init.defaultBranch
+- Provision GIT local repositories:
+  - sets initial project gitconfig
     - user.name
     - user.email
     - init.defaultBranch
@@ -56,12 +61,16 @@ ansible-playbook "${ANSIBLE_COLLECTIONS_PATHS}/ansible_collections/serdigital64/
 dops_git_client:
   resolve_prereq:
   deploy:
+  setup:
+  provision:
 ```
 
-| Parameter                      | Required? | Type    | Default | Purpose / Value                            |
-| ------------------------------ | --------- | ------- | ------- | ------------------------------------------ |
-| dops_git_client.resolve_prereq | no        | boolean | `false` | Enable automatic resolution of prequisites |
-| dops_git_client.deploy         | no        | boolean | `false` | Enable installation of application package |
+| Parameter                      | Required? | Type    | Default | Purpose / Value                               |
+| ------------------------------ | --------- | ------- | ------- | --------------------------------------------- |
+| dops_git_client.resolve_prereq | no        | boolean | `false` | Enable automatic resolution of prequisites    |
+| dops_git_client.deploy         | no        | boolean | `false` | Enable installation of application package    |
+| dops_git_client.setup          | no        | boolean | `false` | Enable application configuration              |
+| dops_git_client.provision      | no        | boolean | `false` | Enable provisioning of application components |
 
 ### End State
 
@@ -80,6 +89,13 @@ dops_git_client_application:
     type:
     version:
     installed:
+dops_git_client_users:
+  user:
+  group:
+  home:
+  user_name:
+  user_email:
+  default_branch:
 dops_git_client_repositories:
   - name:
     path:
@@ -103,6 +119,13 @@ dops_git_client_repositories:
 | dops_git_client_application.extras.type      | no             | string     | `"distro"` | Select application package type           |
 | dops_git_client_application.extras.version   | no             | string     | `"latest"` | Select application package version        |
 | dops_git_client_application.extras.installed | no             | boolean    | `false`    | Set application package end state         |
+| dops_git_client_users                        | yes(setup)     | list       |            | List of users                             |
+| dops_git_client_users.0.user                 | yes(setup)     | string     |            | User login name                           |
+| dops_git_client_users.0.group                | yes(setup)     | string     |            | User primary group                        |
+| dops_git_client_users.0.home                 | yes(setup)     | string     |            | Home directory                            |
+| dops_git_client_users.0.user_name            | yes(setup)     | string     |            | Set gitconfig parameter                   |
+| dops_git_client_users.0.user_email           | yes(setup)     | string     |            | Set gitconfig parameter                   |
+| dops_git_client_users.0.default_branch       | no             | string     | `"main"`   | Set gitconfig parameter                   |
 | dops_git_client_repositories                 | yes(provision) | dictionary |            | Define GIT repositories to be provisioned |
 | dops_git_client_repositories.0.name          | yes            | string     |            | Project short name                        |
 | dops_git_client_repositories.0.path          | yes            | string     |            | Project full path                         |
