@@ -12,4 +12,6 @@ dops_git_client_application:
     installed: false
 
 dops_git_client_repositories: []
+
+dops_git_client_users: []
 ...

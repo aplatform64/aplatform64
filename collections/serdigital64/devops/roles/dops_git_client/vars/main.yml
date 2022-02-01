@@ -32,21 +32,27 @@ dops_git_client_base:
       dir: "0700"
       file: "0600"
   templates:
-    config: "config.ini.j2"
+    usr_config: "usr_config.ini.j2"
+    prj_config: "prj_config.ini.j2"
     gitignore: "gitignore.ini.j2"
-  paths:
-    project_git: ".git"
+  files:
+    project_git_head: ".git/HEAD"
+  etc:
+    usr_gitconfig: ".gitconfig"
     project_gitignore: ".gitignore"
     project_git_config: ".git/config"
-    project_git_head: ".git/HEAD"
+  paths:
+    project_git: ".git"
   run:
     git: "/usr/bin/git"
 
 dops_git_client_defaults:
   branch: "main"
 
-#dops_git_client___provision_repo: ~
 dops_git_client___provision_ignore: ~
 dops_git_client___provision_git: ~
 dops_git_client___provision_status: ~
+
+#dops_git_client___provision_repo
+#dops_git_client___setup_user
 ...

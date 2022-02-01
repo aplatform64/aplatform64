@@ -1,7 +1,7 @@
 ---
 namespace: "serdigital64"
 name: "devops"
-version: "1.0.0"
+version: "1.1.0"
 readme: "README.md"
 authors:
   - "SerDigital64 <https://github.com/serdigital64>"
@@ -11,9 +11,6 @@ license:
 tags:
   - "development"
   - "devops"
-  - "git"
-  - "jenkins"
-  - "batscore"
 dependencies:
   serdigital64.backup: "*"
   serdigital64.system: "*"

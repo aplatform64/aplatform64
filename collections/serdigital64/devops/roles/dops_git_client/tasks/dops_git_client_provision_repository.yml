@@ -27,7 +27,7 @@
   register: "dops_git_client___provision_status"
 
 - name: "DevOps / GIT / Client / Provision / Repository / Set project GIT options ({{
-      dops_git_client___provision_repo['path'] + '/' + dops_git_client_base['paths']['project_git_config'] }})"
+      dops_git_client___provision_repo['path'] + '/' + dops_git_client_base['etc']['project_git_config'] }})"
   become: true
   ansible.builtin.template:
     backup: false
@@ -37,16 +37,16 @@
     owner: "{{ dops_git_client___provision_repo['owner'] }}"
     group: "{{ dops_git_client___provision_repo['owner'] }}"
     mode: "{{ dops_git_client_base['access']['mode']['file'] }}"
-    src: "{{ dops_git_client_base['templates']['config'] }}"
+    src: "{{ dops_git_client_base['templates']['prj_config'] }}"
     dest: "{{
       dops_git_client___provision_repo['path'] + '/' +
-      dops_git_client_base['paths']['project_git_config']
+      dops_git_client_base['etc']['project_git_config']
       }}"
   when:
     - dops_git_client___provision_status['changed']
 
 - name: "DevOps / GIT / Client / Provision / Repository / Create gitignore ({{
-      dops_git_client___provision_repo['path'] + '/' + dops_git_client_base['paths']['project_gitignore'] }})"
+      dops_git_client___provision_repo['path'] + '/' + dops_git_client_base['etc']['project_gitignore'] }})"
   become: true
   ansible.builtin.template:
     backup: false
@@ -59,7 +59,7 @@
     src: "{{ dops_git_client_base['templates']['gitignore'] }}"
     dest: "{{
       dops_git_client___provision_repo['path'] + '/' +
-      dops_git_client_base['paths']['project_gitignore']
+      dops_git_client_base['etc']['project_gitignore']
       }}"
   when:
     - dops_git_client___provision_repo['ignore'] is defined
@@ -71,7 +71,7 @@
   register: "dops_git_client___provision_git"
   environment:
     GIT_CONFIG: "{{ dops_git_client___provision_repo['path'] + '/' +
-      dops_git_client_base['paths']['project_git_config']
+      dops_git_client_base['etc']['project_git_config']
       }}"
   vars:
     ansible_shell_allow_world_readable_temp: true
@@ -79,7 +79,7 @@
     chdir: "{{ dops_git_client___provision_repo['path'] }}"
     creates: "{{
         dops_git_client___provision_repo['path'] + '/' +
-        dops_git_client_base['paths']['project_git_head']
+        dops_git_client_base['files']['project_git_head']
         }}"
     argv:
       - "{{ dops_git_client_base['run']['git'] }}"
