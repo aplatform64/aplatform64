@@ -6,6 +6,8 @@
 
 ## Release: 2.1.0
 
+- devops-1.1.0
+  - dops_git_client: add user default config
 - automation-1.0.1
   - installer: add pip upgrade
   - playbooks: update inventory defaults

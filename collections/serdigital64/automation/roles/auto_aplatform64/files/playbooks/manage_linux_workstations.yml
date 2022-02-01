@@ -80,6 +80,17 @@
         - linux_workstations_component['shell'] is defined
         - linux_workstations_component['shell']
 
+    - name: "Deploy and configure SUDO"
+      vars:
+        sys_sudo:
+          deploy: true
+          setup: true
+      ansible.builtin.include_role:
+        name: "serdigital64.system.sys_sudo"
+      when:
+        - linux_workstations_component['sudo'] is defined
+        - linux_workstations_component['sudo']
+
     - name: "Provision Cinnamon desktop manager"
       vars:
         sys_gui_cinnamon:

@@ -68,6 +68,18 @@
         - dev_nodes_apps['tools'] is defined
         - dev_nodes_apps['tools']
 
+    - name: "Provision GIT client"
+      vars:
+        dops_git_client:
+          deploy: true
+          setup: true
+          provision: true
+      ansible.builtin.include_role:
+        name: "serdigital64.devops.dops_git_client"
+      when:
+        - dev_nodes_apps['git_client'] is defined
+        - dev_nodes_apps['git_client']
+
     - name: "Provision GCC development environment"
       vars:
         dev_gcc:
