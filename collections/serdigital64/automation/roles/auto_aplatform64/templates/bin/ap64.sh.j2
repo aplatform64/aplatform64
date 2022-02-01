@@ -160,8 +160,6 @@ function ap64_remove() {
   for path in $targets; do
     if [[ -d "${path}/${site}" ]]; then
       bl64_os_rm_full "${path}/${site}"
-    else
-      next
     fi
   done
   :
