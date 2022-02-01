@@ -1,0 +1,8 @@
+---
+- name: "DevOps / GIT / Client / Setup / User"
+  ansible.builtin.include_tasks:
+    file: "dops_git_client_setup_user.yml"
+  when:
+    - dops_git_client_users is defined
+    - dops_git_client_users | length > 0
+...

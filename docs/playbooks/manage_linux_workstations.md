@@ -18,7 +18,10 @@ Manage Linux Workstations.
 
 Supported features in the current version:
 
-- Create users and groups
+- Configure IAM
+  - Create users
+  - Create groups
+  - Create sudoers rules
 - Provision and configure shells
 - Provision and configure AutoFS
 - Install fonts
@@ -26,7 +29,7 @@ Supported features in the current version:
   - Cinnamon
 - Install GUI-based tools
   - Tilix
-- Install TUI-based tools
+- Install and configure TUI-based tools
   - mc
 
 ## Use Cases
@@ -63,6 +66,7 @@ linux_workstations_component:
   fonts:
   mc:
   shell:
+  sudo:
   tilix:
   users:
 ```
@@ -74,18 +78,21 @@ linux_workstations_component:
 | linux_workstations_component.cinnamon | no        | boolean    | `false` | Deploy the environment?                   |
 | linux_workstations_component.fonts    | no        | boolean    | `false` | Provision fonts?                          |
 | linux_workstations_component.mc       | no        | boolean    | `false` | Deploy the tool?                          |
+| linux_workstations_component.sudo     | no        | boolean    | `true`  | Deploy and configure sudo?                |
 | linux_workstations_component.shell    | no        | boolean    | `true`  | Deploy and configure shells?              |
 | linux_workstations_component.tilix    | no        | boolean    | `false` | Deploy the tool?                          |
 | linux_workstations_component.users    | no        | boolean    | `true`  | Provision users and groups?               |
 
 Additional role specific settings are available to further customize the playbook:
 
-| A:Platform64 role                                                                | group_vars file                                                        |
-| -------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| A:Platform64 role                                                                | group_vars file                                                       |
+| -------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| [serdigital64.system.sys_mc](../roles/sys_mc.md#role-parameters)                 | `inventories/<SITE>/group_vars/linux_workstations/sys_mc.yml`         |
 | [serdigital64.system.sys_repository](../roles/sys_repository.md#role-parameters) | `inventories/<SITE>/group_vars/linux_workstations/sys_repository.yml` |
+| [serdigital64.system.sys_sudo](../roles/sys_sudo.md#role-parameters)             | `inventories/<SITE>/group_vars/linux_workstations/sys_sudo.yml`       |
 | [serdigital64.system.sys_shell](../roles/sys_shell.md#role-parameters)           | `inventories/<SITE>/group_vars/linux_workstations/sys_shell.yml`      |
 | [serdigital64.system.sys_user](../roles/sys_user.md#role-parameters)             | `inventories/<SITE>/group_vars/linux_workstations/sys_user.yml`       |
-| [serdigital64.storage.stg_autofs](../roles/stg_autofs.md#role-parameters)        | `inventories/<SITE>/group_vars/linux_workstations/stg_autofs.yml`      |
+| [serdigital64.storage.stg_autofs](../roles/stg_autofs.md#role-parameters)        | `inventories/<SITE>/group_vars/linux_workstations/stg_autofs.yml`     |
 
 ## Deployment
 
@@ -105,9 +112,9 @@ Additional role specific settings are available to further customize the playboo
 Dependencies in this section are automatically solved during the installation process.
 
 - Ansible Collections:
-  - serdigital64.backup
   - serdigital64.system
-  - serdigital64.system
+  - serdigital64.storage
+  - serdigital64.application
 
 ### Prerequisites
 

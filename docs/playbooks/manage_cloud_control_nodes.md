@@ -76,8 +76,9 @@ cloud_control_nodes_apps:
 
 Additional role specific settings are available to further customize the playbook:
 
-| A:Platform64 role                                                                | group_vars file                                                         |
-| -------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| A:Platform64 role                                                                | group_vars file                                                        |
+| -------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| [serdigital64.cloud.cloud_aws_cli](../roles/cloud_aws_cli.md#role-parameters)    | `inventories/<SITE>/group_vars/cloud_control_nodes/cloud_aws_cli.yml`  |
 | [serdigital64.system.sys_repository](../roles/sys_repository.md#role-parameters) | `inventories/<SITE>/group_vars/cloud_control_nodes/sys_repository.yml` |
 
 ## Deployment

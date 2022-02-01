@@ -64,11 +64,11 @@ manage_jenkins_controller_nodes_apps:
 
 Additional role specific settings are available to further customize the playbook:
 
-| A:Platform64 role                                                                | group_vars file                                                              |
-| -------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| A:Platform64 role                                                                | group_vars file                                                             |
+| -------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
 | [serdigital64.system.sys_repository](../roles/sys_repository.md#role-parameters) | `inventories/<SITE>/group_vars/jenkins_controller_nodes/sys_repository.yml` |
-| [serdigital64.development.dev_java](../roles/dev_java.md#role-parameters)        | `inventories/<SITE>/group_vars/jenkins_controller_nodes/dev_java.yml`        |
-| [serdigital64.devops.dops_jenkins](../roles/dops_jenkins.md#role-parameters)     | `inventories/<SITE>/group_vars/jenkins_controller_nodes/dops_jenkins.yml`    |
+| [serdigital64.development.dev_java](../roles/dev_java.md#role-parameters)        | `inventories/<SITE>/group_vars/jenkins_controller_nodes/dev_java.yml`       |
+| [serdigital64.devops.dops_jenkins](../roles/dops_jenkins.md#role-parameters)     | `inventories/<SITE>/group_vars/jenkins_controller_nodes/dops_jenkins.yml`   |
 
 ## Deployment
 

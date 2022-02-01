@@ -19,7 +19,7 @@ Manage provisioning of the SuDo tool.
 Supported features in the current version:
 
 - Deploy application. Packages are defined in the variable `sys_sudo_profiles`.
-- Configure system wide sudoers
+- Setup system wide sudoers
   - Add/Remove user rules
 
 The **sys_sudo** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [system](../collections/system.md) Ansible-Collection.
@@ -29,7 +29,7 @@ The **sys_sudo** Ansible-Role is part of the [A:Platform64](https://github.com/s
 The following example is an **Ansible Playbook** that includes all the supported features:
 
 ```yaml
-{% include "../../collections/serdigital64/system/playbooks/sys_sudo.yml" %}
+{ % include "../../collections/serdigital64/system/playbooks/sys_sudo.yml" % }
 ```
 
 The playbook can be run by executing:
@@ -51,22 +51,14 @@ ansible-playbook "${ANSIBLE_COLLECTIONS_PATHS}/ansible_collections/serdigital64/
 sys_sudo:
   resolve_prereq:
   deploy:
-sys_sudo_rules:
-  user:
-    - name:
-      rule:
-      present:
+  setup:
 ```
 
-| Parameter                     | Required? | Type    | Default | Purpose / Value                                                     |
-| ----------------------------- | --------- | ------- | ------- | ------------------------------------------------------------------- |
-| sys_sudo.resolve_prereq       | no        | boolean | `false` | Enable automatic resolution of prequisites                          |
-| sys_sudo.deploy               | no        | boolean | `false` | Enable installation of application packages                         |
-| sys_sudo_rules                | yes       | list    |         | Required when `setup == true`. Define what sudoers rules to process |
-| sys_sudo_rules.user           | yes       | list    |         | Define user rules                                                   |
-| sys_sudo_rules.user.0.name    | yes       | string  |         | Define user name                                                    |
-| sys_sudo_rules.user.0.rule    | yes       | string  |         | Define sudoers rule                                                 |
-| sys_sudo_rules.user.0.present | no        | boolean | `true`  | Set the rule end state                                              |
+| Parameter               | Required? | Type    | Default | Purpose / Value                             |
+| ----------------------- | --------- | ------- | ------- | ------------------------------------------- |
+| sys_sudo.resolve_prereq | no        | boolean | `false` | Enable automatic resolution of prequisites  |
+| sys_sudo.deploy         | no        | boolean | `false` | Enable installation of application packages |
+| sys_sudo.sudo           | no        | boolean | `false` | Enable application configuration            |
 
 ### End State
 
@@ -79,15 +71,25 @@ sys_sudo_application:
   type:
   version:
   installed:
+sys_sudo_rules:
+  user:
+    - name:
+      rule:
+      present:
 ```
 
-| Parameter                      | Required? | Type       | Default    | Purpose / Value                    |
-| ------------------------------ | --------- | ---------- | ---------- | ---------------------------------- |
-| sys_sudo_application           | no        | dictionary |            | Set application package end state  |
-| sys_sudo_application.name      | no        | string     | `"sudo"`   | Select application package name    |
-| sys_sudo_application.type      | no        | string     | `"distro"` | Select application package type    |
-| sys_sudo_application.version   | no        | string     | `"latest"` | Select application package version |
-| sys_sudo_application.installed | no        | boolean    | `true`     | Set application package end state  |
+| Parameter                      | Required?  | Type       | Default    | Purpose / Value                      |
+| ------------------------------ | ---------- | ---------- | ---------- | ------------------------------------ |
+| sys_sudo_application           | no         | dictionary |            | Set application package end state    |
+| sys_sudo_application.name      | no         | string     | `"sudo"`   | Select application package name      |
+| sys_sudo_application.type      | no         | string     | `"distro"` | Select application package type      |
+| sys_sudo_application.version   | no         | string     | `"latest"` | Select application package version   |
+| sys_sudo_application.installed | no         | boolean    | `true`     | Set application package end state    |
+| sys_sudo_rules                 | yes(setup) | list       |            | Define what sudoers rules to process |
+| sys_sudo_rules.user            | yes(setup) | list       |            | Define user rules                    |
+| sys_sudo_rules.user.0.name     | yes(setup) | string     |            | Define user name                     |
+| sys_sudo_rules.user.0.rule     | yes(setup) | string     |            | Define sudoers rule                  |
+| sys_sudo_rules.user.0.present  | no         | boolean    | `true`     | Set the rule end state               |
 
 ## Deployment
 
