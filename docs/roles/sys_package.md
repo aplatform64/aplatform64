@@ -50,6 +50,8 @@ The **sys_package** Ansible-Role is part of the [A:Platform64](https://github.co
 
 The following example is an **Ansible Playbook** that includes all the supported features:
 
+[use this link if viewing the doc on github](../../collections/serdigital64/system/playbooks/sys_package.yml)
+
 ```yaml
 {% include "../../collections/serdigital64/system/playbooks/sys_package.yml" %}
 ```

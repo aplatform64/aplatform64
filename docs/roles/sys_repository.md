@@ -40,6 +40,8 @@ The **sys_repository** Ansible-Role is part of the [A:Platform64](https://github
 
 The following example is an **Ansible Playbook** that includes all the supported features:
 
+[use this link if viewing the doc on github](../../collections/serdigital64/system/playbooks/sys_repository.yml)
+
 ```yaml
 {% include "../../collections/serdigital64/system/playbooks/sys_repository.yml" %}
 ```

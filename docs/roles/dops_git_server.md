@@ -32,6 +32,8 @@ The **dops_git_server** Ansible-Role is part of the [A:Platform64](https://githu
 
 The following example is an **Ansible Playbook** that includes all the supported features:
 
+[use this link if viewing the doc on github](../../collections/serdigital64/devops/playbooks/dops_git_server.yml)
+
 ```yaml
 {% include "../../collections/serdigital64/devops/playbooks/dops_git_server.yml" %}
 ```

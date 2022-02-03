@@ -28,6 +28,8 @@ The following example is an **Ansible Playbook** that includes all the supported
 
 [use this link if viewing the doc on github](../../collections/serdigital64/application/playbooks/app_chrome.yml)
 
+[use this link if viewing the doc on github](../../collections/serdigital64/application/playbooks/app_chrome.yml)
+
 ```yaml
 {% include "../../collections/serdigital64/application/playbooks/app_chrome.yml" %}
 ```
