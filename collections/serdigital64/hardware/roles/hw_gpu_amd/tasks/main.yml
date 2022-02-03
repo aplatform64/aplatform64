@@ -8,7 +8,7 @@
     file: "hw_gpu_amd_deploy.yml"
   when:
     - "'deploy' in hw_gpu_amd"
-    - "hw_gpu_amd['deploy']"
+    - hw_gpu_amd['deploy']
 
 - name: "Hardware / GPU / AMD / Finalize"
   ansible.builtin.include_tasks:
