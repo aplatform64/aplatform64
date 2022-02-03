@@ -270,6 +270,7 @@ app_vscode_catalog:
     - "moshfeu.compare-folders"
     - "RomanPeshkov.vscode-text-tables"
     - "humao.rest-client"
+    - "editorconfig.editorconfig"
   themes:
     - "SolarLiner.linux-themes"
     - "ahmadawais.shades-of-purple"

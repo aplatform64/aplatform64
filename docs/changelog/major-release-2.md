@@ -1,8 +1,18 @@
 # Releases
 
 - [Releases](#releases)
+  - [Release: 2.2.0](#release-220)
   - [Release: 2.1.0](#release-210)
   - [Release: 2.0.0](#release-200)
+
+## Release: 2.2.0
+
+- application-1.0.1
+  - app_vscode: update extension list
+- devops-1.1.2
+  - dops_git_client: fix var name
+- system-1.0.3
+  - sys_sudo: fix doc typo
 
 ## Release: 2.1.0
 

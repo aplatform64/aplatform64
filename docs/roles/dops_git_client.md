@@ -90,12 +90,12 @@ dops_git_client_application:
     version:
     installed:
 dops_git_client_users:
-  user:
-  group:
-  home:
-  user_name:
-  user_email:
-  default_branch:
+  - user:
+    group:
+    home:
+    user_name:
+    user_email:
+    default_branch:
 dops_git_client_repositories:
   - name:
     path:

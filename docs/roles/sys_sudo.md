@@ -29,7 +29,7 @@ The **sys_sudo** Ansible-Role is part of the [A:Platform64](https://github.com/s
 The following example is an **Ansible Playbook** that includes all the supported features:
 
 ```yaml
-{ % include "../../collections/serdigital64/system/playbooks/sys_sudo.yml" % }
+{% include "../../collections/serdigital64/system/playbooks/sys_sudo.yml" %}
 ```
 
 The playbook can be run by executing:
