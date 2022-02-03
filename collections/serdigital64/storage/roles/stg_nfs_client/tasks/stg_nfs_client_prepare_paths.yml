@@ -1,0 +1,18 @@
+---
+- name: "Storage / NFS / Client / Prepare / Paths / Create"
+  become: true
+  ansible.builtin.file:
+    follow: false
+    force: false
+    unsafe_writes: false
+    recurse: false
+    state: "directory"
+    path: "{{ stg_nfs_client___prepare_path }}"
+    owner: "{{ stg_nfs_client_base['access']['user']['owner'] }}"
+    group: "{{ stg_nfs_client_base['access']['group']['owner'] }}"
+    mode: "{{ stg_nfs_client_base['access']['mode']['dir'] }}"
+  loop:
+    - "{{ stg_nfs_client_base['paths']['shares_root'] }}"
+  loop_control:
+    loop_var: "stg_nfs_client___prepare_path"
+...

@@ -8,15 +8,17 @@ This collection is part of the [A:Platform64](https://github.com/serdigital64/ap
 
 ## Content
 
-| role                                                                        | purpose                   |
-| --------------------------------------------------------------------------- | ------------------------- |
-| [stg_autofs](https://aplatform64.readthedocs.io/en/latest/roles/stg_autofs) | Manage the AutoFS service |
+| role                                                                                | purpose                       |
+| ----------------------------------------------------------------------------------- | ----------------------------- |
+| [stg_autofs](https://aplatform64.readthedocs.io/en/latest/roles/stg_autofs)         | Manage the AutoFS service     |
+| [stg_nfs_client](https://aplatform64.readthedocs.io/en/latest/roles/stg_nfs_client) | Manage the NFS client service |
 
 ## Deployment
 
 ### Dependencies
 
 - Ansible Collections:
+  - ansible.posix
   - serdigital64.backup
   - serdigital64.system
 

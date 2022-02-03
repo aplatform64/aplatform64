@@ -1,7 +1,7 @@
 ---
 namespace: "serdigital64"
 name: "storage"
-version: "1.0.0"
+version: "1.1.0"
 readme: "README.md"
 authors:
   - "SerDigital64 <https://github.com/serdigital64>"
@@ -11,6 +11,7 @@ license:
 tags:
   - "storage"
 dependencies:
+  ansible.posix: "*"
   serdigital64.backup: "*"
   serdigital64.system: "*"
 repository: "https://github.com/serdigital64/aplatform64"
