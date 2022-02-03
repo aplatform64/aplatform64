@@ -1,3 +1,9 @@
 ---
-#
+test_stg_nfs_client_imports:
+  - name: "test-share"
+    mount: "test"
+    server: "fs.sinapsis"
+    share: "/srv/fs/soft"
+    options: "ro"
+    mounted: "true"
 ...
