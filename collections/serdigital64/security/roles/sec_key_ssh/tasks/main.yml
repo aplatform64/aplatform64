@@ -8,7 +8,7 @@
     file: "sec_key_ssh_setup.yml"
   when:
     - "'setup' in sec_key_ssh"
-    - "sec_key_ssh['setup']"
+    - sec_key_ssh['setup']
 
 - name: "Security / Key / SSH / Finalize"
   ansible.builtin.include_tasks:
