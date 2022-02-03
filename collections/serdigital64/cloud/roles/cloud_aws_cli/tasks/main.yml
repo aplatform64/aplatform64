@@ -8,7 +8,7 @@
     file: "cloud_aws_cli_prepare.yml"
   when:
     - "'prepare' in cloud_aws_cli"
-    - "cloud_aws_cli['prepare']"
+    - cloud_aws_cli['prepare']
 
 - name: "Cloud / AWS / CLI / Deploy"
   ansible.builtin.include_tasks:

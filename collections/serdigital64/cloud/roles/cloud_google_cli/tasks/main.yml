@@ -8,7 +8,7 @@
     file: "cloud_google_cli_deploy.yml"
   when:
     - "'deploy' in cloud_google_cli"
-    - "cloud_google_cli['deploy']"
+    - cloud_google_cli['deploy']
 
 - name: "Cloud / Google / Finalize"
   ansible.builtin.include_tasks:
