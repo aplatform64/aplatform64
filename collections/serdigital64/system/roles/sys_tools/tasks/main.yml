@@ -8,7 +8,7 @@
     file: "sys_tools_deploy.yml"
   when:
     - "'deploy' in sys_tools"
-    - "sys_tools['deploy']"
+    - sys_tools['deploy']
 
 - name: "System / Tools / Finalize"
   ansible.builtin.include_tasks:
