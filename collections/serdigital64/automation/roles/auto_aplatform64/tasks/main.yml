@@ -8,21 +8,21 @@
     file: "auto_aplatform64_prepare.yml"
   when:
     - "'prepare' in auto_aplatform64"
-    - "auto_aplatform64['prepare']"
+    - auto_aplatform64['prepare']
 
 - name: "Automation / A:Platform64 / Setup"
   ansible.builtin.include_tasks:
     file: "auto_aplatform64_setup.yml"
   when:
     - "'setup' in auto_aplatform64"
-    - "auto_aplatform64['setup']"
+    - auto_aplatform64['setup']
 
 - name: "Automation / A:Platform64 / Provision"
   ansible.builtin.include_tasks:
     file: "auto_aplatform64_provision.yml"
   when:
     - "'provision' in auto_aplatform64"
-    - "auto_aplatform64['provision']"
+    - auto_aplatform64['provision']
 
 - name: "Automation / A:Platform64 / Finalize"
   ansible.builtin.include_tasks:
