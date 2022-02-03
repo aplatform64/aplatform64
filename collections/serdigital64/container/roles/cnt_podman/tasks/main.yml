@@ -8,7 +8,7 @@
     file: "cnt_podman_deploy.yml"
   when:
     - "'deploy' in cnt_podman"
-    - "cnt_podman['deploy']"
+    - cnt_podman['deploy']
 
 - name: "Container / Podman / Finalize"
   ansible.builtin.include_tasks:
