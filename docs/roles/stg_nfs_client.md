@@ -1,6 +1,6 @@
 ---
 title: "Ansible Role: serdigital64.storage.stg_nfs_client"
-description: "Manage the NFS client service"
+description: "Manage the Linux NFS client"
 authors:
   - SerDigital64
 tags:
@@ -14,7 +14,7 @@ tags:
 
 ## Purpose
 
-Manage the NFS client service
+Manage the Linux NFS client
 
 Supported features in the current version:
 
@@ -22,9 +22,9 @@ Supported features in the current version:
   - Create main mount point path
 - Deploy service. Packages are defined in the variable `stg_nfs_client_profiles`.
 - Provision mounts:
-  - create mount point
-  - add entry to local fstab
-  - set mount state (mounted,unmounted)
+  - Create mount point
+  - Add entry to local fstab
+  - Set mount state (mounted,unmounted)
 
 The **stg_nfs_client** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [storage](../collections/storage.md) Ansible-Collection.
 
@@ -96,12 +96,12 @@ stg_nfs_client_imports:
 | Parameter                            | Required?      | Type       | Default             | Purpose / Value                                                       |
 | ------------------------------------ | -------------- | ---------- | ------------------- | --------------------------------------------------------------------- |
 | stg_nfs_client_application           | yes(deploy)    | dictionary |                     | Set application package end state                                     |
-| stg_nfs_client_application.name      | yes(deploy)    | string     | `"nfs_client"`      | Select application package name                                       |
-| stg_nfs_client_application.type      | yes(deploy)    | string     | `"distro"`          | Select application package type                                       |
-| stg_nfs_client_application.version   | yes(deploy)    | string     | `"latest"`          | Select application package version                                    |
-| stg_nfs_client_application.installed | yes(deploy)    | boolean    | `true`              | Set application package end state                                     |
+| stg_nfs_client_application.name      | yes            | string     | `"nfs_client"`      | Select application package name                                       |
+| stg_nfs_client_application.type      | yes            | string     | `"distro"`          | Select application package type                                       |
+| stg_nfs_client_application.version   | yes            | string     | `"latest"`          | Select application package version                                    |
+| stg_nfs_client_application.installed | yes            | boolean    | `true`              | Set application package end state                                     |
 | stg_nfs_client_paths                 | yes(prepare)   | dictionary |                     | Set paths                                                             |
-| stg_nfs_client_paths.shares_root     | yes(prepare)   | string     | `"/srv/nfs-client"` | Location where mounts will be created                                 |
+| stg_nfs_client_paths.shares_root     | yes            | string     | `"/srv/nfs-client"` | Location where mounts will be created                                 |
 | stg_nfs_client_imports               | yes(provision) | list       |                     |                                                                       |
 | stg_nfs_client_imports.0.name        | no             | string     |                     | Share name                                                            |
 | stg_nfs_client_imports.0.mount       | yes            | string     |                     | Local path where the share will be mounted. Relative to the root_path |
