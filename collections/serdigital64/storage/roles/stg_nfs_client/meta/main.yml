@@ -2,7 +2,7 @@
 galaxy_info:
   role_name: "stg_nfs_client"
   author: "serdigital64"
-  description: "Manage the NFS client service"
+  description: "Manage the Linux NFS client"
   company: "none"
   license: "GPL-3.0-or-later"
   min_ansible_version: "2.10"
