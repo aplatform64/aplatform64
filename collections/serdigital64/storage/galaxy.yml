@@ -14,6 +14,7 @@ dependencies:
   ansible.posix: "*"
   serdigital64.backup: "*"
   serdigital64.system: "*"
+  serdigital64.security: "*"
 repository: "https://github.com/serdigital64/aplatform64"
 homepage: "https://github.com/serdigital64/aplatform64"
 issues: "https://github.com/serdigital64/aplatform64/issues"

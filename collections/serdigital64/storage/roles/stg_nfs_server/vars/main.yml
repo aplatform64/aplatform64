@@ -1,0 +1,66 @@
+---
+# Define supported platforms
+stg_nfs_server_platforms:
+  - "CentOS8"
+  - "OracleLinux8"
+  - "Fedora33"
+  - "Fedora35"
+
+# Group Linux Distributions by family
+stg_nfs_server_os_family: "
+  {%- if
+      ( ansible_distribution == 'CentOS' ) or
+      ( ansible_distribution == 'OracleLinux' ) or
+      ( ansible_distribution == 'Fedora' )
+  -%}
+    {{ 'RedHat' }}
+  {%- elif
+      ( ansible_distribution == 'Debian' ) or
+      ( ansible_distribution == 'Ubuntu' )
+  -%}
+    {{ 'Ubuntu' }}
+  {%- else -%}
+    {{ 'Linux' }}
+  {%- endif -%}
+  "
+
+# Multiplatform packages
+stg_nfs_server_profiles_common:
+  snap: {}
+  flatpak: {}
+
+# Define common paths
+stg_nfs_server_base_common:
+  paths: {}
+  files: {}
+  templates: {}
+  access:
+    user:
+      owner: "root"
+    group:
+      owner: "root"
+    mode:
+      dir: "0755"
+      file: "0644"
+      exe: "0755"
+  run:
+    exportfs: "/usr/sbin/exportfs"
+  etc:
+    exports: "/etc/exports"
+
+stg_nfs_server_firewall_presets:
+  zone: "public"
+
+stg_nfs_server_firewall_rules:
+  - id: "nfs4"
+    service: "nfs"
+    zone: "{{ stg_nfs_server_firewall['zone'] | default(stg_nfs_server_firewall_presets['zone']) }}"
+    allow: "{{ stg_nfs_server_subsystem['enabled'] | ternary('enabled', 'disabled') }}"
+  - id: "mountd4"
+    service: "mountd"
+    zone: "{{ stg_nfs_server_firewall['zone'] | default(stg_nfs_server_firewall_presets['zone']) }}"
+    allow: "{{ stg_nfs_server_subsystem['enabled'] | ternary('enabled', 'disabled') }}"
+
+# Temporary loop variables
+# stg_nfs_server___export
+...

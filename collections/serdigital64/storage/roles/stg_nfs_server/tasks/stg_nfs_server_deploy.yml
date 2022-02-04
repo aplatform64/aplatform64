@@ -1,0 +1,7 @@
+---
+- name: "Storage / NFS / Server / Deploy / Package"
+  ansible.builtin.include_tasks:
+    file: "stg_nfs_server_deploy_package.yml"
+  when:
+    - stg_nfs_server_application is defined
+...
