@@ -22,7 +22,7 @@
         argv:
           - "/usr/bin/systemctl"
           - "is-active"
-          - "{{ stg_nfs_server_subsystems['service'] }}"
+          - "{{ stg_nfs_server_subsystem_profile['service'] }}"
       changed_when: false
       register: result
 

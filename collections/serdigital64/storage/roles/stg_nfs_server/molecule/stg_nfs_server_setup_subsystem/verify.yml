@@ -22,7 +22,7 @@
         argv:
           - "systemctl"
           - "is-enabled"
-          - "{{ stg_nfs_server_subsystems['service'] }}"
+          - "{{ stg_nfs_server_subsystem_profile['service'] }}"
       changed_when: false
       register: result
 
@@ -30,14 +30,4 @@
       ansible.builtin.assert:
         that:
           - result['stdout_lines'] is search( 'enabled' )
-
-    - name: "Detect target path"
-      ansible.builtin.stat:
-        path: "{{ stg_nfs_server_base['files']['X_FILE_SERVER_SETUP_X'] }}"
-      register: file_stat
-
-    - name: "Verify path is created"
-      ansible.builtin.assert:
-        that:
-          - file_stat['stat']['exists']
 ...
