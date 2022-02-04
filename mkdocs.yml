@@ -149,6 +149,7 @@ nav:
     - sec_openssh_server: "roles/sec_openssh_server.md"
     - stg_autofs: "roles/stg_autofs.md"
     - stg_nfs_client: "roles/stg_nfs_client.md"
+    - stg_nfs_server: "roles/stg_nfs_server.md"
     - sys_fonts: "roles/sys_fonts.md"
     - sys_gui_cinnamon: "roles/sys_gui_cinnamon.md"
     - sys_kernel: "roles/sys_kernel.md"
