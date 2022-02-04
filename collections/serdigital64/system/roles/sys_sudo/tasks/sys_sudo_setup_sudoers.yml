@@ -5,11 +5,11 @@
     backup: true
     create: false
     firstmatch: false
-    line: "{{ sys_sudo_setup___item['name'] + ' ' + sys_sudo_setup___item['rule'] }}"
-    state: "{{ (sys_sudo_setup___item['present'] | default( true )) | ternary('present', 'absent') }}"
+    line: "{{ sys_sudo___setup_item['name'] + ' ' + sys_sudo___setup_item['rule'] }}"
+    state: "{{ (sys_sudo___setup_item['present'] | default( true )) | ternary('present', 'absent') }}"
     validate: "{{ sys_sudo_base['run']['visudo'] }} -cf %s"
     path: "{{ sys_sudo_base['etc']['sudoers'] }}"
   loop: "{{ sys_sudo_rules['user'] }}"
   loop_control:
-    loop_var: sys_sudo_setup___item
+    loop_var: sys_sudo___setup_item
 ...
