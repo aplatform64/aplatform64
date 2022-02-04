@@ -8,7 +8,7 @@
     file: "cloud_aws_realm_provision.yml"
   when:
     - "'provision' in cloud_aws_realm"
-    - "cloud_aws_realm['provision']"
+    - cloud_aws_realm['provision']
 
 - name: "Cloud / AWS / Realm / Finalize"
   ansible.builtin.include_tasks:

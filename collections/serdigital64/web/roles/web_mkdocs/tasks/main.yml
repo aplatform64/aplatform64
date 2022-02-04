@@ -8,7 +8,7 @@
     file: "web_mkdocs_deploy.yml"
   when:
     - "'deploy' in web_mkdocs"
-    - "web_mkdocs['deploy']"
+    - web_mkdocs['deploy']
 
 - name: "Web / MkDocs / Finalize"
   ansible.builtin.include_tasks:

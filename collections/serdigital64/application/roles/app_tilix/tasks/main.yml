@@ -8,7 +8,7 @@
     file: "app_tilix_deploy.yml"
   when:
     - "'deploy' in app_tilix"
-    - "app_tilix['deploy']"
+    - app_tilix['deploy']
 
 - name: "Application / Tilix / Finalize"
   ansible.builtin.include_tasks:

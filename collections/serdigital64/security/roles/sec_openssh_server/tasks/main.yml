@@ -8,7 +8,7 @@
     file: "sec_openssh_server_deploy.yml"
   when:
     - "'deploy' in sec_openssh_server"
-    - "sec_openssh_server['deploy']"
+    - sec_openssh_server['deploy']
 
 - name: "Security / OpenSSH / Server / Finalize"
   ansible.builtin.include_tasks:

@@ -1,0 +1,12 @@
+---
+stg_nfs_client_application:
+  name: "nfs_client"
+  type: "distro"
+  version: "latest"
+  installed: true
+
+stg_nfs_client_paths:
+  shares_root: "/srv/nfs-client"
+
+stg_nfs_client_imports: []
+...

@@ -20,4 +20,6 @@ sys_sudo_base:
     sudoers: "/etc/sudoers"
   run:
     visudo: "/usr/sbin/visudo"
+
+# sys_sudo___setup_item
 ...

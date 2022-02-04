@@ -1,0 +1,8 @@
+---
+- name: "Side Efect"
+  hosts: "{{ lookup('env', 'APLATFORM64_TEST_PLATFORM') | default('all') }}"
+  gather_facts: false
+  tasks:
+
+    - meta: noop
+...

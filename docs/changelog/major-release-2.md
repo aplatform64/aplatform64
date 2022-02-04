@@ -11,8 +11,13 @@
   - app_vscode: update extension list
 - devops-1.1.2
   - dops_git_client: fix var name
+- storage-1.1.0
+  - stg_nfs_client: add new role
+  - stg_nfs_server: add new role
 - system-1.0.3
   - sys_sudo: fix doc typo
+- docs
+  - roles: added local markdown link for github views
 
 ## Release: 2.1.0
 

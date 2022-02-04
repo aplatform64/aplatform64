@@ -8,7 +8,7 @@
     file: "hpv_libvirt_client_deploy.yml"
   when:
     - "'deploy' in hpv_libvirt_client"
-    - "hpv_libvirt_client['deploy']"
+    - hpv_libvirt_client['deploy']
 
 - name: "Hypervisor / LibVirt / Client / Finalize"
   ansible.builtin.include_tasks:

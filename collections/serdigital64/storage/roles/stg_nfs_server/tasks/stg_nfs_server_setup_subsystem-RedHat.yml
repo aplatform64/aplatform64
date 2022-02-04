@@ -1,0 +1,10 @@
+---
+- name: "Storage / NFS / Server / Control / Subsystem / Set enabled state (service: {{
+    stg_nfs_server_subsystem_profile['service'] }})"
+  become: true
+  ansible.builtin.systemd:
+    no_block: false
+    scope: "system"
+    name: "{{ stg_nfs_server_subsystem_profile['service'] }}"
+    enabled: "{{ stg_nfs_server_subsystem['enabled'] }}"
+...

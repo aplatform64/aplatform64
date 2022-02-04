@@ -1,0 +1,11 @@
+---
+- name: "Storage / NFS / Client / Provision / Imports"
+  ansible.builtin.include_tasks:
+    file: "stg_nfs_client_provision_imports.yml"
+  loop: "{{ stg_nfs_client_imports }}"
+  loop_control:
+    loop_var: "stg_nfs_client___provision_share"
+  when:
+    - stg_nfs_client_imports is defined
+    - stg_nfs_client_imports | length > 0
+...
