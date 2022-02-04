@@ -65,7 +65,7 @@ sec_firewall_os:
 | sec_firewall_os.deploy         | no        | boolean | `false` | Enable installation of application packages  |
 | sec_firewall_os.setup          | no        | boolean | `false` | Enable application configuration             |
 | sec_firewall_os.control        | no        | boolean | `false` | Enable application subsystem service control |
-| sec_firewall_os.provision | no        | boolean | `false` | Enable firewall rules provisioning |
+| sec_firewall_os.provision      | no        | boolean | `false` | Enable firewall rules provisioning           |
 
 ### End State
 
@@ -89,22 +89,22 @@ sec_firewall_os_rules:
     allow:
 ```
 
-| Parameter                             | Required? | Type       | Default              | Purpose / Value                     |
-| ------------------------------------- | --------- | ---------- | -------------------- | ----------------------------------- |
-| sec_firewall_os_application           | no        | dictionary |                      | Set application package end state   |
-| sec_firewall_os_application.name      | no        | string     | `"firewall_manager"` | Select application package name     |
-| sec_firewall_os_application.type      | no        | string     | `"distro"`           | Select application package type     |
-| sec_firewall_os_application.version   | no        | string     | `"latest"`           | Select application package version  |
-| sec_firewall_os_application.installed | no        | boolean    | `true`               | Set application package end state   |
-| sec_firewall_os_subsystem             | no        | dictionary |                      | Set application subsystem end state |
-| sec_firewall_os_subsystem.enabled     | no        | boolean    | `false`              | Enable the subsystem?               |
-| sec_firewall_os_subsystem.status      | no        | string     | `"stopped"`          | Set the service state               |
-| sec_firewall_os_rules           | no        | list    |         | List of firewall rules                      |
-| sec_firewall_os_rules.0.id      | yes       | string  |         | Short name to identify the rule from others |
-| sec_firewall_os_rules.0.zone    | yes       | string  |         | Apply the rule to this zone                 |
-| sec_firewall_os_rules.0.service | no        | string  |         | Set the target service                      |
-| sec_firewall_os_rules.0.port    | no        | string  |         | Set the target port                         |
-| sec_firewall_os_rules.0.allow   | yes       | boolean |         | Set the rule to allow or deny traffic       |
+| Parameter                             | Required? | Type       | Default              | Purpose / Value                             |
+| ------------------------------------- | --------- | ---------- | -------------------- | ------------------------------------------- |
+| sec_firewall_os_application           | no        | dictionary |                      | Set application package end state           |
+| sec_firewall_os_application.name      | no        | string     | `"firewall_manager"` | Select application package name             |
+| sec_firewall_os_application.type      | no        | string     | `"distro"`           | Select application package type             |
+| sec_firewall_os_application.version   | no        | string     | `"latest"`           | Select application package version          |
+| sec_firewall_os_application.installed | no        | boolean    | `true`               | Set application package end state           |
+| sec_firewall_os_subsystem             | no        | dictionary |                      | Set application subsystem end state         |
+| sec_firewall_os_subsystem.enabled     | no        | boolean    | `false`              | Enable the subsystem?                       |
+| sec_firewall_os_subsystem.status      | no        | string     | `"stopped"`          | Set the service state                       |
+| sec_firewall_os_rules                 | no        | list       |                      | List of firewall rules                      |
+| sec_firewall_os_rules.0.id            | yes       | string     |                      | Short name to identify the rule from others |
+| sec_firewall_os_rules.0.zone          | yes       | string     |                      | Apply the rule to this zone                 |
+| sec_firewall_os_rules.0.service       | no        | string     |                      | Set the target service                      |
+| sec_firewall_os_rules.0.port          | no        | string     |                      | Set the target port                         |
+| sec_firewall_os_rules.0.allow         | yes       | boolean    |                      | Set the rule to allow or deny traffic       |
 
 ## Deployment
 
@@ -122,6 +122,7 @@ sec_firewall_os_rules:
 ### Dependencies
 
 - Ansible Collections:
+
   - ansible.posix
     - firewalld
   - serdigital64.system
