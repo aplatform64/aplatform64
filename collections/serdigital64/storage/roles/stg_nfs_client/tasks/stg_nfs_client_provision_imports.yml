@@ -1,0 +1,29 @@
+---
+- name: "Storage / NFS / Client / Provision / Imports / Set mount point ({{
+    stg_nfs_client___provision_share['mount'] }})"
+  become: true
+  ansible.builtin.file:
+    follow: false
+    force: false
+    unsafe_writes: false
+    recurse: false
+    state: "{{ stg_nfs_client___provision_share['mounted'] | ternary('directory', 'absent') }}"
+    path: "{{ stg_nfs_client_base['paths']['shares_root'] + '/' + stg_nfs_client___provision_share['mount'] }}"
+    owner: "{{ stg_nfs_client___provision_share['owner'] | default(stg_nfs_client_base['access']['user']['owner']) }}"
+    group: "{{ stg_nfs_client___provision_share['group'] | default(stg_nfs_client_base['access']['group']['owner']) }}"
+    mode: "{{ stg_nfs_client___provision_share['mode'] | default(stg_nfs_client_base['access']['mode']['dir']) }}"
+
+- name: "Storage / NFS / Client / Provision / Imports / Mount remote share ({{
+    stg_nfs_client___provision_share['server'] + ':' + stg_nfs_client___provision_share['share'] }})"
+  become: true
+  ansible.posix.mount:
+    boot: false
+    dump: "0"
+    passno: "0"
+    backup: true
+    fstype: "nfs4"
+    state: "{{ stg_nfs_client___provision_share['mounted'] | default(true) | ternary('mounted', 'unmounted') }}"
+    opts: "{{ stg_nfs_client___provision_share['options'] }}"
+    path: "{{ stg_nfs_client_base['paths']['shares_root'] + '/' + stg_nfs_client___provision_share['mount'] }}"
+    src: "{{ stg_nfs_client___provision_share['server'] + ':' + stg_nfs_client___provision_share['share'] }}"
+...

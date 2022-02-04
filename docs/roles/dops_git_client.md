@@ -38,6 +38,8 @@ The **dops_git_client** Ansible-Role is part of the [A:Platform64](https://githu
 
 The following example is an **Ansible Playbook** that includes all the supported features:
 
+[use this link if viewing the doc on github](../../collections/serdigital64/devops/playbooks/dops_git_client.yml)
+
 ```yaml
 {% include "../../collections/serdigital64/devops/playbooks/dops_git_client.yml" %}
 ```
@@ -90,12 +92,12 @@ dops_git_client_application:
     version:
     installed:
 dops_git_client_users:
-  user:
-  group:
-  home:
-  user_name:
-  user_email:
-  default_branch:
+  - user:
+    group:
+    home:
+    user_name:
+    user_email:
+    default_branch:
 dops_git_client_repositories:
   - name:
     path:

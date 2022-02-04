@@ -8,7 +8,7 @@
     file: "sys_gui_cinnamon_deploy.yml"
   when:
     - "'deploy' in sys_gui_cinnamon"
-    - "sys_gui_cinnamon['deploy']"
+    - sys_gui_cinnamon['deploy']
 
 - name: "System / GUI / Cinnamon / Finalize"
   ansible.builtin.include_tasks:

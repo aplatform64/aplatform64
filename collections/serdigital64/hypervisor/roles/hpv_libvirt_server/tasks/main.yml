@@ -8,28 +8,28 @@
     file: "hpv_libvirt_server_prepare.yml"
   when:
     - "'prepare' in hpv_libvirt_server"
-    - "hpv_libvirt_server['prepare']"
+    - hpv_libvirt_server['prepare']
 
 - name: "Hypervisor / LibVirt / Server / Deploy"
   ansible.builtin.include_tasks:
     file: "hpv_libvirt_server_deploy.yml"
   when:
     - "'deploy' in hpv_libvirt_server"
-    - "hpv_libvirt_server['deploy']"
+    - hpv_libvirt_server['deploy']
 
 - name: "Hypervisor / LibVirt / Server / Setup"
   ansible.builtin.include_tasks:
     file: "hpv_libvirt_server_setup.yml"
   when:
     - "'setup' in hpv_libvirt_server"
-    - "hpv_libvirt_server['setup']"
+    - hpv_libvirt_server['setup']
 
 - name: "Hypervisor / LibVirt / Server / Control"
   ansible.builtin.include_tasks:
     file: "hpv_libvirt_server_control.yml"
   when:
     - "'control' in hpv_libvirt_server"
-    - "hpv_libvirt_server['control']"
+    - hpv_libvirt_server['control']
 
 - name: "Hypervisor / LibVirt / Server / Finalize"
   ansible.builtin.include_tasks:

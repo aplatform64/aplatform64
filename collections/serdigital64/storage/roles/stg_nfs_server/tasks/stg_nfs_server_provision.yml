@@ -1,0 +1,8 @@
+---
+- name: "Storage / NFS / Server / Provision / Exports"
+  ansible.builtin.include_tasks:
+    file: "stg_nfs_server_provision_exports.yml"
+  when:
+    - stg_nfs_server_exports is defined
+    - stg_nfs_server_exports | length > 0
+...

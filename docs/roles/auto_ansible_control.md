@@ -72,6 +72,8 @@ The directory structure incorporates the concept of sites:
 
 The following example is an **Ansible Playbook** that includes all the supported features:
 
+[use this link if viewing the doc on github](../../collections/serdigital64/automation/playbooks/auto_ansible_control.yml)
+
 ```yaml
 {% include "../../collections/serdigital64/automation/playbooks/auto_ansible_control.yml" %}
 ```

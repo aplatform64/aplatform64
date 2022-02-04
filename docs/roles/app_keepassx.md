@@ -26,6 +26,8 @@ The **app_keepassx** Ansible-Role is part of the [A:Platform64](https://github.c
 
 The following example is an **Ansible Playbook** that includes all the supported features:
 
+[use this link if viewing the doc on github](../../collections/serdigital64/application/playbooks/app_keepassx.yml)
+
 ```yaml
 {% include "../../collections/serdigital64/application/playbooks/app_keepassx.yml" %}
 ```

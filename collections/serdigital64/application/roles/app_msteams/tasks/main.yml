@@ -8,7 +8,7 @@
     file: "app_msteams_deploy.yml"
   when:
     - "'deploy' in app_msteams"
-    - "app_msteams['deploy']"
+    - app_msteams['deploy']
 
 - name: "Application / MS Teams / Finalize"
   ansible.builtin.include_tasks:

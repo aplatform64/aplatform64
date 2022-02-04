@@ -5,7 +5,7 @@
 # Author: serdigital64 (https://github.com/serdigital64)
 # License: GPL-3.0-or-later (https://www.gnu.org/licenses/gpl-3.0.txt)
 # Repository: https://github.com/serdigital64/aplatform64
-# Version: 1.0.0
+# Version: 1.1.0
 #######################################
 
 [[ -d "$APLATFORM64_BIN" ]] || exit 1
@@ -19,19 +19,24 @@ readonly DEVAP64_BUILD_NAMESPACE='serdigital64'
 
 function devap64_build_test() {
 
+  local target="$1"
   local collection=''
 
   cd "$APLATFORM64_BUILD" || return 1
 
-  bl64_msg_show_task 'remove old package versions'
-  $BL64_OS_ALIAS_RM_FILE $DEVAP64_BUILD_NAMESPACE-*gz
+  if [[ -z "$target" ]]; then
+    target="$(
+      cd "$APLATFORM64_COLLECTIONS" || return 1
+      echo *
+    )"
+  fi
 
-  bl64_msg_show_task 'generate new packages'
-  for collection in $(
-    cd "$APLATFORM64_COLLECTIONS" || return 1
-    echo *
-  ); do
-    "$APLATFORM64_CMD_ANSIBLE_GALAXY" collection build "$APLATFORM64_COLLECTIONS/$collection"
+  for collection in $target; do
+    bl64_msg_show_task 'remove old collection package'
+    bl64_os_rm_file $DEVAP64_BUILD_NAMESPACE-${collection}-*.tar.gz
+
+    bl64_msg_show_task 'generate new collection package'
+    "$APLATFORM64_CMD_ANSIBLE_GALAXY" collection build "${APLATFORM64_COLLECTIONS}/${collection}"
   done
 
   bl64_msg_show_task 'remove version tag from package file names'
@@ -43,18 +48,23 @@ function devap64_build_test() {
 
 function devap64_build_prod() {
 
+  local target="$1"
   local collection=''
 
   cd "$APLATFORM64_DIST" || return 1
 
-  bl64_msg_show_task 'remove old package versions'
-  $BL64_OS_ALIAS_RM_FILE $DEVAP64_BUILD_NAMESPACE-*-*.tar.gz
+  if [[ -z "$target" ]]; then
+    target="$(
+      cd "$APLATFORM64_COLLECTIONS" || return 1
+      echo *
+    )"
+  fi
 
-  bl64_msg_show_task 'generate new packages'
-  for collection in $(
-    cd "$APLATFORM64_COLLECTIONS" || return 1
-    echo *
-  ); do
+  for collection in $target; do
+    bl64_msg_show_task 'remove old collection package'
+    bl64_os_rm_file $DEVAP64_BUILD_NAMESPACE-${collection}-*.tar.gz
+
+    bl64_msg_show_task 'generate new collection package'
     "$APLATFORM64_CMD_ANSIBLE_GALAXY" collection build "$APLATFORM64_COLLECTIONS/$collection"
   done
 
@@ -62,13 +72,23 @@ function devap64_build_prod() {
 
 function devap64_build_publish() {
 
+  local target="$1"
   local collection=''
 
   cd "$APLATFORM64_DIST" || return 1
+  # shellcheck disable=SC1090
   source "$APLATFORM64_SECRETS"
 
-  for collection in $DEVAP64_BUILD_NAMESPACE-*-*.tar.gz; do
-    "$APLATFORM64_CMD_ANSIBLE_GALAXY" collection publish --token "$APLATFORM64_SECRET_GALAXY_TOKEN" "$collection"
+  if [[ -z "$target" ]]; then
+    target="$(
+      cd "$APLATFORM64_COLLECTIONS" || return 1
+      echo *
+    )"
+  fi
+
+  for collection in $target; do
+    bl64_msg_show_task 'publish collection package'
+    "$APLATFORM64_CMD_ANSIBLE_GALAXY" collection publish --token "$APLATFORM64_SECRET_GALAXY_TOKEN" $DEVAP64_BUILD_NAMESPACE-${collection}-*.tar.gz
   done
 
 }
@@ -87,13 +107,15 @@ function devap64_build_check() {
 function devap64_build_help() {
 
   bl64_msg_show_usage \
-    '-t|-p|u [-h]' \
+    '<-t|-p|u> [-c collection] [-h]' \
     'Build ansible galaxy packages' \
     '
-  -t : build testing packages
-  -p : build production packages
-  -u : publish production packages (needs Galaxy token set in APLATFORM64_SECRET_GALAXY_TOKEN)
-    ' '' ''
+  -t           : build testing packages
+  -p           : build production packages
+  -u           : publish production packages (needs Galaxy token set in APLATFORM64_SECRET_GALAXY_TOKEN)
+    ' '' '
+  -c collection: limit actions to the specified collection. Format: domain.collection
+    '
 
 }
 
@@ -104,9 +126,10 @@ function devap64_build_help() {
 declare devap64_build_status=1
 declare devap64_build_command=''
 declare devap64_build_option=''
+declare devap64_build_collection=''
 
 (($# == 0)) && devap64_build_help && exit 1
-while getopts ':tpuh' devap64_build_option; do
+while getopts ':tpuc:h' devap64_build_option; do
   case "$devap64_build_option" in
   t)
     devap64_build_command='devap64_build_test'
@@ -120,6 +143,7 @@ while getopts ':tpuh' devap64_build_option; do
     devap64_build_command='devap64_build_publish'
     devap64_build_command_tag='publishing packages'
     ;;
+  c) devap64_build_collection="$OPTARG" ;;
   h) devap64_build_help && exit ;;
   \?) devap64_build_help && exit 1 ;;
   esac
@@ -147,7 +171,7 @@ fi
 
 bl64_msg_show_info "starting ${devap64_build_command_tag} process"
 case "$devap64_build_command" in
-'devap64_build_test' | 'devap64_build_prod' | 'devap64_build_publish') "$devap64_build_command" ;;
+'devap64_build_test' | 'devap64_build_prod' | 'devap64_build_publish') "$devap64_build_command" "$devap64_build_collection" ;;
 esac
 devap64_build_status=$?
 

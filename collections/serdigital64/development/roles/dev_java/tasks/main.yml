@@ -8,7 +8,7 @@
     file: "dev_java_deploy.yml"
   when:
     - "'deploy' in dev_java"
-    - "dev_java['deploy']"
+    - dev_java['deploy']
 
 - name: "Development / Java / Finalize"
   ansible.builtin.include_tasks:

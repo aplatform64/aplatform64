@@ -32,6 +32,8 @@ The **dev_java** Ansible-Role is part of the [A:Platform64](https://github.com/s
 
 The following example is an **Ansible Playbook** that includes all the supported features:
 
+[use this link if viewing the doc on github](../../collections/serdigital64/development/playbooks/dev_java.yml)
+
 ```yaml
 {% include "../../collections/serdigital64/development/playbooks/dev_java.yml" %}
 ```

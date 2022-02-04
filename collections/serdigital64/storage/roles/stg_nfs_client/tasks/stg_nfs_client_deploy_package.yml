@@ -1,0 +1,10 @@
+---
+- name: "Storage / NFS / Client / Deploy / Package / Provision application"
+  vars:
+    sys_package:
+      provision: true
+    sys_package_application: "{{ stg_nfs_client_application }}"
+    sys_package_profiles: "{{ stg_nfs_client_profiles }}"
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_package"
+...

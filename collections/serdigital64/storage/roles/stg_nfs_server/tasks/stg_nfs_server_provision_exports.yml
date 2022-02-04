@@ -1,0 +1,26 @@
+---
+- name: "Storage / NFS / Server / Provision / Exports / Update NFS shares definition"
+  become: true
+  ansible.builtin.lineinfile:
+    backup: true
+    create: false
+    firstmatch: false
+    line: "{{
+      stg_nfs_server___export['path'] + '   ' +
+      stg_nfs_server___export['options']
+      }}"
+    state: "{{ stg_nfs_server___export['enabled'] | ternary('present', 'absent') }}"
+    path: "{{ stg_nfs_server_base['etc']['exports'] }}"
+  loop: "{{ stg_nfs_server_exports }}"
+  loop_control:
+    loop_var: "stg_nfs_server___export"
+
+- name: "Storage / NFS / Server / Provision / Exports / Refresh NFS export list"
+  become: true
+  changed_when: false
+  ansible.builtin.command:
+    argv:
+      - "{{ stg_nfs_server_base['run']['exportfs'] }}"
+      - "-r"
+      - "-a"
+...

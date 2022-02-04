@@ -1,0 +1,9 @@
+---
+roles: []
+collections:
+  - "ansible.posix"
+  - name: "../../../../../build/serdigital64-backup.tar.gz"
+    type: "file"
+  - name: "../../../../../build/serdigital64-system.tar.gz"
+    type: "file"
+...

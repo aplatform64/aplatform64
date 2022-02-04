@@ -8,21 +8,21 @@
     file: "dops_jenkins_deploy.yml"
   when:
     - "'deploy' in dops_jenkins"
-    - "dops_jenkins['deploy']"
+    - dops_jenkins['deploy']
 
 - name: "DevOps / Jenkins / Setup"
   ansible.builtin.include_tasks:
     file: "dops_jenkins_setup.yml"
   when:
     - "'setup' in dops_jenkins"
-    - "dops_jenkins['setup']"
+    - dops_jenkins['setup']
 
 - name: "DevOps / Jenkins / Control"
   ansible.builtin.include_tasks:
     file: "dops_jenkins_control.yml"
   when:
     - "'control' in dops_jenkins"
-    - "dops_jenkins['control']"
+    - dops_jenkins['control']
 
 - name: "DevOps / Jenkins / Finalize"
   ansible.builtin.include_tasks:

@@ -8,14 +8,14 @@
     file: "sys_kernel_deploy.yml"
   when:
     - "'deploy' in sys_kernel"
-    - "sys_kernel['deploy']"
+    - sys_kernel['deploy']
 
 - name: "System / Kernel / Setup"
   ansible.builtin.include_tasks:
     file: "sys_kernel_setup.yml"
   when:
     - "'setup' in sys_kernel"
-    - "sys_kernel['setup']"
+    - sys_kernel['setup']
 
 - name: "System / Kernel / Finalize"
   ansible.builtin.include_tasks:

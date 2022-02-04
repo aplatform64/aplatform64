@@ -1,0 +1,9 @@
+---
+test_stg_nfs_client_imports:
+  - name: "test-share"
+    mount: "test"
+    server: "192.168.3.7"
+    share: "/srv/fs/soft"
+    options: "ro"
+    mounted: "true"
+...

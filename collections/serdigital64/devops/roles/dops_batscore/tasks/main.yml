@@ -8,14 +8,14 @@
     file: "dops_batscore_prepare.yml"
   when:
     - "'prepare' in dops_batscore"
-    - "dops_batscore['prepare']"
+    - dops_batscore['prepare']
 
 - name: "DevOps / BatsCore / Deploy"
   ansible.builtin.include_tasks:
     file: "dops_batscore_deploy.yml"
   when:
     - "'deploy' in dops_batscore"
-    - "dops_batscore['deploy']"
+    - dops_batscore['deploy']
 
 - name: "DevOps / BatsCore / Finalize"
   ansible.builtin.include_tasks:

@@ -8,7 +8,7 @@
     file: "app_chrome_deploy.yml"
   when:
     - "'deploy' in app_chrome"
-    - "app_chrome['deploy']"
+    - app_chrome['deploy']
 
 - name: "Application / Chrome / Finalize"
   ansible.builtin.include_tasks:

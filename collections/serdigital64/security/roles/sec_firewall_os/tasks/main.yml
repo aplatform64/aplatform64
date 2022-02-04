@@ -8,21 +8,21 @@
     file: "sec_firewall_os_deploy.yml"
   when:
     - "'deploy' in sec_firewall_os"
-    - "sec_firewall_os['deploy']"
+    - sec_firewall_os['deploy']
 
 - name: "Security / Firewall / OS / Setup"
   ansible.builtin.include_tasks:
     file: "sec_firewall_os_setup.yml"
   when:
     - "'setup' in sec_firewall_os"
-    - "sec_firewall_os['setup']"
+    - sec_firewall_os['setup']
 
 - name: "Security / Firewall / OS / Control"
   ansible.builtin.include_tasks:
     file: "sec_firewall_os_control.yml"
   when:
     - "'control' in sec_firewall_os"
-    - "sec_firewall_os['control']"
+    - sec_firewall_os['control']
 
 - name: "Security / Firewall / OS / Finalize"
   ansible.builtin.include_tasks:

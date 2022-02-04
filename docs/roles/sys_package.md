@@ -50,6 +50,8 @@ The **sys_package** Ansible-Role is part of the [A:Platform64](https://github.co
 
 The following example is an **Ansible Playbook** that includes all the supported features:
 
+[use this link if viewing the doc on github](../../collections/serdigital64/system/playbooks/sys_package.yml)
+
 ```yaml
 {% include "../../collections/serdigital64/system/playbooks/sys_package.yml" %}
 ```
@@ -115,12 +117,12 @@ sys_package_profiles:
 ```
 
 | Parameter                                        | Required? | Type       | Default  | Purpose / Value                                                                                           |
-| ------------------------------------------------ | --------- | ---------- | -------- | --------------------------------------------------------------------------------------------------------- | --- |
+| ------------------------------------------------ | --------- | ---------- | -------- | --------------------------------------------------------------------------------------------------------- |
 | sys_package.resolve_prereq                       | no        | boolean    | `false`  | Enable automatic resolution of prequisites                                                                |
 | sys_package.prepare                              | no        | boolean    | `false`  | Enable preparation of the runtime environment                                                             |
 | sys_package.provision                            | no        | boolean    | `false`  | Enable installation/uninstallation of packages                                                            |
 | sys_package_application                          | yes       | dictionary |          | Required when `provision == true`. Define target application from profile list                            |
-| sys_package_application.name                     | yes       | string     |          | Select application package name                                                                           | >   |
+| sys_package_application.name                     | yes       | string     |          | Select application package name                                                                           |
 | sys_package_application.type                     | yes       | string     |          | Select application package type                                                                           |
 | sys_package_application.version                  | yes       | string     |          | Select application package version                                                                        |
 | sys_package_application.installed                | yes       | boolean    |          | Set application end state                                                                                 |

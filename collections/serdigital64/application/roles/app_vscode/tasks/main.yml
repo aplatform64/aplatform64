@@ -8,14 +8,14 @@
     file: "app_vscode_deploy.yml"
   when:
     - "'deploy' in app_vscode"
-    - "app_vscode['deploy']"
+    - app_vscode['deploy']
 
 - name: "Application / VSCode / Setup"
   ansible.builtin.include_tasks:
     file: "app_vscode_setup.yml"
   when:
     - "'setup' in app_vscode"
-    - "app_vscode['setup']"
+    - app_vscode['setup']
 
 - name: "Application / VSCode / Finalize"
   ansible.builtin.include_tasks:

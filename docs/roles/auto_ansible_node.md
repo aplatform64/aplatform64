@@ -33,6 +33,8 @@ The **auto_ansible_node** Ansible-Role is part of the [A:Platform64](https://git
 
 The following example is an **Ansible Playbook** that includes all the supported features:
 
+[use this link if viewing the doc on github](../../collections/serdigital64/automation/playbooks/auto_ansible_node.yml)
+
 ```yaml
 {% include "../../collections/serdigital64/automation/playbooks/auto_ansible_node.yml" %}
 ```
