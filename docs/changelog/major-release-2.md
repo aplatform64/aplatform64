@@ -1,9 +1,17 @@
 # Releases
 
 - [Releases](#releases)
+  - [Release: 2.3.0](#release-230)
   - [Release: 2.2.0](#release-220)
   - [Release: 2.1.0](#release-210)
   - [Release: 2.0.0](#release-200)
+
+## Release: 2.3.0
+
+- storage-1.2.0
+  - stg_repository: add new role
+- automation-1.2.0
+  - playbooks: rename manage_git_server_nodes to manage_git_servers
 
 ## Release: 2.2.0
 
