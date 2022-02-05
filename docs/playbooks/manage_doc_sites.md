@@ -56,7 +56,7 @@ manage_doc_sites_apps:
 | Parameter                    | Required? | Type       | Default | Purpose / Value                           |
 | ---------------------------- | --------- | ---------- | ------- | ----------------------------------------- |
 | manage_doc_sites_apps        | no        | dictionary |         | Define what applications will be deployed |
-| manage_doc_sites_apps.mkdocs | no        | boolean    | true    | Deploy the application?                   |
+| manage_doc_sites_apps.mkdocs | no        | boolean    | `true`  | Deploy the application?                   |
 
 Additional role specific settings are available to further customize the playbook:
 

@@ -54,15 +54,15 @@ manage_jenkins_workers_apps:
   jenkins:
 ```
 
-| Parameter                                | Required? | Type       | Default | Purpose / Value                           |
-| ---------------------------------------- | --------- | ---------- | ------- | ----------------------------------------- |
+| Parameter                           | Required? | Type       | Default | Purpose / Value                           |
+| ----------------------------------- | --------- | ---------- | ------- | ----------------------------------------- |
 | manage_jenkins_workers_apps         | no        | dictionary |         | Define what applications will be deployed |
 | manage_jenkins_workers_apps.jenkins | no        | boolean    | `true`  | Deploy the application?                   |
 
 Additional role specific settings are available to further customize the playbook:
 
-| A:Platform64 role                                                                | group_vars file                                                             |
-| -------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| A:Platform64 role                                                                | group_vars file                                                        |
+| -------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
 | [serdigital64.system.sys_repository](../roles/sys_repository.md#role-parameters) | `inventories/<SITE>/group_vars/jenkins_controllers/sys_repository.yml` |
 | [serdigital64.system.sys_user](../roles/sys_user.md#role-parameters)             | `inventories/<SITE>/group_vars/jenkins_controllers/sys_user.yml`       |
 | [serdigital64.development.dev_java](../roles/dev_java.md#role-parameters)        | `inventories/<SITE>/group_vars/jenkins_controllers/dev_java.yml`       |
