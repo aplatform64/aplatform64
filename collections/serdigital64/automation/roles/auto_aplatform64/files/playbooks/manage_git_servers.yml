@@ -1,6 +1,6 @@
 ---
-- name: "Manage GIT Server Nodes"
-  hosts: "git_server_nodes"
+- name: "Manage GIT servers"
+  hosts: "git_servers"
   gather_facts: false
 
   pre_tasks:
@@ -46,6 +46,6 @@
       ansible.builtin.include_role:
         name: "serdigital64.devops.dops_git_server"
       when:
-        - git_server_nodes_apps['git'] is defined
-        - git_server_nodes_apps['git']
+        - git_servers_apps['git'] is defined
+        - git_servers_apps['git']
 ...

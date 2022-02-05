@@ -96,7 +96,7 @@ Each playbook will integrate the roles needed to implement the service along wit
 | [manage_cloud_realm](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_cloud_realm/)                           | Manage cloud provider accounts, users and organizations as a single entity |
 | [manage_dev_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_dev_nodes/)                               | Provision software development environments                                |
 | [manage_doc_sites](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_doc_sites/)                               | Provision documentation site management tools                              |
-| [manage_git_server_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_git_server_nodes/)                 | Manage GIT server nodes                                                    |
+| [manage_git_server_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_git_server_nodes/)                 | Manage GIT servers                                                    |
 | [manage_hpc_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_hpc_nodes/)                               | Provision high-performance computing environments                          |
 | [manage_jenkins_controller_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_jenkins_controller_nodes/) | Manage Jenkins Controller nodes                                            |
 | [manage_jenkins_worker_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_jenkins_worker_nodes/)         | Manage Jenkins Worker nodes                                                |

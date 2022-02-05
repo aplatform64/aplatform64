@@ -1,7 +1,7 @@
 ---
 namespace: "serdigital64"
 name: "storage"
-version: "1.1.0"
+version: "1.2.0"
 readme: "README.md"
 authors:
   - "SerDigital64 <https://github.com/serdigital64>"
