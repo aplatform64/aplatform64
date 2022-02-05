@@ -1,5 +1,5 @@
 ---
-- name: "Manage Jenkins Worker Nodes"
+- name: "Manage Jenkins workers"
   hosts: "jenkins_worker_nodes"
   gather_facts: false
 

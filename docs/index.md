@@ -98,8 +98,8 @@ Each playbook will integrate the roles needed to implement the service along wit
 | [manage_doc_sites](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_doc_sites/)                               | Provision documentation site management tools                              |
 | [manage_git_server_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_git_server_nodes/)                 | Manage GIT servers                                                    |
 | [manage_hpc_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_hpc_nodes/)                               | Provision high-performance computing environments                          |
-| [manage_jenkins_controller_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_jenkins_controller_nodes/) | Manage Jenkins Controller nodes                                            |
-| [manage_jenkins_worker_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_jenkins_worker_nodes/)         | Manage Jenkins Worker nodes                                                |
+| [manage_jenkins_controllers](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_jenkins_controllers/) | Manage Jenkins controllers                                            |
+| [manage_jenkins_workers](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_jenkins_workers/)         | Manage Jenkins workers                                                |
 | [manage_linux_workstations](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_linux_workstations/)             | Manage Linux Workstations                                                  |
 | [manage_office_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_office_nodes/)                         | Provision office productivity applications                                 |
 | [manage_test_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_test_nodes/)                             | Provision software testing tools                                           |

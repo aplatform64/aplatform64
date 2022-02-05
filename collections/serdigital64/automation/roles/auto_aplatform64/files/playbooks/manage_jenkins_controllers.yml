@@ -1,5 +1,5 @@
 ---
-- name: "Manage Jenkins Controller Nodes"
+- name: "Manage Jenkins controllers"
   hosts: "jenkins_controller_nodes"
   gather_facts: false
 

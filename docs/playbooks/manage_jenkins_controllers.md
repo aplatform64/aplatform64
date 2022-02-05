@@ -1,6 +1,6 @@
 ---
-title: "Ansible Playbook: manage_jenkins_worker_nodes"
-description: "Manage Jenkins Worker nodes"
+title: "Ansible Playbook: manage_jenkins_controllers"
+description: "Manage Jenkins controllers"
 authors:
   - SerDigital64
 tags:
@@ -10,28 +10,31 @@ tags:
   - automation
 ---
 
-# Ansible Playbook: manage_jenkins_worker_nodes
+# Ansible Playbook: manage_jenkins_controllers
 
 ## Purpose
 
-Manage Jenkins Worker nodes.
+Manage Jenkins controllers.
 
 Supported features in the current version:
 
 - Deploy prerequisites:
   - OpenJDK 11
-- Create dedicated remote access account for SSH agent
+- Deploy application:
+  - Jenkins
+- Control systemd service
+- Configure Jenkins server
 
 ## Use Cases
 
-### Deploy Jenkins worker node
+### Deploy Jenkins controller node
 
 - Verify that target nodes are registered in the inventory file: [jenkins_service.ini](#inventory)
-- Verify that target endstate is set: [manage_jenkins_worker_nodes.yml](#end-state)
+- Verify that target endstate is set: [manage_jenkins_controllers.yml](#end-state)
 - Run the playbook. Use the `-s <SITE>` parameter to select the target site.
 
 ```shell
-/opt/aplatform64/bin/ap64.sh -n -p manage_jenkins_worker_nodes -s <SITE>
+/opt/aplatform64/bin/ap64.sh -n -p manage_jenkins_controllers -s <SITE>
 ```
 
 ## Playbook Parameters
@@ -41,31 +44,31 @@ Supported features in the current version:
 Register the hosts that will consume the service in the Ansible Inventory file:
 
 - File: `inventories/<SITE>/jenkins_service.ini`
-- Host Group: `jenkins_worker_nodes`
+- Host Group: `jenkins_controller_nodes`
 
 ### End State
 
 A dedicated group_vars directory is used to store end-state configuration settings for both the playbook and related Ansible Roles.
 
-Set playbook specific settings in the file: `inventories/<SITE>/group_vars/jenkins_worker_nodes/manage_jenkins_worker_nodes.yml`
+Set playbook specific settings in the file: `inventories/<SITE>/group_vars/jenkins_controller_nodes/manage_jenkins_controllers.yml`
 
 ```yaml
-manage_jenkins_worker_nodes_apps:
+manage_jenkins_controllers_apps:
   jenkins:
 ```
 
-| Parameter                                | Required? | Type       | Default | Purpose / Value                           |
-| ---------------------------------------- | --------- | ---------- | ------- | ----------------------------------------- |
-| manage_jenkins_worker_nodes_apps         | no        | dictionary |         | Define what applications will be deployed |
-| manage_jenkins_worker_nodes_apps.jenkins | no        | boolean    | `true`  | Deploy the application?                   |
+| Parameter                               | Required? | Type       | Default | Purpose / Value                           |
+| --------------------------------------- | --------- | ---------- | ------- | ----------------------------------------- |
+| manage_jenkins_controllers_apps         | no        | dictionary |         | Define what applications will be deployed |
+| manage_jenkins_controllers_apps.jenkins | no        | boolean    | `true`  | Deploy the application?                   |
 
 Additional role specific settings are available to further customize the playbook:
 
 | A:Platform64 role                                                                | group_vars file                                                             |
 | -------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
 | [serdigital64.system.sys_repository](../roles/sys_repository.md#role-parameters) | `inventories/<SITE>/group_vars/jenkins_controller_nodes/sys_repository.yml` |
-| [serdigital64.system.sys_user](../roles/sys_user.md#role-parameters)             | `inventories/<SITE>/group_vars/jenkins_controller_nodes/sys_user.yml`       |
 | [serdigital64.development.dev_java](../roles/dev_java.md#role-parameters)        | `inventories/<SITE>/group_vars/jenkins_controller_nodes/dev_java.yml`       |
+| [serdigital64.devops.dops_jenkins](../roles/dops_jenkins.md#role-parameters)     | `inventories/<SITE>/group_vars/jenkins_controller_nodes/dops_jenkins.yml`   |
 
 ## Deployment
 
@@ -88,6 +91,7 @@ Dependencies in this section are automatically solved during the installation of
   - serdigital64.backup
   - serdigital64.system
   - serdigital64.development
+  - serdigital64.devops
 
 ### Prerequisites
 
