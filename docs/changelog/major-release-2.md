@@ -11,7 +11,7 @@
 - storage-1.2.0
   - stg_repository: add new role
 - automation-1.2.0
-  - playbooks: rename manage_git_server_nodes to manage_git_servers
+  - playbooks: rename manage_git_server_nodes to manage_git_servers, add manage_file_servers
 
 ## Release: 2.2.0
 
