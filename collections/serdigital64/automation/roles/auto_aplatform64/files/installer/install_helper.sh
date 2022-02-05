@@ -58,6 +58,12 @@ function InstallAnsible {
   pip3 \
     --cache-dir="$APLATFORM64_PATH_CACHE_PIP" \
     install \
+    --upgrade \
+    'pip'
+
+  pip3 \
+    --cache-dir="$APLATFORM64_PATH_CACHE_PIP" \
+    install \
     'ansible'
 
   [[ ! -x "$AnsibleCLI" ]] && return 1
