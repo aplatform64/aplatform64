@@ -1,0 +1,62 @@
+---
+- name: "Manage file servers"
+  hosts: "file_servers"
+  gather_facts: false
+
+  pre_tasks:
+
+    - name: "Discover Target Platform"
+      ansible.builtin.setup:
+        gather_subset: "min"
+        gather_timeout: "10"
+
+    - name: "Prepare package repositories"
+      vars:
+        sys_repository:
+          prepare: true
+          deploy: true
+          setup: true
+          provision: true
+      ansible.builtin.include_role:
+        name: "serdigital64.system.sys_repository"
+
+    - name: "Prepare archive manager"
+      vars:
+        bkp_archive:
+          deploy: true
+      ansible.builtin.include_role:
+        name: "serdigital64.backup.bkp_archive"
+
+    - name: "Prepare package installer"
+      vars:
+        sys_package:
+          prepare: true
+      ansible.builtin.include_role:
+        name: "serdigital64.system.sys_package"
+
+  tasks:
+
+    - name: "Provision File Repository"
+      vars:
+        stg_repository:
+          prepare: true
+          provision: true
+      ansible.builtin.include_role:
+        name: "serdigital64.storage.stg_repository"
+      when:
+        - file_servers_apps['repository'] is defined
+        - file_servers_apps['repository']
+
+    - name: "Provision NFS Server"
+      vars:
+        stg_nfs_server:
+          deploy: true
+          setup: true
+          control: true
+          provision: true
+      ansible.builtin.include_role:
+        name: "serdigital64.storage.stg_nfs_server"
+      when:
+        - file_servers_apps['nfs'] is defined
+        - file_servers_apps['nfs']
+...
