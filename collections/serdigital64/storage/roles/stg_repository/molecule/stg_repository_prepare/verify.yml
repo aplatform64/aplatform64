@@ -1,0 +1,39 @@
+---
+- name: "Verify"
+  hosts: "{{ lookup('env', 'APLATFORM64_TEST_PLATFORM') | default('all') }}"
+  gather_facts: false
+  tasks:
+    - name: "Load common test vars"
+      ansible.builtin.include_vars:
+        file: "../test_vars.yml"
+
+    - name: "Discover platform"
+      ansible.builtin.setup:
+        gather_subset: "min"
+        gather_timeout: "10"
+
+    - name: "Load role variables"
+      ansible.builtin.include_role:
+        public: true
+        name: "stg_repository"
+
+    - name: "Detect user"
+      ansible.builtin.getent:
+        database: "passwd"
+        key: "{{ test_stg_repositories_users[0]['name'] }}"
+
+    - name: "Verify the user was added"
+      ansible.builtin.assert:
+        that:
+          - getent_passwd[test_stg_repositories_users[0]['name']] is defined
+
+    - name: "Detect group"
+      ansible.builtin.getent:
+        database: "group"
+        key: "{{ test_stg_repositories_groups[0]['name'] }}"
+
+    - name: "Verify the group was added"
+      ansible.builtin.assert:
+        that:
+          - getent_group[test_stg_repositories_groups[0]['name']] is defined
+...
