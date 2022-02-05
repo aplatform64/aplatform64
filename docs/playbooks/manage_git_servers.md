@@ -1,6 +1,6 @@
 ---
 title: "Ansible Playbook: manage_git_server_nodes"
-description: "Manage GIT server nodes"
+description: "Manage GIT servers"
 authors:
   - SerDigital64
 tags:
@@ -14,7 +14,7 @@ tags:
 
 ## Purpose
 
-Manage GIT server nodes.
+Manage GIT servers.
 
 Supported features in the current version:
 

@@ -1,0 +1,8 @@
+---
+- name: "Storage / Repository / Provision / "
+  ansible.builtin.include_tasks:
+    file: "stg_repository_provision_shares.yml"
+  when:
+    - stg_repositories_resources is defined
+    - stg_repositories_resources | list | length > 0
+...

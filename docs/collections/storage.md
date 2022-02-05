@@ -8,11 +8,12 @@ This collection is part of the [A:Platform64](https://github.com/serdigital64/ap
 
 ## Content
 
-| role                                                                                | purpose                     |
-| ----------------------------------------------------------------------------------- | --------------------------- |
-| [stg_autofs](https://aplatform64.readthedocs.io/en/latest/roles/stg_autofs)         | Manage the AutoFS service   |
-| [stg_nfs_client](https://aplatform64.readthedocs.io/en/latest/roles/stg_nfs_client) | Manage the Linux NFS client |
-| [stg_nfs_server](https://aplatform64.readthedocs.io/en/latest/roles/stg_nfs_server) | Manage the Linux NFS server |
+| role                                                                                | purpose                               |
+| ----------------------------------------------------------------------------------- | ------------------------------------- |
+| [stg_autofs](https://aplatform64.readthedocs.io/en/latest/roles/stg_autofs)         | Manage the AutoFS service             |
+| [stg_nfs_client](https://aplatform64.readthedocs.io/en/latest/roles/stg_nfs_client) | Manage the Linux NFS client           |
+| [stg_nfs_server](https://aplatform64.readthedocs.io/en/latest/roles/stg_nfs_server) | Manage the Linux NFS server           |
+| [stg_repository](https://aplatform64.readthedocs.io/en/latest/roles/stg_repository) | Manage file repositories provisioning |
 
 ## Deployment
 
