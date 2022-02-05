@@ -44,13 +44,13 @@ Supported features in the current version:
 Register the hosts that will consume the service in the Ansible Inventory file:
 
 - File: `inventories/<SITE>/jenkins_service.ini`
-- Host Group: `jenkins_controller_nodes`
+- Host Group: `jenkins_controllers`
 
 ### End State
 
 A dedicated group_vars directory is used to store end-state configuration settings for both the playbook and related Ansible Roles.
 
-Set playbook specific settings in the file: `inventories/<SITE>/group_vars/jenkins_controller_nodes/manage_jenkins_controllers.yml`
+Set playbook specific settings in the file: `inventories/<SITE>/group_vars/jenkins_controllers/manage_jenkins_controllers.yml`
 
 ```yaml
 manage_jenkins_controllers_apps:
@@ -66,9 +66,9 @@ Additional role specific settings are available to further customize the playboo
 
 | A:Platform64 role                                                                | group_vars file                                                             |
 | -------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| [serdigital64.system.sys_repository](../roles/sys_repository.md#role-parameters) | `inventories/<SITE>/group_vars/jenkins_controller_nodes/sys_repository.yml` |
-| [serdigital64.development.dev_java](../roles/dev_java.md#role-parameters)        | `inventories/<SITE>/group_vars/jenkins_controller_nodes/dev_java.yml`       |
-| [serdigital64.devops.dops_jenkins](../roles/dops_jenkins.md#role-parameters)     | `inventories/<SITE>/group_vars/jenkins_controller_nodes/dops_jenkins.yml`   |
+| [serdigital64.system.sys_repository](../roles/sys_repository.md#role-parameters) | `inventories/<SITE>/group_vars/jenkins_controllers/sys_repository.yml` |
+| [serdigital64.development.dev_java](../roles/dev_java.md#role-parameters)        | `inventories/<SITE>/group_vars/jenkins_controllers/dev_java.yml`       |
+| [serdigital64.devops.dops_jenkins](../roles/dops_jenkins.md#role-parameters)     | `inventories/<SITE>/group_vars/jenkins_controllers/dops_jenkins.yml`   |
 
 ## Deployment
 

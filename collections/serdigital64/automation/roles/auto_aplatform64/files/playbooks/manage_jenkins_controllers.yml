@@ -1,6 +1,6 @@
 ---
 - name: "Manage Jenkins controllers"
-  hosts: "jenkins_controller_nodes"
+  hosts: "jenkins_controllers"
   gather_facts: false
 
   pre_tasks:
@@ -41,8 +41,8 @@
       ansible.builtin.include_role:
         name: "serdigital64.system.sys_subsystem"
       when:
-        - jenkins_controller_nodes_apps['jenkins'] is defined
-        - jenkins_controller_nodes_apps['jenkins']
+        - jenkins_controllers_apps['jenkins'] is defined
+        - jenkins_controllers_apps['jenkins']
 
     - name: "Provision OpenJDK 11 for Jenkins"
       vars:
@@ -51,8 +51,8 @@
       ansible.builtin.include_role:
         name: "serdigital64.development.dev_java"
       when:
-        - jenkins_controller_nodes_apps['jenkins'] is defined
-        - jenkins_controller_nodes_apps['jenkins']
+        - jenkins_controllers_apps['jenkins'] is defined
+        - jenkins_controllers_apps['jenkins']
 
     - name: "Provision Jenkins Controller"
       vars:
@@ -63,6 +63,6 @@
       ansible.builtin.include_role:
         name: "serdigital64.devops.dops_jenkins"
       when:
-        - jenkins_controller_nodes_apps['jenkins'] is defined
-        - jenkins_controller_nodes_apps['jenkins']
+        - jenkins_controllers_apps['jenkins'] is defined
+        - jenkins_controllers_apps['jenkins']
 ...

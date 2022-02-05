@@ -41,13 +41,13 @@ Supported features in the current version:
 Register the hosts that will consume the service in the Ansible Inventory file:
 
 - File: `inventories/<SITE>/jenkins_service.ini`
-- Host Group: `jenkins_worker_nodes`
+- Host Group: `jenkins_workers`
 
 ### End State
 
 A dedicated group_vars directory is used to store end-state configuration settings for both the playbook and related Ansible Roles.
 
-Set playbook specific settings in the file: `inventories/<SITE>/group_vars/jenkins_worker_nodes/manage_jenkins_workers.yml`
+Set playbook specific settings in the file: `inventories/<SITE>/group_vars/jenkins_workers/manage_jenkins_workers.yml`
 
 ```yaml
 manage_jenkins_workers_apps:
@@ -63,9 +63,9 @@ Additional role specific settings are available to further customize the playboo
 
 | A:Platform64 role                                                                | group_vars file                                                             |
 | -------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| [serdigital64.system.sys_repository](../roles/sys_repository.md#role-parameters) | `inventories/<SITE>/group_vars/jenkins_controller_nodes/sys_repository.yml` |
-| [serdigital64.system.sys_user](../roles/sys_user.md#role-parameters)             | `inventories/<SITE>/group_vars/jenkins_controller_nodes/sys_user.yml`       |
-| [serdigital64.development.dev_java](../roles/dev_java.md#role-parameters)        | `inventories/<SITE>/group_vars/jenkins_controller_nodes/dev_java.yml`       |
+| [serdigital64.system.sys_repository](../roles/sys_repository.md#role-parameters) | `inventories/<SITE>/group_vars/jenkins_controllers/sys_repository.yml` |
+| [serdigital64.system.sys_user](../roles/sys_user.md#role-parameters)             | `inventories/<SITE>/group_vars/jenkins_controllers/sys_user.yml`       |
+| [serdigital64.development.dev_java](../roles/dev_java.md#role-parameters)        | `inventories/<SITE>/group_vars/jenkins_controllers/dev_java.yml`       |
 
 ## Deployment
 

@@ -1,6 +1,6 @@
 ---
 - name: "Manage Jenkins workers"
-  hosts: "jenkins_worker_nodes"
+  hosts: "jenkins_workers"
   gather_facts: false
 
   pre_tasks:
@@ -41,8 +41,8 @@
       ansible.builtin.include_role:
         name: "serdigital64.development.dev_java"
       when:
-        - jenkins_worker_nodes_apps['jenkins'] is defined
-        - jenkins_worker_nodes_apps['jenkins']
+        - jenkins_workers_apps['jenkins'] is defined
+        - jenkins_workers_apps['jenkins']
 
     - name: "Provision worker users"
       vars:
