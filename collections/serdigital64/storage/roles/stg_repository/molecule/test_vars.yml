@@ -1,0 +1,36 @@
+---
+test_stg_repositories_resources:
+  base:
+    path: "/srv/fs"
+    user: "root"
+    group: "root"
+    mode: "0755"
+  test1:
+    path: "/srv/fs/test1"
+    user: "test1"
+    group: "group1"
+    mode: "0750"
+  test2:
+    path: "/srv/fs/test2"
+    user: "test2"
+    group: "group2"
+    mode: "0750"
+test_stg_repositories_users:
+  - name: "test1"
+    uid: "10000"
+    group: "test1"
+    shell: "/bin/false"
+    groups:
+      - "group1"
+  - name: "test2"
+    uid: "10001"
+    group: "test2"
+    shell: "/bin/false"
+    groups:
+      - "group2"
+test_stg_repositories_groups:
+  - name: "group1"
+    gid: "9000"
+  - name: "group2"
+    gid: "9001"
+...

@@ -1,0 +1,6 @@
+---
+roles: []
+collections:
+  - name: "../../../../../build/serdigital64-system.tar.gz"
+    type: "file"
+...

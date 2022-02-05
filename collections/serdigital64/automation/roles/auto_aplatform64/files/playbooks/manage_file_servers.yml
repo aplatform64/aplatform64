@@ -1,9 +1,10 @@
 ---
-- name: "Manage Jenkins Worker Nodes"
-  hosts: "jenkins_worker_nodes"
+- name: "Manage file servers"
+  hosts: "file_servers"
   gather_facts: false
 
   pre_tasks:
+
     - name: "Discover Target Platform"
       ansible.builtin.setup:
         gather_subset: "min"
@@ -34,20 +35,28 @@
         name: "serdigital64.system.sys_package"
 
   tasks:
-    - name: "Provision OpenJDK 11 for Jenkins"
-      vars:
-        dev_java:
-          deploy: true
-      ansible.builtin.include_role:
-        name: "serdigital64.development.dev_java"
-      when:
-        - jenkins_worker_nodes_apps['jenkins'] is defined
-        - jenkins_worker_nodes_apps['jenkins']
 
-    - name: "Provision worker users"
+    - name: "Provision File Repository"
       vars:
-        sys_user:
-          setup: true
+        stg_repository:
+          prepare: true
+          provision: true
       ansible.builtin.include_role:
-        name: "serdigital64.system.sys_user"
+        name: "serdigital64.storage.stg_repository"
+      when:
+        - file_servers_apps['repository'] is defined
+        - file_servers_apps['repository']
+
+    - name: "Provision NFS Server"
+      vars:
+        stg_nfs_server:
+          deploy: true
+          setup: true
+          control: true
+          provision: true
+      ansible.builtin.include_role:
+        name: "serdigital64.storage.stg_nfs_server"
+      when:
+        - file_servers_apps['nfs'] is defined
+        - file_servers_apps['nfs']
 ...

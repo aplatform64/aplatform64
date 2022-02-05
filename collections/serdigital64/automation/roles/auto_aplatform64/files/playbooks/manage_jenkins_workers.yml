@@ -1,6 +1,6 @@
 ---
-- name: "Manage Jenkins Controller Nodes"
-  hosts: "jenkins_controller_nodes"
+- name: "Manage Jenkins workers"
+  hosts: "jenkins_workers"
   gather_facts: false
 
   pre_tasks:
@@ -34,16 +34,6 @@
         name: "serdigital64.system.sys_package"
 
   tasks:
-    - name: "Prepare OS subsystem manager"
-      vars:
-        sys_subsystem:
-          deploy: true
-      ansible.builtin.include_role:
-        name: "serdigital64.system.sys_subsystem"
-      when:
-        - jenkins_controller_nodes_apps['jenkins'] is defined
-        - jenkins_controller_nodes_apps['jenkins']
-
     - name: "Provision OpenJDK 11 for Jenkins"
       vars:
         dev_java:
@@ -51,18 +41,13 @@
       ansible.builtin.include_role:
         name: "serdigital64.development.dev_java"
       when:
-        - jenkins_controller_nodes_apps['jenkins'] is defined
-        - jenkins_controller_nodes_apps['jenkins']
+        - jenkins_workers_apps['jenkins'] is defined
+        - jenkins_workers_apps['jenkins']
 
-    - name: "Provision Jenkins Controller"
+    - name: "Provision worker users"
       vars:
-        dops_jenkins:
-          deploy: true
+        sys_user:
           setup: true
-          control: true
       ansible.builtin.include_role:
-        name: "serdigital64.devops.dops_jenkins"
-      when:
-        - jenkins_controller_nodes_apps['jenkins'] is defined
-        - jenkins_controller_nodes_apps['jenkins']
+        name: "serdigital64.system.sys_user"
 ...
