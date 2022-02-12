@@ -8,10 +8,16 @@ dependency:
     collections-path: ${APLATFORM64_CACHE_ANSIBLE}
 driver:
   name: "podman"
+provisioner:
+  name: "ansible"
+  options:
+verifier:
+  name: "ansible"
+  options:
 lint: |
   set -e
-  yamllint .
-  ansible-lint -c ${APLATFORM64_ANSIBLE_LINT} --exclude molecule/
+  yamllint --format colored ${APLATFORM64_TEST_ROLE_PATH}
+  ansible-lint -c ${APLATFORM64_ANSIBLE_LINT} --project-dir ${APLATFORM64_TEST_ROLE_PATH} --exclude molecule/
 platforms:
   - name: "centos8"
     image: "ghcr.io/serdigital64/centos-8-ansible-node:0.1.0"
@@ -157,8 +163,4 @@ platforms:
     capabilities:
       - "SYS_ADMIN"
     command: "/lib/systemd/systemd"
-provisioner:
-  name: "ansible"
-verifier:
-  name: "ansible"
 ...
