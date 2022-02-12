@@ -1,0 +1,12 @@
+# ** ACTION REQUIRED: this is a template file. Copy to .local and remove this line **
+#!/bin/sh
+#
+# Project development environment / Local variables
+#
+# * this file should be excluded from GIT
+# * source before .env
+#
+
+# Project base location. Adjust to your local GIT repo
+APLATFORM64_ROOT="${HOME}/git/aplatform64"
+export APLATFORM64_ROOT

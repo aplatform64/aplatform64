@@ -1,14 +1,31 @@
-.tmp/
-.var/
-.secrets
+#
+# Project
+#
 
-*.retry
+.tmp/*
+.cache/*
+.var/*
 
+# VScode
 .vscode/*
 *.code-workspace
 
-# Local History for Visual Studio Code
-.history/
+# Builds for prod/dev/test
+dist/*
+build/*
+
+# Secrets
+.secrets
+
+# Local variables
+.local
+
+# Keep placeholder for empty directories
+!/**/.gitkeep
+
+#
+# Tools
+#
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -54,7 +71,7 @@ htmlcov/
 .nox/
 .coverage
 .coverage.*
-.cache
+#.cache
 nosetests.xml
 coverage.xml
 *.cover
@@ -67,28 +84,9 @@ cover/
 *.mo
 *.pot
 
-# Django stuff:
-*.log
-local_settings.py
-db.sqlite3
-db.sqlite3-journal
-
-# Flask stuff:
-instance/
-.webassets-cache
-
-# Scrapy stuff:
-.scrapy
-
-# Sphinx documentation
-docs/_build/
-
 # PyBuilder
 .pybuilder/
 target/
-
-# Jupyter Notebook
-.ipynb_checkpoints
 
 # IPython
 profile_default/
@@ -97,13 +95,6 @@ ipython_config.py
 # PEP 582; used by e.g. github.com/David-OConnor/pyflow
 __pypackages__/
 
-# Celery stuff
-celerybeat-schedule
-celerybeat.pid
-
-# SageMath parsed files
-*.sage.py
-
 # Environments
 .venv
 env/
@@ -111,16 +102,6 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-
-# Spyder project settings
-.spyderproject
-.spyproject
-
-# Rope project settings
-.ropeproject
-
-# mkdocs documentation
-/site
 
 # mypy
 .mypy_cache/
@@ -133,19 +114,4 @@ dmypy.json
 # pytype static type analyzer
 .pytype/
 
-# Cython debug symbols
-cython_debug/
-
 *~
-
-# temporary files which can be created if a process still has a handle open of a deleted file
-.fuse_hidden*
-
-# KDE directory preferences
-.directory
-
-# Linux trash folder which might appear on any partition or disk
-.Trash-*
-
-# .nfs files are created when an open file is removed but is still being accessed
-.nfs*
