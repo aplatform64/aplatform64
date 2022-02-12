@@ -1,10 +1,17 @@
 # Releases
 
 - [Releases](#releases)
+  - [Release: 2.4.0](#release-240)
   - [Release: 2.3.0](#release-230)
   - [Release: 2.2.0](#release-220)
   - [Release: 2.1.0](#release-210)
   - [Release: 2.0.0](#release-200)
+
+## Release: 2.4.0
+
+- project
+  - add testing script devap64-test
+  - create shared molecule configuration
 
 ## Release: 2.3.0
 
