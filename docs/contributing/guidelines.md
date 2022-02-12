@@ -1,9 +1,26 @@
 # Contributing
 
-## Development Environment
+## Development environment
 
-- Dev environment variables are set in the dot.env file: `.env`
-- Before sourcing the script modify the `APLATFORM64_ROOT` variable to the project root
+Use the following instructions for preparing your workstation:
+
+- Clone the GitHub repo
+  > `git clone https://github.com/serdigital64/aplatform64`
+- Adjust environment variables to reflect your configuration:
+  - Copy environment definition files from templates:
+    > `cd aplatform64; cp dot.local .local; cp dot.secrets .secrets`
+  - Update both `.local` and `.secrets` files
+- Create Python Virtual Environment Wrapper workspace
+
+  ```shell
+  source .local
+  source .env
+  source "$APLATFORM64_VEW_LOADER"
+  mkvirtualenv aplatform64
+  ```
+
+- Install Python dev modules
+  > `pip3 install --upgrade -r requirements-full.txt`
 
 ## Development Tools
 
