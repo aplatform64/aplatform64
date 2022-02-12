@@ -1,0 +1,158 @@
+#!/bin/bash
+#######################################
+# Test A:Platform64 roles
+#
+# Author: serdigital64 (https://github.com/serdigital64)
+# License: GPL-3.0-or-later (https://www.gnu.org/licenses/gpl-3.0.txt)
+# Repository: https://github.com/serdigital64/aplatform64
+# Version: 1.0.0
+#######################################
+
+[[ -d "$APLATFORM64_BIN" ]] || exit 1
+
+# shellcheck disable=SC2034
+BL64_LIB_STRICT='0'
+# shellcheck disable=SC1091
+source "${APLATFORM64_BIN}/bashlib64.bash" || exit 1
+
+export APLATFORM64_TEST_ROLE_PATH=''
+export APLATFORM64_TEST_PLATFORM=''
+
+function devap64_test_role_test() {
+
+  local collection="$1"
+  local role="$2"
+  local target="$3"
+  local group="$4"
+  local debug="$5"
+
+  # Set project path
+  APLATFORM64_TEST_ROLE_PATH="${APLATFORM64_COLLECTIONS}/${collection}/roles/${role}"
+  bl64_check_directory "$APLATFORM64_TEST_ROLE_PATH" && cd "$APLATFORM64_TEST_ROLE_PATH" || return 1
+
+  # Enable debug mode
+  [[ "$debug" == '1' ]] && debug='--debug --verbose' || debug=''
+
+  # Select target hosts
+  APLATFORM64_TEST_PLATFORM="$group"
+
+  # Tune kernel for multiple containers
+  "$BL64_SUDO_CMD_SUDO" sysctl fs.inotify.max_user_instances="$APLATFORM64_SYSCTL_MAX_USER_INSTANCES"
+
+  "$APLATFORM64_CMD_MOLECULE" \
+    $debug \
+    'test' \
+    -s "$target"
+
+}
+
+function devap64_test_role_list() {
+
+  local collection="$1"
+  local role="$2"
+
+  local path="${APLATFORM64_COLLECTIONS}/${collection}/roles/${role}"
+
+  bl64_check_directory "$path" && cd "$path" || return 1
+
+  "$APLATFORM64_CMD_MOLECULE" 'list'
+
+}
+
+function devap64_test_check() {
+
+  bl64_check_directory "$APLATFORM64_COLLECTIONS" &&
+    bl64_check_command "$APLATFORM64_CMD_MOLECULE" &&
+    bl64_check_command "$BL64_SUDO_CMD_SUDO" &&
+    bl64_check_file "$APLATFORM64_VEW_LOADER"
+
+}
+
+function devap64_test_help() {
+
+  bl64_msg_show_usage \
+    '<-r|-l> [-d] [-c name] [-e name] [-i id] [-n id] [-h]' \
+    'Test A:Platform64 components' \
+    '
+    -r     : run role tests
+    -l     : list role tests
+    ' '
+ export PLATFORM64_TEST_PLATFORM
+=''    -d     : enable debug mode
+    ' '
+    -c name: collection name
+    -e name: role name
+    -i id  : test id. Default: all
+    -n id  : group id. Default: all'
+
+}
+
+#
+# Main
+#
+
+declare devap64_test_status=1
+declare devap64_test_command=''
+declare devap64_test_command_tag=''
+declare devap64_test_collection=''
+declare devap64_test_role=''
+declare devap64_test_debug='0'
+declare devap64_test_target='all'
+declare devap64_test_group='all'
+
+(($# == 0)) && devap64_test_help && exit 1
+while getopts ':rldc:e:i:n:h' devap64_test_option; do
+  case "$devap64_test_option" in
+  r)
+    devap64_test_command='devap64_test_role_test'
+    devap64_test_command_tag='test role'
+    ;;
+  l)
+    devap64_test_command='devap64_test_role_list'
+    devap64_test_command_tag='list role tests'
+    ;;
+  d) devap64_test_debug='1' ;;
+  c) devap64_test_collection="$OPTARG" ;;
+  e) devap64_test_role="$OPTARG" ;;
+  i) devap64_test_target="$OPTARG" ;;
+  n) devap64_test_group="$OPTARG" ;;
+  h) devap64_test_help && exit ;;
+  \?) devap64_test_help && exit 1 ;;
+  esac
+done
+[[ -t "$devap64_test_command" ]] && devap64_test_help && exit 1
+devap64_test_check || exit 1
+cd "$APLATFORM64_ROOT" || exit 1
+
+# Activate the Python virtual environment
+if [[ -z "$VIRTUALENVWRAPPER_ENV_BIN_DIR" ]]; then
+  bl64_msg_show_task "load Python virtual environment wrapper ($APLATFORM64_VEW_LOADER)"
+  # shellcheck disable=SC1090
+  source "$APLATFORM64_VEW_LOADER"
+fi
+
+if [[ -z "$VIRTUAL_ENV" ]]; then
+  bl64_msg_show_task "set Python virtual environment to: $APLATFORM64_VEW_WORKSPACE"
+  workon "$APLATFORM64_VEW_WORKSPACE"
+fi
+
+if [[ -z "$VIRTUAL_ENV" ]]; then
+  bl64_msg_show_error 'unable to initialize the Python virtual environment for Ansible'
+  exit 1
+fi
+
+bl64_msg_show_info "starting ${devap64_test_command_tag} process"
+case "$devap64_test_command" in
+'devap64_test_role_test') "$devap64_test_command" \
+  "$devap64_test_collection" "$devap64_test_role" "$devap64_test_target" "$devap64_test_group" "$devap64_test_debug" ;;
+'devap64_test_role_list') "$devap64_test_command" "$devap64_test_collection" "$devap64_test_role" ;;
+esac
+devap64_test_status=$?
+
+if ((devap64_test_status == 0)); then
+  bl64_msg_show_info "${devap64_test_command_tag} process complete"
+else
+  bl64_msg_show_info "${devap64_test_command_tag} process complete with errors (error: $devap64_test_status)"
+fi
+
+exit $devap64_test_status

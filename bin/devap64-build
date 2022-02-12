@@ -15,14 +15,12 @@ BL64_LIB_STRICT='0'
 # shellcheck disable=SC1091
 source "${APLATFORM64_BIN}/bashlib64.bash" || exit 1
 
-readonly DEVAP64_BUILD_NAMESPACE='serdigital64'
-
 function devap64_build_test() {
 
   local target="$1"
   local collection=''
 
-  cd "$APLATFORM64_BUILD" || return 1
+  cd "$APLATFORM64_BUILD_DEV" || return 1
 
   if [[ -z "$target" ]]; then
     target="$(
@@ -33,14 +31,14 @@ function devap64_build_test() {
 
   for collection in $target; do
     bl64_msg_show_task 'remove old collection package'
-    bl64_os_rm_file $DEVAP64_BUILD_NAMESPACE-${collection}-*.tar.gz
+    bl64_os_rm_file $APLATFORM64_NAMESPACE-${collection}-*.tar.gz
 
     bl64_msg_show_task 'generate new collection package'
     "$APLATFORM64_CMD_ANSIBLE_GALAXY" collection build "${APLATFORM64_COLLECTIONS}/${collection}"
   done
 
   bl64_msg_show_task 'remove version tag from package file names'
-  for collection in $DEVAP64_BUILD_NAMESPACE-*-*.tar.gz; do
+  for collection in $APLATFORM64_NAMESPACE-*-*.tar.gz; do
     $BL64_OS_ALIAS_MV "$collection" "${collection%-*}.tar.gz"
   done
 
@@ -51,7 +49,7 @@ function devap64_build_prod() {
   local target="$1"
   local collection=''
 
-  cd "$APLATFORM64_DIST" || return 1
+  cd "$APLATFORM64_BUILD_PROD" || return 1
 
   if [[ -z "$target" ]]; then
     target="$(
@@ -62,7 +60,7 @@ function devap64_build_prod() {
 
   for collection in $target; do
     bl64_msg_show_task 'remove old collection package'
-    bl64_os_rm_file $DEVAP64_BUILD_NAMESPACE-${collection}-*.tar.gz
+    bl64_os_rm_file $APLATFORM64_NAMESPACE-${collection}-*.tar.gz
 
     bl64_msg_show_task 'generate new collection package'
     "$APLATFORM64_CMD_ANSIBLE_GALAXY" collection build "$APLATFORM64_COLLECTIONS/$collection"
@@ -75,7 +73,7 @@ function devap64_build_publish() {
   local target="$1"
   local collection=''
 
-  cd "$APLATFORM64_DIST" || return 1
+  cd "$APLATFORM64_BUILD_PROD" || return 1
   # shellcheck disable=SC1090
   source "$APLATFORM64_SECRETS"
 
@@ -88,19 +86,19 @@ function devap64_build_publish() {
 
   for collection in $target; do
     bl64_msg_show_task 'publish collection package'
-    "$APLATFORM64_CMD_ANSIBLE_GALAXY" collection publish --token "$APLATFORM64_SECRET_GALAXY_TOKEN" $DEVAP64_BUILD_NAMESPACE-${collection}-*.tar.gz
+    "$APLATFORM64_CMD_ANSIBLE_GALAXY" collection publish --token "$APLATFORM64_SECRET_GALAXY_TOKEN" $APLATFORM64_NAMESPACE-${collection}-*.tar.gz
   done
 
 }
 
 function devap64_build_check() {
 
-  bl64_check_directory "$APLATFORM64_BUILD" &&
-    bl64_check_directory "$APLATFORM64_DIST" &&
-    bl64_check_directory "$APLATFORM64_ROOT" &&
+  bl64_check_directory "$APLATFORM64_BUILD_DEV" &&
+    bl64_check_directory "$APLATFORM64_BUILD_PROD" &&
     bl64_check_directory "$APLATFORM64_COLLECTIONS" &&
     bl64_check_file "$APLATFORM64_VEW_LOADER" &&
-    bl64_check_file "$APLATFORM64_SECRETS"
+    bl64_check_file "$APLATFORM64_SECRETS" &&
+    bl64_check_command "$APLATFORM64_CMD_ANSIBLE_GALAXY"
 
 }
 
@@ -125,6 +123,7 @@ function devap64_build_help() {
 
 declare devap64_build_status=1
 declare devap64_build_command=''
+declare devap64_build_command_tag=''
 declare devap64_build_option=''
 declare devap64_build_collection=''
 
