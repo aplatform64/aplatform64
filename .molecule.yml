@@ -10,10 +10,8 @@ driver:
   name: "podman"
 provisioner:
   name: "ansible"
-  options:
 verifier:
   name: "ansible"
-  options:
 lint: |
   set -e
   yamllint --format colored ${APLATFORM64_TEST_ROLE_PATH}
