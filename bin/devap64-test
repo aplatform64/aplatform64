@@ -46,6 +46,34 @@ function devap64_test_role_test() {
 
 }
 
+function devap64_test_role_converge() {
+
+  local collection="$1"
+  local role="$2"
+  local target="$3"
+  local group="$4"
+  local debug="$5"
+
+  # Set project path
+  APLATFORM64_TEST_ROLE_PATH="${APLATFORM64_COLLECTIONS}/${collection}/roles/${role}"
+  bl64_check_directory "$APLATFORM64_TEST_ROLE_PATH" && cd "$APLATFORM64_TEST_ROLE_PATH" || return 1
+
+  # Enable debug mode
+  [[ "$debug" == '1' ]] && debug='--debug --verbose' || debug=''
+
+  # Select target hosts
+  APLATFORM64_TEST_PLATFORM="$group"
+
+  # Tune kernel for multiple containers
+  "$BL64_SUDO_CMD_SUDO" sysctl fs.inotify.max_user_instances="$APLATFORM64_SYSCTL_MAX_USER_INSTANCES"
+
+  "$APLATFORM64_CMD_MOLECULE" \
+    $debug \
+    'converge' \
+    -s "$target"
+
+}
+
 function devap64_test_role_list() {
 
   local collection="$1"
@@ -71,14 +99,14 @@ function devap64_test_check() {
 function devap64_test_help() {
 
   bl64_msg_show_usage \
-    '<-r|-l> [-d] [-c name] [-e name] [-i id] [-n id] [-h]' \
+    '<-r|-v|-l> [-d] [-c name] [-e name] [-i id] [-n id] [-h]' \
     'Test A:Platform64 components' \
     '
-    -r     : run role tests
+    -r     : run role tests (molecule test)
+    -v     : run role tests (molecule converge)
     -l     : list role tests
     ' '
- export PLATFORM64_TEST_PLATFORM
-=''    -d     : enable debug mode
+    -d     : enable debug mode
     ' '
     -c name: collection name
     -e name: role name
@@ -101,11 +129,15 @@ declare devap64_test_target='all'
 declare devap64_test_group='all'
 
 (($# == 0)) && devap64_test_help && exit 1
-while getopts ':rldc:e:i:n:h' devap64_test_option; do
+while getopts ':rvldc:e:i:n:h' devap64_test_option; do
   case "$devap64_test_option" in
   r)
     devap64_test_command='devap64_test_role_test'
-    devap64_test_command_tag='test role'
+    devap64_test_command_tag='test role with molecule test'
+    ;;
+  v)
+    devap64_test_command='devap64_test_role_converge'
+    devap64_test_command_tag='test role with molecule converge'
     ;;
   l)
     devap64_test_command='devap64_test_role_list'
@@ -120,7 +152,7 @@ while getopts ':rldc:e:i:n:h' devap64_test_option; do
   \?) devap64_test_help && exit 1 ;;
   esac
 done
-[[ -t "$devap64_test_command" ]] && devap64_test_help && exit 1
+[[ -z "$devap64_test_command" ]] && devap64_test_help && exit 1
 devap64_test_check || exit 1
 cd "$APLATFORM64_ROOT" || exit 1
 
@@ -143,7 +175,7 @@ fi
 
 bl64_msg_show_info "starting ${devap64_test_command_tag} process"
 case "$devap64_test_command" in
-'devap64_test_role_test') "$devap64_test_command" \
+'devap64_test_role_test' | 'devap64_test_role_converge') "$devap64_test_command" \
   "$devap64_test_collection" "$devap64_test_role" "$devap64_test_target" "$devap64_test_group" "$devap64_test_debug" ;;
 'devap64_test_role_list') "$devap64_test_command" "$devap64_test_collection" "$devap64_test_role" ;;
 esac
