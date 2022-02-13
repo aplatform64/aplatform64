@@ -10,7 +10,8 @@
 ## Release: 2.4.0
 
 - project
-  - add testing script devap64-test
+  - add testing script: devap64-test
+  - add dev env loader: devap64-set
   - create shared molecule configuration
 
 ## Release: 2.3.0
