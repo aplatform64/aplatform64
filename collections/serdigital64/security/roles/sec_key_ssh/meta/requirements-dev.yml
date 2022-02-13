@@ -4,10 +4,10 @@ roles: []
 collections:
   - name: "community.crypto"
   - name: "ansible.posix"
-  - name: "../../../../../build/serdigital64-backup.tar.gz"
+  - name: "../../../../../build/dev/serdigital64-backup.tar.gz"
     type: "file"
-  - name: "../../../../../build/serdigital64-system.tar.gz"
+  - name: "../../../../../build/dev/serdigital64-system.tar.gz"
     type: "file"
-  - name: "../../../../../build/serdigital64-security.tar.gz"
+  - name: "../../../../../build/dev/serdigital64-security.tar.gz"
     type: "file"
 ...
