@@ -1,6 +1,9 @@
 # {{ stg_autofs_managed_file }}
 
 [ autofs ]
+{% if stg_autofs_os_family == 'Ubuntu' %}
+master_map_name = {{ stg_autofs_base_common['paths']['etc']['auto_master'] }}
+{% endif %}
 timeout = {{ stg_autofs_server_options['timeout'] | default(stg_autofs_server_presets['timeout']) }}
 logging = {{ stg_autofs_server_options['logging'] | default( stg_autofs_server_presets['logging'] ) }}
 master_wait = 10
