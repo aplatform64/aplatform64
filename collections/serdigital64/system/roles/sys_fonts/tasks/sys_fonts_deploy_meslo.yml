@@ -8,10 +8,22 @@
   ansible.builtin.include_role:
     name: "serdigital64.system.sys_package"
 
+- name: "System / Fonts / Deploy / Meslo / Link to local fonts"
+  ansible.builtin.file:
+    follow: false
+    force: false
+    unsafe_writes: false
+    recurse: false
+    state: "link"
+    src: "{{ sys_fonts___deploy_font }}"
+    path: "{{ sys_fonts_base['paths']['fonts_local'] + '/' + sys_fonts___deploy_font | basename }}"
+  with_fileglob: "{{ sys_fonts_base['paths']['fonts_meslo'] + '/*.ttf' }}"
+  loop_control:
+    loop_var: sys_fonts___deploy_font
+
 - name: "System / Fonts / Deploy / Meslo / Update font cache"
   ansible.builtin.command:
     argv:
       - "{{ sys_fonts_base['run']['fc_cache'] }}"
-      - "{{ sys_fonts_base['paths']['fonts_meslo'] }}"
   changed_when: false
 ...
