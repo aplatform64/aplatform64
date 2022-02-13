@@ -26,6 +26,14 @@ sys_fonts_os_family: "
   {%- endif -%}
   "
 
+sys_fonts_os_base_common:
+  access:
+    group: "root"
+    owner: "root"
+    mode:
+      dir: "0755"
+      file: "0644"
+
 sys_fonts_application:
   config:
     name: "config"
