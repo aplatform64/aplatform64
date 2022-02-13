@@ -15,6 +15,8 @@
   - create shared molecule configuration
 - system-1.0.5
   - sys_fonts: use /usr/local/share/fonts for new custom fonts
+- storage-1.2.1
+  - stg_autofs: add autofs.conf specific setting for Ubuntu
 
 ## Release: 2.3.0
 
