@@ -1,5 +1,5 @@
 ---
-- name: "Prepare"
+- name: "Converge"
   hosts: "{{ lookup('env', 'APLATFORM64_TEST_PLATFORM') | default('all') }}"
   gather_facts: false
   tasks:
@@ -13,10 +13,11 @@
         gather_subset: "min"
         gather_timeout: "10"
 
-    - name: "Prepare"
+    - name: "Provision"
       vars:
         sys_gui_cinnamon:
-          resolve_prereq: true
+          provision: true
+        sys_gui_cinnamon_users: "{{ test_sys_gui_cinnamon_users }}"
       ansible.builtin.include_role:
         name: "sys_gui_cinnamon"
 ...

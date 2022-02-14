@@ -3,12 +3,26 @@
   ansible.builtin.include_tasks:
     file: "sys_gui_cinnamon_initialize.yml"
 
+- name: "System / GUI / Cinnamon / Prepare"
+  ansible.builtin.include_tasks:
+    file: "sys_gui_cinnamon_prepare.yml"
+  when:
+    - sys_gui_cinnamon['prepare'] is defined
+    - sys_gui_cinnamon['prepare']
+
 - name: "System / GUI / Cinnamon / Deploy"
   ansible.builtin.include_tasks:
     file: "sys_gui_cinnamon_deploy.yml"
   when:
-    - "'deploy' in sys_gui_cinnamon"
+    - sys_gui_cinnamon['deploy'] is defined
     - sys_gui_cinnamon['deploy']
+
+- name: "System / GUI / Cinnamon / Provision"
+  ansible.builtin.include_tasks:
+    file: "sys_gui_cinnamon_provision.yml"
+  when:
+    - sys_gui_cinnamon['provision'] is defined
+    - sys_gui_cinnamon['provision']
 
 - name: "System / GUI / Cinnamon / Finalize"
   ansible.builtin.include_tasks:
