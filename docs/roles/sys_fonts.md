@@ -18,6 +18,7 @@ Manage optional OS fonts provisioning
 
 Supported features in the current version:
 
+- Prepare environment for application deployment.
 - Deploy font configuration tools. Packages are defined in the variable `sys_fonts_profiles`.
 - Deploy fonts. Packages are defined in the variable `sys_fonts_profiles`.
   - Meslo
@@ -32,7 +33,7 @@ The following example is an **Ansible Playbook** that includes all the supported
 [use this link if viewing the doc on github](../../collections/serdigital64/system/playbooks/sys_fonts.yml)
 
 ```yaml
-{% include "../../collections/serdigital64/system/playbooks/sys_fonts.yml" %}
+{ % include "../../collections/serdigital64/system/playbooks/sys_fonts.yml" % }
 ```
 
 The playbook can be run by executing:
@@ -53,13 +54,15 @@ ansible-playbook "${ANSIBLE_COLLECTIONS_PATHS}/ansible_collections/serdigital64/
 ```yaml
 sys_fonts:
   resolve_prereq:
+  prepare:
   deploy:
 ```
 
-| Parameter                | Required? | Type    | Default | Purpose / Value                             |
-| ------------------------ | --------- | ------- | ------- | ------------------------------------------- |
-| sys_fonts.resolve_prereq | no        | boolean | `false` | Enable automatic resolution of prequisites  |
-| sys_fonts.deploy         | no        | boolean | `false` | Enable installation of application packages |
+| Parameter                | Required? | Type    | Default | Purpose / Value                               |
+| ------------------------ | --------- | ------- | ------- | --------------------------------------------- |
+| sys_fonts.resolve_prereq | no        | boolean | `false` | Enable automatic resolution of prequisites    |
+| sys_fonts.prepare        | no        | boolean | `false` | Enable environment preparation                |
+| sys_fonts.deploy         | no        | boolean | `false` | Enable installation of application packages   |
 
 ### End State
 

@@ -13,6 +13,7 @@
       vars:
         sys_fonts:
           resolve_prereq: true
+          prepare: true
       ansible.builtin.include_role:
         name: "sys_fonts"
 ...

@@ -9,6 +9,7 @@
     name: "serdigital64.system.sys_package"
 
 - name: "System / Fonts / Deploy / Meslo / Link to local fonts"
+  become: true
   ansible.builtin.file:
     follow: false
     force: false
@@ -22,6 +23,7 @@
     loop_var: sys_fonts___deploy_font
 
 - name: "System / Fonts / Deploy / Meslo / Update font cache"
+  become: true
   ansible.builtin.command:
     argv:
       - "{{ sys_fonts_base['run']['fc_cache'] }}"

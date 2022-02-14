@@ -28,8 +28,10 @@ sys_fonts_os_family: "
 
 sys_fonts_os_base_common:
   access:
-    group: "root"
-    owner: "root"
+    user:
+      owner: "root"
+    group:
+      owner: "root"
     mode:
       dir: "0755"
       file: "0644"
@@ -67,25 +69,26 @@ sys_fonts_profiles_common:
             uncompress: false
         paths:
           - target: "{{ sys_fonts_base['paths']['fonts_meslo'] }}"
-            owner: "{{ sys_fonts_base['access']['owner'] }}"
+            owner: "{{ sys_fonts_base['access']['user']['owner'] }}"
             mode: "{{ sys_fonts_base['access']['mode']['dir'] }}"
         promotion:
           - target: "{{ sys_fonts_base['paths']['fonts_meslo'] }}"
             source: "MesloLGS NF Regular.ttf"
-            owner: "{{ sys_fonts_base['access']['owner'] }}"
+            owner: "{{ sys_fonts_base['access']['user']['owner'] }}"
             mode: "{{ sys_fonts_base['access']['mode']['file'] }}"
           - target: "{{ sys_fonts_base['paths']['fonts_meslo'] }}"
             source: "MesloLGS NF Bold.ttf"
-            owner: "{{ sys_fonts_base['access']['owner'] }}"
+            owner: "{{ sys_fonts_base['access']['user']['owner'] }}"
             mode: "{{ sys_fonts_base['access']['mode']['file'] }}"
           - target: "{{ sys_fonts_base['paths']['fonts_meslo'] }}"
             source: "MesloLGS NF Italic.ttf"
-            owner: "{{ sys_fonts_base['access']['owner'] }}"
+            owner: "{{ sys_fonts_base['access']['user']['owner'] }}"
             mode: "{{ sys_fonts_base['access']['mode']['file'] }}"
           - target: "{{ sys_fonts_base['paths']['fonts_meslo'] }}"
             source: "MesloLGS NF Bold.ttf"
-            owner: "{{ sys_fonts_base['access']['owner'] }}"
+            owner: "{{ sys_fonts_base['access']['user']['owner'] }}"
             mode: "{{ sys_fonts_base['access']['mode']['file'] }}"
 
 # sys_fonts___deploy_font
+# sys_fonts___prepare_path
 ...
