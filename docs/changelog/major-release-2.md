@@ -9,9 +9,15 @@
 
 ## Release: 2.4.0
 
-- project
-  - add testing script devap64-test
+- dev-environment
+  - add testing script: devap64-test
+  - add dev env loader: devap64-set
   - create shared molecule configuration
+- system-1.1.0
+  - sys_fonts: use /usr/local/share/fonts for new custom fonts
+  - sys_gui_cinnamon: add usr config provisioning
+- storage-1.2.1
+  - stg_autofs: add autofs.conf specific setting for Ubuntu
 
 ## Release: 2.3.0
 

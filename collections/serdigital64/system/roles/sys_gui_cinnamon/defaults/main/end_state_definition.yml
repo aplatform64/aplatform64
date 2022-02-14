@@ -1,7 +1,3 @@
 ---
-sys_gui_cinnamon_application:
-  name: "cinnamon"
-  type: "distro"
-  version: "latest"
-  installed: true
+sys_gui_cinnamon_users: []
 ...

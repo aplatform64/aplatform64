@@ -1,0 +1,11 @@
+---
+- name: "System / GUI / Cinnamon / Provision / Configuration"
+  ansible.builtin.include_tasks:
+    file: "sys_gui_cinnamon_provision_configuration.yml"
+  when:
+    - sys_gui_cinnamon_users is defined
+    - sys_gui_cinnamon_users | length > 0
+  loop: "{{ sys_gui_cinnamon_users }}"
+  loop_control:
+    loop_var: "sys_gui_cinnamon___provision_user"
+...

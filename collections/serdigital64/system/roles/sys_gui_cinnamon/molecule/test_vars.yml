@@ -1,3 +1,10 @@
 ---
 test_tmp: "/tmp/sys_gui_cinnamon_test"
+test_user:
+  name: "testusr"
+  group: "testusr"
+  home: "/home/testusr"
+test_sys_gui_cinnamon_users:
+  - user: "{{ test_user['name'] }}"
+    theme: "adapta_nokto_v1"
 ...
