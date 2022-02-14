@@ -1,13 +1,9 @@
 ---
 sys_fonts_base:
-  access:
-    group: "root"
-    owner: "root"
-    mode:
-      dir: "0755"
-      file: "0644"
+  access: "{{ sys_fonts_os_base_common['access'] }}"
   paths:
     fonts_system: "/usr/share/fonts"
+    fonts_local: "/usr/local/share/fonts"
     fonts_meslo: "/opt/fonts-meslo"
   run:
     fc_cache: "/usr/bin/fc-cache"

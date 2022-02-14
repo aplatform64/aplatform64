@@ -18,7 +18,10 @@ Manage provisioning of the Cinnamon desktop environment
 
 Supported features in the current version:
 
+- Prepare environment for application deployment.
 - Deploy application. Packages are defined in the variable `sys_gui_cinnamon_profiles`.
+- Provision application components:
+  - Preconfigured user configuration based on themes. Available list defined in the variable `sys_gui_cinnamon_catalog`
 
 The **sys_gui_cinnamon** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [system](../collections/system.md) Ansible-Collection.
 
@@ -50,13 +53,17 @@ ansible-playbook "${ANSIBLE_COLLECTIONS_PATHS}/ansible_collections/serdigital64/
 ```yaml
 sys_gui_cinnamon:
   resolve_prereq:
+  prepare:
   deploy:
+  provision:
 ```
 
-| Parameter                       | Required? | Type    | Default | Purpose / Value                             |
-| ------------------------------- | --------- | ------- | ------- | ------------------------------------------- |
-| sys_gui_cinnamon.resolve_prereq | no        | boolean | `false` | Enable automatic resolution of prequisites  |
-| sys_gui_cinnamon.deploy         | no        | boolean | `false` | Enable installation of application packages |
+| Parameter                       | Required? | Type    | Default | Purpose / Value                               |
+| ------------------------------- | --------- | ------- | ------- | --------------------------------------------- |
+| sys_gui_cinnamon.resolve_prereq | no        | boolean | `false` | Enable automatic resolution of prequisites    |
+| sys_gui_cinnamon.prepare        | no        | boolean | `false` | Enable environment preparation                |
+| sys_gui_cinnamon.deploy         | no        | boolean | `false` | Enable installation of application packages   |
+| sys_gui_cinnamon.provision      | no        | boolean | `false` | Enable provisioning of application components |
 
 ### End State
 
@@ -64,20 +71,16 @@ sys_gui_cinnamon:
 - Parameters should be declared in **host_vars** or **group_vars** as they are intended to be permanent.
 
 ```yaml
-sys_gui_cinnamon_application:
-  name:
-  type:
-  version:
-  installed:
+sys_gui_cinnamon_users:
+  - user:
+    theme:
 ```
 
-| Parameter                              | Required?   | Type       | Default      | Purpose / Value                    |
-| -------------------------------------- | ----------- | ---------- | ------------ | ---------------------------------- |
-| sys_gui_cinnamon_application           | yes(deploy) | dictionary |              | Set application package end state  |
-| sys_gui_cinnamon_application.name      | yes(deploy) | string     | `"cinnamon"` | Select application package name    |
-| sys_gui_cinnamon_application.type      | yes(deploy) | string     | `"distro"`   | Select application package type    |
-| sys_gui_cinnamon_application.version   | yes(deploy) | string     | `"latest"`   | Select application package version |
-| sys_gui_cinnamon_application.installed | yes(deploy) | boolean    | `true`       | Set application package end state  |
+| Parameter                      | Required?      | Type   | Default | Purpose / Value                              |
+| ------------------------------ | -------------- | ------ | ------- | -------------------------------------------- |
+| sys_gui_cinnamon_users         | yes(provision) | list   |         | List of users for provisioning configuration |
+| sys_gui_cinnamon_users.0.user  | yes            | string |         | User name                                    |
+| sys_gui_cinnamon_users.0.theme | yes            | string |         | Theme name                                   |
 
 ## Deployment
 

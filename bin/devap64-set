@@ -1,0 +1,31 @@
+#!/bin/sh
+#######################################
+# Set development environment
+#
+# Author: serdigital64 (https://github.com/serdigital64)
+# License: GPL-3.0-or-later (https://www.gnu.org/licenses/gpl-3.0.txt)
+# Repository: https://github.com/serdigital64/aplatform64
+# Version: 1.0.0
+#######################################
+
+# Check calling location
+test -f ./.local
+if test $? -ne 0; then
+  echo "Error: source this file from the project's root directory" && return 1
+fi
+
+# Load local variables
+. ./.local
+
+# Load secrets
+. ./.secrets
+
+# Load global variables
+. ./.env
+
+# Load Python Virtual Environment Wrapper functions
+# shellcheck disable=SC1090
+. "$APLATFORM64_VEW_LOADER"
+
+# Activate Python Virtual Environment
+workon "$APLATFORM64_VEW_WORKSPACE"
