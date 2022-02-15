@@ -112,7 +112,7 @@ function devap64_build_help() {
   -p           : build production packages
   -u           : publish production packages (needs Galaxy token set in APLATFORM64_SECRET_GALAXY_TOKEN)
     ' '' '
-  -c collection: limit actions to the specified collection. Format: domain.collection
+  -c collection: limit actions to the specified collection.
     '
 
 }

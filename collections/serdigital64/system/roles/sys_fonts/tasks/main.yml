@@ -3,6 +3,13 @@
   ansible.builtin.include_tasks:
     file: "sys_fonts_initialize.yml"
 
+- name: "System / Fonts / Prepare"
+  ansible.builtin.include_tasks:
+    file: "sys_fonts_prepare.yml"
+  when:
+    - "'prepare' in sys_fonts"
+    - sys_fonts['prepare']
+
 - name: "System / Fonts / Deploy"
   ansible.builtin.include_tasks:
     file: "sys_fonts_deploy.yml"
