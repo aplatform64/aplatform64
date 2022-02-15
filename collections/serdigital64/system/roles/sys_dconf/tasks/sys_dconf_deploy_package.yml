@@ -1,0 +1,10 @@
+---
+- name: "System / DConf / Deploy / Package / Provision application"
+  vars:
+    sys_package:
+      provision: true
+    sys_package_application: "{{ sys_dconf_application }}"
+    sys_package_profiles: "{{ sys_dconf_profiles }}"
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_package"
+...

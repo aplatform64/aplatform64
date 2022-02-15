@@ -12,6 +12,8 @@
 
 - automation-1.2.3
   - ap64: add collection selector to upgrade option
+- system-1.2.0:
+  - add role: sys_dconf
 
 ## Release: 2.4.0
 

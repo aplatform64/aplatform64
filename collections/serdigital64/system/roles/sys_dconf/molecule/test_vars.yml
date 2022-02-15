@@ -1,0 +1,6 @@
+---
+test_source: "/tmp/test_sys_dconf_provision"
+test_sys_dconf_db_local:
+  - source: "{{ test_source }}"
+    name: "test_db"
+...
