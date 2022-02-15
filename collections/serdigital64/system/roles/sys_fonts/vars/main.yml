@@ -26,7 +26,11 @@ sys_fonts_os_family: "
   {%- endif -%}
   "
 
-sys_fonts_os_base_common:
+sys_fonts_base_common:
+  files:
+    meslo_r: "MesloLGS NF Regular.ttf"
+    meslo_b: "MesloLGS NF Bold.ttf"
+    meslo_i: "MesloLGS NF Italic.ttf"
   access:
     user:
       owner: "root"
@@ -59,13 +63,11 @@ sys_fonts_profiles_common:
       latest:
         origin: "https://github.com/romkatv/powerlevel10k-media/raw/master"
         packages:
-          - file: "{{ 'MesloLGS NF Regular.ttf' }}"
+          - file: "{{ sys_fonts_base_common['files']['meslo_r'] }}"
             uncompress: false
-          - file: "{{ 'MesloLGS NF Bold.ttf' }}"
+          - file: "{{ sys_fonts_base_common['files']['meslo_b'] }}"
             uncompress: false
-          - file: "{{ 'MesloLGS NF Italic.ttf' }}"
-            uncompress: false
-          - file: "{{ 'MesloLGS NF Bold Italic.ttf' }}"
+          - file: "{{ sys_fonts_base_common['files']['meslo_i'] }}"
             uncompress: false
         paths:
           - target: "{{ sys_fonts_base['paths']['fonts_meslo'] }}"
@@ -73,19 +75,15 @@ sys_fonts_profiles_common:
             mode: "{{ sys_fonts_base['access']['mode']['dir'] }}"
         promotion:
           - target: "{{ sys_fonts_base['paths']['fonts_meslo'] }}"
-            source: "MesloLGS NF Regular.ttf"
+            source: "{{ sys_fonts_base_common['files']['meslo_r'] }}"
             owner: "{{ sys_fonts_base['access']['user']['owner'] }}"
             mode: "{{ sys_fonts_base['access']['mode']['file'] }}"
           - target: "{{ sys_fonts_base['paths']['fonts_meslo'] }}"
-            source: "MesloLGS NF Bold.ttf"
+            source: "{{ sys_fonts_base_common['files']['meslo_b'] }}"
             owner: "{{ sys_fonts_base['access']['user']['owner'] }}"
             mode: "{{ sys_fonts_base['access']['mode']['file'] }}"
           - target: "{{ sys_fonts_base['paths']['fonts_meslo'] }}"
-            source: "MesloLGS NF Italic.ttf"
-            owner: "{{ sys_fonts_base['access']['user']['owner'] }}"
-            mode: "{{ sys_fonts_base['access']['mode']['file'] }}"
-          - target: "{{ sys_fonts_base['paths']['fonts_meslo'] }}"
-            source: "MesloLGS NF Bold.ttf"
+            source: "{{ sys_fonts_base_common['files']['meslo_i'] }}"
             owner: "{{ sys_fonts_base['access']['user']['owner'] }}"
             mode: "{{ sys_fonts_base['access']['mode']['file'] }}"
 

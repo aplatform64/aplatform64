@@ -16,9 +16,12 @@
     unsafe_writes: false
     recurse: false
     state: "link"
-    src: "{{ sys_fonts___deploy_font }}"
-    path: "{{ sys_fonts_base['paths']['fonts_local'] + '/' + sys_fonts___deploy_font | basename }}"
-  with_fileglob: "{{ sys_fonts_base['paths']['fonts_meslo'] + '/*.ttf' }}"
+    src: "{{ sys_fonts_base['paths']['fonts_meslo'] + '/' + sys_fonts___deploy_font }}"
+    path: "{{ sys_fonts_base['paths']['fonts_local'] + '/' + sys_fonts___deploy_font }}"
+  loop:
+    - "{{ sys_fonts_base['files']['meslo_r'] }}"
+    - "{{ sys_fonts_base['files']['meslo_b'] }}"
+    - "{{ sys_fonts_base['files']['meslo_i'] }}"
   loop_control:
     loop_var: sys_fonts___deploy_font
 
