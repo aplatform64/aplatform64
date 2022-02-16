@@ -1,7 +1,7 @@
 ---
 namespace: "serdigital64"
 name: "automation"
-version: "1.2.6"
+version: "1.2.7"
 readme: "README.md"
 authors:
   - "SerDigital64 <https://github.com/serdigital64>"
