@@ -7,7 +7,6 @@
 - name: "System / Shell / Setup / Profile / ZSH / Deploy Oh-My-ZSH (user: {{
     sys_shell___setup_profile['user'] }})"
   become: true
-  #become_user: "{{ sys_shell___setup_profile['user'] }}"
   ansible.builtin.command:
     creates: "{{
       sys_shell___setup_profile['home'] + '/' +

@@ -12,8 +12,7 @@
     group: "{{ sys_gui_cinnamon_base['access']['group']['owner'] }}"
     mode: "{{ sys_gui_cinnamon_base['access']['mode']['dir'] }}"
   loop:
-    - "{{ sys_gui_cinnamon_base['paths']['root'] }}"
-    - "{{ sys_gui_cinnamon_base['paths']['users'] }}"
+    - "{{ sys_gui_cinnamon_base['paths']['var'] }}"
   loop_control:
     loop_var: "sys_gui_cinnamon___prepare_path"
 ...

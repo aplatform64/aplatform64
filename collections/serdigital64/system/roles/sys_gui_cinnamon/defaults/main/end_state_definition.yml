@@ -1,3 +1,4 @@
 ---
-sys_gui_cinnamon_users: []
+sys_gui_cinnamon_users:
+  default: "adapta_nokto_v1"
 ...

@@ -1,12 +1,12 @@
 ---
 # Define platform specific paths
 sys_gui_cinnamon_base:
-  paths: "{{ sys_gui_cinnamon_base_common['paths'] }}"
+  access: "{{ sys_gui_cinnamon_base_common['access'] }}"
+  templates: "{{ sys_gui_cinnamon_base_common['templates'] }}"
   etc: "{{ sys_gui_cinnamon_base_common['etc'] }}"
   files: "{{ sys_gui_cinnamon_base_common['files'] }}"
   run: "{{ sys_gui_cinnamon_base_common['run'] }}"
-  templates: "{{ sys_gui_cinnamon_base_common['templates'] }}"
-  access: "{{ sys_gui_cinnamon_base_common['access'] }}"
+  paths: "{{ sys_gui_cinnamon_base_common['paths'] }}"
 
 sys_gui_cinnamon_profiles:
   distro:
@@ -14,9 +14,6 @@ sys_gui_cinnamon_profiles:
       supported: true
       packages:
         - name: "cinnamon"
-        - name: "dconf"
-        - name: "dconf-editor"
-        - name: "dbus-x11"
 
 sys_gui_cinnamon_repository_custom_yum: []
 sys_gui_cinnamon_repository_custom_apt: []
