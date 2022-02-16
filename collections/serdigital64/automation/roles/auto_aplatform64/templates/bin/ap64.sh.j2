@@ -91,7 +91,7 @@ function ap64_run() {
     return 1
   fi
 
-  [[ "$diff" == '1' ]] && verbosity='--verbose --diff'
+  [[ "$diff" == '1' ]] && verbosity='-vvvvv --diff'
 
   "$APLATFORM64_CMD_ANSIBLE_PLAYBOOK" \
     -i "$inventory_file" \
@@ -168,13 +168,16 @@ function ap64_remove() {
 
 function ap64_upgrade() {
 
+  local collections="$1"
+
   local collection=''
 
+  if [[ "$collections" == 'all' ]]; then
+    collection="$(cd ${ANSIBLE_COLLECTIONS_PATHS}/ansible_collections/serdigital64; echo * )"
+  fi
+
   # shellcheck disable=SC2164
-  for collection in $(
-    cd "${ANSIBLE_COLLECTIONS_PATHS}/ansible_collections/serdigital64"
-    "$BL64_OS_CMD_LS"
-  ); do
+  for collection in $collections; do
     bl64_msg_show_task "upgrade collection: $collection"
     "$APLATFORM64_CMD_ANSIBLE_GALAXY" 'collection' 'install' "serdigital64.${collection}" '--upgrade'
   done
@@ -194,21 +197,22 @@ function ap64_check() {
 function ap64_help() {
 
   bl64_msg_show_usage \
-    '<-c|-o|-r|-u|-l|-n|-t> [-s Site] [-p Playbook] [-d] [-h]' \
+    '<-c|-o|-r|-u|-l|-n|-t> [-d] [-s Site] [-p Playbook] [-e Collection] [-h]' \
     'A:Platform64 command line interface' '
-  -c         : Create a A:Platform64 site
-  -o         : Remove a A:Platform64 site
-  -r         : Refresh A:Platform64 site configuration by rerunning the setup process
-  -u         : Upgrade A:Platform64 Ansible collections to the latest version in Ansible Galaxy
-  -l         : List available playbooks
-  -n         : Run playbook
-  -t         : List sites
-  -h         : Show usage info
+  -c           : Create a A:Platform64 site
+  -o           : Remove a A:Platform64 site
+  -r           : Refresh A:Platform64 site configuration by rerunning the setup process
+  -u           : Upgrade A:Platform64 Ansible collections to the latest version in Ansible Galaxy
+  -l           : List available playbooks
+  -n           : Run playbook
+  -t           : List sites
+  -h           : Show usage info
     ' '
-  -d         : Enable diff and verbose flags on ansible-playbook run
+  -d           : Enable diff and verbose flags on ansible-playbook run
     ' '
-  -s Site    : Target Site. Defaul: site
-  -p Playbook: Name of the playbook to run'
+  -s Site      : Target Site. Defaul: site
+  -p Playbook  : Name of the playbook to run
+  -e Collection: Collection name for the upgrade option (-u). Default: all'
 
   return 0
 
@@ -225,9 +229,10 @@ declare ap64_site=''
 declare ap64_playbook=''
 declare ap64_change_site='0'
 declare ap64_diff='0'
+declare ap64_collection='all'
 
 (($# == 0)) && ap64_help && exit 1
-while getopts ':corulntds:p:g:h' Option; do
+while getopts ':corulntds:p:e:h' Option; do
   case "$Option" in
   n)
     ap64_command='ap64_run'
@@ -260,6 +265,7 @@ while getopts ':corulntds:p:g:h' Option; do
   d) ap64_diff='1' ;;
   s) ap64_site="$OPTARG" ;;
   p) ap64_playbook="$OPTARG" ;;
+  e) ap64_collection="$OPTARG" ;;
   h) ap64_help && exit ;;
   \?) ap64_help && exit 1 ;;
   esac
@@ -324,9 +330,9 @@ fi
 #
 # Execute selected action
 #
-
 bl64_msg_show_info "starting ${ap64_command_tag} process"
 case "$ap64_command" in
+'ap64_upgrade' ) "$ap64_command" "$ap64_collection" ;;
 'ap64_list_sites' | 'ap64_upgrade' | 'ap64_refresh') "$ap64_command" ;;
 'ap64_create' | 'ap64_remove') "$ap64_command" "$ap64_site" ;;
 'ap64_run') "$ap64_command" "$ap64_playbook" "$ap64_diff";;

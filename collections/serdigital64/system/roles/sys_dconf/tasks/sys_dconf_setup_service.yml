@@ -1,0 +1,14 @@
+---
+- name: "System / DConf / Setup / Service / Create user profile"
+  become: true
+  ansible.builtin.template:
+    backup: false
+    follow: false
+    force: true
+    unsafe_writes: false
+    owner: "{{ sys_dconf_base['access']['user']['owner'] }}"
+    group: "{{ sys_dconf_base['access']['group']['owner'] }}"
+    mode: "{{ sys_dconf_base['access']['mode']['file'] }}"
+    src: "{{ sys_dconf_base['templates']['profile_user'] }}"
+    dest: "{{ sys_dconf_base['etc']['profile_user'] }}"
+...

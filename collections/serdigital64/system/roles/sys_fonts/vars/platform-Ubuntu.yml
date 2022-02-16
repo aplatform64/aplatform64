@@ -1,6 +1,7 @@
 ---
 sys_fonts_base:
-  access: "{{ sys_fonts_os_base_common['access'] }}"
+  access: "{{ sys_fonts_base_common['access'] }}"
+  files: "{{ sys_fonts_base_common['files'] }}"
   paths:
     fonts_system: "/usr/share/fonts"
     fonts_local: "/usr/local/share/fonts"

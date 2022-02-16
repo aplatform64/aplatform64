@@ -1,0 +1,17 @@
+---
+- name: "System / DConf / Provision / DBs / Local"
+  become: true
+  ansible.builtin.copy:
+    backup: false
+    follow: false
+    force: true
+    remote_src: true
+    owner: "{{ sys_dconf_base['access']['user']['owner'] }}"
+    group: "{{ sys_dconf_base['access']['group']['owner'] }}"
+    mode: "{{ sys_dconf_base['access']['mode']['file'] }}"
+    src: "{{ sys_dconf___provision_db['source'] }}"
+    dest: "{{ sys_dconf_base['paths']['dconf_db_local'] + '/' + sys_dconf___provision_db['name'] }}"
+  loop: "{{ sys_dconf_db_local }}"
+  loop_control:
+    loop_var: "sys_dconf___provision_db"
+...

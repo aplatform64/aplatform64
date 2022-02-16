@@ -1,0 +1,18 @@
+---
+- name: "System / Fonts / Prepare / Paths / Create"
+  become: true
+  ansible.builtin.file:
+    follow: false
+    force: false
+    unsafe_writes: false
+    recurse: false
+    state: "directory"
+    path: "{{ sys_fonts___prepare_path }}"
+    owner: "{{ sys_fonts_base['access']['user']['owner'] }}"
+    group: "{{ sys_fonts_base['access']['group']['owner'] }}"
+    mode: "{{ sys_fonts_base['access']['mode']['dir'] }}"
+  loop:
+    - "{{ sys_fonts_base['paths']['fonts_local'] }}"
+  loop_control:
+    loop_var: "sys_fonts___prepare_path"
+...

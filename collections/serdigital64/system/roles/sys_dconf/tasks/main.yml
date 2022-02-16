@@ -1,0 +1,37 @@
+---
+- name: "System / DConf / Initialize"
+  ansible.builtin.include_tasks:
+    file: "sys_dconf_initialize.yml"
+
+- name: "System / DConf / Prepare"
+  ansible.builtin.include_tasks:
+    file: "sys_dconf_prepare.yml"
+  when:
+    - sys_dconf['prepare'] is defined
+    - sys_dconf['prepare']
+
+- name: "System / DConf / Deploy"
+  ansible.builtin.include_tasks:
+    file: "sys_dconf_deploy.yml"
+  when:
+    - sys_dconf['deploy'] is defined
+    - sys_dconf['deploy']
+
+- name: "System / DConf / Setup"
+  ansible.builtin.include_tasks:
+    file: "sys_dconf_setup.yml"
+  when:
+    - sys_dconf['setup'] is defined
+    - sys_dconf['setup']
+
+- name: "System / DConf / Provision"
+  ansible.builtin.include_tasks:
+    file: "sys_dconf_provision.yml"
+  when:
+    - sys_dconf['provision'] is defined
+    - sys_dconf['provision']
+
+- name: "System / DConf / Finalize"
+  ansible.builtin.include_tasks:
+    file: "sys_dconf_finalize.yml"
+...

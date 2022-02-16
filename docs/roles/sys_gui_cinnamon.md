@@ -21,7 +21,8 @@ Supported features in the current version:
 - Prepare environment for application deployment.
 - Deploy application. Packages are defined in the variable `sys_gui_cinnamon_profiles`.
 - Provision application components:
-  - Preconfigured user configuration based on themes. Available list defined in the variable `sys_gui_cinnamon_catalog`
+  - Create user default configuration. Available sets are defined in the variable `sys_gui_cinnamon_catalog_user`.
+  - Deploy to system-wide DConf as local db
 
 The **sys_gui_cinnamon** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [system](../collections/system.md) Ansible-Collection.
 
@@ -72,15 +73,13 @@ sys_gui_cinnamon:
 
 ```yaml
 sys_gui_cinnamon_users:
-  - user:
-    theme:
+  default:
 ```
 
-| Parameter                      | Required?      | Type   | Default | Purpose / Value                              |
-| ------------------------------ | -------------- | ------ | ------- | -------------------------------------------- |
-| sys_gui_cinnamon_users         | yes(provision) | list   |         | List of users for provisioning configuration |
-| sys_gui_cinnamon_users.0.user  | yes            | string |         | User name                                    |
-| sys_gui_cinnamon_users.0.theme | yes            | string |         | Theme name                                   |
+| Parameter                      | Required?      | Type       | Default             | Purpose / Value        |
+| ------------------------------ | -------------- | ---------- | ------------------- | ---------------------- |
+| sys_gui_cinnamon_users         | yes(provision) | dictionary |                     | Define user options    |
+| sys_gui_cinnamon_users.default | yes            | string     | `"adapta_nokto_v1"` | Configuration set name |
 
 ## Deployment
 
@@ -103,6 +102,7 @@ sys_gui_cinnamon_users:
   - serdigital64.system
     - sys_package
     - sys_repository
+    - sys_dconf
 
 ### Prerequisites
 

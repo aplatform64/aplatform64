@@ -10,6 +10,7 @@ This collection is part of the [A:Platform64](https://github.com/serdigital64/ap
 
 | role                                                                                    | purpose                                                 |
 | --------------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| [sys_dconf](https://aplatform64.readthedocs.io/en/latest/roles/sys_dconf)               | Manage provisioning of the DConf service                |
 | [sys_fonts](https://aplatform64.readthedocs.io/en/latest/roles/sys_fonts)               | Manage OS fonts provisioning                            |
 | [sys_gui_cinnamon](https://aplatform64.readthedocs.io/en/latest/roles/sys_gui_cinnamon) | Manage provisioning of the Cinnamon desktop environment |
 | [sys_kernel](https://aplatform64.readthedocs.io/en/latest/roles/sys_kernel)             | Manage OS Kernel configuration                          |

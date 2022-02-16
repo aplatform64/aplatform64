@@ -32,4 +32,13 @@
       prepare: true
   ansible.builtin.include_role:
     name: "serdigital64.system.sys_package"
+
+- name: "System / GUI / Cinnamon / Prerequisite / Prepare DConf service"
+  vars:
+    sys_dconf:
+      prepare: true
+      deploy: true
+      setup: true
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_dconf"
 ...

@@ -17,7 +17,6 @@
       vars:
         sys_gui_cinnamon:
           provision: true
-        sys_gui_cinnamon_users: "{{ test_sys_gui_cinnamon_users }}"
       ansible.builtin.include_role:
         name: "sys_gui_cinnamon"
 ...

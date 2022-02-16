@@ -52,6 +52,7 @@
     - name: "Provision fonts"
       vars:
         sys_fonts:
+          prepare: true
           deploy: true
       ansible.builtin.include_role:
         name: "serdigital64.system.sys_fonts"
@@ -94,7 +95,9 @@
     - name: "Provision Cinnamon desktop manager"
       vars:
         sys_gui_cinnamon:
+          prepare: true
           deploy: true
+          provision: true
       ansible.builtin.include_role:
         name: "serdigital64.system.sys_gui_cinnamon"
       when:
