@@ -19,7 +19,7 @@
 
     - name: "Detect target path"
       ansible.builtin.stat:
-        path: "{{ sys_gui_cinnamon_base['paths']['var'] + '/' + sys_gui_cinnamon_users['default'] }}"
+        path: "{{ sys_gui_cinnamon_base['paths']['var'] + '/' + sys_gui_cinnamon_users['desktop'] }}"
       register: file_stat
 
     - name: "Verify path is created"

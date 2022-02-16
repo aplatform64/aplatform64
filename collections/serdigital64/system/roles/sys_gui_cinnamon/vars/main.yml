@@ -25,7 +25,10 @@ sys_gui_cinnamon_os_family: "
   "
 
 sys_gui_cinnamon_catalog_user:
-  - "adapta_nokto_v1"
+  desktop:
+    - "desktop_adapta_nokto_v1"
+  nemo:
+    - "nemo_v1"
 
 sys_gui_cinnamon_application:
   name: "cinnamon"
@@ -44,8 +47,7 @@ sys_gui_cinnamon_base_common:
       dir: "0755"
       file: "0644"
       exe: "0755"
-  templates:
-    adapta_nokto_v1: "theme_adapta_nokto_v1.toml.j2"
+  templates: {}
   etc: {}
   files: {}
   run: {}

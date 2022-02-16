@@ -13,6 +13,8 @@
 
 - application-1.1.0
   - app_keepassx: add user default setup
+- system-1.2.1:
+  - sys_gui_cinnamon: add nemo default cfg
 
 ## Release: 2.5.0
 
