@@ -35,9 +35,7 @@ The following example is an **Ansible Playbook** that includes all the supported
 [use this link if viewing the doc on github](../../collections/serdigital64/system/playbooks/sys_gui_cinnamon.yml)
 
 ```yaml
-{
-  % include "../../collections/serdigital64/system/playbooks/sys_gui_cinnamon.yml" %,
-}
+{% include "../../collections/serdigital64/system/playbooks/sys_gui_cinnamon.yml" %}
 ```
 
 The playbook can be run by executing:
