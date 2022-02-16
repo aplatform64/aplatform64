@@ -1,12 +1,20 @@
 # Releases
 
 - [Releases](#releases)
+  - [Release: 2.6.0](#release-260)
   - [Release: 2.5.0](#release-250)
   - [Release: 2.4.0](#release-240)
   - [Release: 2.3.0](#release-230)
   - [Release: 2.2.0](#release-220)
   - [Release: 2.1.0](#release-210)
   - [Release: 2.0.0](#release-200)
+
+## Release: 2.6.0
+
+- application-1.1.0
+  - app_keepassx: add user default setup
+- system-1.2.1:
+  - sys_gui_cinnamon: add nemo default cfg
 
 ## Release: 2.5.0
 

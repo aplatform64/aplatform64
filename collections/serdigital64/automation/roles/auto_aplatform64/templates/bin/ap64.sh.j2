@@ -173,7 +173,7 @@ function ap64_upgrade() {
   local collection=''
 
   if [[ "$collections" == 'all' ]]; then
-    collection="$(cd ${ANSIBLE_COLLECTIONS_PATHS}/ansible_collections/serdigital64; echo * )"
+    collections="$(cd ${ANSIBLE_COLLECTIONS_PATHS}/ansible_collections/serdigital64; echo * )"
   fi
 
   # shellcheck disable=SC2164

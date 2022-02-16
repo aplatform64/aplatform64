@@ -1,4 +1,5 @@
 ---
 sys_gui_cinnamon_users:
-  default: "adapta_nokto_v1"
+  desktop: "desktop_adapta_nokto_v1"
+  nemo: "nemo_v1"
 ...

@@ -31,10 +31,39 @@ app_keepassx_profiles_common:
   snap:
     latest:
       packages:
-        - name: "keepassxc"
+        - name: "keepassx"
   flatpak:
     latest:
       origin: "flathub"
       packages:
-        - name: "org.keepassxc.KeePassXC"
+        - name: "org.keepassx.KeePassXC"
+
+app_keepassx_base:
+  paths:
+    etc_keepassx: "
+      {%- if app_keepassx_application['type'] == 'distro' -%}
+        {{ '/.config/keepassxc' }}
+      {%- endif -%}
+      "
+  etc:
+    keepassx_ini: "
+      {%- if app_keepassx_application['type'] == 'distro' -%}
+        {{ '/.config/keepassxc/keepassxc.ini' }}
+      {%- endif -%}
+      "
+  templates:
+    keepassx_ini: "keepassxc.ini.j2"
+  access:
+    user:
+      owner: "root"
+    group:
+      owner: "root"
+    mode:
+      dir: "0750"
+      file: "0640"
+      exe: "0750"
+
+# Temporary loop variables
+# app_keepassx___prepare_path
+# app_keepassx___setup_user
 ...

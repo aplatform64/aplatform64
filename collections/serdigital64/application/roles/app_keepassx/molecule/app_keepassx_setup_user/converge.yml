@@ -13,11 +13,11 @@
         gather_subset: "min"
         gather_timeout: "10"
 
-    - name: "Deploy required packages"
+    - name: "Control service"
       vars:
         app_keepassx:
-          resolve_prereq: true
-          deploy: true
+          setup: true
+        app_keepassx_setup_users: "{{ test_app_keepassx_setup_users }}"
       ansible.builtin.include_role:
         name: "app_keepassx"
 ...

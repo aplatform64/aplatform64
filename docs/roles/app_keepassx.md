@@ -19,6 +19,8 @@ Manage provisioning of the KeePassX application.
 Supported features in the current version:
 
 - Deploy application. Packages are defined in the variable `app_keepassx_profiles`.
+- Configure application:
+  - Deploy default user configuration
 
 The **app_keepassx** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [application](../collections/application.md) Ansible-Collection.
 
@@ -51,12 +53,14 @@ ansible-playbook "${ANSIBLE_COLLECTIONS_PATHS}/ansible_collections/serdigital64/
 app_keepassx:
   resolve_prereq:
   deploy:
+  setup:
 ```
 
 | Parameter                   | Required? | Type    | Default | Purpose / Value                             |
 | --------------------------- | --------- | ------- | ------- | ------------------------------------------- |
 | app_keepassx.resolve_prereq | no        | boolean | `false` | Enable automatic resolution of prequisites  |
 | app_keepassx.deploy         | no        | boolean | `false` | Enable installation of application packages |
+| app_keepassx.setup          | no        | boolean | `false` | Enable application configuration            |
 
 ### End State
 
@@ -69,15 +73,21 @@ app_keepassx_application:
   type:
   version:
   installed:
+app_keepassx_setup_users:
+  - user:
+    home:
 ```
 
-| Parameter                          | Required? | Type       | Default      | Purpose / Value                    |
-| ---------------------------------- | --------- | ---------- | ------------ | ---------------------------------- |
-| app_keepassx_application           | no        | dictionary |              | Set application package end state  |
-| app_keepassx_application.name      | no        | string     | `"keepassx"` | Select application package name    |
-| app_keepassx_application.type      | no        | string     | `"distro"`   | Select application package type    |
-| app_keepassx_application.version   | no        | string     | `"latest"`   | Select application package version |
-| app_keepassx_application.installed | no        | boolean    | `true`       | Set application package end state  |
+| Parameter                          | Required?  | Type       | Default      | Purpose / Value                    |
+| ---------------------------------- | ---------- | ---------- | ------------ | ---------------------------------- |
+| app_keepassx_application           | no         | dictionary |              | Set application package end state  |
+| app_keepassx_application.name      | no         | string     | `"keepassx"` | Select application package name    |
+| app_keepassx_application.type      | no         | string     | `"distro"`   | Select application package type    |
+| app_keepassx_application.version   | no         | string     | `"latest"`   | Select application package version |
+| app_keepassx_application.installed | no         | boolean    | `true`       | Set application package end state  |
+| app_keepassx_setup_users           | yes(setup) | list       |              | List of users for the setup task   |
+| app_keepassx_setup_users.0.user    | yes        | string     |              | User login name                    |
+| app_keepassx_setup_users.0.home    | yes        | string     |              | Home full path                     |
 
 ## Deployment
 
