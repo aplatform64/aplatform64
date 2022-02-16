@@ -4,4 +4,5 @@ app_keepassx_application:
   type: "distro"
   installed: true
   version: "latest"
+app_keepassx_setup_users: []
 ...
