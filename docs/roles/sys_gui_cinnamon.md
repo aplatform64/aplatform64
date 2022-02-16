@@ -21,7 +21,9 @@ Supported features in the current version:
 - Prepare environment for application deployment.
 - Deploy application. Packages are defined in the variable `sys_gui_cinnamon_profiles`.
 - Provision application components:
-  - Create user default configuration. Available sets are defined in the variable `sys_gui_cinnamon_catalog_user`.
+  - Create user default configuration. Available sets are defined in the variable `sys_gui_cinnamon_catalog_user`:
+    - desktop (theme, panel)
+    - nemo
   - Deploy to system-wide DConf as local db
 
 The **sys_gui_cinnamon** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [system](../collections/system.md) Ansible-Collection.
@@ -73,13 +75,15 @@ sys_gui_cinnamon:
 
 ```yaml
 sys_gui_cinnamon_users:
-  default:
+  desktop:
+  nemo:
 ```
 
-| Parameter                      | Required?      | Type       | Default             | Purpose / Value        |
-| ------------------------------ | -------------- | ---------- | ------------------- | ---------------------- |
-| sys_gui_cinnamon_users         | yes(provision) | dictionary |                     | Define user options    |
-| sys_gui_cinnamon_users.default | yes            | string     | `"adapta_nokto_v1"` | Configuration set name |
+| Parameter                      | Required?      | Type       | Default                     | Purpose / Value             |
+| ------------------------------ | -------------- | ---------- | --------------------------- | --------------------------- |
+| sys_gui_cinnamon_users         | yes(provision) | dictionary |                             | Define user options         |
+| sys_gui_cinnamon_users.desktop | yes            | string     | `"desktop_adapta_nokto_v1"` | Desktop configuration set   |
+| sys_gui_cinnamon_users.nemo    | yes            | string     | `"nemo_v1"`                 | Nemo configuration set name |
 
 ## Deployment
 

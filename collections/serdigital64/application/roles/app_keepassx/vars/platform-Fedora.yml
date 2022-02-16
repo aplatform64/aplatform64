@@ -6,5 +6,5 @@ app_keepassx_profiles:
     latest:
       supported: true
       packages:
-        - name: "keepassxc"
+        - name: "keepassx"
 ...

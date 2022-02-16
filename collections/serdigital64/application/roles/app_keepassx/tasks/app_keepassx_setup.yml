@@ -1,0 +1,11 @@
+---
+- name: "Application / KeePassX / Setup / User"
+  ansible.builtin.include_tasks:
+    file: "app_keepassx_setup_user.yml"
+  loop: "{{ app_keepassx_setup_users }}"
+  loop_control:
+    loop_var: "app_keepassx___setup_user"
+  when:
+    - app_keepassx_setup_users is defined
+    - app_keepassx_setup_users | length > 0
+...

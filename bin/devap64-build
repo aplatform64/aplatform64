@@ -8,7 +8,7 @@
 # Version: 1.1.0
 #######################################
 
-[[ -d "$APLATFORM64_BIN" ]] || exit 1
+[[ -d "$APLATFORM64_BIN" ]] || { echo "Error: dev environment not set"; exit 1; }
 
 # shellcheck disable=SC2034
 BL64_LIB_STRICT='0'
