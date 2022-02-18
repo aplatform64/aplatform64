@@ -92,6 +92,18 @@
         - linux_workstations_component['sudo'] is defined
         - linux_workstations_component['sudo']
 
+    - name: "Provision DConf service"
+      vars:
+        sys_dconf:
+          prepare: true
+          deploy: true
+          setup: true
+      ansible.builtin.include_role:
+        name: "serdigital64.system.sys_dconf"
+      when:
+        - linux_workstations_component['dconf'] is defined
+        - linux_workstations_component['dconf']
+
     - name: "Provision Cinnamon desktop manager"
       vars:
         sys_gui_cinnamon:

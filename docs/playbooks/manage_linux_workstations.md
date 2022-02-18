@@ -25,7 +25,8 @@ Supported features in the current version:
 - Provision and configure shells
 - Provision and configure AutoFS
 - Install fonts
-- Install native Desktop Managers
+- Install native Desktop Managers and tools
+  - DConf
   - Cinnamon
 - Install GUI-based tools
   - Tilix
@@ -63,6 +64,7 @@ Set playbook specific settings in the file: `inventories/<SITE>/group_vars/linux
 linux_workstations_component:
   autofs:
   cinnamon:
+  dconf:
   fonts:
   mc:
   shell:
@@ -74,14 +76,15 @@ linux_workstations_component:
 | Parameter                             | Required? | Type       | Default | Purpose / Value                           |
 | ------------------------------------- | --------- | ---------- | ------- | ----------------------------------------- |
 | linux_workstations_component          | no        | dictionary |         | Define what applications will be deployed |
-| linux_workstations_component.autofs   | no        | boolean    | `false` | Deploy the environment?                   |
-| linux_workstations_component.cinnamon | no        | boolean    | `false` | Deploy the environment?                   |
-| linux_workstations_component.fonts    | no        | boolean    | `false` | Provision fonts?                          |
-| linux_workstations_component.mc       | no        | boolean    | `false` | Deploy the tool?                          |
-| linux_workstations_component.sudo     | no        | boolean    | `true`  | Deploy and configure sudo?                |
-| linux_workstations_component.shell    | no        | boolean    | `true`  | Deploy and configure shells?              |
-| linux_workstations_component.tilix    | no        | boolean    | `false` | Deploy the tool?                          |
-| linux_workstations_component.users    | no        | boolean    | `true`  | Provision users and groups?               |
+| linux_workstations_component.autofs   | no        | boolean    | `false` | Enable components?                        |
+| linux_workstations_component.cinnamon | no        | boolean    | `false` | Enable components?                        |
+| linux_workstations_component.dconf    | no        | boolean    | `false` | Enable components?                        |
+| linux_workstations_component.fonts    | no        | boolean    | `true`  | Enable components?                        |
+| linux_workstations_component.mc       | no        | boolean    | `true`  | Enable components?                        |
+| linux_workstations_component.sudo     | no        | boolean    | `true`  | Enable components?                        |
+| linux_workstations_component.shell    | no        | boolean    | `true`  | Enable components?                        |
+| linux_workstations_component.tilix    | no        | boolean    | `false` | Enable components?                        |
+| linux_workstations_component.users    | no        | boolean    | `true`  | Enable components?                        |
 
 Additional role specific settings are available to further customize the playbook:
 
