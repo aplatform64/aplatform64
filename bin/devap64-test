@@ -25,6 +25,7 @@ function devap64_test_role_test() {
   local target="$3"
   local group="$4"
   local debug="$5"
+  local scenario=''
 
   # Set project path
   APLATFORM64_TEST_ROLE_PATH="${APLATFORM64_COLLECTIONS}/${collection}/roles/${role}"
@@ -33,16 +34,22 @@ function devap64_test_role_test() {
   # Enable debug mode
   [[ "$debug" == '1' ]] && debug='--debug --verbose' || debug=''
 
-  # Select target hosts
+  # Select hosts
   APLATFORM64_TEST_PLATFORM="$group"
 
   # Tune kernel for multiple containers
   "$BL64_SUDO_CMD_SUDO" sysctl fs.inotify.max_user_instances="$APLATFORM64_SYSCTL_MAX_USER_INSTANCES"
 
-  "$APLATFORM64_CMD_MOLECULE" \
-    $debug \
-    'test' \
-    --scenario-name "$target"
+  # Select scenarios
+  if [[ "$target" == 'all' ]]; then
+    target="$(cd "${APLATFORM64_COLLECTIONS}/${collection}/roles/${role}/molecule"; echo ${role}_*)"
+  fi
+
+  # Run tests
+  for scenario in $target; do
+    bl64_msg_show_task "run test: $scenario"
+    "$APLATFORM64_CMD_MOLECULE" $debug 'test' --scenario-name "$scenario"
+  done
 
 }
 
@@ -53,6 +60,8 @@ function devap64_test_role_converge() {
   local target="$3"
   local group="$4"
   local debug="$5"
+
+  [[ "$target" == 'all' ]] && bl64_msg_show_error 'invalid option. This action supports only one test' && return 1
 
   # Set project path
   APLATFORM64_TEST_ROLE_PATH="${APLATFORM64_COLLECTIONS}/${collection}/roles/${role}"
@@ -81,6 +90,9 @@ function devap64_test_role_login() {
   local target="$3"
   local group="$4"
   local debug="$5"
+
+  [[ "$target" == 'all' ]] && bl64_msg_show_error 'invalid option. This action supports only one test' && return 1
+  [[ "$group" == 'all' ]] && bl64_msg_show_error 'invalid option. This action supports only one group' && return 1
 
   # Set project path
   APLATFORM64_TEST_ROLE_PATH="${APLATFORM64_COLLECTIONS}/${collection}/roles/${role}"
