@@ -24,6 +24,7 @@
     - name: "Create test site"
       vars:
         auto_ansible_control:
+          resolve_prereq: true
           prepare: true
           setup: true
         auto_ansible_control_site: "{{ test_site }}"
