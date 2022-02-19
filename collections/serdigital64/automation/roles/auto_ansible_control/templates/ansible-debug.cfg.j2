@@ -5,19 +5,19 @@ allow_world_readable_tmpfiles = false
 keep_remote_files = false
 
 # Error handling
-system_warning = false
+system_warning = true
 any_errors_fatal = true
 invalid_task_attribute_failed = true
 string_conversion_action = error
 error_on_undefined_vars = true
-deprecation_warnings = false
+deprecation_warnings = true
 action_warnings = true
 
 # Debugger
 task_debugger_ignore_errors = true
-display_args_to_stdout = false
-enable_task_debugger = false
-debug = false
+display_args_to_stdout = true
+enable_task_debugger = true
+debug = true
 verbosity = 0
 
 # Timeouts
@@ -31,9 +31,9 @@ fact_caching = yaml
 transport = ssh
 
 # StdOut Formatting
-stdout_callback = community.general.dense
+stdout_callback = ansible.posix.debug
 display_ok_hosts = true
-display_failed_stderr = false
+display_failed_stderr = true
 display_skipped_hosts = true
 show_custom_stats = true
 show_per_host_start = true
