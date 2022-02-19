@@ -35,4 +35,10 @@
       ansible.builtin.assert:
         that:
           - test_path_stats['stat']['exists']
+
+    - name: "Test CLI"
+      command:
+        argv:
+          - "{{ auto_aplatform64_base['files']['ap64_sh'] }}"
+          - "-h"
 ...

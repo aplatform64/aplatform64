@@ -1,5 +1,5 @@
 ---
-# WARNING: automation, security:  only required for molecule testing
+# WARNING: automation, security, application:  required for molecule testing
 roles: []
 collections:
   - name: "../../../../../build/dev/serdigital64-automation.tar.gz"

@@ -101,6 +101,7 @@ Each playbook will integrate the roles needed to implement the service along wit
 | [manage_hpc_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_hpc_nodes/)                               | Provision high-performance computing environments                          |
 | [manage_jenkins_controllers](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_jenkins_controllers/)           | Manage Jenkins controllers                                                 |
 | [manage_jenkins_workers](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_jenkins_workers/)                   | Manage Jenkins workers                                                     |
+| [manage_linux_servers](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_linux_servers/)                       | Manage Linux Servers                                                       |
 | [manage_linux_workstations](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_linux_workstations/)             | Manage Linux Workstations                                                  |
 | [manage_office_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_office_nodes/)                         | Provision office productivity applications                                 |
 | [manage_test_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_test_nodes/)                             | Provision software testing tools                                           |
