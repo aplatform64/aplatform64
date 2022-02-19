@@ -213,6 +213,12 @@ auto_ansible_control_base:
       auto_ansible_control_site +
       '/ansible.cfg'
       }}"
+    ansible_debug_cfg: "{{
+      auto_ansible_control_paths['root'] +
+      '/etc/cfg/' +
+      auto_ansible_control_site +
+      '/ansible-debug.cfg'
+      }}"
     galaxy_token: "{{
       auto_ansible_control_paths['root'] +
       '/etc/tokens/galaxy.token'
@@ -232,6 +238,7 @@ auto_ansible_control_base:
   templates:
     ansible_inventory: "hosts.ini.j2"
     ansible_cfg: "ansible.cfg.j2"
+    ansible_debug_cfg: "ansible-debug.cfg.j2"
     ansible_control_env: "ansible_control.env.j2"
     ansible_common: "ansible_common.yml.j2"
 

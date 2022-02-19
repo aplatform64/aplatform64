@@ -5,11 +5,12 @@
 # * Role settings are available only for the corresponding host group and associated playbook
 #
 
-sys_shell_catalog:
-  zsh: true
-  bash: true
-  ksh: false
-  csh: false
+sys_sudo_application:
+  name: "sudo"
+  type: "distro"
+  installed: true
+  version: "latest"
 
-sys_shell_users: []
+sys_sudo_rules:
+  user: []
 ...

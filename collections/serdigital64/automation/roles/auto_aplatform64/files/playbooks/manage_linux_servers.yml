@@ -1,6 +1,6 @@
 ---
-- name: "Manage Linux Workstations"
-  hosts: "linux_workstations"
+- name: "Manage Linux Servers"
+  hosts: "linux_servers"
   gather_facts: false
 
   pre_tasks:
@@ -46,8 +46,8 @@
       ansible.builtin.include_role:
         name: "serdigital64.storage.stg_autofs"
       when:
-        - linux_workstations_component['autofs'] is defined
-        - linux_workstations_component['autofs']
+        - linux_servers_component['autofs'] is defined
+        - linux_servers_component['autofs']
 
     - name: "Provision fonts"
       vars:
@@ -57,8 +57,8 @@
       ansible.builtin.include_role:
         name: "serdigital64.system.sys_fonts"
       when:
-        - linux_workstations_component['fonts'] is defined
-        - linux_workstations_component['fonts']
+        - linux_servers_component['fonts'] is defined
+        - linux_servers_component['fonts']
 
     - name: "Provision unix users and groups"
       vars:
@@ -67,8 +67,8 @@
       ansible.builtin.include_role:
         name: "serdigital64.system.sys_user"
       when:
-        - linux_workstations_component['users'] is defined
-        - linux_workstations_component['users']
+        - linux_servers_component['users'] is defined
+        - linux_servers_component['users']
 
     - name: "Provision unix shells"
       vars:
@@ -78,8 +78,8 @@
       ansible.builtin.include_role:
         name: "serdigital64.system.sys_shell"
       when:
-        - linux_workstations_component['shell'] is defined
-        - linux_workstations_component['shell']
+        - linux_servers_component['shell'] is defined
+        - linux_servers_component['shell']
 
     - name: "Deploy and configure SUDO"
       vars:
@@ -89,32 +89,8 @@
       ansible.builtin.include_role:
         name: "serdigital64.system.sys_sudo"
       when:
-        - linux_workstations_component['sudo'] is defined
-        - linux_workstations_component['sudo']
-
-    - name: "Provision DConf service"
-      vars:
-        sys_dconf:
-          prepare: true
-          deploy: true
-          setup: true
-      ansible.builtin.include_role:
-        name: "serdigital64.system.sys_dconf"
-      when:
-        - linux_workstations_component['dconf'] is defined
-        - linux_workstations_component['dconf']
-
-    - name: "Provision Cinnamon desktop manager"
-      vars:
-        sys_gui_cinnamon:
-          prepare: true
-          deploy: true
-          provision: true
-      ansible.builtin.include_role:
-        name: "serdigital64.system.sys_gui_cinnamon"
-      when:
-        - linux_workstations_component['cinnamon'] is defined
-        - linux_workstations_component['cinnamon']
+        - linux_servers_component['sudo'] is defined
+        - linux_servers_component['sudo']
 
     - name: "Provision MC tool"
       vars:
@@ -124,16 +100,6 @@
       ansible.builtin.include_role:
         name: "serdigital64.system.sys_mc"
       when:
-        - linux_workstations_component['mc'] is defined
-        - linux_workstations_component['mc']
-
-    - name: "Provision Tilix tool"
-      vars:
-        app_tilix:
-          deploy: true
-      ansible.builtin.include_role:
-        name: "serdigital64.application.app_tilix"
-      when:
-        - linux_workstations_component['tilix'] is defined
-        - linux_workstations_component['tilix']
+        - linux_servers_component['mc'] is defined
+        - linux_servers_component['mc']
 ...
