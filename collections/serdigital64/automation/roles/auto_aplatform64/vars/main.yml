@@ -91,6 +91,9 @@ auto_aplatform64_group_vars:
     host_group: "jenkins_controllers"
     template: "sys_repository-jenkins_controllers"
   - role: "sys_repository"
+    host_group: "linux_servers"
+    template: "sys_repository-linux_servers"
+  - role: "sys_repository"
     host_group: "linux_workstations"
     template: "sys_repository-linux_workstations"
   - role: "sys_repository"
@@ -133,8 +136,14 @@ auto_aplatform64_group_vars:
     host_group: "jenkins_workers"
     template: "sys_user-jenkins_workers"
   - role: "sys_sudo"
+    host_group: "linux_servers"
+    template: "sys_sudo-linux_servers"
+  - role: "sys_sudo"
     host_group: "linux_workstations"
     template: "sys_sudo-linux_workstations"
+  - role: "stg_autofs"
+    host_group: "linux_servers"
+    template: "stg_autofs"
   - role: "stg_autofs"
     host_group: "linux_workstations"
     template: "stg_autofs"
@@ -142,8 +151,14 @@ auto_aplatform64_group_vars:
     host_group: "linux_workstations"
     template: "sys_mc"
   - role: "sys_user"
+    host_group: "linux_servers"
+    template: "sys_user-linux_servers"
+  - role: "sys_user"
     host_group: "linux_workstations"
     template: "sys_user-linux_workstations"
+  - role: "sys_shell"
+    host_group: "linux_servers"
+    template: "sys_shell-linux_servers"
   - role: "sys_shell"
     host_group: "linux_workstations"
     template: "sys_shell-linux_workstations"
@@ -170,6 +185,8 @@ auto_aplatform64_group_vars:
     host_group: "jenkins_workers"
   - playbook: "manage_git_servers"
     host_group: "git_servers"
+  - playbook: "manage_linux_servers"
+    host_group: "linux_servers"
   - playbook: "manage_linux_workstations"
     host_group: "linux_workstations"
   - playbook: "manage_test_nodes"
@@ -231,6 +248,10 @@ auto_aplatform64_playbooks:
     inventory: "jenkins_service"
     group: "jenkins_workers"
     info: "Manage Jenkins workers"
+  - playbook: "manage_linux_servers"
+    inventory: "linux_servers"
+    group: "linux_servers"
+    info: "Manage Linux Servers"
   - playbook: "manage_linux_workstations"
     inventory: "linux_workstations"
     group: "linux_workstations"
@@ -262,6 +283,7 @@ auto_aplatform64_host_groups:
   - "hpc_nodes"
   - "jenkins_controllers"
   - "jenkins_workers"
+  - "linux_servers"
   - "linux_workstations"
   - "office_nodes"
   - "test_nodes"
@@ -276,6 +298,7 @@ auto_aplatform64_inventories:
   - "file_service"
   - "hpc_nodes"
   - "jenkins_service"
+  - "linux_servers"
   - "linux_workstations"
   - "office_nodes"
   - "test_nodes"
@@ -290,16 +313,17 @@ auto_platform64_managed_file:
 auto_aplatform64___path_status: ~
 auto_aplatform64___provision_record: ~
 auto_aplatform64___setup_extension: ~
-#auto_aplatform64___prepare_path_inventory: ~
-#auto_aplatform64___prepare_path_var: ~
-#auto_aplatform64___prepare_path_etc: ~
-#auto_aplatform64___prepare_path_file: ~
-#auto_aplatform64___provision_playbook: ~
-#auto_aplatform64___setup_lib: ~
-#auto_aplatform64___setup_group_play: ~
-#auto_aplatform64___setup_group_role: ~
-#auto_aplatform64___prepare_path_host: ~
-#auto_aplatform64___setup_inventory: ~
+
+# auto_aplatform64___prepare_path_inventory: ~
+# auto_aplatform64___prepare_path_var: ~
+# auto_aplatform64___prepare_path_etc: ~
+# auto_aplatform64___prepare_path_file: ~
+# auto_aplatform64___provision_playbook: ~
+# auto_aplatform64___setup_lib: ~
+# auto_aplatform64___setup_group_play: ~
+# auto_aplatform64___setup_group_role: ~
+# auto_aplatform64___prepare_path_host: ~
+# auto_aplatform64___setup_inventory: ~
 
 # Variables declared in cfg/installer.yml. Do not uncomment
 # auto_aplatform64_installer_vew_loader

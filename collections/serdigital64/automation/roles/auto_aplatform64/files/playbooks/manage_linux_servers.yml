@@ -1,0 +1,105 @@
+---
+- name: "Manage Linux Servers"
+  hosts: "linux_servers"
+  gather_facts: false
+
+  pre_tasks:
+    - name: "Discover Target Platform"
+      ansible.builtin.setup:
+        gather_subset: "min"
+        gather_timeout: "10"
+
+    - name: "Prepare package repositories"
+      vars:
+        sys_repository:
+          prepare: true
+          deploy: true
+          setup: true
+          provision: true
+      ansible.builtin.include_role:
+        name: "serdigital64.system.sys_repository"
+
+    - name: "Prepare archive manager"
+      vars:
+        bkp_archive:
+          deploy: true
+      ansible.builtin.include_role:
+        name: "serdigital64.backup.bkp_archive"
+
+    - name: "Prepare package installer"
+      vars:
+        sys_package:
+          prepare: true
+      ansible.builtin.include_role:
+        name: "serdigital64.system.sys_package"
+
+  tasks:
+
+    - name: "Provision AutoFS"
+      vars:
+        stg_autofs:
+          prepare: true
+          deploy: true
+          control: true
+          setup: true
+          provision: true
+      ansible.builtin.include_role:
+        name: "serdigital64.storage.stg_autofs"
+      when:
+        - linux_servers_component['autofs'] is defined
+        - linux_servers_component['autofs']
+
+    - name: "Provision fonts"
+      vars:
+        sys_fonts:
+          prepare: true
+          deploy: true
+      ansible.builtin.include_role:
+        name: "serdigital64.system.sys_fonts"
+      when:
+        - linux_servers_component['fonts'] is defined
+        - linux_servers_component['fonts']
+
+    - name: "Provision unix users and groups"
+      vars:
+        sys_user:
+          setup: true
+      ansible.builtin.include_role:
+        name: "serdigital64.system.sys_user"
+      when:
+        - linux_servers_component['users'] is defined
+        - linux_servers_component['users']
+
+    - name: "Provision unix shells"
+      vars:
+        sys_shell:
+          deploy: true
+          setup: true
+      ansible.builtin.include_role:
+        name: "serdigital64.system.sys_shell"
+      when:
+        - linux_servers_component['shell'] is defined
+        - linux_servers_component['shell']
+
+    - name: "Deploy and configure SUDO"
+      vars:
+        sys_sudo:
+          deploy: true
+          setup: true
+      ansible.builtin.include_role:
+        name: "serdigital64.system.sys_sudo"
+      when:
+        - linux_servers_component['sudo'] is defined
+        - linux_servers_component['sudo']
+
+    - name: "Provision MC tool"
+      vars:
+        sys_mc:
+          deploy: true
+          setup: true
+      ansible.builtin.include_role:
+        name: "serdigital64.system.sys_mc"
+      when:
+        - linux_servers_component['mc'] is defined
+        - linux_servers_component['mc']
+...
