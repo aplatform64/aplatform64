@@ -1,6 +1,7 @@
 # Releases
 
 - [Releases](#releases)
+  - [Release: 2.7.0](#release-270)
   - [Release: 2.6.0](#release-260)
   - [Release: 2.5.0](#release-250)
   - [Release: 2.4.0](#release-240)
@@ -8,6 +9,14 @@
   - [Release: 2.2.0](#release-220)
   - [Release: 2.1.0](#release-210)
   - [Release: 2.0.0](#release-200)
+
+## Release: 2.7.0
+
+- automation-1.3.0
+  - add manage_linux_servers playbook
+  - manage_linux_workstations: add dconf service
+  - auto_ansible_ontrol: add debug configuration set
+  - ap64: update debug action
 
 ## Release: 2.6.0
 
