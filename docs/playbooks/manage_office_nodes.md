@@ -21,8 +21,9 @@ Supported features in the current version:
 - Configure operating system for using the FlatHub package repository
 - Install office productivity applications:
   - Google Chrome
-  - GIMP
+  - Darktable
   - DrawIO
+  - GIMP
   - InkScape
   - KeePassX
   - Kryta
@@ -64,6 +65,7 @@ Set playbook specific settings in the file: `inventories/<SITE>/group_vars/offic
 ```yaml
 office_nodes_apps:
   chrome:
+  darktable:
   drawio:
   gimp:
   inkscape:
@@ -82,6 +84,7 @@ office_nodes_apps:
 | ----------------------------- | --------- | ---------- | ------- | ----------------------------------------- |
 | office_nodes_apps             | yes       | dictionary |         | Define what applications will be deployed |
 | office_nodes_apps.chrome      | no        | boolean    | `false` | Deploy the application?                   |
+| office_nodes_apps.darktable   | no        | boolean    | `false` | Deploy the application?                   |
 | office_nodes_apps.drawio      | no        | boolean    | `false` | Deploy the application?                   |
 | office_nodes_apps.gimp        | no        | boolean    | `false` | Deploy the application?                   |
 | office_nodes_apps.inkscape    | no        | boolean    | `false` | Deploy the application?                   |
@@ -97,8 +100,8 @@ office_nodes_apps:
 
 Additional role specific settings are available to further customize the playbook:
 
-| A:Platform64 role                                                                | group_vars file                                                  |
-| -------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| A:Platform64 role                                                                | group_vars file                                                 |
+| -------------------------------------------------------------------------------- | --------------------------------------------------------------- |
 | [serdigital64.system.sys_repository](../roles/sys_repository.md#role-parameters) | `inventories/<SITE>/group_vars/office_nodes/sys_repository.yml` |
 
 ## Deployment

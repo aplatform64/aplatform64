@@ -1,0 +1,16 @@
+---
+- name: "Application / Darktable / Initialize"
+  ansible.builtin.include_tasks:
+    file: "app_darktable_initialize.yml"
+
+- name: "Application / Darktable / Deploy"
+  ansible.builtin.include_tasks:
+    file: "app_darktable_deploy.yml"
+  when:
+    - app_darktable['deploy'] is defined
+    - app_darktable['deploy']
+
+- name: "Application / Darktable / Finalize"
+  ansible.builtin.include_tasks:
+    file: "app_darktable_finalize.yml"
+...
