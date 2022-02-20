@@ -1,0 +1,56 @@
+---
+# Define platform specific paths
+app_darktable_base:
+  paths: "{{ app_darktable_base_common['paths'] }}"
+  etc: "{{ app_darktable_base_common['etc'] }}"
+  files: "{{ app_darktable_base_common['files'] }}"
+  run: "{{ app_darktable_base_common['run'] }}"
+  templates: "{{ app_darktable_base_common['templates'] }}"
+  access: "{{ app_darktable_base_common['access'] }}"
+  # paths:
+  #   X_BASE_PATH_X: "{{ app_darktable_paths['X_DEFAULT_PATH_X'] | default('X_DEFAULT_PATH_VALUE_X') }}"
+  # etc:
+  #   X_BASE_ETC_X: "X_BASE_ETC_VALUE_X"
+  # files:
+  #   X_BASE_FILE_SETUP_X: "X_BASE_FILE_SETUP_VALUE_X"
+  # run:
+  #   X_BASE_RUN_X: "X_BASE_RUN_VALUE_X"
+  # access:
+  #   user:
+  #     owner: "root"
+  #     X_DEFAULT_USER_X: "{{ app_darktable_owners['X_DEFAULT_USER_X']['name'] }}"
+  #   group:
+  #     owner: "root"
+  #     X_DEFAULT_USER_X: "{{ app_darktable_owners['X_DEFAULT_USER_X']['group'] }}"
+  #   mode:
+  #     dir: "0755"
+  #     file: "0644"
+  #     exe: "0755"
+
+# Define application package details
+app_darktable_profiles:
+  snap: "{{ app_darktable_profiles_common['snap'] }}"
+  flatpak: "{{ app_darktable_profiles_common['flatpak'] }}"
+  distro:
+    latest:
+      supported: true
+      packages:
+        - name: "X_APP_PACKAGE_X"
+
+# Define custom package repositories
+app_darktable_repository_custom_yum: []
+app_darktable_repository_custom_apt: []
+
+# Set package repositories states
+app_darktable_repository_catalog_distro: {}
+app_darktable_repository_catalog_yum: {}
+app_darktable_repository_catalog_apt: {}
+
+# Define OS subsystem states
+app_darktable_subsystem_profile:
+  service: "X_SUBSYSTEM_NAME_X"
+  states:
+    started: "started"
+    stopped: "stopped"
+    refreshed: "refreshed"
+...

@@ -35,6 +35,26 @@
 
   tasks:
 
+    - name: "Provision Darktable application"
+      vars:
+        app_darktable:
+          deploy: true
+      ansible.builtin.include_role:
+        name: "serdigital64.application.app_darktable"
+      when:
+        - office_nodes_apps['darktable'] is defined
+        - office_nodes_apps['darktable']
+
+    - name: "Provision DrawIO application"
+      vars:
+        app_drawio:
+          deploy: true
+      ansible.builtin.include_role:
+        name: "serdigital64.application.app_drawio"
+      when:
+        - office_nodes_apps['drawio'] is defined
+        - office_nodes_apps['drawio']
+
     - name: "Provision Google Chrome application"
       vars:
         app_chrome:
@@ -54,16 +74,6 @@
       when:
         - office_nodes_apps['gimp'] is defined
         - office_nodes_apps['gimp']
-
-    - name: "Provision DrawIO application"
-      vars:
-        app_drawio:
-          deploy: true
-      ansible.builtin.include_role:
-        name: "serdigital64.application.app_drawio"
-      when:
-        - office_nodes_apps['drawio'] is defined
-        - office_nodes_apps['drawio']
 
     - name: "Provision InkScape application"
       vars:

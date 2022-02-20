@@ -1,6 +1,7 @@
 # Releases
 
 - [Releases](#releases)
+  - [Release: 2.8.0](#release-280)
   - [Release: 2.7.0](#release-270)
   - [Release: 2.6.0](#release-260)
   - [Release: 2.5.0](#release-250)
@@ -9,6 +10,13 @@
   - [Release: 2.2.0](#release-220)
   - [Release: 2.1.0](#release-210)
   - [Release: 2.0.0](#release-200)
+
+## Release: 2.8.0
+
+- application-1.2.0
+  - add role: app_darktable
+- automation-1.4.0
+  - manage_office_nodes: add darktable
 
 ## Release: 2.7.0
 

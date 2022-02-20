@@ -11,6 +11,7 @@ This collection is part of the [A:Platform64](https://github.com/serdigital64/ap
 | role                                                                                  | purpose                                              |
 | ------------------------------------------------------------------------------------- | ---------------------------------------------------- |
 | [app_chrome](https://aplatform64.readthedocs.io/en/latest/roles/app_chrome)           | Manage provisioning of the Google Chrome application |
+| [app_darktable](https://aplatform64.readthedocs.io/en/latest/roles/app_darktable)     | Manage provisioning of the Darktable application     |
 | [app_drawio](https://aplatform64.readthedocs.io/en/latest/roles/app_drawio)           | Manage provisioning of the DrawIO application        |
 | [app_gimp](https://aplatform64.readthedocs.io/en/latest/roles/app_gimp)               | Manage provisioning of the GIMP application          |
 | [app_inkscape](https://aplatform64.readthedocs.io/en/latest/roles/app_inkscape)       | Manage provisioning of the InkScape application      |
