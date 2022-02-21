@@ -1,6 +1,7 @@
 # Releases
 
 - [Releases](#releases)
+  - [Release: 2.9.0](#release-290)
   - [Release: 2.8.0](#release-280)
   - [Release: 2.7.0](#release-270)
   - [Release: 2.6.0](#release-260)
@@ -10,6 +11,13 @@
   - [Release: 2.2.0](#release-220)
   - [Release: 2.1.0](#release-210)
   - [Release: 2.0.0](#release-200)
+
+## Release: 2.9.0
+
+- application-1.2.1
+  - app_keepassx: rename role to app_keepassxc
+- automation-1.4.1
+  - manage_office_nodes: rename role to app_keepassxc
 
 ## Release: 2.8.0
 
@@ -29,7 +37,7 @@
 ## Release: 2.6.0
 
 - application-1.1.0
-  - app_keepassx: add user default setup
+  - app_keepassxc: add user default setup
 - system-1.2.1:
   - sys_gui_cinnamon: add nemo default cfg
 
