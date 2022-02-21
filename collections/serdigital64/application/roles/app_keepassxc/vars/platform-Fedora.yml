@@ -1,0 +1,10 @@
+---
+app_keepassxc_profiles:
+  snap: "{{ app_keepassxc_profiles_common['snap'] }}"
+  flatpak: "{{ app_keepassxc_profiles_common['flatpak'] }}"
+  distro:
+    latest:
+      supported: true
+      packages:
+        - name: "keepassxc"
+...

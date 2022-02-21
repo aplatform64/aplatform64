@@ -1,8 +1,0 @@
----
-app_keepassx_application:
-  name: "keepassx"
-  type: "distro"
-  installed: true
-  version: "latest"
-app_keepassx_setup_users: []
-...

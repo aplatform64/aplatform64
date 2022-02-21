@@ -104,7 +104,7 @@ nav:
     - app_drawio: "roles/app_drawio.md"
     - app_gimp: "roles/app_gimp.md"
     - app_inkscape: "roles/app_inkscape.md"
-    - app_keepassx: "roles/app_keepassx.md"
+    - app_keepassxc: "roles/app_keepassxc.md"
     - app_kryta: "roles/app_kryta.md"
     - app_libreoffice: "roles/app_libreoffice.md"
     - app_msteams: "roles/app_msteams.md"

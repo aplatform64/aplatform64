@@ -1,0 +1,19 @@
+---
+- name: "Application / KeePassXC / Initialize / Check Platform compatibility"
+  ansible.builtin.assert:
+    quiet: true
+    fail_msg: "Target Platform not supported: {{ ansible_distribution + ansible_distribution_major_version }}"
+    that:
+      - ansible_distribution + ansible_distribution_major_version in app_keepassxc_platforms
+
+- name: "Application / KeePassXC / Initialize / Set Platform specific variables"
+  ansible.builtin.include_vars:
+    file: "{{ 'platform-' + app_keepassxc_os_family + '.yml' }}"
+
+- name: "Application / KeePassXC / Resolve prerequisites"
+  ansible.builtin.include_tasks:
+    file: "app_keepassxc_prerequisite.yml"
+  when:
+    - "'resolve_prereq' in app_keepassxc"
+    - app_keepassxc['resolve_prereq']
+...

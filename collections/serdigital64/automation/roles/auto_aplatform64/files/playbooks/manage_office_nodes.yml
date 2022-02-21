@@ -85,15 +85,15 @@
         - office_nodes_apps['inkscape'] is defined
         - office_nodes_apps['inkscape']
 
-    - name: "Provision KeePassX application"
+    - name: "Provision KeePassXC application"
       vars:
-        app_keepassx:
+        app_keepassxc:
           deploy: true
       ansible.builtin.include_role:
-        name: "serdigital64.application.app_keepassx"
+        name: "serdigital64.application.app_keepassxc"
       when:
-        - office_nodes_apps['keepassx'] is defined
-        - office_nodes_apps['keepassx']
+        - office_nodes_apps['keepassxc'] is defined
+        - office_nodes_apps['keepassxc']
 
     - name: "Provision Kryta application"
       vars:
