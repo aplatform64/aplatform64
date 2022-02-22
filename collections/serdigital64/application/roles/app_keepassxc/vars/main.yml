@@ -1,0 +1,69 @@
+---
+app_keepassxc_platforms:
+  - "Ubuntu20"
+  - "Ubuntu21"
+  - "Fedora33"
+  - "Fedora35"
+  - "Debian10"
+  - "Debian11"
+
+app_keepassxc_os_family: "
+  {%- if
+      ( ansible_distribution == 'CentOS' ) or
+      ( ansible_distribution == 'OracleLinux' )
+  -%}
+    {{ 'RedHat' }}
+  {%- elif
+      ( ansible_distribution == 'Fedora' )
+  -%}
+    {{ 'Fedora' }}
+  {%- elif
+      ( ansible_distribution == 'Debian' ) or
+      ( ansible_distribution == 'Ubuntu' )
+  -%}
+    {{ 'Ubuntu' }}
+  {%- else -%}
+    {{ 'Linux' }}
+  {%- endif -%}
+  "
+
+app_keepassxc_profiles_common:
+  snap:
+    latest:
+      packages:
+        - name: "keepassxc"
+  flatpak:
+    latest:
+      origin: "flathub"
+      packages:
+        - name: "org.keepassxc.KeePassXC"
+
+app_keepassxc_base:
+  paths:
+    etc_keepassxc: "
+      {%- if app_keepassxc_application['type'] == 'distro' -%}
+        {{ '/.config/keepassxc' }}
+      {%- endif -%}
+      "
+  etc:
+    keepassxc_ini: "
+      {%- if app_keepassxc_application['type'] == 'distro' -%}
+        {{ '/.config/keepassxc/keepassxc.ini' }}
+      {%- endif -%}
+      "
+  templates:
+    keepassxc_ini: "keepassxc.ini.j2"
+  access:
+    user:
+      owner: "root"
+    group:
+      owner: "root"
+    mode:
+      dir: "0750"
+      file: "0640"
+      exe: "0750"
+
+# Temporary loop variables
+# app_keepassxc___prepare_path
+# app_keepassxc___setup_user
+...

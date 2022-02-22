@@ -15,7 +15,7 @@ This collection is part of the [A:Platform64](https://github.com/serdigital64/ap
 | [app_drawio](https://aplatform64.readthedocs.io/en/latest/roles/app_drawio)           | Manage provisioning of the DrawIO application        |
 | [app_gimp](https://aplatform64.readthedocs.io/en/latest/roles/app_gimp)               | Manage provisioning of the GIMP application          |
 | [app_inkscape](https://aplatform64.readthedocs.io/en/latest/roles/app_inkscape)       | Manage provisioning of the InkScape application      |
-| [app_keepassx](https://aplatform64.readthedocs.io/en/latest/roles/app_keepassx)       | Manage provisioning of the KeePassX application      |
+| [app_keepassxc](https://aplatform64.readthedocs.io/en/latest/roles/app_keepassxc)       | Manage provisioning of the KeePassXC application      |
 | [app_kryta](https://aplatform64.readthedocs.io/en/latest/roles/app_kryta)             | Manage provisioning of the Kryta application         |
 | [app_libreoffice](https://aplatform64.readthedocs.io/en/latest/roles/app_libreoffice) | Manage provisioning of the Libre Office application  |
 | [app_msteams](https://aplatform64.readthedocs.io/en/latest/roles/app_msteams)         | Manage provisioning of the MS Teams application      |

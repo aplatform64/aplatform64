@@ -1,0 +1,23 @@
+---
+- name: "Application / KeePassXC / Initialize"
+  ansible.builtin.include_tasks:
+    file: "app_keepassxc_initialize.yml"
+
+- name: "Application / KeePassXC / Deploy"
+  ansible.builtin.include_tasks:
+    file: "app_keepassxc_deploy.yml"
+  when:
+    - "'deploy' in app_keepassxc"
+    - app_keepassxc['deploy']
+
+- name: "Application / KeePassXC / Setup"
+  ansible.builtin.include_tasks:
+    file: "app_keepassxc_setup.yml"
+  when:
+    - "'setup' in app_keepassxc"
+    - app_keepassxc['setup']
+
+- name: "Application / KeePassXC / Finalize"
+  ansible.builtin.include_tasks:
+    file: "app_keepassxc_finalize.yml"
+...

@@ -1,0 +1,9 @@
+---
+# Shared test variables
+test_user: "test_app_keepassxc"
+test_group: "test_app_keepassxc"
+test_home: "/home/test_app_keepassxc"
+test_app_keepassxc_setup_users:
+  - user: "{{ test_user }}"
+    home: "{{ test_home }}"
+...
