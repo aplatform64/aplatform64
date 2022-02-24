@@ -146,8 +146,8 @@ sys_package___application:
 
 #sys_package___provision_paths: ~
 #sys_package___provision_binary: ~
-#sys_package___initialize_check: {}
-#sys_package___initialize_path: []
+#sys_package___provision_check: {}
+#sys_package___provision_path: []
 #sys_package___provision_promote: ~
 #sys_package___provision_file: ~
 #sys_package___provision_flatpak: ~
