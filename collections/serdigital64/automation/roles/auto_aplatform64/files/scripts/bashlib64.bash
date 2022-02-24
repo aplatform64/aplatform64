@@ -5,7 +5,7 @@
 # Author: serdigital64 (https://github.com/serdigital64)
 # License: GPL-3.0-or-later (https://www.gnu.org/licenses/gpl-3.0.txt)
 # Repository: https://github.com/serdigital64/bashlib64
-# Version: 1.9.2
+# Version: 1.11.2
 #######################################
 
 [[ -n "$BL64_LIB_DEBUG" && "$BL64_LIB_DEBUG" == '1' ]] && set -x
@@ -27,17 +27,28 @@ readonly BL64_CHECK_ERROR_DIRECTORY_NOT_READ=6
 
 readonly BL64_CHECK_ERROR_PARAMETER_EMPTY=7
 
+readonly BL64_CHECK_ERROR_EXPORT_EMPTY=8
+readonly BL64_CHECK_ERROR_EXPORT_SET=9
+
 
 readonly _BL64_CHECK_TXT_MISSING_PARAMETER='required parameter is missing'
 
-readonly _BL64_CHECK_TXT_COMMAND_NOT_FOUND='the command is not present'
-readonly _BL64_CHECK_TXT_COMMAND_NOT_EXECUTABLE='the command is present but has no execution permission'
+readonly _BL64_CHECK_TXT_COMMAND_NOT_FOUND='required command is not present'
+readonly _BL64_CHECK_TXT_COMMAND_NOT_EXECUTABLE='required command is present but has no execution permission'
 
-readonly _BL64_CHECK_TXT_FILE_NOT_FOUND='the file is not present'
-readonly _BL64_CHECK_TXT_FILE_NOT_READABLE='the file is present but has no read permission'
+readonly _BL64_CHECK_TXT_FILE_NOT_FOUND='required file is not present'
+readonly _BL64_CHECK_TXT_FILE_NOT_READABLE='required file is present but has no read permission'
 
-readonly _BL64_CHECK_TXT_DIRECTORY_NOT_FOUND='the directory is not present'
-readonly _BL64_CHECK_TXT_DIRECTORY_NOT_READABLE='the directory is present but has no read permission'
+readonly _BL64_CHECK_TXT_DIRECTORY_NOT_FOUND='required directory is not present'
+readonly _BL64_CHECK_TXT_DIRECTORY_NOT_READABLE='required directory is present but has no read permission'
+
+readonly _BL64_CHECK_TXT_EXPORT_EMPTY='required shell exported variable is empty'
+readonly _BL64_CHECK_TXT_EXPORT_SET='required shell exported variable is not set'
+
+readonly BL64_IAM_ERROR_MISSING_PARAMETER=200
+readonly BL64_IAM_ERROR_MISSING_USER_ADD=201
+
+readonly _BL64_IAM_TXT_MISSING_PARAMETER='required parameter is missing'
 
 readonly BL64_LOG_TYPE_FILE='F'
 readonly BL64_LOG_CATEGORY_INFO='info'
@@ -79,7 +90,11 @@ readonly _BL64_MSG_TXT_INFO='Info'
 readonly _BL64_MSG_TXT_TASK='Task'
 readonly _BL64_MSG_TXT_DEBUG='Debug'
 readonly _BL64_MSG_TXT_WARNING='Warning'
+readonly _BL64_MSG_TXT_BATCH='Batch'
 readonly _BL64_MSG_TXT_INVALID_FORMAT='invalid format. Please use one of BL64_MSG_FORMAT_*'
+readonly _BL64_MSG_TXT_BATCH_START='starting process'
+readonly _BL64_MSG_TXT_BATCH_FINISH_OK='process completed successfully'
+readonly _BL64_MSG_TXT_BATCH_FINISH_ERROR='process completed with errors'
 
 export BL64_MSG_FORMAT="${BL64_MSG_FORMAT:-$BL64_MSG_FORMAT_FULL}"
 
@@ -102,7 +117,6 @@ export BL64_OS_CMD_MKTEMP
 export BL64_OS_CMD_MV
 export BL64_OS_CMD_RM
 export BL64_OS_CMD_TAR
-export BL64_OS_CMD_USERADD
 
 export BL64_OS_ALIAS_CHOWN_DIR
 export BL64_OS_ALIAS_CP_FILE
@@ -117,6 +131,7 @@ export BL64_OS_ALIAS_RM_FULL
 readonly BL64_PKG_CMD_APT='/usr/bin/apt-get'
 readonly BL64_PKG_CMD_DNF='/usr/bin/dnf'
 readonly BL64_PKG_CMD_YUM='/usr/bin/yum'
+readonly BL64_PKG_CMD_APK='/sbin/apk'
 
 readonly BL64_PKG_ALIAS_APT_UPDATE="$BL64_PKG_CMD_APT update"
 readonly BL64_PKG_ALIAS_APT_INSTALL="$BL64_PKG_CMD_APT --assume-yes install"
@@ -124,6 +139,8 @@ readonly BL64_PKG_ALIAS_APT_CLEAN="$BL64_PKG_CMD_APT clean"
 readonly BL64_PKG_ALIAS_DNF_CACHE="$BL64_PKG_CMD_DNF --color=never makecache"
 readonly BL64_PKG_ALIAS_DNF_INSTALL="$BL64_PKG_CMD_DNF --color=never --nodocs --assumeyes install"
 readonly BL64_PKG_ALIAS_DNF_CLEAN="$BL64_PKG_CMD_DNF clean all"
+readonly BL64_PKG_ALIAS_APK_INSTALL="$BL64_PKG_CMD_APK add --verbose"
+readonly BL64_PKG_ALIAS_APK_UPDATE="$BL64_PKG_CMD_APK update"
 
 readonly BL64_SUDO_CMD_SUDO='/usr/bin/sudo'
 readonly BL64_SUDO_CMD_VISUDO='/usr/sbin/visudo'
@@ -163,22 +180,34 @@ function bl64_arc_open_tar() {
 
   cd "$destination" || return 1
 
-  "$BL64_OS_CMD_TAR" \
-    --overwrite \
-    --extract \
-    --no-same-owner \
-    --preserve-permissions \
-    --no-acls \
-    --force-local \
-    --verbose \
-    --auto-compress \
-    --file="$source"
-  status=$?
+  case "$BL64_OS_DISTRO" in
+  UBUNTU-* | DEBIAN-* | FEDORA-* | CENTOS-* | OL-*)
+    "$BL64_OS_CMD_TAR" \
+      --overwrite \
+      --extract \
+      --no-same-owner \
+      --preserve-permissions \
+      --no-acls \
+      --force-local \
+      --verbose \
+      --auto-compress \
+      --file="$source"
+    status=$?
+    ;;
+  ALPINE-*)
+    "$BL64_OS_CMD_TAR" \
+      x \
+      --overwrite \
+      -f "$source" \
+      -o \
+      -v
+    status=$?
+    ;;
+  esac
 
   ((status == 0)) && $BL64_OS_ALIAS_RM_FILE "$source"
 
   return $status
-
 }
 
 function bl64_check_command() {
@@ -251,15 +280,52 @@ function bl64_check_parameter() {
   :
 }
 
+function bl64_check_export() {
+  local export_name="$1"
+  local description="${2:-export_name $export_name}"
+
+  if [[ -z "$export_name" ]]; then
+    bl64_msg_show_error "$_BL64_CHECK_TXT_MISSING_PARAMETER (export name)"
+    return $BL64_CHECK_ERROR_MISSING_PARAMETER
+  fi
+
+  if [[ ! -v "$export_name" ]]; then
+    bl64_msg_show_error "$_BL64_CHECK_TXT_EXPORT_SET ($description)"
+    return $BL64_CHECK_ERROR_EXPORT_SET
+  fi
+
+  if eval "[[ -z \$${export_name} ]]"; then
+    bl64_msg_show_error "$_BL64_CHECK_TXT_EXPORT_EMPTY ($description)"
+    return $BL64_CHECK_ERROR_EXPORT_EMPTY
+  fi
+  :
+}
+
 function bl64_fmt_strip_comments() {
   local source="${1:--}"
 
   "$BL64_OS_CMD_GREP" -v -E '^#.*$|^ *#.*$' "$source"
+}
 
+function bl64_iam_user_add() {
+  local login="$1"
+
+  if [[ -z "$login" ]]; then
+    bl64_msg_show_error "$_BL64_IAM_TXT_MISSING_PARAMETER (login)"
+    return $BL64_IAM_ERROR_MISSING_PARAMETER
+  fi
+
+  case "$BL64_OS_DISTRO" in
+  UBUNTU-* | DEBIAN-* | FEDORA-* | CENTOS-* | OL-*)
+    /usr/sbin/useradd "$login"
+    ;;
+  ALPINE-*)
+    /usr/sbin/adduser -D "$login"
+    ;;
+  esac
 }
 
 function _bl64_log_register() {
-
   local source="$1"
   local category="$2"
   local payload="$3"
@@ -293,13 +359,11 @@ function _bl64_log_register() {
     ;;
   *)
     bl64_msg_show_error "$_BL64_LOG_TXT_INVALID_TYPE"
-    return $BL64_MSG_ERROR_INVALID_FORMAT
+    return $BL64_LOG_ERROR_INVALID_TYPE
   esac
-
 }
 
 function bl64_log_setup() {
-
   local path="$1"
   local verbose="${2:-1}"
   local type="${3:-$BL64_LOG_TYPE_FILE}"
@@ -329,11 +393,9 @@ function bl64_log_setup() {
   BL64_LOG_VERBOSE="${verbose}" && \
   BL64_LOG_TYPE="${type}" && \
   BL64_LOG_FS="${fs}"
-
 }
 
 function bl64_log_info() {
-
   local payload="$1"
   local source="${2:-${FUNCNAME[1]}}"
 
@@ -345,11 +407,9 @@ function bl64_log_info() {
     "${source:-main}" \
     "$BL64_LOG_CATEGORY_INFO" \
     "$payload"
-
 }
 
 function bl64_log_task() {
-
   local payload="$1"
   local source="${2:-${FUNCNAME[1]}}"
 
@@ -361,11 +421,9 @@ function bl64_log_task() {
     "${source:-main}" \
     "$BL64_LOG_CATEGORY_TASK" \
     "$payload"
-
 }
 
 function bl64_log_error() {
-
   local payload="$1"
   local source="${2:-${FUNCNAME[1]}}"
 
@@ -377,11 +435,9 @@ function bl64_log_error() {
     "${source:-main}" \
     "$BL64_LOG_CATEGORY_ERROR" \
     "$payload"
-
 }
 
 function bl64_log_warning() {
-
   local payload="$1"
   local source="${2:-${FUNCNAME[1]}}"
 
@@ -393,11 +449,9 @@ function bl64_log_warning() {
     "${source:-main}" \
     "$BL64_LOG_CATEGORY_WARNING" \
     "$payload"
-
 }
 
 function bl64_log_record() {
-
   local tag="${1:-tag}"
   local source="${2:-${FUNCNAME[1]}}"
   local input_log_line=''
@@ -412,11 +466,9 @@ function bl64_log_record() {
     done
     ;;
   esac
-
 }
 
 function _bl64_msg_show() {
-
   local type="$1"
   local message="$2"
 
@@ -456,7 +508,6 @@ function _bl64_msg_show() {
     bl64_msg_show_error "$_BL64_MSG_TXT_INVALID_FORMAT"
     return $BL64_MSG_ERROR_INVALID_FORMAT
   esac
-
 }
 
 function bl64_msg_setup() {
@@ -477,7 +528,6 @@ function bl64_msg_setup() {
 }
 
 function bl64_msg_show_usage() {
-
   local usage="${1:-$BL64_LIB_VAR_TBD}"
   local description="${2:-$BL64_LIB_VAR_NULL}"
   local commands="${3:-$BL64_LIB_VAR_NULL}"
@@ -503,85 +553,90 @@ function bl64_msg_show_usage() {
   fi
 
   return 0
-
 }
 
 function bl64_msg_show_error() {
-
   local message="${1-$BL64_LIB_VAR_TBD}"
 
   _bl64_msg_show "$_BL64_MSG_TXT_ERROR" "$message" >&2
-
 }
 
 function bl64_msg_show_warning() {
-
   local message="${1-$BL64_LIB_VAR_TBD}"
 
   _bl64_msg_show "$_BL64_MSG_TXT_WARNING" "$message" >&2
-
 }
 
 function bl64_msg_show_info() {
-
   local message="${1-$BL64_LIB_VAR_TBD}"
 
   _bl64_msg_show "$_BL64_MSG_TXT_INFO" "$message"
-
 }
 
 function bl64_msg_show_task() {
-
   local message="${1-$BL64_LIB_VAR_TBD}"
 
   _bl64_msg_show "$_BL64_MSG_TXT_TASK" "$message"
-
 }
 
 function bl64_msg_show_debug() {
-
   local message="${1-$BL64_LIB_VAR_TBD}"
 
   _bl64_msg_show "$_BL64_MSG_TXT_DEBUG" "$message" >&2
-
 }
 
 function bl64_msg_show_text() {
-
   local message="${1-$BL64_LIB_VAR_TBD}"
 
   printf '%s\n' "$message"
-
-  return 0
-
 }
 
-function bl64_os_get_distro() {
+function bl64_msg_show_batch_start() {
+  local message="${1-$BL64_LIB_VAR_TBD}"
 
+  _bl64_msg_show "$_BL64_MSG_TXT_BATCH" "${_BL64_MSG_TXT_BATCH_START}: $message"
+}
+
+function bl64_msg_show_batch_finish() {
+  local status="$1"
+  local message="${2-$BL64_LIB_VAR_TBD}"
+
+  if ((status == 0)); then
+    _bl64_msg_show "$_BL64_MSG_TXT_BATCH" "${_BL64_MSG_TXT_BATCH_FINISH_OK}: $message"
+  else
+    _bl64_msg_show "$_BL64_MSG_TXT_BATCH" "${_BL64_MSG_TXT_BATCH_FINISH_ERROR}: $message (error: ${status})"
+  fi
+}
+
+
+function bl64_os_get_distro() {
   BL64_OS_DISTRO='UNKNOWN'
 
   if [[ -r '/etc/os-release' ]]; then
-
     source '/etc/os-release'
-
     if [[ -n "$ID" && -n "$VERSION_ID" ]]; then
       BL64_OS_DISTRO="${ID^^}-${VERSION_ID}"
     fi
-
   fi
 
-  return 0
+  case "$BL64_OS_DISTRO" in
+  UBUNTU-20* | UBUNTU-21*) : ;;
+  DEBIAN-10* | DEBIAN-11*) : ;;
+  FEDORA-33* | FEDORA-35*) : ;;
+  CENTOS-8*) : ;;
+  OL-8*) : ;;
+  ALPINE-3*) : ;;
+  *) false ;;
+  esac
 }
 
 function bl64_os_set_command() {
-  if [[ "$BL64_OS_DISTRO" =~ (UBUNTU-.*|FEDORA-.*|CENTOS-.*|OL-.*|DEBIAN-.*) ]]; then
+  case "$BL64_OS_DISTRO" in
+  UBUNTU-* | DEBIAN-*)
     BL64_OS_CMD_AWK='/usr/bin/awk'
     BL64_OS_CMD_ID='/usr/bin/id'
-    BL64_OS_CMD_USERADD='/usr/sbin/useradd'
     BL64_OS_CMD_TAR='/bin/tar'
     BL64_OS_CMD_LN='/bin/ln'
-  fi
-  if [[ "$BL64_OS_DISTRO" =~ (UBUNTU-.*|DEBIAN-.*) ]]; then
     BL64_OS_CMD_CAT='/bin/cat'
     BL64_OS_CMD_CHMOD='/bin/chmod'
     BL64_OS_CMD_CHOWN='/bin/chown'
@@ -594,8 +649,12 @@ function bl64_os_set_command() {
     BL64_OS_CMD_MKTEMP='/bin/mktemp'
     BL64_OS_CMD_MV='/bin/mv'
     BL64_OS_CMD_RM='/bin/rm'
-  fi
-  if [[ "$BL64_OS_DISTRO" =~ (FEDORA-.*|CENTOS-.*|OL-.*) ]]; then
+    ;;
+  FEDORA-* | CENTOS-* | OL-*)
+    BL64_OS_CMD_AWK='/usr/bin/awk'
+    BL64_OS_CMD_ID='/usr/bin/id'
+    BL64_OS_CMD_TAR='/bin/tar'
+    BL64_OS_CMD_LN='/bin/ln'
     BL64_OS_CMD_CAT='/usr/bin/cat'
     BL64_OS_CMD_CHMOD='/usr/bin/chmod'
     BL64_OS_CMD_CHOWN='/usr/bin/chown'
@@ -608,23 +667,53 @@ function bl64_os_set_command() {
     BL64_OS_CMD_MKTEMP='/usr/bin/mktemp'
     BL64_OS_CMD_MV='/usr/bin/mv'
     BL64_OS_CMD_RM='/usr/bin/rm'
-  fi
-
-  return 0
+    ;;
+  ALPINE-*)
+    BL64_OS_CMD_AWK='/usr/bin/awk'
+    BL64_OS_CMD_ID='/usr/bin/id'
+    BL64_OS_CMD_TAR='/bin/tar'
+    BL64_OS_CMD_LN='/bin/ln'
+    BL64_OS_CMD_CAT='/bin/cat'
+    BL64_OS_CMD_CHMOD='/bin/chmod'
+    BL64_OS_CMD_CHOWN='/bin/chown'
+    BL64_OS_CMD_CP='/bin/cp'
+    BL64_OS_CMD_DATE="/bin/date"
+    BL64_OS_CMD_GREP='/bin/grep'
+    BL64_OS_CMD_HOSTNAME='/bin/hostname'
+    BL64_OS_CMD_LS='/bin/ls'
+    BL64_OS_CMD_MKDIR='/bin/mkdir'
+    BL64_OS_CMD_MKTEMP='/bin/mktemp'
+    BL64_OS_CMD_MV='/bin/mv'
+    BL64_OS_CMD_RM='/bin/rm'
+    ;;
+  esac
 }
 
 function bl64_os_set_alias() {
-
-  BL64_OS_ALIAS_CHOWN_DIR="$BL64_OS_CMD_CHOWN --verbose --recursive"
-  BL64_OS_ALIAS_CP_FILE="$BL64_OS_CMD_CP --verbose --force"
-  BL64_OS_ALIAS_ID_USER="$BL64_OS_CMD_ID -u -n"
-  BL64_OS_ALIAS_LN_SYMBOLIC="$BL64_OS_CMD_LN --verbose --symbolic"
-  BL64_OS_ALIAS_LS_FILES="$BL64_OS_CMD_LS --color=never"
-  BL64_OS_ALIAS_MKDIR_FULL="$BL64_OS_CMD_MKDIR --parents --verbose"
-  BL64_OS_ALIAS_MV="$BL64_OS_CMD_MV --force --verbose"
-  BL64_OS_ALIAS_RM_FILE="$BL64_OS_CMD_RM --verbose --force --one-file-system"
-  BL64_OS_ALIAS_RM_FULL="$BL64_OS_CMD_RM --verbose --force --one-file-system --recursive"
-
+  case "$BL64_OS_DISTRO" in
+  UBUNTU-* | DEBIAN-* | FEDORA-* | CENTOS-* | OL-*)
+    BL64_OS_ALIAS_CHOWN_DIR="$BL64_OS_CMD_CHOWN --verbose --recursive"
+    BL64_OS_ALIAS_CP_FILE="$BL64_OS_CMD_CP --verbose --force"
+    BL64_OS_ALIAS_ID_USER="$BL64_OS_CMD_ID -u -n"
+    BL64_OS_ALIAS_LN_SYMBOLIC="$BL64_OS_CMD_LN --verbose --symbolic"
+    BL64_OS_ALIAS_LS_FILES="$BL64_OS_CMD_LS --color=never"
+    BL64_OS_ALIAS_MKDIR_FULL="$BL64_OS_CMD_MKDIR --parents --verbose"
+    BL64_OS_ALIAS_MV="$BL64_OS_CMD_MV --force --verbose"
+    BL64_OS_ALIAS_RM_FILE="$BL64_OS_CMD_RM --verbose --force --one-file-system"
+    BL64_OS_ALIAS_RM_FULL="$BL64_OS_CMD_RM --verbose --force --one-file-system --recursive"
+    ;;
+  ALPINE-*)
+    BL64_OS_ALIAS_CHOWN_DIR="$BL64_OS_CMD_CHOWN -v -R"
+    BL64_OS_ALIAS_CP_FILE="$BL64_OS_CMD_CP -v -f"
+    BL64_OS_ALIAS_ID_USER="$BL64_OS_CMD_ID -u -n"
+    BL64_OS_ALIAS_LN_SYMBOLIC="$BL64_OS_CMD_LN -v -s"
+    BL64_OS_ALIAS_LS_FILES="$BL64_OS_CMD_LS --color=never"
+    BL64_OS_ALIAS_MKDIR_FULL="$BL64_OS_CMD_MKDIR -p"
+    BL64_OS_ALIAS_MV="$BL64_OS_CMD_MV -f"
+    BL64_OS_ALIAS_RM_FILE="$BL64_OS_CMD_RM -f"
+    BL64_OS_ALIAS_RM_FULL="$BL64_OS_CMD_RM -f -R"
+    ;;
+  esac
 }
 
 function bl64_os_chown_dir() {
@@ -663,56 +752,46 @@ function bl64_os_rm_full() {
   $BL64_OS_ALIAS_RM_FULL "$@"
 }
 
-
-
 function bl64_os_cleanup_tmps() {
-
   $BL64_OS_ALIAS_RM_FULL -- /tmp/[[:alnum:]]*
   $BL64_OS_ALIAS_RM_FULL -- /var/tmp/[[:alnum:]]*
-  :
-
+  return 0
 }
 
 function bl64_os_cleanup_logs() {
+  local target='/var/log'
 
-  if [[ -d /var/log ]]; then
-    $BL64_OS_ALIAS_RM_FULL /var/log/[[:alpha:]]*
+  if [[ -d "$target" ]]; then
+    $BL64_OS_ALIAS_RM_FULL ${target}/[[:alnum:]]*
   fi
-  :
-
+  return 0
 }
 
 function bl64_os_cleanup_caches() {
+  local target='/var/cache/man'
 
-  if [[ -d /var/cache/man ]]; then
-    $BL64_OS_ALIAS_RM_FULL /var/cache/man/[[:alpha:]]*
+  if [[ -d "$target" ]]; then
+    $BL64_OS_ALIAS_RM_FULL ${target}/[[:alnum:]]*
   fi
-  :
-
+  return 0
 }
 
 function bl64_os_cleanup_full() {
-
   bl64_pkg_cleanup
   bl64_os_cleanup_tmps
   bl64_os_cleanup_logs
   bl64_os_cleanup_caches
-  :
 
+  return 0
 }
 
 function bl64_pkg_deploy() {
-
-  bl64_pkg_prepare && \
-  bl64_pkg_install "$@" && \
-  bl64_pkg_cleanup
-
+  bl64_pkg_prepare &&
+    bl64_pkg_install "$@" &&
+    bl64_pkg_cleanup
 }
 
 function bl64_pkg_prepare() {
-
-  export LC_ALL="C"
-
   case "$BL64_OS_DISTRO" in
   UBUNTU-* | DEBIAN-*)
     export DEBIAN_FRONTEND="noninteractive"
@@ -721,14 +800,13 @@ function bl64_pkg_prepare() {
   FEDORA-* | CENTOS-* | OL-*)
     $BL64_PKG_ALIAS_DNF_CACHE
     ;;
+  ALPINE-*)
+    $BL64_PKG_ALIAS_APK_UPDATE
+    ;;
   esac
-
 }
 
 function bl64_pkg_install() {
-
-  export LC_ALL="C"
-
   case "$BL64_OS_DISTRO" in
   UBUNTU-* | DEBIAN-*)
     export DEBIAN_FRONTEND="noninteractive"
@@ -737,13 +815,14 @@ function bl64_pkg_install() {
   FEDORA-* | CENTOS-* | OL-*)
     $BL64_PKG_ALIAS_DNF_INSTALL -- "$@"
     ;;
+  ALPINE-*)
+    $BL64_PKG_ALIAS_APK_INSTALL -- "$@"
+    ;;
   esac
-
 }
 
 function bl64_pkg_cleanup() {
-
-  export LC_ALL="C"
+  local target=''
 
   case "$BL64_OS_DISTRO" in
   UBUNTU-* | DEBIAN-*)
@@ -753,8 +832,13 @@ function bl64_pkg_cleanup() {
   FEDORA-* | CENTOS-* | OL-*)
     $BL64_PKG_ALIAS_DNF_CLEAN
     ;;
+  ALPINE-*)
+    target='/var/cache/apk'
+    if [[ -d "$target" ]]; then
+      $BL64_OS_ALIAS_RM_FULL ${target}/[[:alpha:]]*
+    fi
+    ;;
   esac
-
 }
 
 function bl64_sudo_add_root() {
@@ -814,9 +898,7 @@ function bl64_sudo_check_sudoers() {
 }
 
 function bl64_sudo_set_alias() {
-
   BL64_SUDO_ALIAS_SUDO_ENV="$BL64_SUDO_CMD_SUDO --preserve-env --set-home"
-
 }
 
 function bl64_vcs_git_clone() {
@@ -838,7 +920,6 @@ function bl64_vcs_git_clone() {
     --single-branch \
     --branch "$branch" \
     "$source"
-
 }
 
 export LANG
@@ -882,28 +963,23 @@ trap "$BL64_LIB_SIGNAL_QUIT" 'SIGTERM'
 
 export TERM="${TERM:-vt100}"
 
-bl64_os_get_distro
+if [[ "$BL64_LIB_LANG" == '1' ]]; then
+  export LANG='C'
+  export LC_ALL='C'
+  export LANGUAGE='C'
+fi
 
-case "$BL64_OS_DISTRO" in
-UBUNTU-* | FEDORA-* | CENTOS-* | OL-* | DEBIAN-*)
-  if [[ "$BL64_LIB_LANG" == '1' ]]; then
-    LANG='C'
-    LC_ALL='C'
-    LANGUAGE='C'
-  fi
-  ;;
-*)
+if ! bl64_os_get_distro; then
   printf '%s\n' "Fatal: BashLib64 is not supported in the current OS" >&2
-  exit 1
-  ;;
-esac
-
-bl64_os_set_command
-bl64_os_set_alias
-bl64_sudo_set_alias
-
-if [[ "$BL64_LIB_CMD" = '1' ]]; then
-  "$@"
+  false
 else
-  :
+  bl64_os_set_command
+  bl64_os_set_alias
+  bl64_sudo_set_alias
+
+  if [[ "$BL64_LIB_CMD" = '1' ]]; then
+    "$@"
+  else
+    :
+  fi
 fi

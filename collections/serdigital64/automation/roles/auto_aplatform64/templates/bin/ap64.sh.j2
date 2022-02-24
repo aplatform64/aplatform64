@@ -54,7 +54,8 @@ function ap64_list_plays() {
 function ap64_run() {
 
   local playbook="$1"
-  local output="$2"
+  local host="$2"
+  local output="$3"
   local catalog="${ANSIBLE_PLAYBOOK_DIR}/catalog.csv"
   local inventory_file=''
   local playbook_file=''
@@ -91,6 +92,12 @@ function ap64_run() {
     return 1
   fi
 
+  if [[ "$host" != 'all' ]]; then
+    host="--limit $host"
+  else
+    host=''
+  fi
+
   if [[ "$output" == '1' ]]; then
     verbosity='--diff'
   elif [[ "$output" == '2' ]]; then
@@ -100,6 +107,7 @@ function ap64_run() {
 
   "$APLATFORM64_CMD_ANSIBLE_PLAYBOOK" \
     -i "$inventory_file" \
+    $host \
     $verbosity \
     "$playbook_file"
 
@@ -205,7 +213,7 @@ function ap64_check() {
 function ap64_help() {
 
   bl64_msg_show_usage \
-    '<-c|-o|-r|-u|-l|-n|-t> [-v|-d] [-s Site] [-p Playbook] [-e Collection] [-h]' \
+    '<-c|-o|-r|-u|-l|-n|-t> [-v|-d] [-s Site] [-x Host] [-p Playbook] [-e Collection] [-h]' \
     'A:Platform64 command line interface' '
   -c           : Create a A:Platform64 site
   -o           : Remove a A:Platform64 site
@@ -220,6 +228,7 @@ function ap64_help() {
   -d           : Show debugging information on ansible-playbook run
     ' '
   -s Site      : Target Site. Defaul: site
+  -x Host      : Target host for playbook run. Default: all
   -p Playbook  : Name of the playbook to run
   -e Collection: Collection name for the upgrade option (-u). Default: all'
 
@@ -239,9 +248,10 @@ declare ap64_playbook=''
 declare ap64_change_site='0'
 declare ap64_output='0'
 declare ap64_collection='all'
+declare ap64_host='all'
 
 (($# == 0)) && ap64_help && exit 1
-while getopts ':corulntvds:p:e:h' Option; do
+while getopts ':corulntvds:p:x:e:h' Option; do
   case "$Option" in
   n)
     ap64_command='ap64_run'
@@ -274,6 +284,7 @@ while getopts ':corulntvds:p:e:h' Option; do
   v) ap64_output='1' ;;
   d) ap64_output='2' ;;
   s) ap64_site="$OPTARG" ;;
+  x) ap64_host="$OPTARG" ;;
   p) ap64_playbook="$OPTARG" ;;
   e) ap64_collection="$OPTARG" ;;
   h) ap64_help && exit ;;
@@ -345,7 +356,7 @@ case "$ap64_command" in
 'ap64_upgrade') "$ap64_command" "$ap64_collection" ;;
 'ap64_list_sites' | 'ap64_upgrade' | 'ap64_refresh') "$ap64_command" ;;
 'ap64_create' | 'ap64_remove') "$ap64_command" "$ap64_site" ;;
-'ap64_run') "$ap64_command" "$ap64_playbook" "$ap64_output" ;;
+'ap64_run') "$ap64_command" "$ap64_playbook" "$ap64_host" "$ap64_output" ;;
 'ap64_list_plays') "$ap64_command" "$ap64_playbook" ;;
 esac
 ap64_status=$?
