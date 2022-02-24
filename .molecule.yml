@@ -10,6 +10,12 @@ driver:
   name: "podman"
 provisioner:
   name: "ansible"
+  options:
+      vvv: ${APLATFORM64_TEST_DEBUG}
+  config_options:
+      defaults:
+        display_args_to_stdout: ${APLATFORM64_TEST_DEBUG}
+        verbosity: ${APLATFORM64_TEST_VERBOSITY}
 verifier:
   name: "ansible"
 lint: |
