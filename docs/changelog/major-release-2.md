@@ -1,7 +1,7 @@
 # Releases
 
 - [Releases](#releases)
-  - [Release: 2.9.1](#release-291)
+  - [Release: 2.9.3](#release-293)
   - [Release: 2.9.0](#release-290)
   - [Release: 2.8.0](#release-280)
   - [Release: 2.7.0](#release-270)
@@ -13,10 +13,12 @@
   - [Release: 2.1.0](#release-210)
   - [Release: 2.0.0](#release-200)
 
-## Release: 2.9.1
+## Release: 2.9.3
 
-- system-1.3.0
-  - sys_package: enable system-site-packages for pip packages, add pip upgrade
+- automation-1.5.0
+  - ap64: add --limit option for playbook run
+- system-1.3.1
+  - sys_package: enable system-site-packages for pip packages, add pip,wheel,setup upgrade
 
 ## Release: 2.9.0
 
