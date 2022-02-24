@@ -66,6 +66,12 @@ sys_package_flavours:
   - "deb"
   - "pip"
 
+# Basic Python modules for venv
+sys_package_python_base:
+  - "pip"
+  - "setuptools"
+  - "wheel"
+
 # Select the target application from the profile list
 sys_package___application:
   supported: "{{ sys_package_application['supported'] | default(true) }}"
