@@ -38,7 +38,7 @@ sys_repository_packages:
     - "snapd"
   pip:    # source: dev_python_profiles@dev_python
     - "python3.9"
-    - "python3.9-venv"
+    - "python3.9-venv"       # Warning: do not use 3.10 on UB-21.04, venv fails (distro bug)
     - "python3-pip"
     - "python3-setuptools"
     - "python3-wheel"
