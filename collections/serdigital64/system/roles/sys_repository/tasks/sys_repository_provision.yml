@@ -1,4 +1,13 @@
 ---
+- name: "System / Repository / Provision / Check required parameters"
+  ansible.builtin.assert:
+    fail_msg: "required parameters are missing ({{
+      sys_repository_managers | default('sys_repository_managers') }})"
+    quiet: true
+    that:
+      - sys_repository_managers is defined
+      - sys_repository_managers | length > 0
+
 - name: "System / Repository / Provision / Identify repository sources"
   ansible.builtin.set_fact:
     sys_repository___provision_sources:
