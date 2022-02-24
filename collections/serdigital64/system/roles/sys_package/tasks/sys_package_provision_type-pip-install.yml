@@ -24,7 +24,7 @@
   ansible.builtin.pip:
     editable: false
     state: "latest"
-    name: "pip"
+    name: "{{ sys_package_python_base }}"
     virtualenv: "{{ sys_package___application['options']['pip']['path'] }}"
     virtualenv_command: "{{
       sys_package___application['options']['pip']['python'] | default(sys_repository_base['run']['python']) +
