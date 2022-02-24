@@ -19,6 +19,19 @@
       - sys_package___application['options']['pip']['cli'] is defined
       - sys_package___application['options']['pip']['cli'] | length > 0
 
+- name: "System / Package / Provision / Type: pip / Install / Upgrade PIP"
+  become: true
+  ansible.builtin.pip:
+    editable: false
+    state: "latest"
+    name: "pip"
+    virtualenv: "{{ sys_package___application['options']['pip']['path'] }}"
+    virtualenv_command: "{{
+      sys_package___application['options']['pip']['python'] | default(sys_repository_base['run']['python']) +
+      ' -m venv ' +
+      sys_package___application['options']['pip']['system'] | default(false) | ternary('--system-site-packages','')
+      }}"
+
 - name: "System / Package / Provision / Type: pip / Install / Install Python modules"
   become: true
   ansible.builtin.pip:
@@ -30,7 +43,11 @@
       list()
       }}"
     virtualenv: "{{ sys_package___application['options']['pip']['path'] }}"
-    virtualenv_command: "{{ sys_repository_base['run']['python'] }} -m venv --system-site-packages"
+    virtualenv_command: "{{
+      sys_package___application['options']['pip']['python'] | default(sys_repository_base['run']['python']) +
+      ' -m venv ' +
+      sys_package___application['options']['pip']['system'] | default(false) | ternary('--system-site-packages','')
+      }}"
 
 - name: "System / Package / Provision / Type: pip / Install / Create application loader"
   become: true

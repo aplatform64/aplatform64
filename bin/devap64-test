@@ -8,15 +8,15 @@
 # Version: 1.0.0
 #######################################
 
-[[ -d "$APLATFORM64_BIN" ]] || { echo "Error: dev environment not set"; exit 1; }
+[[ -d "$APLATFORM64_BIN" ]] || {
+  echo "Error: dev environment not set"
+  exit 1
+}
 
 # shellcheck disable=SC2034
 BL64_LIB_STRICT='0'
 # shellcheck disable=SC1091
-source "${APLATFORM64_BIN}/bashlib64.bash" || exit 1
-
-export APLATFORM64_TEST_ROLE_PATH=''
-export APLATFORM64_TEST_PLATFORM=''
+source "${APLATFORM64_BIN}/bashlib64.bash"
 
 function devap64_test_role_test() {
 
@@ -27,12 +27,19 @@ function devap64_test_role_test() {
   local debug="$5"
   local scenario=''
 
+  bl64_msg_show_task 'prepare test environment'
   # Set project path
   APLATFORM64_TEST_ROLE_PATH="${APLATFORM64_COLLECTIONS}/${collection}/roles/${role}"
   bl64_check_directory "$APLATFORM64_TEST_ROLE_PATH" && cd "$APLATFORM64_TEST_ROLE_PATH" || return 1
 
   # Enable debug mode
-  [[ "$debug" == '1' ]] && debug='--debug --verbose' || debug=''
+  if [[ "$debug" == '1' ]]; then
+    debug='--debug --verbose'
+    APLATFORM64_TEST_DEBUG='true'
+    APLATFORM64_TEST_VERBOSITY='3'
+  else
+    debug=''
+  fi
 
   # Select hosts
   APLATFORM64_TEST_PLATFORM="$group"
@@ -42,10 +49,14 @@ function devap64_test_role_test() {
 
   # Select scenarios
   if [[ "$target" == 'all' ]]; then
-    target="$(cd "${APLATFORM64_COLLECTIONS}/${collection}/roles/${role}/molecule"; echo ${role}_*)"
+    target="$(
+      cd "${APLATFORM64_COLLECTIONS}/${collection}/roles/${role}/molecule"
+      echo ${role}_*
+    )"
   fi
 
   # Run tests
+  bl64_msg_show_task 'run tests'
   for scenario in $target; do
     bl64_msg_show_task "run test: $scenario"
     "$APLATFORM64_CMD_MOLECULE" $debug 'test' --scenario-name "$scenario"
@@ -63,12 +74,19 @@ function devap64_test_role_converge() {
 
   [[ "$target" == 'all' ]] && bl64_msg_show_error 'invalid option. This action supports only one test' && return 1
 
+  bl64_msg_show_task 'prepare test environment'
   # Set project path
   APLATFORM64_TEST_ROLE_PATH="${APLATFORM64_COLLECTIONS}/${collection}/roles/${role}"
   bl64_check_directory "$APLATFORM64_TEST_ROLE_PATH" && cd "$APLATFORM64_TEST_ROLE_PATH" || return 1
 
   # Enable debug mode
-  [[ "$debug" == '1' ]] && debug='--debug --verbose' || debug=''
+  if [[ "$debug" == '1' ]]; then
+    debug='--debug --verbose'
+    APLATFORM64_TEST_DEBUG='true'
+    APLATFORM64_TEST_VERBOSITY='3'
+  else
+    debug=''
+  fi
 
   # Select target hosts
   APLATFORM64_TEST_PLATFORM="$group"
@@ -76,10 +94,11 @@ function devap64_test_role_converge() {
   # Tune kernel for multiple containers
   "$BL64_SUDO_CMD_SUDO" sysctl fs.inotify.max_user_instances="$APLATFORM64_SYSCTL_MAX_USER_INSTANCES"
 
-  "$APLATFORM64_CMD_MOLECULE" \
-    $debug \
-    'converge' \
-    --scenario-name "$target"
+  # Destroy the previous test
+  "$APLATFORM64_CMD_MOLECULE" 'destroy' --scenario-name "$target"
+
+  bl64_msg_show_task 'run test'
+  "$APLATFORM64_CMD_MOLECULE" $debug 'converge' --scenario-name "$target"
 
 }
 
@@ -89,17 +108,15 @@ function devap64_test_role_login() {
   local role="$2"
   local target="$3"
   local group="$4"
-  local debug="$5"
 
   [[ "$target" == 'all' ]] && bl64_msg_show_error 'invalid option. This action supports only one test' && return 1
   [[ "$group" == 'all' ]] && bl64_msg_show_error 'invalid option. This action supports only one group' && return 1
 
+  bl64_msg_show_task 'prepare test environment'
+
   # Set project path
   APLATFORM64_TEST_ROLE_PATH="${APLATFORM64_COLLECTIONS}/${collection}/roles/${role}"
   bl64_check_directory "$APLATFORM64_TEST_ROLE_PATH" && cd "$APLATFORM64_TEST_ROLE_PATH" || return 1
-
-  # Enable debug mode
-  [[ "$debug" == '1' ]] && debug='--debug --verbose' || debug=''
 
   # Select target hosts
   APLATFORM64_TEST_PLATFORM="$group"
@@ -107,11 +124,8 @@ function devap64_test_role_login() {
   # Tune kernel for multiple containers
   "$BL64_SUDO_CMD_SUDO" sysctl fs.inotify.max_user_instances="$APLATFORM64_SYSCTL_MAX_USER_INSTANCES"
 
-  "$APLATFORM64_CMD_MOLECULE" \
-    $debug \
-    'login' \
-    --scenario-name "$target" \
-    --host "$group"
+  bl64_msg_show_task 'login to the test container'
+  "$APLATFORM64_CMD_MOLECULE" 'login' --scenario-name "$target" --host "$group"
 
 }
 
@@ -160,6 +174,11 @@ function devap64_test_help() {
 #
 # Main
 #
+
+export APLATFORM64_TEST_ROLE_PATH=''
+export APLATFORM64_TEST_PLATFORM=''
+export APLATFORM64_TEST_DEBUG='false'
+export APLATFORM64_TEST_VERBOSITY='0'
 
 declare devap64_test_status=1
 declare devap64_test_command=''
@@ -221,8 +240,10 @@ fi
 
 bl64_msg_show_info "starting ${devap64_test_command_tag} process"
 case "$devap64_test_command" in
-'devap64_test_role_test' | 'devap64_test_role_converge' | 'devap64_test_role_login') "$devap64_test_command" \
+'devap64_test_role_test' | 'devap64_test_role_converge') "$devap64_test_command" \
   "$devap64_test_collection" "$devap64_test_role" "$devap64_test_target" "$devap64_test_group" "$devap64_test_debug" ;;
+'devap64_test_role_login') "$devap64_test_command" \
+  "$devap64_test_collection" "$devap64_test_role" "$devap64_test_target" "$devap64_test_group" ;;
 'devap64_test_role_list') "$devap64_test_command" "$devap64_test_collection" "$devap64_test_role" ;;
 esac
 devap64_test_status=$?

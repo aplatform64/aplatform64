@@ -53,7 +53,9 @@ The following example is an **Ansible Playbook** that includes all the supported
 [use this link if viewing the doc on github](../../collections/serdigital64/system/playbooks/sys_package.yml)
 
 ```yaml
-{% include "../../collections/serdigital64/system/playbooks/sys_package.yml" %}
+{
+  % include "../../collections/serdigital64/system/playbooks/sys_package.yml" %,
+}
 ```
 
 The playbook can be run by executing:
@@ -101,6 +103,8 @@ sys_package_profiles:
           group:
           path:
           cli:
+          system:
+          python:
       paths:
         - target:
           owner:
@@ -146,6 +150,8 @@ sys_package_profiles:
 | sys_package_profiles.T.V.options.pip.group       | no        | string     | `"root"` | (_type:pip_) Destination path group owner                                                                 |
 | sys_package_profiles.T.V.options.pip.path        | yes       | string     |          | (_type:pip_) Destination path where the Python modules and venv will be installed to                      |
 | sys_package_profiles.T.V.options.pip.cli         | yes       | string     |          | (_type:pip_) CLI (python app) name to call the module directly from the shell                             |
+| sys_package_profiles.T.V.options.pip.system      | no        | boolean    | `false`  | (_type:pip_) Enable --system-site-packages venv creation option                                           |
+| sys_package_profiles.T.V.options.pip.python      | no        | string     |          | (_type:pip_) Full path to the Python interpreter. Default is OS dependant                                 |
 | sys_package_profiles.T.V.paths                   | no        | list       |          | (_type:binary,git_) List of paths to be created before promotion                                          |
 | sys_package_profiles.T.V.paths.0.target          | yes       | string     |          | Full path where files will be promoted (copied) to                                                        |
 | sys_package_profiles.T.V.paths.0.mode            | no        | string     |          | Target's permissions (octal)                                                                              |
