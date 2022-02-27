@@ -1,0 +1,25 @@
+---
+# Define platform specific paths
+app_slack_base:
+  paths: "{{ app_slack_base_common['paths'] }}"
+  etc: "{{ app_slack_base_common['etc'] }}"
+  files: "{{ app_slack_base_common['files'] }}"
+  run: "{{ app_slack_base_common['run'] }}"
+  templates: "{{ app_slack_base_common['templates'] }}"
+  access: "{{ app_slack_base_common['access'] }}"
+
+# Define application package details
+app_slack_profiles:
+  snap: "{{ app_slack_profiles_common['snap'] }}"
+  flatpak: "{{ app_slack_profiles_common['flatpak'] }}"
+  distro: {}
+
+# Define custom package repositories
+app_slack_repository_custom_yum: []
+app_slack_repository_custom_apt: []
+
+# Set package repositories states
+app_slack_repository_catalog_distro: {}
+app_slack_repository_catalog_yum: {}
+app_slack_repository_catalog_apt: {}
+...

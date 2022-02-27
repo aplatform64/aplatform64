@@ -80,6 +80,18 @@
         - dev_nodes_apps['git_client'] is defined
         - dev_nodes_apps['git_client']
 
+    - name: "Provision GitHUB CLI"
+      vars:
+        dops_github_cli:
+          deploy: true
+          setup: true
+          provision: true
+      ansible.builtin.include_role:
+        name: "serdigital64.devops.dops_github_cli"
+      when:
+        - dev_nodes_apps['github_cli'] is defined
+        - dev_nodes_apps['github_cli']
+
     - name: "Provision GCC development environment"
       vars:
         dev_gcc:

@@ -1,0 +1,14 @@
+---
+- name: "DevOps / GitHUB / CLI / Usage example"
+  hosts: "localhost"
+  gather_facts: true
+
+  tasks:
+    - name: "Example: Install CLI"
+      vars:
+        dops_github_cli:
+          resolve_prereq: true
+          deploy: true
+      ansible.builtin.include_role:
+        name: "serdigital64.devops.dops_github_cli"
+...

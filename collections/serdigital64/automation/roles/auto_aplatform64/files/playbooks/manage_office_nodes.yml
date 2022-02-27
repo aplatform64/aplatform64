@@ -45,6 +45,16 @@
         - office_nodes_apps['darktable'] is defined
         - office_nodes_apps['darktable']
 
+    - name: "Provision Bender application"
+      vars:
+        app_bender:
+          deploy: true
+      ansible.builtin.include_role:
+        name: "serdigital64.application.app_bender"
+      when:
+        - office_nodes_apps['bender'] is defined
+        - office_nodes_apps['bender']
+
     - name: "Provision DrawIO application"
       vars:
         app_drawio:
@@ -64,6 +74,26 @@
       when:
         - office_nodes_apps['chrome'] is defined
         - office_nodes_apps['chrome']
+
+    - name: "Provision Firefox application"
+      vars:
+        app_firefox:
+          deploy: true
+      ansible.builtin.include_role:
+        name: "serdigital64.application.app_firefox"
+      when:
+        - office_nodes_apps['firefox'] is defined
+        - office_nodes_apps['firefox']
+
+    - name: "Provision FreeCAD application"
+      vars:
+        app_freecad:
+          deploy: true
+      ansible.builtin.include_role:
+        name: "serdigital64.application.app_freecad"
+      when:
+        - office_nodes_apps['freecad'] is defined
+        - office_nodes_apps['freecad']
 
     - name: "Provision GIMP application"
       vars:
@@ -135,6 +165,26 @@
         - office_nodes_apps['obs'] is defined
         - office_nodes_apps['obs']
 
+    - name: "Provision Pinta application"
+      vars:
+        app_pinta:
+          deploy: true
+      ansible.builtin.include_role:
+        name: "serdigital64.application.app_pinta"
+      when:
+        - office_nodes_apps['pinta'] is defined
+        - office_nodes_apps['pinta']
+
+    - name: "Provision Pitivi application"
+      vars:
+        app_pitivi:
+          deploy: true
+      ansible.builtin.include_role:
+        name: "serdigital64.application.app_pitivi"
+      when:
+        - office_nodes_apps['pitivi'] is defined
+        - office_nodes_apps['pitivi']
+
     - name: "Provision ShotCut application"
       vars:
         app_shotcut:
@@ -144,6 +194,16 @@
       when:
         - office_nodes_apps['shotcut'] is defined
         - office_nodes_apps['shotcut']
+
+    - name: "Provision Slack application"
+      vars:
+        app_slack:
+          deploy: true
+      ansible.builtin.include_role:
+        name: "serdigital64.application.app_slack"
+      when:
+        - office_nodes_apps['slack'] is defined
+        - office_nodes_apps['slack']
 
     - name: "Provision Skype application"
       vars:

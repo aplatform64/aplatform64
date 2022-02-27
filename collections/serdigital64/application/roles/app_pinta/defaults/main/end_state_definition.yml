@@ -1,0 +1,7 @@
+---
+app_pinta_application:
+  name: "pinta"
+  type: "flatpak"
+  version: "latest"
+  installed: true
+...

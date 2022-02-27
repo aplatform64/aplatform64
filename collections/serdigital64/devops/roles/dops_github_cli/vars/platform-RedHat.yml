@@ -1,0 +1,35 @@
+---
+# Define platform specific paths
+dops_github_cli_base:
+  paths: "{{ dops_github_cli_base_common['paths'] }}"
+  etc: "{{ dops_github_cli_base_common['etc'] }}"
+  files: "{{ dops_github_cli_base_common['files'] }}"
+  run: "{{ dops_github_cli_base_common['run'] }}"
+  templates: "{{ dops_github_cli_base_common['templates'] }}"
+  access: "{{ dops_github_cli_base_common['access'] }}"
+
+# Define application package details
+dops_github_cli_profiles:
+  snap: "{{ dops_github_cli_profiles_common['snap'] }}"
+  flatpak: "{{ dops_github_cli_profiles_common['flatpak'] }}"
+  distro:
+    latest:
+      supported: true
+      origin: "github"
+      packages:
+        - name: "gh"
+
+# Define custom package repositories
+dops_github_cli_repository_custom_yum:
+  - name: "github"
+    description: "GitHUB CLI RPM Repository"
+    url: "https://cli.github.com/packages/rpm"
+    gpgkey: "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xc99b11deb97541f0"
+dops_github_cli_repository_custom_apt: []
+
+# Set package repositories states
+dops_github_cli_repository_catalog_distro: {}
+dops_github_cli_repository_catalog_yum:
+  github: true
+dops_github_cli_repository_catalog_apt: {}
+...

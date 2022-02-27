@@ -1,0 +1,5 @@
+---
+app_slack:
+  resolve_prereq: false
+  deploy: false
+...

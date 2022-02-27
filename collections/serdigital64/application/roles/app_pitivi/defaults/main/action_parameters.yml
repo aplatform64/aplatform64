@@ -1,0 +1,5 @@
+---
+app_pitivi:
+  resolve_prereq: false
+  deploy: false
+...

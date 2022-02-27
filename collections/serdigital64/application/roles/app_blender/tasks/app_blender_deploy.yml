@@ -1,0 +1,19 @@
+---
+- name: "Application / Blender / Deploy / Check required parameters"
+  ansible.builtin.assert:
+    fail_msg: "Required end-state parameters are missing ({{ app_blender_application | default('app_blender_application') }})"
+    quiet: true
+    that:
+      - app_blender_application is defined
+      - app_blender_application | length > 0
+      - app_blender_application['name'] is defined
+      - app_blender_application['type'] is defined
+      - app_blender_application['version'] is defined
+      - app_blender_application['installed'] is defined
+
+- name: "Application / Blender / Deploy / Package"
+  ansible.builtin.include_tasks:
+    file: "app_blender_deploy_package.yml"
+  when:
+    - app_blender_application is defined
+...

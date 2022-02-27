@@ -1,0 +1,19 @@
+---
+- name: "Application / Slack / Deploy / Check required parameters"
+  ansible.builtin.assert:
+    fail_msg: "Required end-state parameters are missing ({{ app_slack_application | default('app_slack_application') }})"
+    quiet: true
+    that:
+      - app_slack_application is defined
+      - app_slack_application | length > 0
+      - app_slack_application['name'] is defined
+      - app_slack_application['type'] is defined
+      - app_slack_application['version'] is defined
+      - app_slack_application['installed'] is defined
+
+- name: "Application / Slack / Deploy / Package"
+  ansible.builtin.include_tasks:
+    file: "app_slack_deploy_package.yml"
+  when:
+    - app_slack_application is defined
+...

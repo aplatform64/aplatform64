@@ -5,7 +5,7 @@
 # Author: serdigital64 (https://github.com/serdigital64)
 # License: GPL-3.0-or-later (https://www.gnu.org/licenses/gpl-3.0.txt)
 # Repository: https://github.com/serdigital64/bashlib64
-# Version: 1.11.2
+# Version: 1.12.0
 #######################################
 
 [[ -n "$BL64_LIB_DEBUG" && "$BL64_LIB_DEBUG" == '1' ]] && set -x
@@ -305,6 +305,22 @@ function bl64_fmt_strip_comments() {
   local source="${1:--}"
 
   "$BL64_OS_CMD_GREP" -v -E '^#.*$|^ *#.*$' "$source"
+}
+
+function bl64_fmt_basename() {
+  local path="$1"
+
+  [[ -z "$path" ]] && return 0
+
+  printf '%s' "${path##*/}"
+}
+
+function bl64_fmt_dirname() {
+  local path="$1"
+
+  [[ -z "$path" ]] && return 0
+
+  printf '%s' "${path%/*}"
 }
 
 function bl64_iam_user_add() {

@@ -1,0 +1,35 @@
+---
+- name: "Application / Firefox / Prerequisite / Prepare package managers"
+  vars:
+    sys_repository:
+      prepare: true
+      deploy: true
+      setup: true
+      provision: true
+    sys_repository_managers:
+      flatpak: "{{ app_firefox_application['type'] == 'flatpak' }}"
+      snap: "{{ app_firefox_application['type'] == 'snap' }}"
+      git: "{{ app_firefox_application['type'] == 'git' }}"
+      pip: "{{ app_firefox_application['type'] == 'pip' }}"
+    sys_repository_catalog_distro: "{{ app_firefox_repository_catalog_distro }}"
+    sys_repository_catalog_yum: "{{ app_firefox_repository_catalog_yum }}"
+    sys_repository_catalog_apt: "{{ app_firefox_repository_catalog_apt }}"
+    sys_repository_custom_yum: "{{ app_firefox_repository_custom_yum }}"
+    sys_repository_custom_apt: "{{ app_firefox_repository_custom_apt }}"
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_repository"
+
+- name: "Application / Firefox / Prerequisite / Prepare archive manager"
+  vars:
+    bkp_archive:
+      deploy: true
+  ansible.builtin.include_role:
+    name: "serdigital64.backup.bkp_archive"
+
+- name: "Application / Firefox / Prerequisite / Prepare package installer"
+  vars:
+    sys_package:
+      prepare: true
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_package"
+...

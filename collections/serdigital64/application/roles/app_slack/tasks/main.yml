@@ -1,0 +1,16 @@
+---
+- name: "Application / Slack / Initialize"
+  ansible.builtin.include_tasks:
+    file: "app_slack_initialize.yml"
+
+- name: "Application / Slack / Deploy"
+  ansible.builtin.include_tasks:
+    file: "app_slack_deploy.yml"
+  when:
+    - app_slack['deploy'] is defined
+    - app_slack['deploy']
+
+- name: "Application / Slack / Finalize"
+  ansible.builtin.include_tasks:
+    file: "app_slack_finalize.yml"
+...

@@ -13,6 +13,7 @@ This collection is part of the [A:Platform64](https://github.com/serdigital64/ap
 | [dops_batscore](https://aplatform64.readthedocs.io/en/latest/roles/dops_batscore)     | Manage provisioning of Bats Core       |
 | [dops_git_client](https://aplatform64.readthedocs.io/en/latest/roles/dops_git_client) | Manage provisioning of client side GIT |
 | [dops_git_server](https://aplatform64.readthedocs.io/en/latest/roles/dops_git_server) | Manage GIT server                      |
+| [dops_github_cli](https://aplatform64.readthedocs.io/en/latest/roles/dops_github_cli) | Manage provisioning of the GitHub CLI  |
 | [dops_jenkins](https://aplatform64.readthedocs.io/en/latest/roles/dops_jenkins)       | Manage Jenkins server                  |
 
 ## Deployment
