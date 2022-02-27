@@ -1,0 +1,7 @@
+---
+app_firefox_application:
+  name: "firefox"
+  type: "distro"
+  version: "latest"
+  installed: true
+...

@@ -1,0 +1,16 @@
+---
+- name: "Application / Firefox / Initialize"
+  ansible.builtin.include_tasks:
+    file: "app_firefox_initialize.yml"
+
+- name: "Application / Firefox / Deploy"
+  ansible.builtin.include_tasks:
+    file: "app_firefox_deploy.yml"
+  when:
+    - app_firefox['deploy'] is defined
+    - app_firefox['deploy']
+
+- name: "Application / Firefox / Finalize"
+  ansible.builtin.include_tasks:
+    file: "app_firefox_finalize.yml"
+...
