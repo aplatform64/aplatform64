@@ -1,0 +1,16 @@
+---
+- name: "DevOps / GitHub / CLI / Initialize"
+  ansible.builtin.include_tasks:
+    file: "dops_github_cli_initialize.yml"
+
+- name: "DevOps / GitHub / CLI / Deploy"
+  ansible.builtin.include_tasks:
+    file: "dops_github_cli_deploy.yml"
+  when:
+    - dops_github_cli['deploy'] is defined
+    - dops_github_cli['deploy']
+
+- name: "DevOps / GitHub / CLI / Finalize"
+  ansible.builtin.include_tasks:
+    file: "dops_github_cli_finalize.yml"
+...

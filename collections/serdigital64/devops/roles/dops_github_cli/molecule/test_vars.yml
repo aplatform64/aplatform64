@@ -1,0 +1,9 @@
+---
+# Shared test variables
+# test_user: "test_dops_github_cli"
+# test_group: "test_dops_github_cli"
+# test_home: "/home/test_dops_github_cli"
+# test_dops_github_cli_setup_users:
+#   - user: "{{ test_user }}"
+#     home: "{{ test_home }}"
+...

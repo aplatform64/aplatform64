@@ -1,0 +1,19 @@
+---
+- name: "DevOps / GitHub / CLI / Deploy / Check required parameters"
+  ansible.builtin.assert:
+    fail_msg: "Required end-state parameters are missing ({{ dops_github_cli_application | default('dops_github_cli_application') }})"
+    quiet: true
+    that:
+      - dops_github_cli_application is defined
+      - dops_github_cli_application | length > 0
+      - dops_github_cli_application['name'] is defined
+      - dops_github_cli_application['type'] is defined
+      - dops_github_cli_application['version'] is defined
+      - dops_github_cli_application['installed'] is defined
+
+- name: "DevOps / GitHub / CLI / Deploy / Package"
+  ansible.builtin.include_tasks:
+    file: "dops_github_cli_deploy_package.yml"
+  when:
+    - dops_github_cli_application is defined
+...

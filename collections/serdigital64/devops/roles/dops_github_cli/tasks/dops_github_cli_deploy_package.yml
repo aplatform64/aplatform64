@@ -1,0 +1,10 @@
+---
+- name: "DevOps / GitHub / CLI / Deploy / Package / Provision application"
+  vars:
+    sys_package:
+      provision: true
+    sys_package_application: "{{ dops_github_cli_application }}"
+    sys_package_profiles: "{{ dops_github_cli_profiles }}"
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_package"
+...

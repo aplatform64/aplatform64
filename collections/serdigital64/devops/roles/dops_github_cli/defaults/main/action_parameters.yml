@@ -1,0 +1,5 @@
+---
+dops_github_cli:
+  resolve_prereq: false
+  deploy: false
+...
