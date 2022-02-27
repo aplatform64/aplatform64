@@ -1,0 +1,7 @@
+---
+app_pitivi_application:
+  name: "pitivi"
+  type: "flatpak"
+  version: "latest"
+  installed: true
+...

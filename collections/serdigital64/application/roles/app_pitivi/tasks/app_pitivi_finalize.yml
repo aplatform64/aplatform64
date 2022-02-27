@@ -1,0 +1,5 @@
+---
+- name: "Application / X_TASK_ROLE_NAME_X / Finalize / Reset Defaults"
+  ansible.builtin.include_vars:
+    file: "defaults/main/action_parameters.yml"
+...

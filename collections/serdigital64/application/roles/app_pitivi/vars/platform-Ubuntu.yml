@@ -1,0 +1,25 @@
+---
+# Define platform specific paths
+app_pitivi_base:
+  paths: "{{ app_pitivi_base_common['paths'] }}"
+  etc: "{{ app_pitivi_base_common['etc'] }}"
+  files: "{{ app_pitivi_base_common['files'] }}"
+  run: "{{ app_pitivi_base_common['run'] }}"
+  templates: "{{ app_pitivi_base_common['templates'] }}"
+  access: "{{ app_pitivi_base_common['access'] }}"
+
+# Define application package details
+app_pitivi_profiles:
+  snap: "{{ app_pitivi_profiles_common['snap'] }}"
+  flatpak: "{{ app_pitivi_profiles_common['flatpak'] }}"
+  distro: {}
+
+# Define custom package repositories
+app_pitivi_repository_custom_yum: []
+app_pitivi_repository_custom_apt: []
+
+# Set package repositories states
+app_pitivi_repository_catalog_distro: {}
+app_pitivi_repository_catalog_yum: {}
+app_pitivi_repository_catalog_apt: {}
+...
