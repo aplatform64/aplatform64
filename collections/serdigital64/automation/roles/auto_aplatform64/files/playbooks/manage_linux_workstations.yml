@@ -39,7 +39,6 @@
       vars:
         sec_openssh_server:
           deploy: true
-          setup: true
       ansible.builtin.include_role:
         name: "serdigital64.system.sec_openssh_server"
       when:
@@ -107,7 +106,6 @@
       vars:
         sec_openssh_client:
           deploy: true
-          setup: true
       ansible.builtin.include_role:
         name: "serdigital64.system.sec_openssh_client"
       when:
