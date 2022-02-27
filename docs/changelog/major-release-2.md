@@ -1,7 +1,7 @@
 # Releases
 
 - [Releases](#releases)
-  - [Release: 2.9.3](#release-293)
+  - [Release: 2.10.0](#release-2100)
   - [Release: 2.9.0](#release-290)
   - [Release: 2.8.0](#release-280)
   - [Release: 2.7.0](#release-270)
@@ -13,11 +13,22 @@
   - [Release: 2.1.0](#release-210)
   - [Release: 2.0.0](#release-200)
 
-## Release: 2.9.3
+## Release: 2.10.0
 
-- automation-1.5.0
+- devops-1.2.0
+  - dops_github_cli: add new role
+- application-1.3.0
+  - app_blender: add new role
+  - app_firefox: add new role
+  - app_freecad: add new role
+  - app_pinta: add new role
+  - app_pitivi: add new role
+  - app_slack: add new role
+- automation-1.6.0
   - ap64: add --limit option for playbook run
-- system-1.3.1
+  - manage_office_nodes: add blender, firefox, freecad, pinta, pitivi, slack
+  - manage_dev_nodes: add github cli
+- system-1.3.3
   - sys_package: enable system-site-packages for pip packages, add pip,wheel,setup upgrade
 
 ## Release: 2.9.0
