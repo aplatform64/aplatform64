@@ -1,0 +1,5 @@
+---
+app_freecad:
+  resolve_prereq: false
+  deploy: false
+...

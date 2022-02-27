@@ -1,0 +1,25 @@
+---
+# Define platform specific paths
+app_freecad_base:
+  paths: "{{ app_freecad_base_common['paths'] }}"
+  etc: "{{ app_freecad_base_common['etc'] }}"
+  files: "{{ app_freecad_base_common['files'] }}"
+  run: "{{ app_freecad_base_common['run'] }}"
+  templates: "{{ app_freecad_base_common['templates'] }}"
+  access: "{{ app_freecad_base_common['access'] }}"
+
+# Define application package details
+app_freecad_profiles:
+  snap: "{{ app_freecad_profiles_common['snap'] }}"
+  flatpak: "{{ app_freecad_profiles_common['flatpak'] }}"
+  distro: {}
+
+# Define custom package repositories
+app_freecad_repository_custom_yum: []
+app_freecad_repository_custom_apt: []
+
+# Set package repositories states
+app_freecad_repository_catalog_distro: {}
+app_freecad_repository_catalog_yum: {}
+app_freecad_repository_catalog_apt: {}
+...
