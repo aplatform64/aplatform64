@@ -1,0 +1,25 @@
+---
+# Define platform specific paths
+app_pinta_base:
+  paths: "{{ app_pinta_base_common['paths'] }}"
+  etc: "{{ app_pinta_base_common['etc'] }}"
+  files: "{{ app_pinta_base_common['files'] }}"
+  run: "{{ app_pinta_base_common['run'] }}"
+  templates: "{{ app_pinta_base_common['templates'] }}"
+  access: "{{ app_pinta_base_common['access'] }}"
+
+# Define application package details
+app_pinta_profiles:
+  snap: "{{ app_pinta_profiles_common['snap'] }}"
+  flatpak: "{{ app_pinta_profiles_common['flatpak'] }}"
+  distro: {}
+
+# Define custom package repositories
+app_pinta_repository_custom_yum: []
+app_pinta_repository_custom_apt: []
+
+# Set package repositories states
+app_pinta_repository_catalog_distro: {}
+app_pinta_repository_catalog_yum: {}
+app_pinta_repository_catalog_apt: {}
+...
