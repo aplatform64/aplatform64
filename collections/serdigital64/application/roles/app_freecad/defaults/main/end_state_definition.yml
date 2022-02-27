@@ -1,0 +1,7 @@
+---
+app_freecad_application:
+  name: "freecad"
+  type: "flatpak"
+  version: "latest"
+  installed: true
+...

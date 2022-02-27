@@ -1,0 +1,6 @@
+---
+roles: []
+collections:
+  - "serdigital64.backup"
+  - "serdigital64.system"
+...

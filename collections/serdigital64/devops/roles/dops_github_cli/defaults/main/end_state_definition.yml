@@ -1,0 +1,7 @@
+---
+dops_github_cli_application:
+  name: "gh"
+  type: "distro"
+  version: "latest"
+  installed: true
+...

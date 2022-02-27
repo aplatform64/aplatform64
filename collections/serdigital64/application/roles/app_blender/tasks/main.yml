@@ -1,0 +1,16 @@
+---
+- name: "Application / Blender / Initialize"
+  ansible.builtin.include_tasks:
+    file: "app_blender_initialize.yml"
+
+- name: "Application / Blender / Deploy"
+  ansible.builtin.include_tasks:
+    file: "app_blender_deploy.yml"
+  when:
+    - app_blender['deploy'] is defined
+    - app_blender['deploy']
+
+- name: "Application / Blender / Finalize"
+  ansible.builtin.include_tasks:
+    file: "app_blender_finalize.yml"
+...

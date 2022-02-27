@@ -1,0 +1,19 @@
+---
+- name: "Application / Slack / Initialize / Check Platform compatibility"
+  ansible.builtin.assert:
+    quiet: true
+    fail_msg: "Target Platform not supported: {{ ansible_distribution + ansible_distribution_major_version }}"
+    that:
+      - ansible_distribution + ansible_distribution_major_version in app_slack_platforms
+
+- name: "Application / Slack / Initialize / Set Platform specific variables"
+  ansible.builtin.include_vars:
+    file: "{{ 'platform-' + app_slack_os_family + '.yml' }}"
+
+- name: "Application / Slack / Initialize / Resolve prerequisites"
+  ansible.builtin.include_tasks:
+    file: "app_slack_prerequisite.yml"
+  when:
+    - app_slack['resolve_prereq'] is defined
+    - app_slack['resolve_prereq']
+...

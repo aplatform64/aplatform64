@@ -1,0 +1,35 @@
+---
+- name: "Application / X_TASK_ROLE_NAME_X / Prerequisite / Prepare package managers"
+  vars:
+    sys_repository:
+      prepare: true
+      deploy: true
+      setup: true
+      provision: true
+    sys_repository_managers:
+      flatpak: "{{ app_pitivi_application['type'] == 'flatpak' }}"
+      snap: "{{ app_pitivi_application['type'] == 'snap' }}"
+      git: "{{ app_pitivi_application['type'] == 'git' }}"
+      pip: "{{ app_pitivi_application['type'] == 'pip' }}"
+    sys_repository_catalog_distro: "{{ app_pitivi_repository_catalog_distro }}"
+    sys_repository_catalog_yum: "{{ app_pitivi_repository_catalog_yum }}"
+    sys_repository_catalog_apt: "{{ app_pitivi_repository_catalog_apt }}"
+    sys_repository_custom_yum: "{{ app_pitivi_repository_custom_yum }}"
+    sys_repository_custom_apt: "{{ app_pitivi_repository_custom_apt }}"
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_repository"
+
+- name: "Application / X_TASK_ROLE_NAME_X / Prerequisite / Prepare archive manager"
+  vars:
+    bkp_archive:
+      deploy: true
+  ansible.builtin.include_role:
+    name: "serdigital64.backup.bkp_archive"
+
+- name: "Application / X_TASK_ROLE_NAME_X / Prerequisite / Prepare package installer"
+  vars:
+    sys_package:
+      prepare: true
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_package"
+...

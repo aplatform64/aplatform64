@@ -1,0 +1,19 @@
+---
+- name: "Application / FreeCAD / Initialize / Check Platform compatibility"
+  ansible.builtin.assert:
+    quiet: true
+    fail_msg: "Target Platform not supported: {{ ansible_distribution + ansible_distribution_major_version }}"
+    that:
+      - ansible_distribution + ansible_distribution_major_version in app_freecad_platforms
+
+- name: "Application / FreeCAD / Initialize / Set Platform specific variables"
+  ansible.builtin.include_vars:
+    file: "{{ 'platform-' + app_freecad_os_family + '.yml' }}"
+
+- name: "Application / FreeCAD / Initialize / Resolve prerequisites"
+  ansible.builtin.include_tasks:
+    file: "app_freecad_prerequisite.yml"
+  when:
+    - app_freecad['resolve_prereq'] is defined
+    - app_freecad['resolve_prereq']
+...
