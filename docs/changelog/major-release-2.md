@@ -28,6 +28,8 @@
   - ap64: add --limit option for playbook run
   - manage_office_nodes: add blender, firefox, freecad, pinta, pitivi, slack
   - manage_dev_nodes: add github cli
+  - manage_linux_servers: add openssh client and server
+  - manage_linux_workstations: add openssh client and server
 - system-1.3.3
   - sys_package: enable system-site-packages for pip packages, add pip,wheel,setup upgrade
 
