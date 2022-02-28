@@ -8,7 +8,6 @@
     - name: "Discover Target Platform"
       ansible.builtin.setup:
         gather_subset: "min"
-        gather_timeout: "10"
 
     - name: "Prepare package repositories"
       vars:

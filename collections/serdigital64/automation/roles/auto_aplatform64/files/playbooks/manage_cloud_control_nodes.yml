@@ -8,7 +8,6 @@
     - name: "Discover Target Platform"
       ansible.builtin.setup:
         gather_subset: "min"
-        gather_timeout: "10"
 
     - name: "Initialize global variables"
       ansible.builtin.set_fact:

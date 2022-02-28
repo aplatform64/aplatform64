@@ -3,14 +3,14 @@
   ansible.builtin.assert:
     quiet: true
     that:
-      - sys_repository___provision_repo['name'] is defined
-      - sys_repository___provision_repo['name'] | length > 0
-      - sys_repository___provision_repo['url'] is defined
-      - sys_repository___provision_repo['url'] | length > 0
-      - sys_repository___provision_repo['description'] is defined
-      - sys_repository___provision_repo['description'] | length > 0
+      - sys_repository___provision_repo_yum['name'] is defined
+      - sys_repository___provision_repo_yum['name'] | length > 0
+      - sys_repository___provision_repo_yum['url'] is defined
+      - sys_repository___provision_repo_yum['url'] | length > 0
+      - sys_repository___provision_repo_yum['description'] is defined
+      - sys_repository___provision_repo_yum['description'] | length > 0
 
-- name: "System / Repository / Provision / YUM / Detect if repo is already installed (repo: {{ sys_repository___provision_repo['name'] }})"
+- name: "System / Repository / Provision / YUM / Detect if repo is already installed (repo: {{ sys_repository___provision_repo_yum['name'] }})"
   ansible.builtin.stat:
     follow: false
     get_checksum: false
@@ -18,11 +18,11 @@
     get_attributes: false
     path: "{{
       sys_repository_base['etc']['yum_repos_d'] + '/' +
-      sys_repository___provision_repo['name'] + '.repo'
+      sys_repository___provision_repo_yum['name'] + '.repo'
       }}"
   register: "sys_repository___provision_test"
 
-- name: "System / Repository / Provision / YUM / Create definition file (repo: {{ sys_repository___provision_repo['name'] }})"
+- name: "System / Repository / Provision / YUM / Create definition file (repo: {{ sys_repository___provision_repo_yum['name'] }})"
   become: true
   ansible.builtin.template:
     backup: false
@@ -35,18 +35,18 @@
     src: "{{ sys_repository_base['templates']['yum_repo'] }}"
     dest: "{{
       sys_repository_base['etc']['yum_repos_d'] + '/' +
-      sys_repository___provision_repo['name'] + '.repo'
+      sys_repository___provision_repo_yum['name'] + '.repo'
       }}"
   when:
     - not sys_repository___provision_test['stat']['exists']
 
-- name: "System / Repository / Provision / YUM / Register GPG Key (repo: {{ sys_repository___provision_repo['name'] }})"
+- name: "System / Repository / Provision / YUM / Register GPG Key (repo: {{ sys_repository___provision_repo_yum['name'] }})"
   become: true
   ansible.builtin.command:
     argv:
       - "{{ sys_repository_base['run']['rpm'] }}"
       - "--import"
-      - "{{ sys_repository___provision_repo['gpgkey'] }}"
+      - "{{ sys_repository___provision_repo_yum['gpgkey'] }}"
   register: "sys_repository___provision_result"
   changed_when:
     - sys_repository___provision_result['rc'] == 0

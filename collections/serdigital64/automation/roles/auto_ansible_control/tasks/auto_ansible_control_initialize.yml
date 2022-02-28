@@ -8,6 +8,11 @@
 
 - name: "Automation / Ansible / Control / Initialize / Check required parameters"
   ansible.builtin.assert:
+    fail_msg: "required parameters are missing ({{
+      auto_ansible_control_site | default('auto_ansible_control_site') }} ' / ' {{
+      auto_ansible_control_users | default('auto_ansible_control_users') }} ' / ' {{
+      auto_ansible_control_paths | default('auto_ansible_control_paths')
+      }})"
     quiet: true
     that:
       - auto_ansible_control_site is defined
@@ -22,7 +27,7 @@
       - auto_ansible_control_paths['var'] is defined
       - auto_ansible_control_paths['var'] | length > 0
 
-- name: "Automation / Ansible / Control / Set Platform specific variables"
+- name: "Automation / Ansible / Control / Initialize / Set Platform specific variables"
   ansible.builtin.include_vars:
     file: "{{ 'platform-' + auto_ansible_control_os_family + '.yml' }}"
 

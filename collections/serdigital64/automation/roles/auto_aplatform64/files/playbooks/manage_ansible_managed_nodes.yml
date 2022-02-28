@@ -1,4 +1,23 @@
 ---
+- name: "Manage Ansible Control Node"
+  hosts: "ansible_control_nodes"
+  gather_facts: false
+
+  pre_tasks:
+
+    - name: "Discover Target Platform"
+      ansible.builtin.setup:
+        gather_subset: "min"
+
+  tasks:
+
+    - name: "Register Managed Nodes in A:Platform64"
+      vars:
+        auto_ansible_control:
+          provision: true
+      ansible.builtin.include_role:
+        name: "serdigital64.automation.auto_ansible_control"
+
 - name: "Manage Ansible Managed Nodes"
   hosts: "ansible_managed_nodes"
   gather_facts: false
@@ -8,7 +27,6 @@
     - name: "Discover Target Platform"
       ansible.builtin.setup:
         gather_subset: "min"
-        gather_timeout: "10"
 
   tasks:
 
