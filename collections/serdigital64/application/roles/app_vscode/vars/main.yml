@@ -77,6 +77,7 @@ app_vscode_catalog_obsolete:
   - "zbr.vscode-ansible"
   - "msjsdiag.debugger-for-chrome"
   - "le0zh.vscode-regexp-preivew"
+  - "bungcip.better-toml"
 
 # List of plugins that were broken. Check current status before installing
 app_vscode_catalog_broken:
@@ -212,6 +213,8 @@ app_vscode_catalog:
     - "streetsidesoftware.code-spell-checker"
   regexp:
     - "louiswt.regexp-preview"
+  toml:
+    - "tamasfe.even-better-toml"
   sql:
     - "mtxr.sqltools"
   aws:
