@@ -1,1 +1,1 @@
-../../../../../docs/roles/dops_github.md
+../../../../../docs/roles/dops_github_cli.md
