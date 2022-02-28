@@ -39,7 +39,7 @@ sec_key_ssh_base:
 #sec_key_ssh___pair: ~
 #sec_key_ssh___target: ~
 #sec_key_ssh___knownhost: ~
-sec_key_ssh___public_file: ""
+#sec_key_ssh___serverkey: ~
 sec_key_ssh___key: ~
-sec_key_ssh___serverkey: ~
+sec_key_ssh___public_file: ""
 ...
