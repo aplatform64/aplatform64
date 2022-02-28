@@ -1,5 +1,6 @@
 ---
 - name: "System / Repository / Setup / Distro / Detect repositories"
+  no_log: true
   ansible.builtin.command:
     argv:
       - "{{ sys_repository_base['run']['dnf'] }}"

@@ -52,11 +52,14 @@ sys_repository_base_access:
 
 #sys_repository___setup_repo_enable
 #sys_repository___setup_repo_disable
+#sys_repository___provision_repo_distro
+#sys_repository___provision_repo_flatpak
+#sys_repository___provision_repo_yum
+#sys_repository___provision_repo_apt
 sys_repository___setup_repo: ~
 sys_repository___setup_result: ~
 sys_repository___provision_sources: ~
 sys_repository___provision_result: ~
-sys_repository___provision_repo: ~
 sys_repository___provision_test: ~
 sys_repository___deploy_result: ~
 ...

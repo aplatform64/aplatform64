@@ -1,4 +1,13 @@
 ---
+- name: "Backup / Archive / Initialize / Check required parameters"
+  ansible.builtin.assert:
+    quiet: true
+    fail_msg: "required parameters are missing ({{
+      bkp_archive_files | default('bkp_archive_files') }})"
+    that:
+      - bkp_archive_files is defined
+      - bkp_archive_files | length > 0
+
 - name: "Backup / Archive / Provision / Open"
   ansible.builtin.include_tasks:
     file: "bkp_archive_provision_open.yml"

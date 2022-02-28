@@ -1,3 +1,10 @@
+#
+# Ansible CLI settings / Site: {{ auto_ansible_control_site }}
+#
+# * Options for debugging
+# * See the ansible.cfg file for regular configuration
+#
+
 [defaults]
 
 # Temporary files
@@ -17,8 +24,8 @@ action_warnings = true
 task_debugger_ignore_errors = true
 display_args_to_stdout = true
 enable_task_debugger = true
-debug = true
-verbosity = 0
+debug = false  # Warning: generates huge amount of debugging data
+verbosity = 3
 
 # Timeouts
 timeout = 10
@@ -50,24 +57,24 @@ become_ask_pass = false
 become_method = sudo
 
 [ssh_connection]
-retries = 0
+retries = 1
 host_key_checking = yes
 pipelining = yes
 
 [colors]
-skip = cyan
+skip = bright gray
 debug = bright cyan
-verbose = blue
-ok = white
+verbose = bright blue
+ok = bright green
 changed = bright green
-deprecate = red
-diff_add = green
+deprecate = bright red
+diff_add = magenta
 diff_lines = cyan
-diff_remove = red
-error = yellow
-highlight = white
-unreachable = red
-warn = bright purple
+diff_remove = bright purple
+error = bright red
+highlight = bright magenta
+unreachable = bright red
+warn = bright yellow
 
 [callback_profile_tasks]
 task_output_limit = 200

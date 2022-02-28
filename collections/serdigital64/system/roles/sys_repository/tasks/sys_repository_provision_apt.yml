@@ -3,14 +3,14 @@
   ansible.builtin.assert:
     quiet: true
     that:
-      - sys_repository___provision_repo['name'] is defined
-      - sys_repository___provision_repo['name'] | length > 0
-      - sys_repository___provision_repo['url'] is defined
-      - sys_repository___provision_repo['url'] | length > 0
-      - sys_repository___provision_repo['suite'] is defined
-      - sys_repository___provision_repo['suite'] | length > 0
+      - sys_repository___provision_repo_apt['name'] is defined
+      - sys_repository___provision_repo_apt['name'] | length > 0
+      - sys_repository___provision_repo_apt['url'] is defined
+      - sys_repository___provision_repo_apt['url'] | length > 0
+      - sys_repository___provision_repo_apt['suite'] is defined
+      - sys_repository___provision_repo_apt['suite'] | length > 0
 
-- name: "System / Repository / Provision / APT / Detect if repo is already installed (repo: {{ sys_repository___provision_repo['name'] }})"
+- name: "System / Repository / Provision / APT / Detect if repo is already installed (repo: {{ sys_repository___provision_repo_apt['name'] }})"
   ansible.builtin.stat:
     follow: false
     get_checksum: false
@@ -18,11 +18,11 @@
     get_attributes: false
     path: "{{
       sys_repository_base['etc']['sources_list_d'] + '/' +
-      sys_repository___provision_repo['name'] + '.list'
+      sys_repository___provision_repo_apt['name'] + '.list'
       }}"
   register: "sys_repository___provision_test"
 
-- name: "System / Repository / Provision / APT / Create definition file (repo: {{ sys_repository___provision_repo['name'] }})"
+- name: "System / Repository / Provision / APT / Create definition file (repo: {{ sys_repository___provision_repo_apt['name'] }})"
   become: true
   ansible.builtin.template:
     backup: false
@@ -35,12 +35,12 @@
     src: "{{ sys_repository_base['templates']['apt_list'] }}"
     dest: "{{
       sys_repository_base['etc']['sources_list_d'] + '/' +
-      sys_repository___provision_repo['name'] + '.list'
+      sys_repository___provision_repo_apt['name'] + '.list'
       }}"
   when:
     - not sys_repository___provision_test['stat']['exists']
 
-- name: "System / Repository / Provision / APT / Install GPG Key (repo: {{ sys_repository___provision_repo['name'] }})"
+- name: "System / Repository / Provision / APT / Install GPG Key (repo: {{ sys_repository___provision_repo_apt['name'] }})"
   become: true
   ansible.builtin.command:
     argv:
@@ -48,16 +48,16 @@
       - "-fsSLo"
       - "{{
         sys_repository_base['etc']['trusted_gpg'] + '/' +
-        sys_repository___provision_repo['name'] + '.gpg'
+        sys_repository___provision_repo_apt['name'] + '.gpg'
         }}"
-      - "{{ sys_repository___provision_repo['gpgkey'] }}"
+      - "{{ sys_repository___provision_repo_apt['gpgkey'] }}"
   register: "sys_repository___provision_result"
   changed_when:
     - sys_repository___provision_result['rc'] == 0
   when:
     - not sys_repository___provision_test['stat']['exists']
-    - "'gpgkey' in sys_repository___provision_repo"
-    - sys_repository___provision_repo['gpgkey'] is not none
+    - "'gpgkey' in sys_repository___provision_repo_apt"
+    - sys_repository___provision_repo_apt['gpgkey'] is not none
 
 - name: "System / Repository / Provision / APT / Download PGP Key"
   become: true
@@ -67,18 +67,18 @@
       - "-fsSLo"
       - "{{
         sys_repository_base['etc']['keyrings'] + '/' +
-        sys_repository___provision_repo['name'] + '.key'
+        sys_repository___provision_repo_apt['name'] + '.key'
         }}"
-      - "{{ sys_repository___provision_repo['pgpkey'] }}"
+      - "{{ sys_repository___provision_repo_apt['pgpkey'] }}"
   register: "sys_repository___provision_result"
   changed_when:
     - sys_repository___provision_result['rc'] == 0
   when:
     - not sys_repository___provision_test['stat']['exists']
-    - "'pgpkey' in sys_repository___provision_repo"
-    - sys_repository___provision_repo['pgpkey'] is not none
+    - "'pgpkey' in sys_repository___provision_repo_apt"
+    - sys_repository___provision_repo_apt['pgpkey'] is not none
 
-- name: "System / Repository / Provision / APT / Install PGP Key (repo: {{ sys_repository___provision_repo['name'] }})"
+- name: "System / Repository / Provision / APT / Install PGP Key (repo: {{ sys_repository___provision_repo_apt['name'] }})"
   become: true
   ansible.builtin.command:
     argv:
@@ -86,15 +86,15 @@
       - "add"
       - "{{
         sys_repository_base['etc']['keyrings'] + '/' +
-        sys_repository___provision_repo['name'] + '.key'
+        sys_repository___provision_repo_apt['name'] + '.key'
         }}"
   register: "sys_repository___provision_result"
   changed_when:
     - sys_repository___provision_result['rc'] == 0
   when:
     - not sys_repository___provision_test['stat']['exists']
-    - "'pgpkey' in sys_repository___provision_repo"
-    - sys_repository___provision_repo['pgpkey'] is not none
+    - "'pgpkey' in sys_repository___provision_repo_apt"
+    - sys_repository___provision_repo_apt['pgpkey'] is not none
 
 - name: "System / Repository / Provision / APT / Update APT cache"
   become: true
