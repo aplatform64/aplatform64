@@ -116,7 +116,19 @@ function ap64_run() {
 
 function ap64_refresh() {
 
+  local output="$1"
+  local verbosity=''
+
+  if [[ "$output" == '1' ]]; then
+    verbosity='--diff'
+    ANSIBLE_STDOUT_CALLBACK='community.general.unixy'
+  elif [[ "$output" == '2' ]]; then
+    ANSIBLE_CONFIG="$ANSIBLE_CONFIG_DEBUG"
+    verbosity='-v --diff'
+  fi
+
   "$APLATFORM64_CMD_ANSIBLE_PLAYBOOK" \
+    $verbosity \
     -i "${APLATFORM64_INVENTORIES}/ansible_service.ini" \
     "${ANSIBLE_PLAYBOOK_DIR}/manage_ansible_control_nodes.yml"
 
@@ -125,13 +137,24 @@ function ap64_refresh() {
 function ap64_create() {
 
   local site="$1"
+  local output="$2"
+  local verbosity=''
 
   if [[ -z "$site" ]]; then
     bl64_msg_show_error 'site not selected. Please specify the new site name using the "-s Site" option'
     return 1
   fi
 
+  if [[ "$output" == '1' ]]; then
+    verbosity='--diff'
+    ANSIBLE_STDOUT_CALLBACK='community.general.unixy'
+  elif [[ "$output" == '2' ]]; then
+    ANSIBLE_CONFIG="$ANSIBLE_CONFIG_DEBUG"
+    verbosity='-v --diff'
+  fi
+
   "$APLATFORM64_CMD_ANSIBLE_PLAYBOOK" \
+    $verbosity \
     -i "${APLATFORM64_INVENTORIES}/ansible_service.ini" \
     -e "{\"auto_ansible_control_site\":\"$site\"}" \
     -e '{"auto_ansible_control_managed":[]}' \
@@ -349,22 +372,17 @@ if [[ "$ap64_change_site" == '1' ]]; then
 
 fi
 
-#
-# Execute selected action
-#
-bl64_msg_show_info "starting ${ap64_command_tag} process"
+bl64_msg_show_batch_start "$ap64_command_tag"
 case "$ap64_command" in
 'ap64_upgrade') "$ap64_command" "$ap64_collection" ;;
-'ap64_list_sites' | 'ap64_upgrade' | 'ap64_refresh') "$ap64_command" ;;
-'ap64_create' | 'ap64_remove') "$ap64_command" "$ap64_site" ;;
+'ap64_list_sites') "$ap64_command" ;;
+'ap64_refresh') "$ap64_command" "$ap64_output" ;;
+'ap64_create') "$ap64_command" "$ap64_site" "$ap64_output" ;;
+'ap64_remove') "$ap64_command" "$ap64_site" ;;
 'ap64_run') "$ap64_command" "$ap64_playbook" "$ap64_host" "$ap64_output" ;;
 'ap64_list_plays') "$ap64_command" "$ap64_playbook" ;;
 esac
 ap64_status=$?
-if ((ap64_status == 0)); then
-  bl64_msg_show_info "${ap64_command_tag} process complete"
-else
-  bl64_msg_show_info "${ap64_command_tag} process complete with errors (error: $ap64_status)"
-fi
 
+bl64_msg_show_batch_finish $ap64_status "$ap64_command_tag"
 exit $ap64_status
