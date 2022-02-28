@@ -19,9 +19,9 @@ Automate the management of Ansible Control Node.
 Supported features in the current version:
 
 - Create directory structure.
-- Setup configuration files:
-  - ansible.cfg
-  - ansible common options
+- Setup site configuration files:
+  - ansible.cfg: regular operation
+  - ansible-debug.cfg: task debugging
 - Create OpenSSH Public/Private key pair for Ansible Managed Nodes
 - Register Ansible Managed Nodes`s OpenSSH server keys in known_hosts file.
 - Create shell environment script for setting Ansible variables.
