@@ -5,7 +5,7 @@
   ansible.builtin.template:
     backup: false
     follow: false
-    force: false
+    force: true
     unsafe_writes: false
     dest: "{{ auto_ansible_control_base['files']['ansible_cfg'] }}"
     owner: "{{ auto_ansible_control_base['access']['owner'] }}"
@@ -19,7 +19,7 @@
   ansible.builtin.template:
     backup: false
     follow: false
-    force: false
+    force: true
     unsafe_writes: false
     dest: "{{ auto_ansible_control_base['files']['ansible_debug_cfg'] }}"
     owner: "{{ auto_ansible_control_base['access']['owner'] }}"
