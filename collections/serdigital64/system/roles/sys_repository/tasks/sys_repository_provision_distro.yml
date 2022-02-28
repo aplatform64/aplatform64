@@ -3,15 +3,15 @@
   ansible.builtin.assert:
     quiet: true
     that:
-      - sys_repository___provision_repo['name'] is defined
-      - sys_repository___provision_repo['name'] | length > 0
-      - sys_repository___provision_repo['package'] is defined
-      - sys_repository___provision_repo['package'] | length > 0
+      - sys_repository___provision_repo_distro['name'] is defined
+      - sys_repository___provision_repo_distro['name'] | length > 0
+      - sys_repository___provision_repo_distro['package'] is defined
+      - sys_repository___provision_repo_distro['package'] | length > 0
 
-- name: "System / Repository / Provision / Distro / Install package repository (repo: {{ sys_repository___provision_repo['name'] }})"
+- name: "System / Repository / Provision / Distro / Install package repository (repo: {{ sys_repository___provision_repo_distro['name'] }})"
   become: true
   ansible.builtin.package:
-    name: "{{ sys_repository___provision_repo['package'] }}"
+    name: "{{ sys_repository___provision_repo_distro['package'] }}"
     state: "present"
 
 - name: "System / Repository / Provision / Distro / Refresh repository cache"

@@ -21,46 +21,46 @@
     file: "sys_repository_provision_distro.yml"
   loop: "{{ sys_repository___provision_sources['distro'] }}"
   loop_control:
-    loop_var: "sys_repository___provision_repo"
+    loop_var: "sys_repository___provision_repo_distro"
   when:
     - sys_repository___provision_sources['distro'] | length > 0
-    - sys_repository___provision_repo['name'] is defined
-    - sys_repository_catalog_distro[sys_repository___provision_repo['name']] is defined
+    - sys_repository___provision_repo_distro['name'] is defined
+    - sys_repository_catalog_distro[sys_repository___provision_repo_distro['name']] is defined
 
 - name: "System / Repository / Provision / FlatPak"
   include_tasks:
     file: "sys_repository_provision_flatpak.yml"
   loop: "{{ sys_repository___provision_sources['flatpak'] }}"
   loop_control:
-    loop_var: "sys_repository___provision_repo"
+    loop_var: "sys_repository___provision_repo_flatpak"
   when:
     - "'flatpak' in sys_repository_managers"
     - sys_repository_managers['flatpak']
     - sys_repository___provision_sources['flatpak'] | length > 0
-    - sys_repository___provision_repo['name'] is defined
-    - sys_repository_catalog_flatpak[sys_repository___provision_repo['name']] is defined
+    - sys_repository___provision_repo_flatpak['name'] is defined
+    - sys_repository_catalog_flatpak[sys_repository___provision_repo_flatpak['name']] is defined
 
 - name: "System / Repository / Provision / YUM"
   include_tasks:
     file: "sys_repository_provision_yum.yml"
   loop: "{{ sys_repository___provision_sources['yum'] }}"
   loop_control:
-    loop_var: "sys_repository___provision_repo"
+    loop_var: "sys_repository___provision_repo_yum"
   when:
     - sys_repository_os_family == "RedHat"
     - sys_repository___provision_sources['yum'] | length > 0
-    - sys_repository___provision_repo['name'] is defined
-    - sys_repository_catalog_yum[sys_repository___provision_repo['name']] is defined
+    - sys_repository___provision_repo_yum['name'] is defined
+    - sys_repository_catalog_yum[sys_repository___provision_repo_yum['name']] is defined
 
 - name: "System / Repository / Provision / APT"
   include_tasks:
     file: "sys_repository_provision_apt.yml"
   loop: "{{ sys_repository___provision_sources['apt'] }}"
   loop_control:
-    loop_var: "sys_repository___provision_repo"
+    loop_var: "sys_repository___provision_repo_apt"
   when:
     - sys_repository_os_family == "Ubuntu"
     - sys_repository___provision_sources['apt'] | length > 0
-    - sys_repository___provision_repo['name'] is defined
-    - sys_repository_catalog_apt[sys_repository___provision_repo['name']] is defined
+    - sys_repository___provision_repo_apt['name'] is defined
+    - sys_repository_catalog_apt[sys_repository___provision_repo_apt['name']] is defined
 ...
