@@ -23,35 +23,8 @@
       - sys_package_application['type'] in sys_package_profiles
       - sys_package_application['version'] in sys_package_profiles[sys_package_application['type']]
 
-- name: "System / Package / Provision / Analyze Runtime Environment"
-  register: "sys_package___initialize_status"
-  ansible.builtin.stat:
-    follow: false
-    get_checksum: false
-    get_mime: false
-    get_attributes: false
-    path: "{{ sys_package___provision_path }}"
-  loop:
-    - sys_package_base['paths']['var']
-    - sys_package_base['paths']['staging']
-    - sys_package_base['paths']['repository']
-  loop_control:
-    loop_var: "sys_package___provision_path"
-
-- name: "System / Package / Provision / Check Runtime Environment"
-  ansible.builtin.assert:
-    quiet: true
-    that:
-      - sys_package___provision_check['stat']['exists']
-  loop: "{{ sys_package___provision_path }}"
-  loop_control:
-    loop_var: "sys_package___provision_check"
-  when:
-    - sys_package___provision_path is defined
-
-- name:
-    "System / Package / Provision / Type: {{ sys_package___application['type'] }} (app: {{
-    sys_package___application['name'] }})"
+- name: "System / Package / Provision / Type: {{
+      sys_package___application['type'] }} (app: {{ sys_package___application['name'] }})"
   ansible.builtin.include_tasks:
     file: "{{
       'sys_package_provision_type-' + sys_package___application['type'] + '-' +
