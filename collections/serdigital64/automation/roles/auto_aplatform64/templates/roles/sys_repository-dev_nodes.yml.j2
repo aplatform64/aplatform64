@@ -11,6 +11,10 @@ sys_repository_managers:
   git: true
 
 sys_repository_custom_yum:
+  - name: "github"
+    description: "GitHUB CLI RPM Repository"
+    url: "https://cli.github.com/packages/rpm"
+    gpgkey: "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xc99b11deb97541f0"
   - name: "vscode"
     description: "VSCode official RPM Repository"
     url: "https://packages.microsoft.com/yumrepos/vscode"
@@ -27,6 +31,11 @@ sys_repository_custom_yum:
     gpgkey: "https://rpm.releases.hashicorp.com/gpg"
 
 sys_repository_custom_apt:
+  - name: "github"
+    suite: "stable"
+    component: "main"
+    url: "https://cli.github.com/packages"
+    pgpkey: "https://cli.github.com/packages/githubcli-archive-keyring.gpg"
   - name: "vscode"
     suite: "stable"
     component: "main"
@@ -41,10 +50,12 @@ sys_repository_custom_apt:
     pgpkey: "https://rpm.releases.hashicorp.com/gpg"
 
 sys_repository_catalog_yum:
+  github: true
   hashicorp: true
   vscode: true
 
 sys_repository_catalog_apt:
+  github: true
   hashicorp: true
   vscode: true
 
