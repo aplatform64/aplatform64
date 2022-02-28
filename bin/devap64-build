@@ -168,16 +168,11 @@ if [[ -z "$VIRTUAL_ENV" ]]; then
   exit 1
 fi
 
-bl64_msg_show_info "starting ${devap64_build_command_tag} process"
+bl64_msg_show_batch_start "$devap64_build_command_tag"
 case "$devap64_build_command" in
 'devap64_build_test' | 'devap64_build_prod' | 'devap64_build_publish') "$devap64_build_command" "$devap64_build_collection" ;;
 esac
 devap64_build_status=$?
 
-if ((devap64_build_status == 0)); then
-  bl64_msg_show_info "${devap64_build_command_tag} process complete"
-else
-  bl64_msg_show_info "${devap64_build_command_tag} process complete with errors (error: $devap64_build_status)"
-fi
-
+bl64_msg_show_batch_finish $devap64_build_status "$devap64_build_command_tag"
 exit $devap64_build_status
