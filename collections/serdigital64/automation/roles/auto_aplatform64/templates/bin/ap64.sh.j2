@@ -100,6 +100,7 @@ function ap64_run() {
 
   if [[ "$output" == '1' ]]; then
     verbosity='--diff'
+    ANSIBLE_STDOUT_CALLBACK='community.general.unixy'
   elif [[ "$output" == '2' ]]; then
     ANSIBLE_CONFIG="$ANSIBLE_CONFIG_DEBUG"
     verbosity='-v --diff'

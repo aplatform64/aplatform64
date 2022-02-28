@@ -6,12 +6,12 @@ keep_remote_files = false
 
 # Error handling
 system_warning = false
-any_errors_fatal = true
+any_errors_fatal = false
 invalid_task_attribute_failed = true
-string_conversion_action = error
-error_on_undefined_vars = true
+string_conversion_action = ignore
+error_on_undefined_vars = false
 deprecation_warnings = false
-action_warnings = true
+action_warnings = false
 
 # Debugger
 task_debugger_ignore_errors = true
@@ -33,8 +33,8 @@ transport = ssh
 # StdOut Formatting
 stdout_callback = community.general.dense
 display_ok_hosts = true
-display_failed_stderr = false
-display_skipped_hosts = true
+display_failed_stderr = true
+display_skipped_hosts = false
 show_custom_stats = true
 show_per_host_start = true
 nocolor = false
@@ -50,24 +50,26 @@ become_ask_pass = false
 become_method = sudo
 
 [ssh_connection]
-retries = 0
+retries = 1
 host_key_checking = yes
 pipelining = yes
 
+# black', 'bright gray', 'blue', 'white', 'green', 'bright blue', 'cyan', 'bright green', 'red', 'bright cyan', 'purple',
+#  'bright red', 'yellow', 'bright purple', 'dark gray', 'bright yellow', 'magenta', 'bright magenta', 'normal'
 [colors]
-skip = cyan
+skip = bright gray
 debug = bright cyan
-verbose = blue
-ok = white
+verbose = bright blue
+ok = bright green
 changed = bright green
-deprecate = red
-diff_add = green
+deprecate = bright red
+diff_add = magenta
 diff_lines = cyan
-diff_remove = red
-error = yellow
-highlight = white
-unreachable = red
-warn = bright purple
+diff_remove = bright purple
+error = bright red
+highlight = bright magenta
+unreachable = bright red
+warn = bright yellow
 
 [callback_profile_tasks]
 task_output_limit = 200
