@@ -106,7 +106,7 @@
         sec_openssh_client:
           deploy: true
       ansible.builtin.include_role:
-        name: "serdigital64.system.sec_openssh_client"
+        name: "serdigital64.security.sec_openssh_client"
       when:
         - linux_workstations_component['openssh_client'] is defined
         - linux_workstations_component['openssh_client']
