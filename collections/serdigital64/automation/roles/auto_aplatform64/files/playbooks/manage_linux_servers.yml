@@ -39,7 +39,7 @@
         sec_openssh_server:
           deploy: true
       ansible.builtin.include_role:
-        name: "serdigital64.system.sec_openssh_server"
+        name: "serdigital64.security.sec_openssh_server"
       when:
         - linux_workstations_component['openssh_server'] is defined
         - linux_workstations_component['openssh_server']
