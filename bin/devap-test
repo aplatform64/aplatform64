@@ -29,14 +29,14 @@ function devap64_test_role_test() {
 
   bl64_msg_show_task 'prepare test environment'
   # Set project path
-  APLATFORM64_TEST_ROLE_PATH="${DEVAP_COLLECTIONS}/${collection}/roles/${role}"
-  bl64_check_directory "$APLATFORM64_TEST_ROLE_PATH" && cd "$APLATFORM64_TEST_ROLE_PATH" || return 1
+  DEVAP_TEST_ROLE_PATH="${DEVAP_COLLECTIONS}/${collection}/roles/${role}"
+  bl64_check_directory "$DEVAP_TEST_ROLE_PATH" && cd "$DEVAP_TEST_ROLE_PATH" || return 1
 
   # Enable debug mode
   if [[ "$debug" == '1' ]]; then
     debug='--debug --verbose'
-    APLATFORM64_TEST_DEBUG='true'
-    APLATFORM64_TEST_VERBOSITY='3'
+    DEVAP_TEST_DEBUG='true'
+    DEVAP_TEST_VERBOSITY='3'
   else
     debug=''
   fi
@@ -76,14 +76,14 @@ function devap64_test_role_converge() {
 
   bl64_msg_show_task 'prepare test environment'
   # Set project path
-  APLATFORM64_TEST_ROLE_PATH="${DEVAP_COLLECTIONS}/${collection}/roles/${role}"
-  bl64_check_directory "$APLATFORM64_TEST_ROLE_PATH" && cd "$APLATFORM64_TEST_ROLE_PATH" || return 1
+  DEVAP_TEST_ROLE_PATH="${DEVAP_COLLECTIONS}/${collection}/roles/${role}"
+  bl64_check_directory "$DEVAP_TEST_ROLE_PATH" && cd "$DEVAP_TEST_ROLE_PATH" || return 1
 
   # Enable debug mode
   if [[ "$debug" == '1' ]]; then
     debug='--debug --verbose'
-    APLATFORM64_TEST_DEBUG='true'
-    APLATFORM64_TEST_VERBOSITY='3'
+    DEVAP_TEST_DEBUG='true'
+    DEVAP_TEST_VERBOSITY='3'
   else
     debug=''
   fi
@@ -115,8 +115,8 @@ function devap64_test_role_login() {
   bl64_msg_show_task 'prepare test environment'
 
   # Set project path
-  APLATFORM64_TEST_ROLE_PATH="${DEVAP_COLLECTIONS}/${collection}/roles/${role}"
-  bl64_check_directory "$APLATFORM64_TEST_ROLE_PATH" && cd "$APLATFORM64_TEST_ROLE_PATH" || return 1
+  DEVAP_TEST_ROLE_PATH="${DEVAP_COLLECTIONS}/${collection}/roles/${role}"
+  bl64_check_directory "$DEVAP_TEST_ROLE_PATH" && cd "$DEVAP_TEST_ROLE_PATH" || return 1
 
   # Select target hosts
   DEVAP_TEST_PLATFORM="$group"
@@ -175,10 +175,10 @@ function devap64_test_help() {
 # Main
 #
 
-export APLATFORM64_TEST_ROLE_PATH=''
+export DEVAP_TEST_ROLE_PATH=''
 export DEVAP_TEST_PLATFORM=''
-export APLATFORM64_TEST_DEBUG='false'
-export APLATFORM64_TEST_VERBOSITY='0'
+export DEVAP_TEST_DEBUG='false'
+export DEVAP_TEST_VERBOSITY='0'
 
 declare devap64_test_status=1
 declare devap64_test_command=''
