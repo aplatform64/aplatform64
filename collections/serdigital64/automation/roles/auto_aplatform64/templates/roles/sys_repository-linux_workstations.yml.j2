@@ -9,4 +9,111 @@ sys_repository_managers:
   flatpak: false
   snap: false
   git: true
+
+sys_repository_custom_yum: "{{ sys_repository_custom_yum_distro[ansible_distribution + ansible_distribution_major_version] }}"
+sys_repository_custom_yum_distro:
+  Debian10: []
+  Debian11: []
+  Ubuntu20: []
+  Ubuntu21: []
+  Fedora33:
+    - name: "docker"
+      description: "Docker CE Stable"
+      url: "https://download.docker.com/linux/fedora/$releasever/$basearch/stable"
+      gpgkey: "https://download.docker.com/linux/fedora/gpg"
+  Fedora34:
+    - name: "docker"
+      description: "Docker CE Stable"
+      url: "https://download.docker.com/linux/fedora/$releasever/$basearch/stable"
+      gpgkey: "https://download.docker.com/linux/fedora/gpg"
+  Fedora35:
+    - name: "docker"
+      description: "Docker CE Stable"
+      url: "https://download.docker.com/linux/fedora/$releasever/$basearch/stable"
+      gpgkey: "https://download.docker.com/linux/fedora/gpg"
+  CentOS8:
+    - name: "docker"
+      description: "Docker CE Stable"
+      url: "https://download.docker.com/linux/centos/$releasever/$basearch/stable"
+      gpgkey: "https://download.docker.com/linux/centos/gpg"
+  OracleLinux8:
+    - name: "docker"
+      description: "Docker CE Stable"
+      url: "https://download.docker.com/linux/centos/$releasever/$basearch/stable"
+      gpgkey: "https://download.docker.com/linux/centos/gpg"
+sys_repository_custom_apt: "{{ sys_repository_custom_apt_distro[ansible_distribution + ansible_distribution_major_version] }}"
+sys_repository_custom_apt_distro:
+  Fedora33: []
+  Fedora34: []
+  Fedora35: []
+  CentOS8: []
+  OracleLinux8: []
+  Debian10:
+    - name: "kubic"
+      suite: "/"
+      component: ""
+      url: "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_20.04"
+      pgpkey: "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_20.04/Release.key"
+    - name: "docker"
+      suite: "{{ ansible_facts['distribution_release'] }}"
+      component: "stable"
+      url: "https://download.docker.com/linux/debian"
+      pgpkey: "https://download.docker.com/linux/debian/gpg"
+  Debian11:
+    - name: "docker"
+      suite: "{{ ansible_facts['distribution_release'] }}"
+      component: "stable"
+      url: "https://download.docker.com/linux/debian"
+      pgpkey: "https://download.docker.com/linux/debian/gpg"
+  Ubuntu20:
+    - name: "kubic"
+      suite: "/"
+      component: ""
+      url: "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_20.04"
+      pgpkey: "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_20.04/Release.key"
+    - name: "docker"
+      suite: "{{ ansible_facts['distribution_release'] }}"
+      component: "stable"
+      url: "https://download.docker.com/linux/ubuntu"
+      pgpkey: "https://download.docker.com/linux/ubuntu/gpg"
+  Ubuntu21:
+    - name: "docker"
+      suite: "{{ ansible_facts['distribution_release'] }}"
+      component: "stable"
+      url: "https://download.docker.com/linux/ubuntu"
+      pgpkey: "https://download.docker.com/linux/ubuntu/gpg"
+
+sys_repository_catalog_yum: "{{ sys_repository_catalog_yum_distro[ansible_distribution + ansible_distribution_major_version] }}"
+sys_repository_catalog_yum_distro:
+  Debian10: []
+  Debian11: []
+  Ubuntu20: []
+  Ubuntu21: []
+  Fedora33:
+    docker: true
+  Fedora34:
+    docker: true
+  Fedora35:
+    docker: true
+  CentOS8:
+    docker: true
+  OracleLinux8:
+    docker: true
+sys_repository_catalog_apt: "{{ sys_repository_catalog_apt_distro[ansible_distribution + ansible_distribution_major_version] }}"
+sys_repository_catalog_apt_distro:
+  Fedora33: {}
+  Fedora34: {}
+  Fedora35: {}
+  CentOS8: {}
+  OracleLinux8: {}
+  Debian10:
+    kubic: true
+    docker: true
+  Debian11:
+    docker: true
+  Ubuntu20:
+    kubic: true
+    docker: true
+  Ubuntu21:
+    docker: true
 ...

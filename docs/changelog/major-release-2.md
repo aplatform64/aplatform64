@@ -30,9 +30,11 @@
 - monitor-1.0.0
   - add collection
   - mon_fluentd: add role
-- automation-1.6.7
+- automation-1.7.0
   - install: add new collections: database, monitor, network
   - auto_aplatform64: upgrade bashlib64 lib
+  - manage_linux_servers: add podman, docker
+  - manage_linux_workstations: add podman, docker
 - devops-1.3.0
   - dops_shellcheck: add role
   - dops_molecule: add role

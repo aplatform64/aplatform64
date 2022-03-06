@@ -44,6 +44,26 @@
         - linux_workstations_component['openssh_server'] is defined
         - linux_workstations_component['openssh_server']
 
+    - name: "Provision Docker"
+      vars:
+        cnt_docker:
+          deploy: true
+      ansible.builtin.include_role:
+        name: "serdigital64.container.cnt_docker"
+      when:
+        - linux_workstations_component['docker'] is defined
+        - linux_workstations_component['docker']
+
+    - name: "Provision Podman"
+      vars:
+        cnt_podman:
+          deploy: true
+      ansible.builtin.include_role:
+        name: "serdigital64.container.cnt_podman"
+      when:
+        - linux_workstations_component['podman'] is defined
+        - linux_workstations_component['podman']
+
     - name: "Provision AutoFS"
       vars:
         stg_autofs:

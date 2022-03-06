@@ -88,7 +88,7 @@ office_nodes_apps:
 | office_nodes_apps.drawio      | no        | boolean    | `false` | Deploy the application?                   |
 | office_nodes_apps.gimp        | no        | boolean    | `false` | Deploy the application?                   |
 | office_nodes_apps.inkscape    | no        | boolean    | `false` | Deploy the application?                   |
-| office_nodes_apps.keepassxc    | no        | boolean    | `false` | Deploy the application?                   |
+| office_nodes_apps.keepassxc   | no        | boolean    | `false` | Deploy the application?                   |
 | office_nodes_apps.kryta       | no        | boolean    | `false` | Deploy the application?                   |
 | office_nodes_apps.libreoffice | no        | boolean    | `false` | Deploy the application?                   |
 | office_nodes_apps.msteams     | no        | boolean    | `false` | Deploy the application?                   |

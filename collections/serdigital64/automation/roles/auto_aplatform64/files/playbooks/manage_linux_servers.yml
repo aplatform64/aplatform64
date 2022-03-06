@@ -41,8 +41,28 @@
       ansible.builtin.include_role:
         name: "serdigital64.security.sec_openssh_server"
       when:
-        - linux_workstations_component['openssh_server'] is defined
-        - linux_workstations_component['openssh_server']
+        - linux_servers_component['openssh_server'] is defined
+        - linux_servers_component['openssh_server']
+
+    - name: "Provision Docker"
+      vars:
+        cnt_docker:
+          deploy: true
+      ansible.builtin.include_role:
+        name: "serdigital64.container.cnt_docker"
+      when:
+        - linux_servers_component['docker'] is defined
+        - linux_servers_component['docker']
+
+    - name: "Provision Podman"
+      vars:
+        cnt_podman:
+          deploy: true
+      ansible.builtin.include_role:
+        name: "serdigital64.container.cnt_podman"
+      when:
+        - linux_servers_component['podman'] is defined
+        - linux_servers_component['podman']
 
     - name: "Provision AutoFS"
       vars:
@@ -108,8 +128,8 @@
       ansible.builtin.include_role:
         name: "serdigital64.security.sec_openssh_client"
       when:
-        - linux_workstations_component['openssh_client'] is defined
-        - linux_workstations_component['openssh_client']
+        - linux_servers_component['openssh_client'] is defined
+        - linux_servers_component['openssh_client']
 
     - name: "Provision MC tool"
       vars:

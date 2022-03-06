@@ -32,6 +32,12 @@ Supported features in the current version:
   - Tilix
 - Install and configure TUI-based tools
   - mc
+- Provision container engines
+  - docker
+  - podman
+- Configure OpenSSH
+  - client
+  - server
 
 ## Use Cases
 
@@ -65,26 +71,34 @@ linux_workstations_component:
   autofs:
   cinnamon:
   dconf:
+  docker:
   fonts:
   mc:
+  openssh_client:
+  openssh_server:
+  podman:
   shell:
   sudo:
   tilix:
   users:
 ```
 
-| Parameter                             | Required? | Type       | Default | Purpose / Value                           |
-| ------------------------------------- | --------- | ---------- | ------- | ----------------------------------------- |
-| linux_workstations_component          | no        | dictionary |         | Define what applications will be deployed |
-| linux_workstations_component.autofs   | no        | boolean    | `false` | Enable components?                        |
-| linux_workstations_component.cinnamon | no        | boolean    | `false` | Enable components?                        |
-| linux_workstations_component.dconf    | no        | boolean    | `false` | Enable components?                        |
-| linux_workstations_component.fonts    | no        | boolean    | `true`  | Enable components?                        |
-| linux_workstations_component.mc       | no        | boolean    | `true`  | Enable components?                        |
-| linux_workstations_component.sudo     | no        | boolean    | `true`  | Enable components?                        |
-| linux_workstations_component.shell    | no        | boolean    | `true`  | Enable components?                        |
-| linux_workstations_component.tilix    | no        | boolean    | `false` | Enable components?                        |
-| linux_workstations_component.users    | no        | boolean    | `true`  | Enable components?                        |
+| Parameter                                   | Required? | Type       | Default | Purpose / Value                           |
+| ------------------------------------------- | --------- | ---------- | ------- | ----------------------------------------- |
+| linux_workstations_component                | no        | dictionary |         | Define what applications will be deployed |
+| linux_workstations_component.autofs         | no        | boolean    | `false` | Enable components?                        |
+| linux_workstations_component.cinnamon       | no        | boolean    | `false` | Enable components?                        |
+| linux_workstations_component.dconf          | no        | boolean    | `false` | Enable components?                        |
+| linux_workstations_component.docker         | no        | boolean    | `false` | Enable components?                        |
+| linux_workstations_component.fonts          | no        | boolean    | `true`  | Enable components?                        |
+| linux_workstations_component.mc             | no        | boolean    | `true`  | Enable components?                        |
+| linux_workstations_component.openssh_client | no        | boolean    | `true`  | Enable components?                        |
+| linux_workstations_component.openssh_server | no        | boolean    | `true`  | Enable components?                        |
+| linux_workstations_component.podman         | no        | boolean    | `false` | Enable components?                        |
+| linux_workstations_component.sudo           | no        | boolean    | `true`  | Enable components?                        |
+| linux_workstations_component.shell          | no        | boolean    | `true`  | Enable components?                        |
+| linux_workstations_component.tilix          | no        | boolean    | `false` | Enable components?                        |
+| linux_workstations_component.users          | no        | boolean    | `true`  | Enable components?                        |
 
 Additional role specific settings are available to further customize the playbook:
 
@@ -115,9 +129,12 @@ Additional role specific settings are available to further customize the playboo
 Dependencies in this section are automatically solved during the installation process.
 
 - Ansible Collections:
+  - serdigital64.application
+  - serdigital64.backup
+  - serdigital64.container
+  - serdigital64.security
   - serdigital64.system
   - serdigital64.storage
-  - serdigital64.application
 
 ### Prerequisites
 
