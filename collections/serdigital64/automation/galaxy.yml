@@ -11,6 +11,7 @@ license:
 tags:
   - "automation"
   - "system"
+  - "devops"
 dependencies:
   ansible.posix: "*"
   serdigital64.backup: "*"

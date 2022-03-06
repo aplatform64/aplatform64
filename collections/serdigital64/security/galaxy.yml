@@ -1,7 +1,7 @@
 ---
 namespace: "serdigital64"
 name: "security"
-version: "1.0.3"
+version: "1.0.4"
 readme: "README.md"
 authors:
   - "SerDigital64 <https://github.com/serdigital64>"
@@ -9,8 +9,6 @@ description: "Ansible Roles for automating security tools provisioning"
 license:
   - "GPL-3.0-or-later"
 tags:
-  - "openssh"
-  - "firewall"
   - "system"
   - "security"
 dependencies:

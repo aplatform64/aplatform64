@@ -11,8 +11,6 @@ license:
 tags:
   - "system"
   - "container"
-  - "podman"
-  - "docker"
 dependencies:
   serdigital64.backup: "*"
   serdigital64.system: "*"
