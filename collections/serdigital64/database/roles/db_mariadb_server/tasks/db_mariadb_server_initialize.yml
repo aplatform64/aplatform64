@@ -1,0 +1,19 @@
+---
+- name: "Database / MariaDB / Server / Initialize / Check Platform compatibility"
+  ansible.builtin.assert:
+    quiet: true
+    fail_msg: "Target Platform not supported: {{ ansible_distribution + ansible_distribution_major_version }}"
+    that:
+      - ansible_distribution + ansible_distribution_major_version in db_mariadb_server_platforms
+
+- name: "Database / MariaDB / Server / Initialize / Set Platform specific variables"
+  ansible.builtin.include_vars:
+    file: "{{ 'platform-' + db_mariadb_server_os_family + '.yml' }}"
+
+- name: "Database / MariaDB / Server / Initialize / Resolve prerequisites"
+  ansible.builtin.include_tasks:
+    file: "db_mariadb_server_prerequisite.yml"
+  when:
+    - db_mariadb_server['resolve_prereq'] is defined
+    - db_mariadb_server['resolve_prereq']
+...
