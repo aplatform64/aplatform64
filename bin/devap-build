@@ -72,6 +72,7 @@ function devap64_build_publish() {
 
   local target="$1"
   local collection=''
+  local publish_wait=2
 
   cd "$DEVAP_BUILD_PROD" || return 1
   # shellcheck disable=SC1090
@@ -87,6 +88,7 @@ function devap64_build_publish() {
   for collection in $target; do
     bl64_msg_show_task 'publish collection package'
     "$DEVAP_CMD_ANSIBLE_GALAXY" collection publish --token "$DEVAP_SECRET_GALAXY_TOKEN" $DEVAP_NAMESPACE-${collection}-*.tar.gz
+    sleep $publish_wait
   done
 
 }
