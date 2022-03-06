@@ -1,7 +1,7 @@
 ---
 namespace: "serdigital64"
 name: "container"
-version: "1.0.2"
+version: "1.1.0"
 readme: "README.md"
 authors:
   - "SerDigital64 <https://github.com/serdigital64>"
@@ -12,6 +12,7 @@ tags:
   - "system"
   - "container"
   - "podman"
+  - "docker"
 dependencies:
   serdigital64.backup: "*"
   serdigital64.system: "*"
