@@ -1,0 +1,5 @@
+---
+net_bind:
+  resolve_prereq: false
+  deploy: false
+...

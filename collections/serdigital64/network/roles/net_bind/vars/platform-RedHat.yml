@@ -1,0 +1,29 @@
+---
+# Define platform specific paths
+net_bind_base:
+  paths: "{{ net_bind_base_common['paths'] }}"
+  etc: "{{ net_bind_base_common['etc'] }}"
+  files: "{{ net_bind_base_common['files'] }}"
+  run: "{{ net_bind_base_common['run'] }}"
+  templates: "{{ net_bind_base_common['templates'] }}"
+  access: "{{ net_bind_base_common['access'] }}"
+
+# Define application package details
+net_bind_profiles:
+  snap: "{{ net_bind_profiles_common['snap'] }}"
+  flatpak: "{{ net_bind_profiles_common['flatpak'] }}"
+  distro:
+    latest:
+      supported: true
+      packages:
+        - name: "bind"
+
+# Define custom package repositories
+net_bind_repository_custom_yum: []
+net_bind_repository_custom_apt: []
+
+# Set package repositories states
+net_bind_repository_catalog_distro: {}
+net_bind_repository_catalog_yum: {}
+net_bind_repository_catalog_apt: {}
+...
