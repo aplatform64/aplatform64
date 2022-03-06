@@ -71,7 +71,7 @@
       - name: "{{ sys_package___application['options']['pip']['group'] }}"
     sys_user_accounts:
       - name: "{{ sys_package___application['options']['pip']['owner'] }}"
-        description: "{{ sys_package_application['name'] + 'application owner' }}"
+        description: "{{ sys_package_application['name'] + ' application owner' }}"
         group: "{{ sys_package___application['options']['pip']['group'] }}"
   ansible.builtin.include_role:
     name: "serdigital64.system.sys_user"
