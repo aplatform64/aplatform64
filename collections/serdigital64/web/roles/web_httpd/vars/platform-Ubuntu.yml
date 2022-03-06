@@ -1,0 +1,29 @@
+---
+# Define platform specific paths
+web_httpd_base:
+  paths: "{{ web_httpd_base_common['paths'] }}"
+  etc: "{{ web_httpd_base_common['etc'] }}"
+  files: "{{ web_httpd_base_common['files'] }}"
+  run: "{{ web_httpd_base_common['run'] }}"
+  templates: "{{ web_httpd_base_common['templates'] }}"
+  access: "{{ web_httpd_base_common['access'] }}"
+
+# Define application package details
+web_httpd_profiles:
+  snap: "{{ web_httpd_profiles_common['snap'] }}"
+  flatpak: "{{ web_httpd_profiles_common['flatpak'] }}"
+  distro:
+    latest:
+      supported: true
+      packages:
+        - name: "apache2"
+
+# Define custom package repositories
+web_httpd_repository_custom_yum: []
+web_httpd_repository_custom_apt: []
+
+# Set package repositories states
+web_httpd_repository_catalog_distro: {}
+web_httpd_repository_catalog_yum: {}
+web_httpd_repository_catalog_apt: {}
+...
