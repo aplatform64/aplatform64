@@ -1,0 +1,19 @@
+---
+- name: "Database / MySQL / Client / Deploy / Check required parameters"
+  ansible.builtin.assert:
+    fail_msg: "Required end-state parameters are missing ({{ db_mysql_client_application | default('db_mysql_client_application') }})"
+    quiet: true
+    that:
+      - db_mysql_client_application is defined
+      - db_mysql_client_application | length > 0
+      - db_mysql_client_application['name'] is defined
+      - db_mysql_client_application['type'] is defined
+      - db_mysql_client_application['version'] is defined
+      - db_mysql_client_application['installed'] is defined
+
+- name: "Database / MySQL / Client / Deploy / Package"
+  ansible.builtin.include_tasks:
+    file: "db_mysql_client_deploy_package.yml"
+  when:
+    - db_mysql_client_application is defined
+...

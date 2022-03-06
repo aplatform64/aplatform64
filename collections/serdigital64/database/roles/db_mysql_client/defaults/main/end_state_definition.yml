@@ -1,0 +1,7 @@
+---
+db_mysql_client_application:
+  name: "mysql_client"
+  type: "distro"
+  version: "latest"
+  installed: true
+...
