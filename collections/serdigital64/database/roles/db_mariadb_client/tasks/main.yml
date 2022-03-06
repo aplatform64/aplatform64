@@ -1,0 +1,16 @@
+---
+- name: "Database / MariaDB / Client / Initialize"
+  ansible.builtin.include_tasks:
+    file: "db_mariadb_client_initialize.yml"
+
+- name: "Database / MariaDB / Client / Deploy"
+  ansible.builtin.include_tasks:
+    file: "db_mariadb_client_deploy.yml"
+  when:
+    - db_mariadb_client['deploy'] is defined
+    - db_mariadb_client['deploy']
+
+- name: "Database / MariaDB / Client / Finalize"
+  ansible.builtin.include_tasks:
+    file: "db_mariadb_client_finalize.yml"
+...
