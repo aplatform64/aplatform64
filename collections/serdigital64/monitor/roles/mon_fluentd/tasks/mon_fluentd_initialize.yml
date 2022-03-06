@@ -1,0 +1,19 @@
+---
+- name: "Monitor / Fluentd / Initialize / Check Platform compatibility"
+  ansible.builtin.assert:
+    quiet: true
+    fail_msg: "Target Platform not supported: {{ ansible_distribution + ansible_distribution_major_version }}"
+    that:
+      - ansible_distribution + ansible_distribution_major_version in mon_fluentd_platforms
+
+- name: "Monitor / Fluentd / Initialize / Set Platform specific variables"
+  ansible.builtin.include_vars:
+    file: "{{ 'platform-' + mon_fluentd_os_family + '.yml' }}"
+
+- name: "Monitor / Fluentd / Initialize / Resolve prerequisites"
+  ansible.builtin.include_tasks:
+    file: "mon_fluentd_prerequisite.yml"
+  when:
+    - mon_fluentd['resolve_prereq'] is defined
+    - mon_fluentd['resolve_prereq']
+...
