@@ -1,0 +1,7 @@
+---
+web_haproxy_application:
+  name: "haproxy"
+  type: "distro"
+  version: "latest"
+  installed: true
+...
