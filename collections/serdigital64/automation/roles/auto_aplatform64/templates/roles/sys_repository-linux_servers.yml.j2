@@ -16,11 +16,6 @@ sys_repository_custom_yum_distro:
       description: "Docker CE Stable"
       url: "https://download.docker.com/linux/fedora/$releasever/$basearch/stable"
       gpgkey: "https://download.docker.com/linux/fedora/gpg"
-  Fedora34:
-    - name: "docker"
-      description: "Docker CE Stable"
-      url: "https://download.docker.com/linux/fedora/$releasever/$basearch/stable"
-      gpgkey: "https://download.docker.com/linux/fedora/gpg"
   Fedora35:
     - name: "docker"
       description: "Docker CE Stable"
@@ -39,7 +34,6 @@ sys_repository_custom_yum_distro:
 sys_repository_custom_apt: "{{ sys_repository_custom_apt_distro[ansible_distribution + ansible_distribution_major_version] }}"
 sys_repository_custom_apt_distro:
   Fedora33: []
-  Fedora34: []
   Fedora35: []
   CentOS8: []
   OracleLinux8: []
@@ -86,8 +80,6 @@ sys_repository_catalog_yum_distro:
   Ubuntu21: []
   Fedora33:
     docker: true
-  Fedora34:
-    docker: true
   Fedora35:
     docker: true
   CentOS8:
@@ -97,7 +89,6 @@ sys_repository_catalog_yum_distro:
 sys_repository_catalog_apt: "{{ sys_repository_catalog_apt_distro[ansible_distribution + ansible_distribution_major_version] }}"
 sys_repository_catalog_apt_distro:
   Fedora33: {}
-  Fedora34: {}
   Fedora35: {}
   CentOS8: {}
   OracleLinux8: {}
