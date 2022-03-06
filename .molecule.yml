@@ -11,17 +11,17 @@ driver:
 provisioner:
   name: "ansible"
   options:
-      vvv: ${APLATFORM64_TEST_DEBUG}
+      vvv: ${DEVAP_TEST_DEBUG}
   config_options:
       defaults:
-        display_args_to_stdout: ${APLATFORM64_TEST_DEBUG}
-        verbosity: ${APLATFORM64_TEST_VERBOSITY}
+        display_args_to_stdout: ${DEVAP_TEST_DEBUG}
+        verbosity: ${DEVAP_TEST_VERBOSITY}
 verifier:
   name: "ansible"
 lint: |
   set -e
-  yamllint --format colored ${APLATFORM64_TEST_ROLE_PATH}
-  ansible-lint -c ${DEVAP_ANSIBLE_LINT} --project-dir ${APLATFORM64_TEST_ROLE_PATH} --exclude molecule/
+  yamllint --format colored ${DEVAP_TEST_ROLE_PATH}
+  ansible-lint -c ${DEVAP_ANSIBLE_LINT} --project-dir ${DEVAP_TEST_ROLE_PATH} --exclude molecule/
 platforms:
   # TODO: define repo update strategy (product EOL)
   # - name: "centos8"
