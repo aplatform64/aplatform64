@@ -1,0 +1,19 @@
+---
+- name: "Web / NGINX / Deploy / Check required parameters"
+  ansible.builtin.assert:
+    fail_msg: "Required end-state parameters are missing ({{ web_nginx_application | default('web_nginx_application') }})"
+    quiet: true
+    that:
+      - web_nginx_application is defined
+      - web_nginx_application | length > 0
+      - web_nginx_application['name'] is defined
+      - web_nginx_application['type'] is defined
+      - web_nginx_application['version'] is defined
+      - web_nginx_application['installed'] is defined
+
+- name: "Web / NGINX / Deploy / Package"
+  ansible.builtin.include_tasks:
+    file: "web_nginx_deploy_package.yml"
+  when:
+    - web_nginx_application is defined
+...
