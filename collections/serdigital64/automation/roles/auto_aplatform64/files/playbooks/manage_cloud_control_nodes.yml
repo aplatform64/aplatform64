@@ -20,7 +20,7 @@
             {{ 'fedora' }}
           {%- endif -%}
           "
-        manage_cloud_control_nodes_deb_distro: "{{ ansible_facts['lsb']['codename'] | default('focal') }}"
+        manage_cloud_control_nodes_deb_distro: "{{ ansible_facts['distribution_release'] | default('focal') }}"
 
     - name: "Prepare package repositories"
       vars:

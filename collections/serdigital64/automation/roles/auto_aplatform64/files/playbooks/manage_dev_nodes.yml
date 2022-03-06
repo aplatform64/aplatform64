@@ -19,7 +19,7 @@
             {{ 'fedora' }}
           {%- endif -%}
           "
-        manage_dev_nodes_deb_distro: "{{ ansible_facts['lsb']['codename'] | default('focal') }}"
+        manage_dev_nodes_deb_distro: "{{ ansible_facts['distribution_release'] | default('focal') }}"
         manage_dev_nodes_catalog_distro: "
           {%- if (ansible_distribution == 'CentOS') or
                   (ansible_distribution == 'OracleLinux')
