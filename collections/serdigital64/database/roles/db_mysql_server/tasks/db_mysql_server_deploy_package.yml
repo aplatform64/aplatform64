@@ -1,0 +1,10 @@
+---
+- name: "Database / MySQL / Server / Deploy / Package / Provision application"
+  vars:
+    sys_package:
+      provision: true
+    sys_package_application: "{{ db_mysql_server_application }}"
+    sys_package_profiles: "{{ db_mysql_server_profiles }}"
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_package"
+...

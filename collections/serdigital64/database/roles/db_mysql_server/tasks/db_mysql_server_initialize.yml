@@ -1,0 +1,19 @@
+---
+- name: "Database / MySQL / Server / Initialize / Check Platform compatibility"
+  ansible.builtin.assert:
+    quiet: true
+    fail_msg: "Target Platform not supported: {{ ansible_distribution + ansible_distribution_major_version }}"
+    that:
+      - ansible_distribution + ansible_distribution_major_version in db_mysql_server_platforms
+
+- name: "Database / MySQL / Server / Initialize / Set Platform specific variables"
+  ansible.builtin.include_vars:
+    file: "{{ 'platform-' + db_mysql_server_os_family + '.yml' }}"
+
+- name: "Database / MySQL / Server / Initialize / Resolve prerequisites"
+  ansible.builtin.include_tasks:
+    file: "db_mysql_server_prerequisite.yml"
+  when:
+    - db_mysql_server['resolve_prereq'] is defined
+    - db_mysql_server['resolve_prereq']
+...
