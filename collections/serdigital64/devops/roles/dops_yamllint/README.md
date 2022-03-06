@@ -1,1 +1,1 @@
-../../../../../docs/roles/.md
+../../../../../docs/roles/dops_yamllint.md
