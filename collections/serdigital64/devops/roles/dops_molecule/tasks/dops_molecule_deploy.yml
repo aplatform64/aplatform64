@@ -1,0 +1,19 @@
+---
+- name: "DevOps / Molecule / Deploy / Check required parameters"
+  ansible.builtin.assert:
+    fail_msg: "Required end-state parameters are missing ({{ dops_molecule_application | default('dops_molecule_application') }})"
+    quiet: true
+    that:
+      - dops_molecule_application is defined
+      - dops_molecule_application | length > 0
+      - dops_molecule_application['name'] is defined
+      - dops_molecule_application['type'] is defined
+      - dops_molecule_application['version'] is defined
+      - dops_molecule_application['installed'] is defined
+
+- name: "DevOps / Molecule / Deploy / Package"
+  ansible.builtin.include_tasks:
+    file: "dops_molecule_deploy_package.yml"
+  when:
+    - dops_molecule_application is defined
+...

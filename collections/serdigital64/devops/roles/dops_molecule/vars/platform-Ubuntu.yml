@@ -1,0 +1,26 @@
+---
+# Define platform specific paths
+dops_molecule_base:
+  paths: "{{ dops_molecule_base_common['paths'] }}"
+  etc: "{{ dops_molecule_base_common['etc'] }}"
+  files: "{{ dops_molecule_base_common['files'] }}"
+  run: "{{ dops_molecule_base_common['run'] }}"
+  templates: "{{ dops_molecule_base_common['templates'] }}"
+  access: "{{ dops_molecule_base_common['access'] }}"
+
+# Define application package details
+dops_molecule_profiles:
+  snap: "{{ dops_molecule_profiles_common['snap'] }}"
+  flatpak: "{{ dops_molecule_profiles_common['flatpak'] }}"
+  pip: "{{ dops_molecule_profiles_common['pip'] }}"
+  distro: {}
+
+# Define custom package repositories
+dops_molecule_repository_custom_yum: []
+dops_molecule_repository_custom_apt: []
+
+# Set package repositories states
+dops_molecule_repository_catalog_distro: {}
+dops_molecule_repository_catalog_yum: {}
+dops_molecule_repository_catalog_apt: {}
+...
