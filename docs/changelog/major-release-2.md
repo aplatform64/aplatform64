@@ -1,6 +1,7 @@
 # Releases
 
 - [Releases](#releases)
+  - [Release: 2.11.0](#release-2110)
   - [Release: 2.10.0](#release-2100)
   - [Release: 2.9.0](#release-290)
   - [Release: 2.8.0](#release-280)
@@ -12,6 +13,39 @@
   - [Release: 2.2.0](#release-220)
   - [Release: 2.1.0](#release-210)
   - [Release: 2.0.0](#release-200)
+
+## Release: 2.11.0
+
+- database-1.0.0
+  - add collection
+  - db_mysql_server: add role
+  - db_mariadb_server: add role
+  - db_postgresql_server: add role
+  - db_mysql_client: add role
+  - db_mariadb_client: add role
+  - db_postgresql_client: add role
+- network-1.0.0
+  - add collection
+  - net_bind: add role
+- monitor-1.0.0
+  - add collection
+  - mon_fluentd: add role
+- automation-1.6.7
+  - install: add new collections: database, monitor, network
+  - auto_aplatform64: upgrade bashlib64 lib
+- devops-1.3.0
+  - dops_shellcheck: add role
+  - dops_molecule: add role
+  - dops_yamllint: add role
+  - dops_ansiblelint: add role
+- system-1.3.6
+  - sys_repo: fix syntax on templates
+- container-1.1.0
+  - cnt_docker: add role
+- web-1.1.0
+  - web_nginx: add role
+  - web_haproxy: add role
+  - web_httpd: add role
 
 ## Release: 2.10.0
 

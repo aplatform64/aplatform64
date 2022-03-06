@@ -8,9 +8,9 @@ This collection is part of the [A:Platform64](https://github.com/serdigital64/ap
 
 ## Content
 
-| role                                                                              | purpose                    |
-| --------------------------------------------------------------------------------- | -------------------------- |
-| [X_ROLE_NAME_X](https://aplatform64.readthedocs.io/en/latest/roles/X_ROLE_NAME_X) | X_ROLE_SHORT_DESCRIPTION_X |
+| role                                                                    | purpose                     |
+| ----------------------------------------------------------------------- | --------------------------- |
+| [net_bind](https://aplatform64.readthedocs.io/en/latest/roles/net_bind) | Manage provisioning of Bind |
 
 ## Deployment
 

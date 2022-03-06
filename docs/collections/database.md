@@ -8,9 +8,14 @@ This collection is part of the [A:Platform64](https://github.com/serdigital64/ap
 
 ## Content
 
-| role                                                                              | purpose                    |
-| --------------------------------------------------------------------------------- | -------------------------- |
-| [X_ROLE_NAME_X](https://aplatform64.readthedocs.io/en/latest/roles/X_ROLE_NAME_X) | X_ROLE_SHORT_DESCRIPTION_X |
+| role                                                                                            | purpose                                  |
+| ----------------------------------------------------------------------------------------------- | ---------------------------------------- |
+| [db_mariadb_client](https://aplatform64.readthedocs.io/en/latest/roles/db_mariadb_client)       | Manage provisioning of MariaDB client    |
+| [db_mariadb_server](https://aplatform64.readthedocs.io/en/latest/roles/db_mariadb_server)       | Manage provisioning of MariaDB server    |
+| [db_mysql_client](https://aplatform64.readthedocs.io/en/latest/roles/db_mysql_client)           | Manage provisioning of MySQL client      |
+| [db_mysql_server](https://aplatform64.readthedocs.io/en/latest/roles/db_mysql_server)           | Manage provisioning of MySQL server      |
+| [db_postgresql_client](https://aplatform64.readthedocs.io/en/latest/roles/db_postgresql_client) | Manage provisioning of PostgreSQL client |
+| [db_postgresql_server](https://aplatform64.readthedocs.io/en/latest/roles/db_postgresql_server) | Manage provisioning of PostgreSQL server |
 
 ## Deployment
 
