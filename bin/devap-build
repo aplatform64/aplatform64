@@ -8,37 +8,37 @@
 # Version: 1.1.0
 #######################################
 
-[[ -d "$APLATFORM64_BIN" ]] || { echo "Error: dev environment not set"; exit 1; }
+[[ -d "$DEVAP_BIN" ]] || { echo "Error: dev environment not set"; exit 1; }
 
 # shellcheck disable=SC2034
 BL64_LIB_STRICT='0'
 # shellcheck disable=SC1091
-source "${APLATFORM64_BIN}/bashlib64.bash" || exit 1
+source "${DEVAP_BIN}/bashlib64.bash" || exit 1
 
 function devap64_build_test() {
 
   local target="$1"
   local collection=''
 
-  cd "$APLATFORM64_BUILD_DEV" || return 1
+  cd "$DEVAP_BUILD_DEV" || return 1
 
   if [[ -z "$target" ]]; then
     target="$(
-      cd "$APLATFORM64_COLLECTIONS" || return 1
+      cd "$DEVAP_COLLECTIONS" || return 1
       echo *
     )"
   fi
 
   for collection in $target; do
     bl64_msg_show_task 'remove old collection package'
-    bl64_os_rm_file $APLATFORM64_NAMESPACE-${collection}-*.tar.gz
+    bl64_os_rm_file $DEVAP_NAMESPACE-${collection}-*.tar.gz
 
     bl64_msg_show_task 'generate new collection package'
-    "$APLATFORM64_CMD_ANSIBLE_GALAXY" collection build "${APLATFORM64_COLLECTIONS}/${collection}"
+    "$DEVAP_CMD_ANSIBLE_GALAXY" collection build "${DEVAP_COLLECTIONS}/${collection}"
   done
 
   bl64_msg_show_task 'remove version tag from package file names'
-  for collection in $APLATFORM64_NAMESPACE-*-*.tar.gz; do
+  for collection in $DEVAP_NAMESPACE-*-*.tar.gz; do
     $BL64_OS_ALIAS_MV "$collection" "${collection%-*}.tar.gz"
   done
 
@@ -49,21 +49,21 @@ function devap64_build_prod() {
   local target="$1"
   local collection=''
 
-  cd "$APLATFORM64_BUILD_PROD" || return 1
+  cd "$DEVAP_BUILD_PROD" || return 1
 
   if [[ -z "$target" ]]; then
     target="$(
-      cd "$APLATFORM64_COLLECTIONS" || return 1
+      cd "$DEVAP_COLLECTIONS" || return 1
       echo *
     )"
   fi
 
   for collection in $target; do
     bl64_msg_show_task 'remove old collection package'
-    bl64_os_rm_file $APLATFORM64_NAMESPACE-${collection}-*.tar.gz
+    bl64_os_rm_file $DEVAP_NAMESPACE-${collection}-*.tar.gz
 
     bl64_msg_show_task 'generate new collection package'
-    "$APLATFORM64_CMD_ANSIBLE_GALAXY" collection build "$APLATFORM64_COLLECTIONS/$collection"
+    "$DEVAP_CMD_ANSIBLE_GALAXY" collection build "$DEVAP_COLLECTIONS/$collection"
   done
 
 }
@@ -73,32 +73,32 @@ function devap64_build_publish() {
   local target="$1"
   local collection=''
 
-  cd "$APLATFORM64_BUILD_PROD" || return 1
+  cd "$DEVAP_BUILD_PROD" || return 1
   # shellcheck disable=SC1090
-  source "$APLATFORM64_SECRETS"
+  source "$DEVAP_SECRETS"
 
   if [[ -z "$target" ]]; then
     target="$(
-      cd "$APLATFORM64_COLLECTIONS" || return 1
+      cd "$DEVAP_COLLECTIONS" || return 1
       echo *
     )"
   fi
 
   for collection in $target; do
     bl64_msg_show_task 'publish collection package'
-    "$APLATFORM64_CMD_ANSIBLE_GALAXY" collection publish --token "$APLATFORM64_SECRET_GALAXY_TOKEN" $APLATFORM64_NAMESPACE-${collection}-*.tar.gz
+    "$DEVAP_CMD_ANSIBLE_GALAXY" collection publish --token "$DEVAP_SECRET_GALAXY_TOKEN" $DEVAP_NAMESPACE-${collection}-*.tar.gz
   done
 
 }
 
 function devap64_build_check() {
 
-  bl64_check_directory "$APLATFORM64_BUILD_DEV" &&
-    bl64_check_directory "$APLATFORM64_BUILD_PROD" &&
-    bl64_check_directory "$APLATFORM64_COLLECTIONS" &&
-    bl64_check_file "$APLATFORM64_VEW_LOADER" &&
-    bl64_check_file "$APLATFORM64_SECRETS" &&
-    bl64_check_command "$APLATFORM64_CMD_ANSIBLE_GALAXY"
+  bl64_check_directory "$DEVAP_BUILD_DEV" &&
+    bl64_check_directory "$DEVAP_BUILD_PROD" &&
+    bl64_check_directory "$DEVAP_COLLECTIONS" &&
+    bl64_check_file "$DEVAP_VEW_LOADER" &&
+    bl64_check_file "$DEVAP_SECRETS" &&
+    bl64_check_command "$DEVAP_CMD_ANSIBLE_GALAXY"
 
 }
 
@@ -110,7 +110,7 @@ function devap64_build_help() {
     '
   -t           : build testing packages
   -p           : build production packages
-  -u           : publish production packages (needs Galaxy token set in APLATFORM64_SECRET_GALAXY_TOKEN)
+  -u           : publish production packages (needs Galaxy token set in DEVAP_SECRET_GALAXY_TOKEN)
     ' '' '
   -c collection: limit actions to the specified collection.
     '
@@ -149,18 +149,18 @@ while getopts ':tpuc:h' devap64_build_option; do
 done
 [[ -z "$devap64_build_command" ]] && devap64_build_help && exit 1
 devap64_build_check || exit 1
-cd "$APLATFORM64_ROOT" || exit 1
+cd "$DEVAP_ROOT" || exit 1
 
 # Activate the Python virtual environment
 if [[ -z "$VIRTUALENVWRAPPER_ENV_BIN_DIR" ]]; then
-  bl64_msg_show_task "load Python virtual environment wrapper ($APLATFORM64_VEW_LOADER)"
+  bl64_msg_show_task "load Python virtual environment wrapper ($DEVAP_VEW_LOADER)"
   # shellcheck disable=SC1090
-  source "$APLATFORM64_VEW_LOADER"
+  source "$DEVAP_VEW_LOADER"
 fi
 
 if [[ -z "$VIRTUAL_ENV" ]]; then
-  bl64_msg_show_task "set Python virtual environment to: $APLATFORM64_VEW_WORKSPACE"
-  workon "$APLATFORM64_VEW_WORKSPACE"
+  bl64_msg_show_task "set Python virtual environment to: $DEVAP_VEW_WORKSPACE"
+  workon "$DEVAP_VEW_WORKSPACE"
 fi
 
 if [[ -z "$VIRTUAL_ENV" ]]; then

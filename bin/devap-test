@@ -8,7 +8,7 @@
 # Version: 1.0.0
 #######################################
 
-[[ -d "$APLATFORM64_BIN" ]] || {
+[[ -d "$DEVAP_BIN" ]] || {
   echo "Error: dev environment not set"
   exit 1
 }
@@ -16,7 +16,7 @@
 # shellcheck disable=SC2034
 BL64_LIB_STRICT='0'
 # shellcheck disable=SC1091
-source "${APLATFORM64_BIN}/bashlib64.bash"
+source "${DEVAP_BIN}/bashlib64.bash"
 
 function devap64_test_role_test() {
 
@@ -29,7 +29,7 @@ function devap64_test_role_test() {
 
   bl64_msg_show_task 'prepare test environment'
   # Set project path
-  APLATFORM64_TEST_ROLE_PATH="${APLATFORM64_COLLECTIONS}/${collection}/roles/${role}"
+  APLATFORM64_TEST_ROLE_PATH="${DEVAP_COLLECTIONS}/${collection}/roles/${role}"
   bl64_check_directory "$APLATFORM64_TEST_ROLE_PATH" && cd "$APLATFORM64_TEST_ROLE_PATH" || return 1
 
   # Enable debug mode
@@ -42,15 +42,15 @@ function devap64_test_role_test() {
   fi
 
   # Select hosts
-  APLATFORM64_TEST_PLATFORM="$group"
+  DEVAP_TEST_PLATFORM="$group"
 
   # Tune kernel for multiple containers
-  "$BL64_SUDO_CMD_SUDO" sysctl fs.inotify.max_user_instances="$APLATFORM64_SYSCTL_MAX_USER_INSTANCES"
+  "$BL64_SUDO_CMD_SUDO" sysctl fs.inotify.max_user_instances="$DEVAP_SYSCTL_MAX_USER_INSTANCES"
 
   # Select scenarios
   if [[ "$target" == 'all' ]]; then
     target="$(
-      cd "${APLATFORM64_COLLECTIONS}/${collection}/roles/${role}/molecule"
+      cd "${DEVAP_COLLECTIONS}/${collection}/roles/${role}/molecule"
       echo ${role}_*
     )"
   fi
@@ -59,7 +59,7 @@ function devap64_test_role_test() {
   bl64_msg_show_task 'run tests'
   for scenario in $target; do
     bl64_msg_show_task "run test: $scenario"
-    "$APLATFORM64_CMD_MOLECULE" $debug 'test' --scenario-name "$scenario"
+    "$DEVAP_CMD_MOLECULE" $debug 'test' --scenario-name "$scenario"
   done
 
 }
@@ -76,7 +76,7 @@ function devap64_test_role_converge() {
 
   bl64_msg_show_task 'prepare test environment'
   # Set project path
-  APLATFORM64_TEST_ROLE_PATH="${APLATFORM64_COLLECTIONS}/${collection}/roles/${role}"
+  APLATFORM64_TEST_ROLE_PATH="${DEVAP_COLLECTIONS}/${collection}/roles/${role}"
   bl64_check_directory "$APLATFORM64_TEST_ROLE_PATH" && cd "$APLATFORM64_TEST_ROLE_PATH" || return 1
 
   # Enable debug mode
@@ -89,16 +89,16 @@ function devap64_test_role_converge() {
   fi
 
   # Select target hosts
-  APLATFORM64_TEST_PLATFORM="$group"
+  DEVAP_TEST_PLATFORM="$group"
 
   # Tune kernel for multiple containers
-  "$BL64_SUDO_CMD_SUDO" sysctl fs.inotify.max_user_instances="$APLATFORM64_SYSCTL_MAX_USER_INSTANCES"
+  "$BL64_SUDO_CMD_SUDO" sysctl fs.inotify.max_user_instances="$DEVAP_SYSCTL_MAX_USER_INSTANCES"
 
   # Destroy the previous test
-  "$APLATFORM64_CMD_MOLECULE" 'destroy' --scenario-name "$target"
+  "$DEVAP_CMD_MOLECULE" 'destroy' --scenario-name "$target"
 
   bl64_msg_show_task 'run test'
-  "$APLATFORM64_CMD_MOLECULE" $debug 'converge' --scenario-name "$target"
+  "$DEVAP_CMD_MOLECULE" $debug 'converge' --scenario-name "$target"
 
 }
 
@@ -115,17 +115,17 @@ function devap64_test_role_login() {
   bl64_msg_show_task 'prepare test environment'
 
   # Set project path
-  APLATFORM64_TEST_ROLE_PATH="${APLATFORM64_COLLECTIONS}/${collection}/roles/${role}"
+  APLATFORM64_TEST_ROLE_PATH="${DEVAP_COLLECTIONS}/${collection}/roles/${role}"
   bl64_check_directory "$APLATFORM64_TEST_ROLE_PATH" && cd "$APLATFORM64_TEST_ROLE_PATH" || return 1
 
   # Select target hosts
-  APLATFORM64_TEST_PLATFORM="$group"
+  DEVAP_TEST_PLATFORM="$group"
 
   # Tune kernel for multiple containers
-  "$BL64_SUDO_CMD_SUDO" sysctl fs.inotify.max_user_instances="$APLATFORM64_SYSCTL_MAX_USER_INSTANCES"
+  "$BL64_SUDO_CMD_SUDO" sysctl fs.inotify.max_user_instances="$DEVAP_SYSCTL_MAX_USER_INSTANCES"
 
   bl64_msg_show_task 'login to the test container'
-  "$APLATFORM64_CMD_MOLECULE" 'login' --scenario-name "$target" --host "$group"
+  "$DEVAP_CMD_MOLECULE" 'login' --scenario-name "$target" --host "$group"
 
 }
 
@@ -134,20 +134,20 @@ function devap64_test_role_list() {
   local collection="$1"
   local role="$2"
 
-  local path="${APLATFORM64_COLLECTIONS}/${collection}/roles/${role}"
+  local path="${DEVAP_COLLECTIONS}/${collection}/roles/${role}"
 
   bl64_check_directory "$path" && cd "$path" || return 1
 
-  "$APLATFORM64_CMD_MOLECULE" 'list'
+  "$DEVAP_CMD_MOLECULE" 'list'
 
 }
 
 function devap64_test_check() {
 
-  bl64_check_directory "$APLATFORM64_COLLECTIONS" &&
-    bl64_check_command "$APLATFORM64_CMD_MOLECULE" &&
+  bl64_check_directory "$DEVAP_COLLECTIONS" &&
+    bl64_check_command "$DEVAP_CMD_MOLECULE" &&
     bl64_check_command "$BL64_SUDO_CMD_SUDO" &&
-    bl64_check_file "$APLATFORM64_VEW_LOADER"
+    bl64_check_file "$DEVAP_VEW_LOADER"
 
 }
 
@@ -176,7 +176,7 @@ function devap64_test_help() {
 #
 
 export APLATFORM64_TEST_ROLE_PATH=''
-export APLATFORM64_TEST_PLATFORM=''
+export DEVAP_TEST_PLATFORM=''
 export APLATFORM64_TEST_DEBUG='false'
 export APLATFORM64_TEST_VERBOSITY='0'
 
@@ -219,18 +219,18 @@ while getopts ':rvgldc:e:i:n:h' devap64_test_option; do
 done
 [[ -z "$devap64_test_command" ]] && devap64_test_help && exit 1
 devap64_test_check || exit 1
-cd "$APLATFORM64_ROOT" || exit 1
+cd "$DEVAP_ROOT" || exit 1
 
 # Activate the Python virtual environment
 if [[ -z "$VIRTUALENVWRAPPER_ENV_BIN_DIR" ]]; then
-  bl64_msg_show_task "load Python virtual environment wrapper ($APLATFORM64_VEW_LOADER)"
+  bl64_msg_show_task "load Python virtual environment wrapper ($DEVAP_VEW_LOADER)"
   # shellcheck disable=SC1090
-  source "$APLATFORM64_VEW_LOADER"
+  source "$DEVAP_VEW_LOADER"
 fi
 
 if [[ -z "$VIRTUAL_ENV" ]]; then
-  bl64_msg_show_task "set Python virtual environment to: $APLATFORM64_VEW_WORKSPACE"
-  workon "$APLATFORM64_VEW_WORKSPACE"
+  bl64_msg_show_task "set Python virtual environment to: $DEVAP_VEW_WORKSPACE"
+  workon "$DEVAP_VEW_WORKSPACE"
 fi
 
 if [[ -z "$VIRTUAL_ENV" ]]; then

@@ -5,7 +5,7 @@ dependency:
     ignore-errors: true
     role-file: "meta/requirements-dev.yml"
     requirements-file: "meta/requirements-dev.yml"
-    collections-path: ${APLATFORM64_CACHE_ANSIBLE}
+    collections-path: ${DEVAP_CACHE_ANSIBLE}
 driver:
   name: "podman"
 provisioner:
@@ -21,7 +21,7 @@ verifier:
 lint: |
   set -e
   yamllint --format colored ${APLATFORM64_TEST_ROLE_PATH}
-  ansible-lint -c ${APLATFORM64_ANSIBLE_LINT} --project-dir ${APLATFORM64_TEST_ROLE_PATH} --exclude molecule/
+  ansible-lint -c ${DEVAP_ANSIBLE_LINT} --project-dir ${APLATFORM64_TEST_ROLE_PATH} --exclude molecule/
 platforms:
   - name: "centos8"
     image: "ghcr.io/serdigital64/centos-8-ansible-node:0.1.0"

@@ -25,7 +25,7 @@ fi
 
 # Load Python Virtual Environment Wrapper functions
 # shellcheck disable=SC1090
-. "$APLATFORM64_VEW_LOADER"
+. "$DEVAP_VEW_LOADER"
 
 # Activate Python Virtual Environment
-workon "$APLATFORM64_VEW_WORKSPACE"
+workon "$DEVAP_VEW_WORKSPACE"
