@@ -19,10 +19,13 @@ db_mysql_client_os_family: "
   -%}
     {{ 'RedHat' }}
   {%- elif
-      ( ansible_distribution == 'Debian' ) or
       ( ansible_distribution == 'Ubuntu' )
   -%}
     {{ 'Ubuntu' }}
+  {%- elif
+      ( ansible_distribution == 'Debian' )
+  -%}
+    {{ 'Debian' }}
   {%- else -%}
     {{ 'Linux' }}
   {%- endif -%}
