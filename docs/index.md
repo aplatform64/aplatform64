@@ -70,11 +70,14 @@ The platform uses Ansible Roles to implement automation scripts. Roles are group
 | [backup](https://aplatform64.readthedocs.io/en/latest/collections/backup/)                 | Ansible Roles for automating backup tools provisioning            |
 | [cloud](https://aplatform64.readthedocs.io/en/latest/collections/cloud/)                   | Ansible Roles for automating cloud tools provisioning             |
 | [container](https://aplatform64.readthedocs.io/en/latest/collections/container/)           | Ansible Roles for automating container tools provisioning         |
+| [database](https://aplatform64.readthedocs.io/en/latest/collections/database/)             | Ansible Roles for automating database tools provisioning          |
 | [development](https://aplatform64.readthedocs.io/en/latest/collections/development/)       | Ansible Roles for automating development environment provisioning |
 | [devops](https://aplatform64.readthedocs.io/en/latest/collections/devops/)                 | Ansible Roles for automating devops tools provisioning            |
 | [hardware](https://aplatform64.readthedocs.io/en/latest/collections/hardware/)             | Ansible Roles for automating hardware drivers provisioning        |
 | [hypervisor](https://aplatform64.readthedocs.io/en/latest/collections/hypervisor/)         | Ansible Roles for automating hypervisor tools provisioning        |
 | [infrastructure](https://aplatform64.readthedocs.io/en/latest/collections/infrastructure/) | Ansible Roles for automating infrastructure tools provisioning    |
+| [monitor](https://aplatform64.readthedocs.io/en/latest/collections/monitor/)               | Ansible Roles for automating monitoring tools provisioning        |
+| [network](https://aplatform64.readthedocs.io/en/latest/collections/network/)               | Ansible Roles for automating network tools provisioning           |
 | [security](https://aplatform64.readthedocs.io/en/latest/collections/security/)             | Ansible Roles for automating security tools provisioning          |
 | [storage](https://aplatform64.readthedocs.io/en/latest/collections/storage/)               | Ansible Roles for automating storage management                   |
 | [system](https://aplatform64.readthedocs.io/en/latest/collections/system/)                 | Ansible Roles for automating operating system management          |
