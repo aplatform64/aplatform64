@@ -357,7 +357,7 @@ function aplatform64_Help() {
 export APLATFORM64_SCRIPT_PATH="${0%%/*}"
 
 export APLATFORM64_INSTALL_LOG='aplatform64-install.log'
-export APLATFORM64_MODULES='application automation backup database cloud container devops development'
+export APLATFORM64_MODULES='application automation backup cloud container database devops development'
 APLATFORM64_MODULES="$APLATFORM64_MODULES hardware hypervisor infrastructure monitor network security storage system web"
 
 export APLATFORM64_USR_CONTROL_NAME='sitectl'
