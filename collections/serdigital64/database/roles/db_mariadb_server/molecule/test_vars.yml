@@ -1,0 +1,9 @@
+---
+# Shared test variables
+# test_user: "test_db_mariadb_server"
+# test_group: "test_db_mariadb_server"
+# test_home: "/home/test_db_mariadb_server"
+# test_db_mariadb_server_setup_users:
+#   - user: "{{ test_user }}"
+#     home: "{{ test_home }}"
+...

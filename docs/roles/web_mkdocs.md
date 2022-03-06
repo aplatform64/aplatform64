@@ -1,6 +1,6 @@
 ---
 title: "Ansible Role: serdigital64.web.web_mkdocs"
-description: "Manage provisioning of the MkDocs application"
+description: "Manage provisioning of the MkDocs tool"
 authors:
   - SerDigital64
 tags:
@@ -14,7 +14,7 @@ tags:
 
 ## Purpose
 
-Manage provisioning of the MkDocs application.
+Manage provisioning of the MkDocs tool.
 
 Supported features in the current version:
 

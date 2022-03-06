@@ -1,0 +1,16 @@
+---
+- name: "Network / Bind / Initialize"
+  ansible.builtin.include_tasks:
+    file: "net_bind_initialize.yml"
+
+- name: "Network / Bind / Deploy"
+  ansible.builtin.include_tasks:
+    file: "net_bind_deploy.yml"
+  when:
+    - net_bind['deploy'] is defined
+    - net_bind['deploy']
+
+- name: "Network / Bind / Finalize"
+  ansible.builtin.include_tasks:
+    file: "net_bind_finalize.yml"
+...

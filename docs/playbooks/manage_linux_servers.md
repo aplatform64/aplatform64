@@ -27,6 +27,12 @@ Supported features in the current version:
 - Install fonts
 - Install and configure TUI-based tools
   - mc
+- Provision container engines
+  - docker
+  - podman
+- Configure OpenSSH
+  - client
+  - server
 
 ## Use Cases
 
@@ -58,22 +64,30 @@ Set playbook specific settings in the file: `inventories/<SITE>/group_vars/linux
 ```yaml
 linux_servers_component:
   autofs:
+  docker:
   fonts:
   mc:
+  openssh_client:
+  openssh_server:
+  podman:
   shell:
   sudo:
   users:
 ```
 
-| Parameter                      | Required? | Type       | Default | Purpose / Value                           |
-| ------------------------------ | --------- | ---------- | ------- | ----------------------------------------- |
-| linux_servers_component        | no        | dictionary |         | Define what applications will be deployed |
-| linux_servers_component.autofs | no        | boolean    | `false` | Enable components?                        |
-| linux_servers_component.fonts  | no        | boolean    | `true`  | Enable components?                        |
-| linux_servers_component.mc     | no        | boolean    | `true`  | Enable components?                        |
-| linux_servers_component.sudo   | no        | boolean    | `true`  | Enable components?                        |
-| linux_servers_component.shell  | no        | boolean    | `true`  | Enable components?                        |
-| linux_servers_component.users  | no        | boolean    | `true`  | Enable components?                        |
+| Parameter                              | Required? | Type       | Default | Purpose / Value                           |
+| -------------------------------------- | --------- | ---------- | ------- | ----------------------------------------- |
+| linux_servers_component                | no        | dictionary |         | Define what applications will be deployed |
+| linux_servers_component.autofs         | no        | boolean    | `false` | Enable components?                        |
+| linux_servers_component.docker         | no        | boolean    | `false` | Enable components?                        |
+| linux_servers_component.fonts          | no        | boolean    | `true`  | Enable components?                        |
+| linux_servers_component.mc             | no        | boolean    | `true`  | Enable components?                        |
+| linux_servers_component.openssh_client | no        | boolean    | `true`  | Enable components?                        |
+| linux_servers_component.openssh_server | no        | boolean    | `true`  | Enable components?                        |
+| linux_servers_component.podman         | no        | boolean    | `false` | Enable components?                        |
+| linux_servers_component.sudo           | no        | boolean    | `true`  | Enable components?                        |
+| linux_servers_component.shell          | no        | boolean    | `true`  | Enable components?                        |
+| linux_servers_component.users          | no        | boolean    | `true`  | Enable components?                        |
 
 Additional role specific settings are available to further customize the playbook:
 
@@ -104,6 +118,9 @@ Additional role specific settings are available to further customize the playboo
 Dependencies in this section are automatically solved during the installation process.
 
 - Ansible Collections:
+  - serdigital64.backup
+  - serdigital64.container
+  - serdigital64.security
   - serdigital64.system
   - serdigital64.storage
 

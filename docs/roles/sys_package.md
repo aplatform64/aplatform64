@@ -189,6 +189,7 @@ sys_package_profiles:
     - bkp_archive
   - serdigital64.system
     - sys_repository
+    - sys_user
 
 ### Prerequisites
 

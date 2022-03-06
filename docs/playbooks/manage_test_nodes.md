@@ -18,8 +18,13 @@ Provision software testing tools.
 
 Supported features in the current version:
 
-- Deploy unit testing tools:
+- Deploy testing tools:
   - Bats Core
+  - Molecule
+- Deploy code linting tools:
+  - YAMLLint
+  - AnsibleLint
+  - ShellCheck
 
 ## Use Cases
 
@@ -50,18 +55,26 @@ Set playbook specific settings in the file: `inventories/<SITE>/group_vars/test_
 
 ```yaml
 manage_test_nodes_apps:
+  ansiblelint:
   batscore:
+  molecule:
+  shellcheck:
+  yamllint:
 ```
 
-| Parameter                       | Required? | Type       | Default | Purpose / Value                           |
-| ------------------------------- | --------- | ---------- | ------- | ----------------------------------------- |
-| manage_test_nodes_apps          | no        | dictionary |         | Define what applications will be deployed |
-| manage_test_nodes_apps.batscore | no        | boolean    | true    | Deploy the application?                   |
+| Parameter                          | Required? | Type       | Default | Purpose / Value                           |
+| ---------------------------------- | --------- | ---------- | ------- | ----------------------------------------- |
+| manage_test_nodes_apps             | no        | dictionary |         | Define what applications will be deployed |
+| manage_test_nodes_apps.ansiblelint | no        | boolean    | `false` | Deploy the application?                   |
+| manage_test_nodes_apps.batscore    | no        | boolean    | `true`  | Deploy the application?                   |
+| manage_test_nodes_apps.molecule    | no        | boolean    | `false` | Deploy the application?                   |
+| manage_test_nodes_apps.shellcheck  | no        | boolean    | `true`  | Deploy the application?                   |
+| manage_test_nodes_apps.yamllint    | no        | boolean    | `true`  | Deploy the application?                   |
 
 Additional role specific settings are available to further customize the playbook:
 
-| A:Platform64 role                                                                | group_vars file                                                |
-| -------------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| A:Platform64 role                                                                | group_vars file                                               |
+| -------------------------------------------------------------------------------- | ------------------------------------------------------------- |
 | [serdigital64.system.sys_repository](../roles/sys_repository.md#role-parameters) | `inventories/<SITE>/group_vars/test_nodes/sys_repository.yml` |
 
 ## Deployment

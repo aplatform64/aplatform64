@@ -1,0 +1,10 @@
+---
+- name: "Container / Docker / Deploy / Package / Provision application"
+  vars:
+    sys_package:
+      provision: true
+    sys_package_application: "{{ cnt_docker_application }}"
+    sys_package_profiles: "{{ cnt_docker_profiles }}"
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_package"
+...

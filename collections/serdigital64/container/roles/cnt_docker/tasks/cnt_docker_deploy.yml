@@ -1,0 +1,19 @@
+---
+- name: "Container / Docker / Deploy / Check required parameters"
+  ansible.builtin.assert:
+    fail_msg: "Required end-state parameters are missing ({{ cnt_docker_application | default('cnt_docker_application') }})"
+    quiet: true
+    that:
+      - cnt_docker_application is defined
+      - cnt_docker_application | length > 0
+      - cnt_docker_application['name'] is defined
+      - cnt_docker_application['type'] is defined
+      - cnt_docker_application['version'] is defined
+      - cnt_docker_application['installed'] is defined
+
+- name: "Container / Docker / Deploy / Package"
+  ansible.builtin.include_tasks:
+    file: "cnt_docker_deploy_package.yml"
+  when:
+    - cnt_docker_application is defined
+...

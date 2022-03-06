@@ -1,0 +1,19 @@
+---
+- name: "DevOps / AnsibleLint / Deploy / Check required parameters"
+  ansible.builtin.assert:
+    fail_msg: "Required end-state parameters are missing ({{ dops_ansiblelint_application | default('dops_ansiblelint_application') }})"
+    quiet: true
+    that:
+      - dops_ansiblelint_application is defined
+      - dops_ansiblelint_application | length > 0
+      - dops_ansiblelint_application['name'] is defined
+      - dops_ansiblelint_application['type'] is defined
+      - dops_ansiblelint_application['version'] is defined
+      - dops_ansiblelint_application['installed'] is defined
+
+- name: "DevOps / AnsibleLint / Deploy / Package"
+  ansible.builtin.include_tasks:
+    file: "dops_ansiblelint_deploy_package.yml"
+  when:
+    - dops_ansiblelint_application is defined
+...

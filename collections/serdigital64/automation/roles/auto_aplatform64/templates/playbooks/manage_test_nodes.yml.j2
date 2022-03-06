@@ -3,5 +3,9 @@
 # A:Platform64 / Ansible playbook settings / Site: {{ auto_ansible_control_site }}
 #
 test_nodes_apps:
+  ansiblelint: false
   batscore: true
+  molecule: false
+  shellcheck: true
+  yamllint: true
 ...

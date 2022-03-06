@@ -2,7 +2,7 @@
 infra_terraform_repository_custom_yum: []
 infra_terraform_repository_custom_apt:
   - name: "hashicorp"
-    suite: "{{ ansible_facts['lsb']['codename'] }}"
+    suite: "{{ ansible_facts['distribution_release'] }}"
     component: "main"
     url: "https://apt.releases.hashicorp.com"
     pgpkey: "https://rpm.releases.hashicorp.com/gpg"

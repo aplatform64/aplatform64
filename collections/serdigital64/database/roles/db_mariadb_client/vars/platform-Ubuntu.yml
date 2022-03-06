@@ -1,0 +1,29 @@
+---
+# Define platform specific paths
+db_mariadb_client_base:
+  paths: "{{ db_mariadb_client_base_common['paths'] }}"
+  etc: "{{ db_mariadb_client_base_common['etc'] }}"
+  files: "{{ db_mariadb_client_base_common['files'] }}"
+  run: "{{ db_mariadb_client_base_common['run'] }}"
+  templates: "{{ db_mariadb_client_base_common['templates'] }}"
+  access: "{{ db_mariadb_client_base_common['access'] }}"
+
+# Define application package details
+db_mariadb_client_profiles:
+  snap: "{{ db_mariadb_client_profiles_common['snap'] }}"
+  flatpak: "{{ db_mariadb_client_profiles_common['flatpak'] }}"
+  distro:
+    latest:
+      supported: true
+      packages:
+        - name: "mariadb-client"
+
+# Define custom package repositories
+db_mariadb_client_repository_custom_yum: []
+db_mariadb_client_repository_custom_apt: []
+
+# Set package repositories states
+db_mariadb_client_repository_catalog_distro: {}
+db_mariadb_client_repository_catalog_yum: {}
+db_mariadb_client_repository_catalog_apt: {}
+...

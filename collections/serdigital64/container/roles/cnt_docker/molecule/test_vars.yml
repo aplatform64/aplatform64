@@ -1,0 +1,9 @@
+---
+# Shared test variables
+# test_user: "test_cnt_docker"
+# test_group: "test_cnt_docker"
+# test_home: "/home/test_cnt_docker"
+# test_cnt_docker_setup_users:
+#   - user: "{{ test_user }}"
+#     home: "{{ test_home }}"
+...

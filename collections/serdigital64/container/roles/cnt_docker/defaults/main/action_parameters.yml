@@ -1,0 +1,5 @@
+---
+cnt_docker:
+  resolve_prereq: false
+  deploy: false
+...

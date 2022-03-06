@@ -1,0 +1,14 @@
+---
+- name: "Web / HAProxy / Usage example"
+  hosts: "localhost"
+  gather_facts: true
+
+  tasks:
+    - name: "Example: install application"
+      vars:
+        web_haproxy:
+          resolve_prereq: true
+          deploy: true
+      ansible.builtin.include_role:
+        name: "serdigital64.web.web_haproxy"
+...

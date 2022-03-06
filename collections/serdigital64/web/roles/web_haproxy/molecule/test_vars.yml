@@ -1,0 +1,9 @@
+---
+# Shared test variables
+# test_user: "test_web_haproxy"
+# test_group: "test_web_haproxy"
+# test_home: "/home/test_web_haproxy"
+# test_web_haproxy_setup_users:
+#   - user: "{{ test_user }}"
+#     home: "{{ test_home }}"
+...

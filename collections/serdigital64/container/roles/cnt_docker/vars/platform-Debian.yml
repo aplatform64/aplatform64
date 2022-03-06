@@ -1,0 +1,38 @@
+---
+# Define platform specific paths
+cnt_docker_base:
+  paths: "{{ cnt_docker_base_common['paths'] }}"
+  etc: "{{ cnt_docker_base_common['etc'] }}"
+  files: "{{ cnt_docker_base_common['files'] }}"
+  run: "{{ cnt_docker_base_common['run'] }}"
+  templates: "{{ cnt_docker_base_common['templates'] }}"
+  access: "{{ cnt_docker_base_common['access'] }}"
+
+# Define application package details
+cnt_docker_profiles:
+  snap: "{{ cnt_docker_profiles_common['snap'] }}"
+  flatpak: "{{ cnt_docker_profiles_common['flatpak'] }}"
+  distro:
+    latest:
+      supported: true
+      origin: "docker"
+      packages:
+        - name: "docker-ce"
+        - name: "docker-ce-cli"
+        - name: "containerd.io"
+
+# Define custom package repositories
+cnt_docker_repository_custom_yum: []
+cnt_docker_repository_custom_apt:
+  - name: "docker"
+    suite: "{{ ansible_facts['distribution_release'] }}"
+    component: "stable"
+    url: "https://download.docker.com/linux/debian"
+    pgpkey: "https://download.docker.com/linux/debian/gpg"
+
+# Set package repositories states
+cnt_docker_repository_catalog_distro: {}
+cnt_docker_repository_catalog_yum: {}
+cnt_docker_repository_catalog_apt:
+  docker: true
+...

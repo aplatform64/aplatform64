@@ -1,0 +1,19 @@
+---
+namespace: "serdigital64"
+name: "database"
+version: "1.0.0"
+readme: "README.md"
+authors:
+  - "SerDigital64 <https://github.com/serdigital64>"
+description: "Ansible Roles for automating database tools provisioning."
+license:
+  - "GPL-3.0-or-later"
+tags:
+  - "database"
+dependencies:
+  serdigital64.core: "*"
+repository: "https://github.com/serdigital64/aplatform64"
+homepage: "https://github.com/serdigital64/aplatform64"
+issues: "https://github.com/serdigital64/aplatform64/issues"
+documentation: "https://aplatform64.readthedocs.io"
+...

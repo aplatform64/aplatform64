@@ -1,0 +1,5 @@
+---
+web_nginx:
+  resolve_prereq: false
+  deploy: false
+...

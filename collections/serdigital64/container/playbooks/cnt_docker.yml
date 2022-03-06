@@ -1,0 +1,14 @@
+---
+- name: "Container / Docker / Usage example"
+  hosts: "localhost"
+  gather_facts: true
+
+  tasks:
+    - name: "Example: Install tool"
+      vars:
+        cnt_docker:
+          resolve_prereq: true
+          deploy: true
+      ansible.builtin.include_role:
+        name: "serdigital64.container.cnt_docker"
+...

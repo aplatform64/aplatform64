@@ -1,0 +1,35 @@
+---
+- name: "DevOps / Molecule / Prerequisite / Prepare package managers"
+  vars:
+    sys_repository:
+      prepare: true
+      deploy: true
+      setup: true
+      provision: true
+    sys_repository_managers:
+      flatpak: "{{ dops_molecule_application['type'] == 'flatpak' }}"
+      snap: "{{ dops_molecule_application['type'] == 'snap' }}"
+      git: "{{ dops_molecule_application['type'] == 'git' }}"
+      pip: "{{ dops_molecule_application['type'] == 'pip' }}"
+    sys_repository_catalog_distro: "{{ dops_molecule_repository_catalog_distro }}"
+    sys_repository_catalog_yum: "{{ dops_molecule_repository_catalog_yum }}"
+    sys_repository_catalog_apt: "{{ dops_molecule_repository_catalog_apt }}"
+    sys_repository_custom_yum: "{{ dops_molecule_repository_custom_yum }}"
+    sys_repository_custom_apt: "{{ dops_molecule_repository_custom_apt }}"
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_repository"
+
+- name: "DevOps / Molecule / Prerequisite / Prepare archive manager"
+  vars:
+    bkp_archive:
+      deploy: true
+  ansible.builtin.include_role:
+    name: "serdigital64.backup.bkp_archive"
+
+- name: "DevOps / Molecule / Prerequisite / Prepare package installer"
+  vars:
+    sys_package:
+      prepare: true
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_package"
+...
