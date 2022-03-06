@@ -1,0 +1,8 @@
+---
+- name: "Side Efect"
+  hosts: "{{ lookup('env', 'DEVAP_TEST_PLATFORM') | default('all') }}"
+  gather_facts: false
+  tasks:
+
+    - meta: noop
+...
