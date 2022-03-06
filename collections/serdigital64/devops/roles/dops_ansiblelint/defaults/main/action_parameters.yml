@@ -1,0 +1,5 @@
+---
+dops_ansiblelint:
+  resolve_prereq: false
+  deploy: false
+...
