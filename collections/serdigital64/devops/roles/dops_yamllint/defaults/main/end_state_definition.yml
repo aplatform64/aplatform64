@@ -1,0 +1,16 @@
+---
+dops_yamllint_application:
+  name: "yamllint"
+  type: "pip"
+  version: "latest"
+  installed: true
+
+dops_yamllint_paths:
+  root: "/opt/yamllint"
+
+dops_yamllint_owners:
+  app:
+    name: "yamllint"
+    group: "yamllint"
+    home: "/home/yamllint"
+...

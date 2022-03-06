@@ -1,0 +1,29 @@
+---
+- name: "DevOps / YAMLLint / Initialize / Check Platform compatibility"
+  ansible.builtin.assert:
+    quiet: true
+    fail_msg: "Target Platform not supported: {{ ansible_distribution + ansible_distribution_major_version }}"
+    that:
+      - ansible_distribution + ansible_distribution_major_version in dops_yamllint_platforms
+
+- name: "DevOps / YAMLLint / Initialize / Check required parameters"
+  ansible.builtin.assert:
+    quiet: true
+    fail_msg: "required parameters are missing ({{
+      dops_yamllint_paths | default('dops_yamllint_paths') }} / {{
+      dops_yamllint_owners | default('dops_yamllint_owners') }})"
+    that:
+      - dops_yamllint_paths is defined
+      - dops_yamllint_owners is defined
+
+- name: "DevOps / YAMLLint / Initialize / Set Platform specific variables"
+  ansible.builtin.include_vars:
+    file: "{{ 'platform-' + dops_yamllint_os_family + '.yml' }}"
+
+- name: "DevOps / YAMLLint / Initialize / Resolve prerequisites"
+  ansible.builtin.include_tasks:
+    file: "dops_yamllint_prerequisite.yml"
+  when:
+    - dops_yamllint['resolve_prereq'] is defined
+    - dops_yamllint['resolve_prereq']
+...

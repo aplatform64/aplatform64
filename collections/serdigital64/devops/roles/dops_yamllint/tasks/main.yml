@@ -1,0 +1,16 @@
+---
+- name: "DevOps / YAMLLint / Initialize"
+  ansible.builtin.include_tasks:
+    file: "dops_yamllint_initialize.yml"
+
+- name: "DevOps / YAMLLint / Deploy"
+  ansible.builtin.include_tasks:
+    file: "dops_yamllint_deploy.yml"
+  when:
+    - dops_yamllint['deploy'] is defined
+    - dops_yamllint['deploy']
+
+- name: "DevOps / YAMLLint / Finalize"
+  ansible.builtin.include_tasks:
+    file: "dops_yamllint_finalize.yml"
+...
