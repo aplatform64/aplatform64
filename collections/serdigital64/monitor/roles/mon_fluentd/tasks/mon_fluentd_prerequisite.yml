@@ -1,0 +1,35 @@
+---
+- name: "Monitor / Fluentd / Prerequisite / Prepare package managers"
+  vars:
+    sys_repository:
+      prepare: true
+      deploy: true
+      setup: true
+      provision: true
+    sys_repository_managers:
+      flatpak: "{{ mon_fluentd_application['type'] == 'flatpak' }}"
+      snap: "{{ mon_fluentd_application['type'] == 'snap' }}"
+      git: "{{ mon_fluentd_application['type'] == 'git' }}"
+      pip: "{{ mon_fluentd_application['type'] == 'pip' }}"
+    sys_repository_catalog_distro: "{{ mon_fluentd_repository_catalog_distro }}"
+    sys_repository_catalog_yum: "{{ mon_fluentd_repository_catalog_yum }}"
+    sys_repository_catalog_apt: "{{ mon_fluentd_repository_catalog_apt }}"
+    sys_repository_custom_yum: "{{ mon_fluentd_repository_custom_yum }}"
+    sys_repository_custom_apt: "{{ mon_fluentd_repository_custom_apt }}"
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_repository"
+
+- name: "Monitor / Fluentd / Prerequisite / Prepare archive manager"
+  vars:
+    bkp_archive:
+      deploy: true
+  ansible.builtin.include_role:
+    name: "serdigital64.backup.bkp_archive"
+
+- name: "Monitor / Fluentd / Prerequisite / Prepare package installer"
+  vars:
+    sys_package:
+      prepare: true
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_package"
+...

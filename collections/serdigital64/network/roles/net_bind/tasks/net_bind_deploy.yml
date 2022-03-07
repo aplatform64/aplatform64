@@ -1,0 +1,19 @@
+---
+- name: "Network / Bind / Deploy / Check required parameters"
+  ansible.builtin.assert:
+    fail_msg: "Required end-state parameters are missing ({{ net_bind_application | default('net_bind_application') }})"
+    quiet: true
+    that:
+      - net_bind_application is defined
+      - net_bind_application | length > 0
+      - net_bind_application['name'] is defined
+      - net_bind_application['type'] is defined
+      - net_bind_application['version'] is defined
+      - net_bind_application['installed'] is defined
+
+- name: "Network / Bind / Deploy / Package"
+  ansible.builtin.include_tasks:
+    file: "net_bind_deploy_package.yml"
+  when:
+    - net_bind_application is defined
+...

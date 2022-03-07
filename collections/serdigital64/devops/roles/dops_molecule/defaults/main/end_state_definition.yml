@@ -1,0 +1,16 @@
+---
+dops_molecule_application:
+  name: "molecule"
+  type: "pip"
+  version: "latest"
+  installed: true
+
+dops_molecule_paths:
+  root: "/opt/molecule"
+
+dops_molecule_owners:
+  app:
+    name: "molecule"
+    group: "molecule"
+    home: "/home/molecule"
+...

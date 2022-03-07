@@ -1,0 +1,16 @@
+---
+- name: "Web / NGINX / Initialize"
+  ansible.builtin.include_tasks:
+    file: "web_nginx_initialize.yml"
+
+- name: "Web / NGINX / Deploy"
+  ansible.builtin.include_tasks:
+    file: "web_nginx_deploy.yml"
+  when:
+    - web_nginx['deploy'] is defined
+    - web_nginx['deploy']
+
+- name: "Web / NGINX / Finalize"
+  ansible.builtin.include_tasks:
+    file: "web_nginx_finalize.yml"
+...

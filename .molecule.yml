@@ -5,44 +5,45 @@ dependency:
     ignore-errors: true
     role-file: "meta/requirements-dev.yml"
     requirements-file: "meta/requirements-dev.yml"
-    collections-path: ${APLATFORM64_CACHE_ANSIBLE}
+    collections-path: ${DEVAP_CACHE_ANSIBLE}
 driver:
   name: "podman"
 provisioner:
   name: "ansible"
   options:
-      vvv: ${APLATFORM64_TEST_DEBUG}
+      vvv: ${DEVAP_TEST_DEBUG}
   config_options:
       defaults:
-        display_args_to_stdout: ${APLATFORM64_TEST_DEBUG}
-        verbosity: ${APLATFORM64_TEST_VERBOSITY}
+        display_args_to_stdout: ${DEVAP_TEST_DEBUG}
+        verbosity: ${DEVAP_TEST_VERBOSITY}
 verifier:
   name: "ansible"
 lint: |
   set -e
-  yamllint --format colored ${APLATFORM64_TEST_ROLE_PATH}
-  ansible-lint -c ${APLATFORM64_ANSIBLE_LINT} --project-dir ${APLATFORM64_TEST_ROLE_PATH} --exclude molecule/
+  yamllint --format colored ${DEVAP_TEST_ROLE_PATH}
+  ansible-lint -c ${DEVAP_ANSIBLE_LINT} --project-dir ${DEVAP_TEST_ROLE_PATH} --exclude molecule/
 platforms:
-  - name: "centos8"
-    image: "ghcr.io/serdigital64/centos-8-ansible-node:0.1.0"
-    pre_build_image: true
-    groups:
-      - "centos"
-      - "centos-systemd"
-      - "redhat"
-      - "redhat-systemd"
-      - "rhel"
-      - "rhel-systemd"
-      - "linux"
-      - "linux-systemd"
-    tmpfs:
-      - "/run"
-      - "/tmp"
-    volumes:
-      - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
-    capabilities:
-      - "SYS_ADMIN"
-    command: "/lib/systemd/systemd"
+  # TODO: define repo update strategy (product EOL)
+  # - name: "centos8"
+  #   image: "ghcr.io/serdigital64/centos-8-ansible-node:0.1.0"
+  #   pre_build_image: true
+  #   groups:
+  #     - "centos"
+  #     - "centos-systemd"
+  #     - "redhat"
+  #     - "redhat-systemd"
+  #     - "rhel"
+  #     - "rhel-systemd"
+  #     - "linux"
+  #     - "linux-systemd"
+  #   tmpfs:
+  #     - "/run"
+  #     - "/tmp"
+  #   volumes:
+  #     - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
+  #   capabilities:
+  #     - "SYS_ADMIN"
+  #   command: "/lib/systemd/systemd"
   - name: "oraclelinux8"
     image: "ghcr.io/serdigital64/oraclelinux-8-ansible-node:0.1.0"
     pre_build_image: true

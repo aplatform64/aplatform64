@@ -1,6 +1,6 @@
 ---
 - name: "Converge"
-  hosts: "{{ lookup('env', 'APLATFORM64_TEST_PLATFORM') | default('all') }}"
+  hosts: "{{ lookup('env', 'DEVAP_TEST_PLATFORM') | default('all') }}"
   gather_facts: false
   tasks:
 

@@ -1,0 +1,19 @@
+---
+- name: "Database / PostgreSQL / Server / Deploy / Check required parameters"
+  ansible.builtin.assert:
+    fail_msg: "Required end-state parameters are missing ({{ db_postgresql_server_application | default('db_postgresql_server_application') }})"
+    quiet: true
+    that:
+      - db_postgresql_server_application is defined
+      - db_postgresql_server_application | length > 0
+      - db_postgresql_server_application['name'] is defined
+      - db_postgresql_server_application['type'] is defined
+      - db_postgresql_server_application['version'] is defined
+      - db_postgresql_server_application['installed'] is defined
+
+- name: "Database / PostgreSQL / Server / Deploy / Package"
+  ansible.builtin.include_tasks:
+    file: "db_postgresql_server_deploy_package.yml"
+  when:
+    - db_postgresql_server_application is defined
+...

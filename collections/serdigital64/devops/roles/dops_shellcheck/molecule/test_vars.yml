@@ -1,0 +1,9 @@
+---
+# Shared test variables
+# test_user: "test_dops_shellcheck"
+# test_group: "test_dops_shellcheck"
+# test_home: "/home/test_dops_shellcheck"
+# test_dops_shellcheck_setup_users:
+#   - user: "{{ test_user }}"
+#     home: "{{ test_home }}"
+...

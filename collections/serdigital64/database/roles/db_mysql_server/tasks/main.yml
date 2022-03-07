@@ -1,0 +1,16 @@
+---
+- name: "Database / MySQL / Server / Initialize"
+  ansible.builtin.include_tasks:
+    file: "db_mysql_server_initialize.yml"
+
+- name: "Database / MySQL / Server / Deploy"
+  ansible.builtin.include_tasks:
+    file: "db_mysql_server_deploy.yml"
+  when:
+    - db_mysql_server['deploy'] is defined
+    - db_mysql_server['deploy']
+
+- name: "Database / MySQL / Server / Finalize"
+  ansible.builtin.include_tasks:
+    file: "db_mysql_server_finalize.yml"
+...

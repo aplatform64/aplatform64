@@ -1,0 +1,16 @@
+---
+- name: "Database / MySQL / Client / Initialize"
+  ansible.builtin.include_tasks:
+    file: "db_mysql_client_initialize.yml"
+
+- name: "Database / MySQL / Client / Deploy"
+  ansible.builtin.include_tasks:
+    file: "db_mysql_client_deploy.yml"
+  when:
+    - db_mysql_client['deploy'] is defined
+    - db_mysql_client['deploy']
+
+- name: "Database / MySQL / Client / Finalize"
+  ansible.builtin.include_tasks:
+    file: "db_mysql_client_finalize.yml"
+...

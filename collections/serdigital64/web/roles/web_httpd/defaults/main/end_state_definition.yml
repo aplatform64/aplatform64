@@ -1,0 +1,7 @@
+---
+web_httpd_application:
+  name: "httpd"
+  type: "distro"
+  version: "latest"
+  installed: true
+...

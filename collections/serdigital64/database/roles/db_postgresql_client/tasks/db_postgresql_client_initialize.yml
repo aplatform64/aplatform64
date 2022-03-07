@@ -1,0 +1,19 @@
+---
+- name: "Database / PostgreSQL / Client / Initialize / Check Platform compatibility"
+  ansible.builtin.assert:
+    quiet: true
+    fail_msg: "Target Platform not supported: {{ ansible_distribution + ansible_distribution_major_version }}"
+    that:
+      - ansible_distribution + ansible_distribution_major_version in db_postgresql_client_platforms
+
+- name: "Database / PostgreSQL / Client / Initialize / Set Platform specific variables"
+  ansible.builtin.include_vars:
+    file: "{{ 'platform-' + db_postgresql_client_os_family + '.yml' }}"
+
+- name: "Database / PostgreSQL / Client / Initialize / Resolve prerequisites"
+  ansible.builtin.include_tasks:
+    file: "db_postgresql_client_prerequisite.yml"
+  when:
+    - db_postgresql_client['resolve_prereq'] is defined
+    - db_postgresql_client['resolve_prereq']
+...

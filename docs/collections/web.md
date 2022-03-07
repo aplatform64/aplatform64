@@ -8,9 +8,12 @@ This collection is part of the [A:Platform64](https://github.com/serdigital64/ap
 
 ## Content
 
-| role                                                                        | purpose                                       |
-| --------------------------------------------------------------------------- | --------------------------------------------- |
-| [web_mkdocs](https://aplatform64.readthedocs.io/en/latest/roles/web_mkdocs) | Manage provisioning of the MkDocs application |
+| role                                                                          | purpose                                |
+| ----------------------------------------------------------------------------- | -------------------------------------- |
+| [web_haproxy](https://aplatform64.readthedocs.io/en/latest/roles/web_haproxy) | Manage provisioning of HAProxy         |
+| [web_httpd](https://aplatform64.readthedocs.io/en/latest/roles/web_httpd)     | Manage provisioning of Apache HTTPD    |
+| [web_mkdocs](https://aplatform64.readthedocs.io/en/latest/roles/web_mkdocs)   | Manage provisioning of the MkDocs tool |
+| [web_nginx](https://aplatform64.readthedocs.io/en/latest/roles/web_nginx)     | Manage provisioning of NGINX           |
 
 ## Deployment
 

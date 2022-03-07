@@ -1,0 +1,5 @@
+---
+db_postgresql_server:
+  resolve_prereq: false
+  deploy: false
+...

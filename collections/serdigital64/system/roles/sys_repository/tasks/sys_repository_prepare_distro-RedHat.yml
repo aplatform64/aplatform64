@@ -2,6 +2,7 @@
 - name: "System / Repository / Prepare / Distro / Update repository cache (distro: {{ sys_repository_os_family }})"
   become: true
   no_log: true
+  failed_when: false
   ansible.builtin.command:
     argv:
       - "{{ sys_repository_base['run']['dnf'] }}"

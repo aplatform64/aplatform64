@@ -1,0 +1,16 @@
+---
+- name: "DevOps / Molecule / Initialize"
+  ansible.builtin.include_tasks:
+    file: "dops_molecule_initialize.yml"
+
+- name: "DevOps / Molecule / Deploy"
+  ansible.builtin.include_tasks:
+    file: "dops_molecule_deploy.yml"
+  when:
+    - dops_molecule['deploy'] is defined
+    - dops_molecule['deploy']
+
+- name: "DevOps / Molecule / Finalize"
+  ansible.builtin.include_tasks:
+    file: "dops_molecule_finalize.yml"
+...

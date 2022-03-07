@@ -1,0 +1,7 @@
+---
+cnt_docker_application:
+  name: "docker"
+  type: "distro"
+  version: "latest"
+  installed: true
+...

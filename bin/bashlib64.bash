@@ -5,9 +5,10 @@
 # Author: serdigital64 (https://github.com/serdigital64)
 # License: GPL-3.0-or-later (https://www.gnu.org/licenses/gpl-3.0.txt)
 # Repository: https://github.com/serdigital64/bashlib64
-# Version: 1.12.0
+# Version: 1.14.0
 #######################################
 
+# Enable library and app tracing
 [[ -n "$BL64_LIB_DEBUG" && "$BL64_LIB_DEBUG" == '1' ]] && set -x
 
 readonly BL64_ARC_ERROR_MISSING_PARAMETER=200
@@ -141,6 +142,23 @@ readonly BL64_PKG_ALIAS_DNF_INSTALL="$BL64_PKG_CMD_DNF --color=never --nodocs --
 readonly BL64_PKG_ALIAS_DNF_CLEAN="$BL64_PKG_CMD_DNF clean all"
 readonly BL64_PKG_ALIAS_APK_INSTALL="$BL64_PKG_CMD_APK add --verbose"
 readonly BL64_PKG_ALIAS_APK_UPDATE="$BL64_PKG_CMD_APK update"
+
+readonly BL64_RND_LENGTH_1=1
+readonly BL64_RND_LENGTH_20=20
+readonly BL64_RND_LENGTH_100=100
+readonly BL64_RND_RANDOM_MIN=0
+readonly BL64_RND_RANDOM_MAX=32767
+
+readonly BL64_RND_POOL_UPPERCASE="$(printf '%b' $(printf '\\%o' {65..90}))"
+readonly BL64_RND_POOL_LOWERCASE="$(printf '%b' $(printf '\\%o' {97..122}))"
+readonly BL64_RND_POOL_DIGITS="$(printf '%b' $(printf '\\%o' {48..57}))"
+readonly BL64_RND_POOL_ALPHANUMERIC="${BL64_RND_POOL_UPPERCASE}${BL64_RND_POOL_LOWERCASE}${BL64_RND_POOL_DIGITS}"
+
+readonly BL64_RND_ERROR_MIN=1
+readonly BL64_RND_ERROR_MAX=2
+
+readonly _BL64_RND_TXT_LENGHT_MIN='length can not be less than'
+readonly _BL64_RND_TXT_LENGHT_MAX='length can not be greater than'
 
 readonly BL64_SUDO_CMD_SUDO='/usr/bin/sudo'
 readonly BL64_SUDO_CMD_VISUDO='/usr/sbin/visudo'
@@ -857,6 +875,50 @@ function bl64_pkg_cleanup() {
   esac
 }
 
+function bl64_rnd_get_range() {
+  local min="${1:-$BL64_RND_RANDOM_MIN}"
+  local max="${2:-$BL64_RND_RANDOM_MAX}"
+  local modulo=0
+
+  (( min < BL64_RND_RANDOM_MIN )) && bl64_msg_show_error "$_BL64_RND_TXT_LENGHT_MIN $BL64_RND_RANDOM_MIN" && return $BL64_RND_ERROR_MIN
+  (( max > BL64_RND_RANDOM_MAX )) && bl64_msg_show_error "$_BL64_RND_TXT_LENGHT_MAX $BL64_RND_RANDOM_MAX" && return $BL64_RND_ERROR_MAX
+
+  modulo=$(( max - min + 1))
+
+  printf '%s' "$(( min + (RANDOM % modulo) ))"
+}
+
+function bl64_rnd_get_numeric() {
+  local length="${1:-$BL64_RND_LENGTH_1}"
+  local seed=''
+
+  (( length < BL64_RND_LENGTH_1 )) && bl64_msg_show_error "$_BL64_RND_TXT_LENGHT_MIN $BL64_RND_LENGTH_1" && return $BL64_RND_ERROR_MIN
+  (( length > BL64_RND_LENGTH_20 )) && bl64_msg_show_error "$_BL64_RND_TXT_LENGHT_MAX $BL64_RND_LENGTH_20" && return $BL64_RND_ERROR_MAX
+
+  seed="${RANDOM}${RANDOM}${RANDOM}${RANDOM}${RANDOM}"
+  printf '%s' "${seed:0:$length}"
+}
+
+function bl64_rnd_get_alphanumeric() {
+  local length="${1:-BL64_RND_LENGTH_1}"
+  local output=''
+  local item=''
+  local index=0
+  local count=0
+
+  (( length < BL64_RND_LENGTH_1 )) && bl64_msg_show_error "$_BL64_RND_TXT_LENGHT_MIN $BL64_RND_LENGTH_1" && return $BL64_RND_ERROR_MIN
+  (( length > BL64_RND_LENGTH_100 )) && bl64_msg_show_error "$_BL64_RND_TXT_LENGHT_MAX $BL64_RND_LENGTH_100" && return $BL64_RND_ERROR_MAX
+
+  while (( count < length )); do
+    index=$( bl64_rnd_get_range '0' "${#BL64_RND_POOL_ALPHANUMERIC}" )
+    item="$( printf '%s' "${BL64_RND_POOL_ALPHANUMERIC:$index:1}" )"
+    output="${output}${item}"
+    (( count++ ))
+  done
+
+  printf '%s' "$output"
+}
+
 function bl64_sudo_add_root() {
   local user="$1"
   local status=$BL64_SUDO_ERROR_UPDATE_FAILED
@@ -917,6 +979,13 @@ function bl64_sudo_set_alias() {
   BL64_SUDO_ALIAS_SUDO_ENV="$BL64_SUDO_CMD_SUDO --preserve-env --set-home"
 }
 
+function bl64_txt_search_line() {
+  local source="${1:--}"
+  local line="$2"
+
+  "$BL64_OS_CMD_GREP" -E "^${line}$" "$source" > /dev/null
+}
+
 function bl64_vcs_git_clone() {
   local source="${1}"
   local destination="${2}"
@@ -943,8 +1012,14 @@ export LC_ALL
 export LANGUAGE
 
 export BL64_LIB_CMD="${BL64_LIB_CMD:-0}"
+
 export BL64_LIB_DEBUG="${BL64_LIB_DEBUG:-0}"
+readonly BL64_LIB_DEBUG_NONE='0'
+readonly BL64_LIB_DEBUG_LIB='1'
+readonly BL64_LIB_DEBUG_APP='2'
+
 export BL64_LIB_STRICT="${BL64_LIB_STRICT:-1}"
+
 export BL64_LIB_LANG="${BL64_LIB_LANG:-1}"
 
 export BL64_LIB_SIGNAL_HUP="${BL64_LIB_SIGNAL_HUP:--}"
@@ -953,10 +1028,16 @@ export BL64_LIB_SIGNAL_QUIT="${BL64_LIB_SIGNAL_QUIT:--}"
 
 export BL64_SCRIPT_NAME="${BL64_SCRIPT_NAME:-${0##*/}}"
 
+export BL64_SCRIPT_PATH="${BL64_SCRIPT_PATH:-${BASH_SOURCE[0]%/*}}/"
+
 export BL64_SCRIPT_SID="${BASHPID}"
 
 readonly BL64_LIB_VAR_NULL='__s64__'
 readonly BL64_LIB_VAR_TBD='TBD'
+readonly BL64_LIB_VAR_ON='1'
+readonly BL64_LIB_VAR_OFF='0'
+readonly BL64_LIB_VAR_TRUE='0'
+readonly BL64_LIB_VAR_FALSE='1'
 
 
 set -o pipefail
@@ -993,7 +1074,9 @@ else
   bl64_os_set_alias
   bl64_sudo_set_alias
 
-  if [[ "$BL64_LIB_CMD" = '1' ]]; then
+  [[ -n "$BL64_LIB_DEBUG" && "$BL64_LIB_DEBUG" == "$BL64_LIB_DEBUG_APP" ]] && set -x
+
+  if [[ "$BL64_LIB_CMD" == "$BL64_LIB_VAR_ON" ]]; then
     "$@"
   else
     :

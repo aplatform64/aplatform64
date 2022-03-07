@@ -1,0 +1,35 @@
+---
+- name: "Database / MySQL / Server / Prerequisite / Prepare package managers"
+  vars:
+    sys_repository:
+      prepare: true
+      deploy: true
+      setup: true
+      provision: true
+    sys_repository_managers:
+      flatpak: "{{ db_mysql_server_application['type'] == 'flatpak' }}"
+      snap: "{{ db_mysql_server_application['type'] == 'snap' }}"
+      git: "{{ db_mysql_server_application['type'] == 'git' }}"
+      pip: "{{ db_mysql_server_application['type'] == 'pip' }}"
+    sys_repository_catalog_distro: "{{ db_mysql_server_repository_catalog_distro }}"
+    sys_repository_catalog_yum: "{{ db_mysql_server_repository_catalog_yum }}"
+    sys_repository_catalog_apt: "{{ db_mysql_server_repository_catalog_apt }}"
+    sys_repository_custom_yum: "{{ db_mysql_server_repository_custom_yum }}"
+    sys_repository_custom_apt: "{{ db_mysql_server_repository_custom_apt }}"
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_repository"
+
+- name: "Database / MySQL / Server / Prerequisite / Prepare archive manager"
+  vars:
+    bkp_archive:
+      deploy: true
+  ansible.builtin.include_role:
+    name: "serdigital64.backup.bkp_archive"
+
+- name: "Database / MySQL / Server / Prerequisite / Prepare package installer"
+  vars:
+    sys_package:
+      prepare: true
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_package"
+...

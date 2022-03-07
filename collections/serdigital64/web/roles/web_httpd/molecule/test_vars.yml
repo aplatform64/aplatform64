@@ -1,0 +1,9 @@
+---
+# Shared test variables
+# test_user: "test_web_httpd"
+# test_group: "test_web_httpd"
+# test_home: "/home/test_web_httpd"
+# test_web_httpd_setup_users:
+#   - user: "{{ test_user }}"
+#     home: "{{ test_home }}"
+...

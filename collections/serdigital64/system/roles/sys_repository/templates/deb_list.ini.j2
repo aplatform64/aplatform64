@@ -1,4 +1,4 @@
-# sys_repository_alert_ansible_managed_file
+# {{ sys_repository_alert_ansible_managed_file }}
 
 deb {%if 'gpgkey' in sys_repository___provision_repo_apt %}[signed-by={{
     sys_repository_base['etc']['keyrings'] + '/' +

@@ -1,0 +1,5 @@
+---
+db_mariadb_server:
+  resolve_prereq: false
+  deploy: false
+...

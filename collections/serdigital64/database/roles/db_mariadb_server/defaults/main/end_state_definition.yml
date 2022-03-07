@@ -1,0 +1,7 @@
+---
+db_mariadb_server_application:
+  name: "mariadb_server"
+  type: "distro"
+  version: "latest"
+  installed: true
+...

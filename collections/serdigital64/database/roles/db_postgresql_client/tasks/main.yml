@@ -1,0 +1,16 @@
+---
+- name: "Database / PostgreSQL / Client / Initialize"
+  ansible.builtin.include_tasks:
+    file: "db_postgresql_client_initialize.yml"
+
+- name: "Database / PostgreSQL / Client / Deploy"
+  ansible.builtin.include_tasks:
+    file: "db_postgresql_client_deploy.yml"
+  when:
+    - db_postgresql_client['deploy'] is defined
+    - db_postgresql_client['deploy']
+
+- name: "Database / PostgreSQL / Client / Finalize"
+  ansible.builtin.include_tasks:
+    file: "db_postgresql_client_finalize.yml"
+...

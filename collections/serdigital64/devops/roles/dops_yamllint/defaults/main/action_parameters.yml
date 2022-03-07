@@ -1,0 +1,5 @@
+---
+dops_yamllint:
+  resolve_prereq: false
+  deploy: false
+...

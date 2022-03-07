@@ -1,0 +1,29 @@
+---
+# Define platform specific paths
+web_nginx_base:
+  paths: "{{ web_nginx_base_common['paths'] }}"
+  etc: "{{ web_nginx_base_common['etc'] }}"
+  files: "{{ web_nginx_base_common['files'] }}"
+  run: "{{ web_nginx_base_common['run'] }}"
+  templates: "{{ web_nginx_base_common['templates'] }}"
+  access: "{{ web_nginx_base_common['access'] }}"
+
+# Define application package details
+web_nginx_profiles:
+  snap: "{{ web_nginx_profiles_common['snap'] }}"
+  flatpak: "{{ web_nginx_profiles_common['flatpak'] }}"
+  distro:
+    latest:
+      supported: true
+      packages:
+        - name: "nginx"
+
+# Define custom package repositories
+web_nginx_repository_custom_yum: []
+web_nginx_repository_custom_apt: []
+
+# Set package repositories states
+web_nginx_repository_catalog_distro: {}
+web_nginx_repository_catalog_yum: {}
+web_nginx_repository_catalog_apt: {}
+...

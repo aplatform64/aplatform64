@@ -1,0 +1,1 @@
+../../../../../docs/roles/db_postgresql_client.md

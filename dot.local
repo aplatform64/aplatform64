@@ -8,5 +8,24 @@
 #
 
 # Project base location. Adjust to your local GIT repo
-APLATFORM64_ROOT="${HOME}/git/aplatform64"
-export APLATFORM64_ROOT
+DEVAP_ROOT="${HOME}/github/aplatform64"
+export DEVAP_ROOT
+
+# Python / OS provided python
+DEVAP_PYTHON_SYSTEM='/usr/bin/python3.9'
+export DEVAP_PYTHON_SYSTEM
+
+# Virtual Environment Wrapper / Loader
+DEVAP_VEW_LOADER='/usr/local/bin/virtualenvwrapper.sh'
+export DEVAP_VEW_LOADER
+
+# Virtual Environment Wrapper / Home
+DEVAP_VEW_HOME="$HOME/.virtualenvs"
+export DEVAP_VEW_HOME
+
+# DevAP64-Build / Kernel settings
+DEVAP_SYSCTL_MAX_USER_INSTANCES='1024'
+export DEVAP_SYSCTL_MAX_USER_INSTANCES
+
+PATH="${HOME}/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+export PATH

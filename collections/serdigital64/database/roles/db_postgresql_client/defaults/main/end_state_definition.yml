@@ -1,0 +1,7 @@
+---
+db_postgresql_client_application:
+  name: "postgresql_client"
+  type: "distro"
+  version: "latest"
+  installed: true
+...

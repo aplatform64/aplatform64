@@ -1,0 +1,19 @@
+---
+- name: "Web / HAProxy / Deploy / Check required parameters"
+  ansible.builtin.assert:
+    fail_msg: "Required end-state parameters are missing ({{ web_haproxy_application | default('web_haproxy_application') }})"
+    quiet: true
+    that:
+      - web_haproxy_application is defined
+      - web_haproxy_application | length > 0
+      - web_haproxy_application['name'] is defined
+      - web_haproxy_application['type'] is defined
+      - web_haproxy_application['version'] is defined
+      - web_haproxy_application['installed'] is defined
+
+- name: "Web / HAProxy / Deploy / Package"
+  ansible.builtin.include_tasks:
+    file: "web_haproxy_deploy_package.yml"
+  when:
+    - web_haproxy_application is defined
+...

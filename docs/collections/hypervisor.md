@@ -8,10 +8,10 @@ This collection is part of the [A:Platform64](https://github.com/serdigital64/ap
 
 ## Content
 
-| role                                                                                            | purpose                               |
-| ----------------------------------------------------------------------------------------------- | ------------------------------------- |
-| [hpv_libvirt_client](https://aplatform64.readthedocs.io/en/latest/roles/hpv_libvirt_client.md)  | Manage provisioning of LibVirt client |
-| [hpv_libvirt_server](https://aplatform64.readthedocs.io/en/latest/roles/[hpv_libvirt_server.md) | Manage provisioning of LibVirt server |
+| role                                                                                         | purpose                               |
+| -------------------------------------------------------------------------------------------- | ------------------------------------- |
+| [hpv_libvirt_client](https://aplatform64.readthedocs.io/en/latest/roles/hpv_libvirt_client)  | Manage provisioning of LibVirt client |
+| [hpv_libvirt_server](https://aplatform64.readthedocs.io/en/latest/roles/[hpv_libvirt_server) | Manage provisioning of LibVirt server |
 
 ## Deployment
 

@@ -1,0 +1,29 @@
+---
+# Define platform specific paths
+db_mysql_server_base:
+  paths: "{{ db_mysql_server_base_common['paths'] }}"
+  etc: "{{ db_mysql_server_base_common['etc'] }}"
+  files: "{{ db_mysql_server_base_common['files'] }}"
+  run: "{{ db_mysql_server_base_common['run'] }}"
+  templates: "{{ db_mysql_server_base_common['templates'] }}"
+  access: "{{ db_mysql_server_base_common['access'] }}"
+
+# Define application package details
+db_mysql_server_profiles:
+  snap: "{{ db_mysql_server_profiles_common['snap'] }}"
+  flatpak: "{{ db_mysql_server_profiles_common['flatpak'] }}"
+  distro:
+    latest:
+      supported: true
+      packages:
+        - name: "default-mysql-server"
+
+# Define custom package repositories
+db_mysql_server_repository_custom_yum: []
+db_mysql_server_repository_custom_apt: []
+
+# Set package repositories states
+db_mysql_server_repository_catalog_distro: {}
+db_mysql_server_repository_catalog_yum: {}
+db_mysql_server_repository_catalog_apt: {}
+...
