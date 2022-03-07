@@ -1,7 +1,0 @@
----
-app_zoom_application:
-  name: "zoom"
-  type: "flatpak"
-  version: "latest"
-  installed: true
-...

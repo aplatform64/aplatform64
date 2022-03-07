@@ -1,7 +1,0 @@
----
-dops_shellcheck_application:
-  name: "shellcheck"
-  type: "distro"
-  version: "latest"
-  installed: true
-...

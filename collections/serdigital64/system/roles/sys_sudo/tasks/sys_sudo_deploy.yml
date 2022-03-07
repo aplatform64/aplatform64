@@ -1,5 +1,0 @@
----
-- name: "System / Sudo / Deploy / Package"
-  ansible.builtin.include_tasks:
-    file: "sys_sudo_deploy_package.yml"
-...

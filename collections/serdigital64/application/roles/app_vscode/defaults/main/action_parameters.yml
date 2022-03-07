@@ -1,6 +1,0 @@
----
-app_vscode:
-  resolve_prereq: false
-  setup: false
-  deploy: false
-...

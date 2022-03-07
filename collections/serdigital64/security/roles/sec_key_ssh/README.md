@@ -1,1 +1,0 @@
-../../../../../docs/roles/sec_key_ssh.md

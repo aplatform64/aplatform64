@@ -1,7 +1,0 @@
----
-net_bind_application:
-  name: "bind"
-  type: "distro"
-  version: "latest"
-  installed: true
-...

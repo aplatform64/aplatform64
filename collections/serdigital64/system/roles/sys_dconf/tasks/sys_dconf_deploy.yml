@@ -1,7 +1,0 @@
----
-- name: "System / DConf / Deploy / Package"
-  ansible.builtin.include_tasks:
-    file: "sys_dconf_deploy_package.yml"
-  when:
-    - sys_dconf_application is defined
-...

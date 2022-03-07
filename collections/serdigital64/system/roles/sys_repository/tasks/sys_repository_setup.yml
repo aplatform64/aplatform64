@@ -1,9 +1,0 @@
----
-- name: "System / Repository / Setup / Distro"
-  ansible.builtin.include_tasks:
-    file: "{{ 'sys_repository_setup_distro-' + sys_repository_os_family + '.yml' }}"
-  when:
-    - sys_repository_os_family == "RedHat"
-    - sys_repository_catalog_distro is defined
-    - sys_repository_catalog_distro | length > 0
-...

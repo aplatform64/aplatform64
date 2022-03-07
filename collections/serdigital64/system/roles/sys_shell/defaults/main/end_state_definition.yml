@@ -1,7 +1,0 @@
----
-sys_shell_catalog:
-  zsh: false
-  bash: false
-  ksh: false
-  csh: false
-...

@@ -1,5 +1,0 @@
----
-- name: "Storage / NFS / Server / Control / Subsystem"
-  ansible.builtin.include_tasks:
-    file: "{{ 'stg_nfs_server_control_subsystem-' + stg_nfs_server_os_family + '.yml' }}"
-...

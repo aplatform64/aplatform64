@@ -1,5 +1,0 @@
----
-- name: "Development / NodeJS / Deploy / Package"
-  ansible.builtin.include_tasks:
-    file: "dev_nodejs_deploy_package.yml"
-...

@@ -1,1 +1,0 @@
-../../../../../docs/roles/cloud_azure_cli.md

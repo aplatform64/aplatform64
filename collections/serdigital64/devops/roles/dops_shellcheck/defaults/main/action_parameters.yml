@@ -1,5 +1,0 @@
----
-dops_shellcheck:
-  resolve_prereq: false
-  deploy: false
-...

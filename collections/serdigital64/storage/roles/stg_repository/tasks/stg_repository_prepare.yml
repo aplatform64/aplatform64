@@ -1,8 +1,0 @@
----
-- name: "Storage / Repository / Prepare / Users"
-  ansible.builtin.include_tasks:
-    file: "{{ 'stg_repository_prepare_users.yml' }}"
-  when:
-    - (stg_repositories_users is defined and stg_repositories_users | length > 0) or
-      (stg_repositories_groups is defined and stg_repositories_groups | length > 0)
-...

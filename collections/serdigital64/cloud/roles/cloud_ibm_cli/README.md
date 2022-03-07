@@ -1,1 +1,0 @@
-../../../../../docs/roles/cloud_ibm_cli.md

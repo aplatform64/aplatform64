@@ -1,6 +1,0 @@
----
-sys_fonts:
-  resolve_prereq: false
-  prepare: false
-  deploy: false
-...

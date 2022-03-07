@@ -1,1 +1,0 @@
-../../../../../docs/roles/cloud_google_cli.md

@@ -1,5 +1,0 @@
----
-mon_fluentd:
-  resolve_prereq: false
-  deploy: false
-...

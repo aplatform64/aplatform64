@@ -1,5 +1,0 @@
----
-- name: "DevOps / Jenkins / Deploy / Package"
-  ansible.builtin.include_tasks:
-    file: "dops_jenkins_deploy_package.yml"
-...

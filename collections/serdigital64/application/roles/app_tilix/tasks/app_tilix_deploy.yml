@@ -1,5 +1,0 @@
----
-- name: "Application / Tilix / Deploy / Package"
-  ansible.builtin.include_tasks:
-    file: "app_tilix_deploy_package.yml"
-...

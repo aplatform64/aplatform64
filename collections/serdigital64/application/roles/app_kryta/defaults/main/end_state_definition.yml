@@ -1,7 +1,0 @@
----
-app_kryta_application:
-  name: "kryta"
-  type: "flatpak"
-  installed: true
-  version: "latest"
-...

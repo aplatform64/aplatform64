@@ -1,1 +1,0 @@
-../../../../../docs/roles/dops_shellcheck.md

@@ -1,5 +1,0 @@
----
-web_httpd:
-  resolve_prereq: false
-  deploy: false
-...

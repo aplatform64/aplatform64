@@ -1,5 +1,0 @@
----
-stg_repository:
-  prepare: false
-  provision: false
-...

@@ -1,5 +1,0 @@
----
-app_zoom:
-  resolve_prereq: false
-  deploy: false
-...

@@ -1,8 +1,0 @@
----
-web_mkdocs_repository_custom_yum: []
-web_mkdocs_repository_custom_apt: []
-
-web_mkdocs_repository_catalog_distro: {}
-web_mkdocs_repository_catalog_yum: {}
-web_mkdocs_repository_catalog_apt: {}
-...

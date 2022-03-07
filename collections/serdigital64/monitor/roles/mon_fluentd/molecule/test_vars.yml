@@ -1,9 +1,0 @@
----
-# Shared test variables
-# test_user: "test_mon_fluentd"
-# test_group: "test_mon_fluentd"
-# test_home: "/home/test_mon_fluentd"
-# test_mon_fluentd_setup_users:
-#   - user: "{{ test_user }}"
-#     home: "{{ test_home }}"
-...

@@ -1,7 +1,0 @@
----
-app_darktable_application:
-  name: "darktable"
-  type: "flatpak"
-  version: "latest"
-  installed: true
-...

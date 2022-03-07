@@ -1,5 +1,0 @@
----
-- name: "Application / VSCode / Deploy / Package"
-  ansible.builtin.include_tasks:
-    file: "app_vscode_deploy_package.yml"
-...

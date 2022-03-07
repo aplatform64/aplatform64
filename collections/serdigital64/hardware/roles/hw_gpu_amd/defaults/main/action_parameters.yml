@@ -1,5 +1,0 @@
----
-hw_gpu_amd:
-  resolve_prereq: false
-  deploy: false
-...

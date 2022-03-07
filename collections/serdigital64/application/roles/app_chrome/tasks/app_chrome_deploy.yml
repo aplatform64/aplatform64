@@ -1,5 +1,0 @@
----
-- name: "Application / Chrome / Deploy / Package"
-  ansible.builtin.include_tasks:
-    file: "app_chrome_deploy_package.yml"
-...

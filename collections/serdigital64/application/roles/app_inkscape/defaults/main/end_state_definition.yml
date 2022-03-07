@@ -1,7 +1,0 @@
----
-app_inkscape_application:
-  name: "inkscape"
-  type: "flatpak"
-  installed: true
-  version: "latest"
-...

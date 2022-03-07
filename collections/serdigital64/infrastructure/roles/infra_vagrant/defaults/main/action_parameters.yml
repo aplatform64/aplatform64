@@ -1,5 +1,0 @@
----
-infra_vagrant:
-  resolve_prereq: false
-  deploy: false
-...

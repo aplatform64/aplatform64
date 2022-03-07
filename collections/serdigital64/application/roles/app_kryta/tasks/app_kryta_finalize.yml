@@ -1,5 +1,0 @@
----
-- name: "Application / Kryta / Finalize / Reset Defaults"
-  ansible.builtin.include_vars:
-    file: "defaults/main/action_parameters.yml"
-...

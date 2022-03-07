@@ -1,7 +1,0 @@
----
-web_nginx_application:
-  name: "nginx"
-  type: "distro"
-  version: "latest"
-  installed: true
-...

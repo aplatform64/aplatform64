@@ -1,5 +1,0 @@
----
-- name: "Application / XMind / Deploy / Package"
-  ansible.builtin.include_tasks:
-    file: "app_xmind_deploy_package.yml"
-...

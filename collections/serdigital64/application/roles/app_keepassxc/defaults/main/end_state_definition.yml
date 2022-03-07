@@ -1,8 +1,0 @@
----
-app_keepassxc_application:
-  name: "keepassxc"
-  type: "distro"
-  installed: true
-  version: "latest"
-app_keepassxc_setup_users: []
-...

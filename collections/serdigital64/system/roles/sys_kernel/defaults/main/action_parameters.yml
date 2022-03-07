@@ -1,6 +1,0 @@
----
-sys_kernel:
-  resolve_prereq: false
-  deploy: false
-  setup: false
-...

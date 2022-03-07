@@ -1,7 +1,0 @@
----
-test_path: "/tmp/cloud_aws_cli_test"
-test_user:
-  name: "testusr"
-  group: "testusr"
-  home: "/home/testusr"
-...

@@ -1,5 +1,0 @@
----
-bkp_rclone_server:
-  resolve_prereq: false
-  deploy: false
-...

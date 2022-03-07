@@ -1,5 +1,0 @@
----
-sec_openssh_client:
-  resolve_prereq: false
-  deploy: false
-...
