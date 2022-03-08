@@ -1,1 +1,0 @@
-../../../../../docs/roles/cnt_docker.md

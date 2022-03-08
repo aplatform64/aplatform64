@@ -1,7 +1,0 @@
----
-db_postgresql_server_application:
-  name: "postgresql_server"
-  type: "distro"
-  version: "latest"
-  installed: true
-...

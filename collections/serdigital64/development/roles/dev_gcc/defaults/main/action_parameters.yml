@@ -1,5 +1,0 @@
----
-dev_gcc:
-  resolve_prereq: false
-  deploy: false
-...

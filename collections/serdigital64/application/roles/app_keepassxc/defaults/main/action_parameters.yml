@@ -1,6 +1,0 @@
----
-app_keepassxc:
-  resolve_prereq: false
-  deploy: false
-  setup: false
-...

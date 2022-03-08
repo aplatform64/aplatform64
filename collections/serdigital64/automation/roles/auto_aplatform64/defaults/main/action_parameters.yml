@@ -1,6 +1,0 @@
----
-auto_aplatform64:
-  prepare: false
-  setup: false
-  provision: false
-...

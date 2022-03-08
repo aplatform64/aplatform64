@@ -1,7 +1,0 @@
----
-infra_vagrant_application:
-  name: "vagrant"
-  type: "distro"
-  version: "latest"
-  installed: true
-...

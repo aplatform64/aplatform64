@@ -1,1 +1,0 @@
-../../../../../docs/roles/cloud_foundry_cli.md

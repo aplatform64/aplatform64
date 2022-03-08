@@ -1,7 +1,0 @@
----
-- name: "Application / Darktable / Deploy / Package"
-  ansible.builtin.include_tasks:
-    file: "app_darktable_deploy_package.yml"
-  when:
-    - app_darktable_application is defined
-...

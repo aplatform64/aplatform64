@@ -1,5 +1,0 @@
----
-- name: "Storage / NFS / Client / Prepare / Paths"
-  ansible.builtin.include_tasks:
-    file: "{{ 'stg_nfs_client_prepare_paths.yml' }}"
-...

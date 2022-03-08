@@ -1,5 +1,0 @@
----
-- name: "System / Fonts / Prepare / Paths"
-  ansible.builtin.include_tasks:
-    file: "{{ 'sys_fonts_prepare_paths.yml' }}"
-...

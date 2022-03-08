@@ -1,7 +1,0 @@
----
-auto_ansible_control:
-  resolve_prereq: false
-  prepare: false
-  setup: false
-  provision: false
-...

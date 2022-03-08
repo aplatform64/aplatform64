@@ -1,6 +1,0 @@
----
-auto_ansible_control_repositories:
-  catalog:
-    distro:
-      epel: true
-...

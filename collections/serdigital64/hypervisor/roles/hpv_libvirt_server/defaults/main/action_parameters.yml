@@ -1,8 +1,0 @@
----
-hpv_libvirt_server:
-  resolve_prereq: false
-  prepare: false
-  deploy: false
-  setup: false
-  control: false
-...

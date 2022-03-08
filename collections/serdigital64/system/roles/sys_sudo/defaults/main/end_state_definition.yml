@@ -1,9 +1,0 @@
----
-sys_sudo_application:
-  name: "sudo"
-  type: "distro"
-  installed: true
-  version: "latest"
-
-sys_sudo_rules: {}
-...

@@ -1,5 +1,0 @@
----
-app_skype:
-  resolve_prereq: false
-  deploy: false
-...

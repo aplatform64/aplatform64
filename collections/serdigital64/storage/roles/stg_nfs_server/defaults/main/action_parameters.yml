@@ -1,8 +1,0 @@
----
-stg_nfs_server:
-  resolve_prereq: false
-  deploy: false
-  setup: false
-  control: false
-  provision: false
-...

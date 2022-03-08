@@ -1,6 +1,0 @@
----
-dops_batscore:
-  resolve_prereq: false
-  prepare: false
-  deploy: false
-...

@@ -1,1 +1,0 @@
-../../../../../docs/roles/infra_vagrant.md

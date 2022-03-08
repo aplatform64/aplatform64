@@ -1,9 +1,0 @@
----
-- name: "System / Repository / Prepare / Snap / Enable classic mode"
-  become: true
-  ansible.builtin.file:
-    force: true
-    src: "{{ sys_repository_base['paths']['snap_var'] }}"
-    path: "{{ sys_repository_base['paths']['snap_root'] }}"
-    state: "link"
-...

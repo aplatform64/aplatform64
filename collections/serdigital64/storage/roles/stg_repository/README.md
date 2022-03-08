@@ -1,1 +1,0 @@
-../../../../../docs/roles/stg_repository.md

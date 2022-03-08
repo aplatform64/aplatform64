@@ -1,5 +1,0 @@
----
-dev_ruby:
-  resolve_prereq: false
-  deploy: false
-...

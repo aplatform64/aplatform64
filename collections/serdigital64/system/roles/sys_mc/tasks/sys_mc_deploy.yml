@@ -1,5 +1,0 @@
----
-- name: "System / MC / Deploy / Package"
-  ansible.builtin.include_tasks:
-    file: "sys_mc_deploy_package.yml"
-...

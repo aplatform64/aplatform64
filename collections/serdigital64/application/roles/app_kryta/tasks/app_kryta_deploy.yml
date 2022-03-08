@@ -1,5 +1,0 @@
----
-- name: "Application / Kryta / Deploy / Package"
-  ansible.builtin.include_tasks:
-    file: "app_kryta_deploy_package.yml"
-...

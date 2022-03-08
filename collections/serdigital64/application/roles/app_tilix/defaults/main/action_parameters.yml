@@ -1,5 +1,0 @@
----
-app_tilix:
-  resolve_prereq: false
-  deploy: false
-...

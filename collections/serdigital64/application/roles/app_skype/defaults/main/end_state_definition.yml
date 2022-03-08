@@ -1,7 +1,0 @@
----
-app_skype_application:
-  name: "skype"
-  type: "flatpak"
-  installed: true
-  version: "latest"
-...

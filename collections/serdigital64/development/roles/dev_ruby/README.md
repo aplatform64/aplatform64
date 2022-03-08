@@ -1,1 +1,0 @@
-../../../../../docs/roles/dev_ruby.md

@@ -1,5 +1,0 @@
----
-db_mysql_server:
-  resolve_prereq: false
-  deploy: false
-...

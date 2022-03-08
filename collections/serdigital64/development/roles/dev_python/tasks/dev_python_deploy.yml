@@ -1,5 +1,0 @@
----
-- name: "Development / Python / Deploy / Package"
-  ansible.builtin.include_tasks:
-    file: "dev_python_deploy_package.yml"
-...

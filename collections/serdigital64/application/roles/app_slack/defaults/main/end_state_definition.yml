@@ -1,7 +1,0 @@
----
-app_slack_application:
-  name: "slack"
-  type: "flatpak"
-  version: "latest"
-  installed: true
-...

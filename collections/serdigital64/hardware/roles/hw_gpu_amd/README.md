@@ -1,1 +1,0 @@
-../../../../../docs/roles/hw_gpu_amd.md

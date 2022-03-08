@@ -1,1 +1,0 @@
-../../../../../docs/roles/sys_kernel.md

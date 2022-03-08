@@ -1,1 +1,0 @@
-../../../docs/collections/container.md

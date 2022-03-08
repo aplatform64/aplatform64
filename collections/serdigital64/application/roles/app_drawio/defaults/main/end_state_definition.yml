@@ -1,7 +1,0 @@
----
-app_drawio_application:
-  name: "drawio"
-  type: "flatpak"
-  installed: true
-  version: "latest"
-...

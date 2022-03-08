@@ -1,7 +1,0 @@
----
-sys_gui_cinnamon:
-  resolve_prereq: false
-  prepare: false
-  deploy: false
-  provision: false
-...

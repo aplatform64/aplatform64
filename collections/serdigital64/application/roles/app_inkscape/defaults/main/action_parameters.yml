@@ -1,5 +1,0 @@
----
-app_inkscape:
-  resolve_prereq: false
-  deploy: false
-...

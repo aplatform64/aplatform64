@@ -1,7 +1,0 @@
----
-app_spotify_application:
-  name: "spotify"
-  type: "flatpak"
-  installed: true
-  version: "latest"
-...

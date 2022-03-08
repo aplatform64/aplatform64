@@ -1,7 +1,0 @@
----
-dops_git_server:
-  resolve_prereq: false
-  prepare: false
-  deploy: false
-  provision: false
-...

@@ -1,7 +1,0 @@
----
-mon_fluentd_application:
-  name: "fluentd"
-  type: "distro"
-  version: "latest"
-  installed: true
-...
