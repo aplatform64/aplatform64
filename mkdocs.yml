@@ -66,6 +66,12 @@ nav:
   - Scripts:
     - ap64: "bin/ap64.md"
     - install: "bin/install.md"
+  - Contributing:
+    - design: "contributing/design.md"
+    - guidelines: "contributing/CONTRIBUTING.md"
+    - conduct: "contributing/CODE_OF_CONDUCT.md"
+    - license: "contributing/COPYING"
+    - changelog: "contributing/CHANGELOG.md"
   - Playbooks:
     - bootstrap_ansible_managed_nodes: "playbooks/bootstrap_ansible_managed_nodes.md"
     - manage_ansible_control_nodes: "playbooks/manage_ansible_control_nodes.md"
@@ -193,8 +199,3 @@ nav:
     - web_httpd: "roles/web_httpd.md"
     - web_mkdocs: "roles/web_mkdocs.md"
     - web_nginx: "roles/web_nginx.md"
-  - Contributing:
-    - design: "contributing/design.md"
-    - guidelines: "contributing/CONTRIBUTING.md"
-    - conduct: "contributing/CODE_OF_CONDUCT.md"
-    - license: "contributing/COPYING"
