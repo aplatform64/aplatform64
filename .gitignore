@@ -16,6 +16,7 @@ build/*
 
 # Secrets
 .secrets
+.git-secrets
 
 # Local variables
 .local
