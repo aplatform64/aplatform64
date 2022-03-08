@@ -29,7 +29,7 @@ The following example is an **Ansible Playbook** that includes all the supported
 [use this link if viewing the doc on github](https://github.com/aplatform64/container/blob/main/playbooks/cnt_podman.yml)
 
 ```yaml
-{% include "../../collections/serdigital64/container/playbooks/cnt_podman.yml" %}
+{% include "../examples/cnt_podman.yml" %}
 ```
 
 The playbook can be run by executing:

@@ -43,7 +43,7 @@ The following example is an **Ansible Playbook** that includes all the supported
 [use this link if viewing the doc on github](https://github.com/aplatform64/system/blob/main/playbooks/sys_shell.yml)
 
 ```yaml
-{% include "../../collections/serdigital64/system/playbooks/sys_shell.yml" %}
+{% include "../examples/sys_shell.yml" %}
 ```
 
 The playbook can be run by executing:

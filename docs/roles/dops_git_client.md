@@ -41,7 +41,7 @@ The following example is an **Ansible Playbook** that includes all the supported
 [use this link if viewing the doc on github](https://github.com/aplatform64/devops/blob/main/playbooks/dops_git_client.yml)
 
 ```yaml
-{% include "../../collections/serdigital64/devops/playbooks/dops_git_client.yml" %}
+{% include "../examples/dops_git_client.yml" %}
 ```
 
 The playbook can be run by executing:

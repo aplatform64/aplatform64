@@ -17,7 +17,7 @@ The following example is an **Ansible Playbook** that includes all the supported
 [use this link if viewing the doc on github](https://github.com/aplatform64/network/blob/main/playbooks/net_bind.yml)
 
 ```yaml
-{% include "../../collections/serdigital64/network/playbooks/net_bind.yml" %}
+{% include "../examples/net_bind.yml" %}
 ```
 
 The playbook can be run by executing:

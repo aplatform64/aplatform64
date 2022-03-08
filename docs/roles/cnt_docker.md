@@ -17,7 +17,7 @@ The following example is an **Ansible Playbook** that includes all the supported
 [use this link if viewing the doc on github](https://github.com/aplatform64/container/blob/main/playbooks/cnt_docker.yml)
 
 ```yaml
-{% include "../../collections/serdigital64/container/playbooks/cnt_docker.yml" %}
+{% include "../examples/cnt_docker.yml" %}
 ```
 
 The playbook can be run by executing:

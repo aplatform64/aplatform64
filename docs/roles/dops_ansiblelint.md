@@ -17,7 +17,7 @@ The following example is an **Ansible Playbook** that includes all the supported
 [use this link if viewing the doc on github](https://github.com/aplatform64/devops/blob/main/playbooks/dops_ansiblelint.yml)
 
 ```yaml
-{% include "../../collections/serdigital64/devops/playbooks/dops_ansiblelint.yml" %}
+{% include "../examples/dops_ansiblelint.yml" %}
 ```
 
 The playbook can be run by executing:

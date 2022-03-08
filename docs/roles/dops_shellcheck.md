@@ -17,7 +17,7 @@ The following example is an **Ansible Playbook** that includes all the supported
 [use this link if viewing the doc on github](https://github.com/aplatform64/devops/blob/main/playbooks/dops_shellcheck.yml)
 
 ```yaml
-{% include "../../collections/serdigital64/devops/playbooks/dops_shellcheck.yml" %}
+{% include "../examples/dops_shellcheck.yml" %}
 ```
 
 The playbook can be run by executing:

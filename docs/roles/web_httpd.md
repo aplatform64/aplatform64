@@ -17,7 +17,7 @@ The following example is an **Ansible Playbook** that includes all the supported
 [use this link if viewing the doc on github](https://github.com/aplatform64/web/blob/main/playbooks/web_httpd.yml)
 
 ```yaml
-{% include "../../collections/serdigital64/web/playbooks/web_httpd.yml" %}
+{% include "../examples/web_httpd.yml" %}
 ```
 
 The playbook can be run by executing:
