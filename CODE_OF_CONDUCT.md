@@ -1,1 +1,1 @@
-docs/contributing/cod.md
+docs/contributing/CODE_OF_CONDUCT.md

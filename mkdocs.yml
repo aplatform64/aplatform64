@@ -8,7 +8,7 @@ repo_url: "https://github.com/serdigital64/aplatform64"
 
 copyright: "GPL-3.0-or-later"
 docs_dir: "docs/"
-site_dir: "site/"
+site_dir: "build/site/"
 strict: false
 
 extra_css:
@@ -194,7 +194,7 @@ nav:
     - web_mkdocs: "roles/web_mkdocs.md"
     - web_nginx: "roles/web_nginx.md"
   - Contributing:
-    - guidelines: "contributing/guidelines.md"
     - design: "contributing/design.md"
-    - conduct: "contributing/cod.md"
-    - license: "contributing/license.md"
+    - guidelines: "contributing/CONTRIBUTING.md"
+    - conduct: "contributing/CODE_OF_CONDUCT.md"
+    - license: "contributing/COPYING"
