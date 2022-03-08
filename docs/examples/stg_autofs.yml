@@ -1,0 +1,24 @@
+---
+- name: "Storage / AutoFS / Usage example"
+  hosts: "localhost"
+  gather_facts: true
+
+  tasks:
+    - name: "Example: install AutoFS, configure service and provision map"
+      vars:
+        stg_autofs:
+          resolve_prereq: true
+          deploy: true
+          setup: true
+          control: true
+          provision: true
+        stg_autofs_maps:
+          - name: "test"
+            mount: "test"
+            shares:
+              - source: "test_source"
+                target: "test_target"
+                options: "ro"
+      ansible.builtin.include_role:
+        name: "serdigital64.storage.stg_autofs"
+...

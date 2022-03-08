@@ -1,0 +1,22 @@
+---
+- name: "System / DConf / Usage example"
+  hosts: "localhost"
+  gather_facts: true
+  vars:
+    test_source: {{ "/dev/null" }}  # Replace this path with a valid dconf dump file
+
+  tasks:
+    - name: "Example: Install dconf and configure default user profiles"
+      vars:
+        sys_dconf:
+          resolve_prereq: true
+          prepare: true
+          setup: true
+          deploy: true
+          provision: true
+        sys_dconf_db_local:
+          - source: "{{ test_source }}"
+            name: "test_db"
+      ansible.builtin.include_role:
+        name: "serdigital64.system.sys_dconf"
+...

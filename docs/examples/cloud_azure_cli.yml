@@ -1,0 +1,14 @@
+---
+- name: "Cloud / Azure / CLI / Usage example"
+  hosts: "localhost"
+  gather_facts: true
+
+  tasks:
+    - name: "Example: Install Azure CLI using distro native repository"
+      vars:
+        cloud_azure_cli:
+          resolve_prereq: true
+          deploy: true
+      ansible.builtin.include_role:
+        name: "serdigital64.cloud.cloud_azure_cli"
+...

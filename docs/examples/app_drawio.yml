@@ -1,0 +1,14 @@
+---
+- name: "Application / DrawIO / Usage example"
+  hosts: "localhost"
+  gather_facts: true
+
+  tasks:
+    - name: "Example: Install DrawIO"
+      vars:
+        app_drawio:
+          resolve_prereq: true
+          deploy: true
+      ansible.builtin.include_role:
+        name: "serdigital64.application.app_drawio"
+...

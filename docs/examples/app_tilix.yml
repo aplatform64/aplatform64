@@ -1,0 +1,14 @@
+---
+- name: "Application / Tilix / Usage example"
+  hosts: "localhost"
+  gather_facts: true
+
+  tasks:
+    - name: "Example: Install Tilix"
+      vars:
+        app_tilix:
+          resolve_prereq: true
+          deploy: true
+      ansible.builtin.include_role:
+        name: "serdigital64.application.app_tilix"
+...
