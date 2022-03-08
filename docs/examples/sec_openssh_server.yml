@@ -1,0 +1,16 @@
+---
+- name: "Security / OpenSSH / Server / Usage example"
+  hosts: "localhost"
+  gather_facts: true
+
+  tasks:
+    - name: "Example: Install OpenSSH server and xAuth"
+      vars:
+        sec_openssh_server:
+          resolve_prereq: true
+          deploy: true
+        sec_openssh_server_options:
+          xauth: true
+      ansible.builtin.include_role:
+        name: "serdigital64.security.sec_openssh_server"
+...

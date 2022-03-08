@@ -1,0 +1,36 @@
+---
+- name: "System / User / Usage example"
+  hosts: "localhost"
+  gather_facts: true
+  vars:
+    test_user: "testusr64"
+    test_group: "testgrp64"
+
+  tasks:
+    - name: "Example: create group"
+      vars:
+        sys_user:
+          setup: true
+        sys_user_groups:
+          - name: "{{ test_group }}"
+            system: false
+      ansible.builtin.include_role:
+        name: "serdigital64.system.sys_user"
+    - name: "Example: create user"
+      vars:
+        sys_user:
+          setup: true
+        sys_user_accounts:
+          - name: "{{ test_user }}"
+            home: "/home/{{ test_user }}"
+            description: "test user"
+            shell: "/usr/bin/bash"
+            locked: false
+            system: false
+            groups:
+              - "{{ test_group }}"
+            options:
+              xdg: true
+      ansible.builtin.include_role:
+        name: "serdigital64.system.sys_user"
+...

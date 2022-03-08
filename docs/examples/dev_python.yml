@@ -1,0 +1,31 @@
+---
+- name: "Development / Python / Usage example"
+  hosts: "localhost"
+  gather_facts: true
+
+  tasks:
+    - name: "Example: Install Python package"
+      vars:
+        dev_python:
+          resolve_prereq: true
+          deploy: true
+      ansible.builtin.include_role:
+        name: "serdigital64.development.dev_python"
+
+    - name: "Example: Install MKDocs as isolated application"
+      vars:
+        dev_python:
+          resolve_prereq: true
+          deploy: true
+          provision: true
+        dev_python_applications:
+          - name: "mkdocs"
+            description: "MKDocs tool"
+            location: "/opt/mkdocs"
+            owner: "root"
+            group: "root"
+            modules:
+              - "mkdocs"
+      ansible.builtin.include_role:
+        name: "serdigital64.development.dev_python"
+...

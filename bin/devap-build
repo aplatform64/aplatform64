@@ -65,10 +65,10 @@ function devap_build_refresh() {
   # Syncrhonize collection vs master
   for collection in $target; do
     bl64_msg_show_task "refresh license (master -> ${collection})" &&
-      bl64_os_cp_file "$DEVAP_DOCS/contributing/COPYING" "$DEVAP_COLLECTIONS/${collection}/COPYING" &&
-      bl64_os_cp_file "$DEVAP_DOCS/contributing/CODE_OF_CONDUCT.md" "$DEVAP_COLLECTIONS/${collection}/CODE_OF_CONDUCT.md" &&
+      bl64_os_cp_file "${DEVAP_DOCS}/contributing/COPYING" "$DEVAP_COLLECTIONS/${collection}/COPYING" &&
+      bl64_os_cp_file "${DEVAP_DOCS}/contributing/CODE_OF_CONDUCT.md" "$DEVAP_COLLECTIONS/${collection}/CODE_OF_CONDUCT.md" &&
       bl64_msg_show_task "sync docs (${collection} -> master)" &&
-      bl64_os_cp_file "$DEVAP_COLLECTIONS/${collection}/README.md" "$DEVAP_DOCS/collections/${collection}.md" ||
+      bl64_os_cp_file "$DEVAP_COLLECTIONS/${collection}/README.md" "${DEVAP_DOCS}/collections/${collection}.md" ||
       return 1
 
     # shellcheck disable=SC2164
@@ -76,11 +76,16 @@ function devap_build_refresh() {
       cd "$DEVAP_COLLECTIONS/${collection}/roles"
       echo *
     ); do
+      bl64_msg_show_task "sync examples (${role} -> master)"
+      [[ -f "$DEVAP_COLLECTIONS/${collection}/playbooks/${role}.yml" ]] &&
+        bl64_os_cp_file "$DEVAP_COLLECTIONS/${collection}/playbooks/${role}.yml" "${DEVAP_DOCS}/examples/${role}.yml"
+
       bl64_msg_show_task "refresh license (master -> ${role})" &&
-        bl64_os_cp_file "$DEVAP_DOCS/contributing/COPYING" "$DEVAP_COLLECTIONS/${collection}/roles/${role}/COPYING" &&
-        bl64_os_cp_file "$DEVAP_DOCS/contributing/CODE_OF_CONDUCT.md" "$DEVAP_COLLECTIONS/${collection}/roles/${role}/CODE_OF_CONDUCT.md" &&
+        bl64_os_cp_file "${DEVAP_DOCS}/contributing/COPYING" "$DEVAP_COLLECTIONS/${collection}/roles/${role}/COPYING" &&
+        bl64_os_cp_file "${DEVAP_DOCS}/contributing/CODE_OF_CONDUCT.md" "$DEVAP_COLLECTIONS/${collection}/roles/${role}/CODE_OF_CONDUCT.md" &&
         bl64_msg_show_task "sync docs (${role} -> master)" &&
-        bl64_os_cp_file "$DEVAP_COLLECTIONS/${collection}/roles/${role}/README.md" "$DEVAP_DOCS/roles/${role}.md" || return 1
+        bl64_os_cp_file "$DEVAP_COLLECTIONS/${collection}/roles/${role}/README.md" "${DEVAP_DOCS}/roles/${role}.md" || return 1
+
     done
 
   done

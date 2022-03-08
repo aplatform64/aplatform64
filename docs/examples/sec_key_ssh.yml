@@ -1,0 +1,48 @@
+---
+- name: "Security / Key / SSH / Usage example"
+  hosts: "localhost"
+  gather_facts: true
+  vars:
+    test_user: "{{ lookup('env', 'USER') }}"
+    test_group: "{{ test_user }}"
+    test_home: "/home/{{ test_user }}"
+    test_repo: "/home/{{ test_user }}/keys"
+    test_host: "localhost"
+
+  pre_tasks:
+    - name: "Create key path"
+      ansible.builtin.file:
+        state: "directory"
+        mode: "0700"
+        path: "{{ test_repo }}"
+
+  tasks:
+
+    - name: "Example: Create OpenSSH RSA private/public key pair"
+      vars:
+        sec_key_ssh:
+          setup: true
+        sec_key_ssh_pairs:
+          - file: "rsa-4096b"
+            path: "{{ test_repo }}"
+            owner: "{{ test_user }}"
+            group: "{{ test_group }}"
+            type: "rsa"
+            size: "4096"
+      ansible.builtin.include_role:
+        name: "serdigital64.security.sec_key_ssh"
+
+    - name: "Example: Register host in known_hosts file"
+      vars:
+        sec_key_ssh:
+          setup: true
+        sec_key_ssh_knownhosts:
+          - file: "{{ test_repo }}/known_hosts"
+            owner: "{{ test_user }}"
+            group: "{{ test_group }}"
+            hash: false
+            hosts:
+              - "{{ test_host }}"
+      ansible.builtin.include_role:
+        name: "serdigital64.security.sec_key_ssh"
+...

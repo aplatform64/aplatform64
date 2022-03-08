@@ -1,0 +1,42 @@
+---
+- name: "System / Subsystem / Usage example"
+  hosts: "localhost"
+  gather_facts: true
+
+  tasks:
+    - name: "Example: Deploy subsystem optional tools"
+      vars:
+        sys_subsystem:
+          resolve_prereq: true
+          deploy: true
+      ansible.builtin.include_role:
+        name: "serdigital64.system.sys_subsystem"
+    - name: "Example: Add Prometheus server as a SystemD service"
+      vars:
+        sys_subsystem:
+          setup: true
+        sys_subsystem_custom:
+          - name: "prometheusd"
+            description: "Prometheus Server"
+            type:
+              simple: true
+            working_directory: "/var/opt/prometheus/run"
+            user: "promsrv"
+            exec_start: "{{
+              '/opt/prometheus/bin/prometheus' +
+                ' --config.file ' +
+                  '/opt/prometheus/etc/prometheus.yml'
+                ' --storage.tsdb.path ' +
+                  '/var/opt/prometheus/db'
+              }}"
+            restart:
+              on_failure: true
+            std_output:
+              journal: true
+            std_error:
+              journal: true
+            wanted_by:
+              multi_user: true
+      ansible.builtin.include_role:
+        name: "serdigital64.system.sys_subsystem"
+...
