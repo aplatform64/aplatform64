@@ -22,13 +22,13 @@ Supported features in the current version:
 - Install public key from file or string to remote user@host
 - Register remote host as known
 
-The **sec_key_ssh** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [security](../collections/security.md) Ansible-Collection.
+The **sec_key_ssh** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [security](https://aplatform64.readthedocs.io/en/latest/collections/security) Ansible-Collection.
 
 ## Usage
 
 The following example is an **Ansible Playbook** that includes all the supported features:
 
-[use this link if viewing the doc on github](../../collections/serdigital64/security/playbooks/sec_key_ssh.yml)
+[use this link if viewing the doc on github](https://github.com/aplatform64/security/blob/main/playbooks/sec_key_ssh.yml)
 
 ```yaml
 {% include "../../collections/serdigital64/security/playbooks/sec_key_ssh.yml" %}
@@ -149,7 +149,7 @@ Automatic installation is also available by deploying [A:Platform64](https://apl
 
 Help on implementing new features and maintaining the code base is welcomed.
 
-Please see the [guidelines](../contributing/guidelines.md) for further details.
+Please see the [guidelines](https://aplatform64.readthedocs.io/en/latest/contributing/CONTRIBUTING) for further details.
 
 ## Author
 

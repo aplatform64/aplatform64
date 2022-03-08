@@ -34,13 +34,13 @@ The module provides a directory structure for facilitating the usage of infrastr
   - `/opt/terraform/src/<PROJECT>`: terraform source scripts
   - `/var/opt/terraform/states/<PROJECT>`: working directory where terraform is run (state, logs, etc.)
 
-The **infra_terraform** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [infrastructure](../collections/infrastructure.md) Ansible-Collection.
+The **infra_terraform** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [infrastructure](https://aplatform64.readthedocs.io/en/latest/collections/infrastructure) Ansible-Collection.
 
 ## Usage
 
 The following example is an **Ansible Playbook** that includes all the supported features:
 
-[use this link if viewing the doc on github](../../collections/serdigital64/infrastructure/playbooks/infra_terraform.yml)
+[use this link if viewing the doc on github](https://github.com/aplatform64/infrastructure/blob/main/playbooks/infra_terraform.yml)
 
 ```yaml
 {% include "../../collections/serdigital64/infrastructure/playbooks/infra_terraform.yml" %}
@@ -170,7 +170,7 @@ Automatic installation is also available by deploying [A:Platform64](https://apl
 
 Help on implementing new features and maintaining the code base is welcomed.
 
-Please see the [guidelines](../contributing/guidelines.md) for further details.
+Please see the [guidelines](https://aplatform64.readthedocs.io/en/latest/contributing/CONTRIBUTING) for further details.
 
 ## Author
 

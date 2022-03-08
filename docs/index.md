@@ -237,21 +237,82 @@ In addition to the standard ansible CLI commands, A:Platform64 provides the [bin
 - Upgrade collections
 - Update sites configurations
 
-## Source Code
+## Development
+
+### Environment
+
+Use the following instructions for preparing the development environment:
+
+- Prepare dev tools:
+  - Install GIT
+  - Install Git Flow
+  - Install Python, PIP, Virtual Environment Wrapper
+- Clone GIT repositories
+
+```shell
+# Create the main repository
+cd <YOUR_PROJECTS_PATH>
+git clone https://github.com/serdigital64/aplatform64
+cd aplatform64
+# Create module repositories as git submodules
+git submodule init
+# Update modules
+git submodule update
+# Enable main branch on submodules
+git submodule foreach "git checkout main"; git submodule foreach "git checkout develop"
+# (Optional) Initialize git flow. Production branch:main, use defaults for the remaining branches
+git submodule foreach "git flow init"
+```
+
+- Adjust environment variables to reflect your configuration:
+
+```shell
+# Copy environment definition files from templates:
+cp dot.local .local
+cp dot.secrets .secrets
+# Review and update content for both files
+```
+
+- Create Python Virtual Environment Wrapper workspace
+
+```shell
+source .local
+source .env
+source "$DEVAP_VEW_LOADER"
+mkvirtualenv aplatform64
+```
+
+- Install Python dev modules
+
+```shell
+pip3 install --upgrade -r requirements-full.txt
+```
+
+- The environment is now ready. From now use the following script to load environment variables and set the virtual Python environment:
+
+```shell
+source bin/devap-set
+```
+
+- Additional scripts are provided to support testing and package building:
+  - `bin/devap-build`: build and publish Ansible Collection packages
+  - `bin/devap-test`: test Ansible Roles using Molecule
 
 ### Repositories
 
-- Project GIT repository: [https://github.com/serdigital64/aplatform64](https://github.com/serdigital64/aplatform64)
+- Project GIT repository
+  - Main: [https://github.com/serdigital64/aplatform64](https://github.com/serdigital64/aplatform64)
+  - Submodules: [https://github.com/aplatform64](https://github.com/aplatform64)
 - Project Ansible Galaxy repository: [https://galaxy.ansible.com/serdigital64](https://galaxy.ansible.com/serdigital64)
 - Project Documentation: [https://aplatform64.readthedocs.io](https://aplatform64.readthedocs.io)
 
-### Contributing
+## Contributing
 
 Help on implementing new features and maintaining the code base is welcomed.
 
-Please see the [guidelines](contributing/guidelines.md) for further details and the [code of condact](contributing/cod.md).
+Please see the [guidelines](contributing/CONTRIBUTING.md) for further details and the [code of conduct](contributing/CODE_OF_CONDUCT.md).
 
-### Author
+## Author
 
 - [SerDigital64](https://serdigital64.github.io/)
 

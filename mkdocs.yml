@@ -67,7 +67,6 @@ nav:
     - ap64: "bin/ap64.md"
     - install: "bin/install.md"
   - Contributing:
-    - design: "contributing/design.md"
     - guidelines: "contributing/CONTRIBUTING.md"
     - conduct: "contributing/CODE_OF_CONDUCT.md"
     - license: "contributing/COPYING"
@@ -166,7 +165,7 @@ nav:
     - dops_jenkins: "roles/dops_jenkins.md"
     - dops_molecule: "roles/dops_molecule.md"
     - dops_shellcheck: "roles/dops_shellcheck.md"
-    - dops_yamllint: "roles/dops_yamllint"
+    - dops_yamllint: "roles/dops_yamllint.md"
     - hpv_libvirt_client: "roles/hpv_libvirt_client.md"
     - hpv_libvirt_server: "roles/hpv_libvirt_server.md"
     - hw_gpu_amd: "roles/hw_gpu_amd.md"

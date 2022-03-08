@@ -34,13 +34,13 @@ Supported repositories types as defined in the variable `sys_repository_flavours
 | git     | Git based repository                                                     |
 | pip     | Repository for Python modules                                            |
 
-The **sys_repository** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [system](../collections/system.md) Ansible-Collection.
+The **sys_repository** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [system](https://aplatform64.readthedocs.io/en/latest/collections/system) Ansible-Collection.
 
 ## Usage
 
 The following example is an **Ansible Playbook** that includes all the supported features:
 
-[use this link if viewing the doc on github](../../collections/serdigital64/system/playbooks/sys_repository.yml)
+[use this link if viewing the doc on github](https://github.com/aplatform64/system/blob/main/playbooks/sys_repository.yml)
 
 ```yaml
 {% include "../../collections/serdigital64/system/playbooks/sys_repository.yml" %}
@@ -185,7 +185,7 @@ Automatic installation is also available by deploying [A:Platform64](https://apl
 
 Help on implementing new features and maintaining the code base is welcomed.
 
-Please see the [guidelines](../contributing/guidelines.md) for further details.
+Please see the [guidelines](https://aplatform64.readthedocs.io/en/latest/contributing/CONTRIBUTING) for further details.
 
 ## Author
 
