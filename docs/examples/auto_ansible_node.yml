@@ -1,0 +1,30 @@
+---
+- name: "Automation / Ansible / Node / Usage example"
+  hosts: "**changeme**"                 # Target hostname where the Ansible Node will be setup
+  gather_facts: true
+  vars:
+    ansible_python_interpreter: "/usr/bin/python3"
+    ansible_ssh_common_args: "-o PreferredAuthentications=password -o PubkeyAuthentication=no -o StrictHostKeyChecking=no"
+    ansible_user: "**changeme**"        # Login name of the user for the bootstrap process
+    ansible_password: "**changeme**"    # Password for the bootstrap user
+    ansible_become_method: "sudo"
+    ansible_become_password: "{{ ansible_password }}"
+
+  tasks:
+    - name: "Example: Prepare (bootstrap) the managed node for Ansible operation"
+      vars:
+        auto_ansible_node:
+          prepare: true
+          deploy: true
+          provision: true
+          bootstrap: true
+        auto_ansible_node_user:
+          name: "amnode"
+          group: "amnode"
+          home: "/home/amnode"
+          description: "Ansible managed node"
+          control_key: "**changeme**"     # Full path to the SSH public key that will be installed in the managed node
+          become_method: "sudo"
+      ansible.builtin.include_role:
+        name: "serdigital64.automation.auto_ansible_node"
+...

@@ -1,0 +1,14 @@
+---
+- name: "Application / MS Teams / Usage example"
+  hosts: "localhost"
+  gather_facts: true
+
+  tasks:
+    - name: "Example: Install MS Teams"
+      vars:
+        app_msteams:
+          resolve_prereq: true
+          deploy: true
+      ansible.builtin.include_role:
+        name: "serdigital64.application.app_msteams"
+...

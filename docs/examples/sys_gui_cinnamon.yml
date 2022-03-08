@@ -1,0 +1,16 @@
+---
+- name: "System / GUI / Cinnamon / Usage example"
+  hosts: "localhost"
+  gather_facts: true
+
+  tasks:
+    - name: "Example: Install Cinnamon desktop manager and deploy default user configuration"
+      vars:
+        sys_gui_cinnamon:
+          resolve_prereq: true
+          prepare: true
+          deploy: true
+          provision: true
+      ansible.builtin.include_role:
+        name: "serdigital64.system.sys_gui_cinnamon"
+...

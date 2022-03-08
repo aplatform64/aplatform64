@@ -1,0 +1,20 @@
+---
+- name: "Storage / NFS / Server / Usage example"
+  hosts: "localhost"
+  gather_facts: true
+
+  tasks:
+    - name: "Example: install nfs, configure and export share"
+      vars:
+        stg_nfs_server:
+          resolve_prereq: true
+          deploy: true
+          setup: true
+          provision: true
+        stg_nfs_server_exports:
+          - path: "/mnt"
+            options: "ro"
+            enabled: true
+      ansible.builtin.include_role:
+        name: "serdigital64.storage.stg_nfs_server"
+...

@@ -1,0 +1,41 @@
+---
+- name: "DevOps / GIT / Client / Usage example"
+  hosts: "localhost"
+  gather_facts: true
+  vars:
+    target_user: "{{ lookup('env','USER') }}"
+    target_users:
+      - name: "{{ target_user }}"
+        group: "{{ target_user }}"
+        home: "/home/{{ target_user }}"
+        user_name: "{{ target_user }}"
+        user_email: "{{ target_user }}@localhost.localdomain"
+    test_repo: "/home/{{ target_user }}/test-repo"
+
+  tasks:
+    - name: "Example: Install GIT, configure CLI, create local repository"
+      vars:
+        dops_git_client:
+          resolve_prereq: true
+          deploy: true
+          provision: true
+        dops_git_client_repositories:
+          - name: "test repo"
+            path: "{{ test_repo }}"
+            owner: "{{ target_user }}"
+            email: "{{ target_user }}@localhost"
+            branch: "dev"
+            ignore:
+              - ".cache"
+              - ".tmp"
+      ansible.builtin.include_role:
+        name: "serdigital64.devops.dops_git_client"
+
+    - name: "Example: create default user configuration for already installed git"
+      vars:
+        dops_git_client:
+          setup: true
+        dops_git_client_users: "{{ target_users }}"
+      ansible.builtin.include_role:
+        name: "serdigital64.devops.dops_git_client"
+...

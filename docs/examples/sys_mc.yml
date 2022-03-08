@@ -1,0 +1,22 @@
+---
+- name: "System / MC / Usage example"
+  hosts: "localhost"
+  gather_facts: true
+  vars:
+    target_user: "{{ lookup('env','USER') }}"
+    target_users:
+      - name: "{{ target_user }}"
+        group: "{{ target_user }}"
+        home: "/home/{{ target_user }}"
+
+  tasks:
+    - name: "Example: Install MC tool and deploy default user configuration"
+      vars:
+        sys_mc:
+          resolve_prereq: true
+          deploy: true
+          setup: true
+        sys_mc_users: "{{ target_users }}"
+      ansible.builtin.include_role:
+        name: "serdigital64.system.sys_mc"
+...
