@@ -1,7 +1,0 @@
----
-- name: "Automation / Ansible / Node / Deploy / Tools / Deploy OS tools"
-  become: true
-  ansible.builtin.package:
-    state: "present"
-    name: "{{ auto_ansible_node_tools }}"
-...

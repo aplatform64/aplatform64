@@ -1,5 +1,0 @@
----
-dev_nodejs:
-  resolve_prereq: false
-  deploy: false
-...

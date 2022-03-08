@@ -1,7 +1,0 @@
----
-dops_jenkins:
-  resolve_prereq: false
-  deploy: false
-  setup: false
-  control: false
-...

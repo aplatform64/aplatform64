@@ -1,8 +1,0 @@
----
-- name: "Development / Java / Deploy / Package"
-  ansible.builtin.include_tasks:
-    file: "dev_java_deploy_package.yml"
-  loop: "{{ dev_java_application | dict2items  }}"
-  loop_control:
-    loop_var: dev_java___deploy_profile
-...

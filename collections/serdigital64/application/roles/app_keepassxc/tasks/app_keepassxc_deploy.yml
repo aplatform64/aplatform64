@@ -1,5 +1,0 @@
----
-- name: "Application / KeePassXC / Deploy / Package"
-  ansible.builtin.include_tasks:
-    file: "app_keepassxc_deploy_package.yml"
-...

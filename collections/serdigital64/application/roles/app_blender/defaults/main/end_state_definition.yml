@@ -1,7 +1,0 @@
----
-app_blender_application:
-  name: "blender"
-  type: "flatpak"
-  version: "latest"
-  installed: true
-...

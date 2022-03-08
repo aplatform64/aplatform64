@@ -1,1 +1,0 @@
-../../../docs/collections/security.md

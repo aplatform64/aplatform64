@@ -1,5 +1,0 @@
----
-dops_molecule:
-  resolve_prereq: false
-  deploy: false
-...

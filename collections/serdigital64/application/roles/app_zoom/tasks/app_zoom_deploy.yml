@@ -1,5 +1,0 @@
----
-- name: "Application / Zoom / Deploy / Package"
-  ansible.builtin.include_tasks:
-    file: "app_zoom_deploy_package.yml"
-...

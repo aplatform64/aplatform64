@@ -1,9 +1,0 @@
----
-- name: "Storage / NFS / Server / Setup / Firewall / Configure access rule"
-  vars:
-    sec_firewall_os:
-      provision: true
-    sec_firewall_os_rules: "{{ stg_nfs_server_firewall_rules }}"
-  ansible.builtin.include_role:
-    name: "serdigital64.security.sec_firewall_os"
-...

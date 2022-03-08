@@ -1,9 +1,0 @@
----
-- name: "Security / Firewall / OS / Setup / Subsystem"
-  ansible.builtin.include_tasks:
-    file: "{{ 'sec_firewall_os_setup_subsystem-' + sec_firewall_os_family + '.yml' }}"
-  when:
-    - sec_firewall_os_subsystem is defined
-    - sec_firewall_os_subsystem['enabled'] is defined
-    - sec_firewall_os_subsystem['status'] is defined
-...

@@ -1,5 +1,0 @@
----
-- name: "System / GUI / Cinnamon / Deploy / Package"
-  ansible.builtin.include_tasks:
-    file: "sys_gui_cinnamon_deploy_package.yml"
-...

@@ -1,5 +1,0 @@
----
-- name: "Hypervisor / LibVirt / Server / Prepare / Kernel"
-  ansible.builtin.include_tasks:
-    file: "{{ 'hpv_libvirt_server_prepare_kernel.yml' }}"
-...

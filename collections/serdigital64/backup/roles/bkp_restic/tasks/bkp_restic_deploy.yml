@@ -1,5 +1,0 @@
----
-- name: "Backup / Restic / Deploy / Package"
-  ansible.builtin.include_tasks:
-    file: "bkp_restic_deploy_package.yml"
-...

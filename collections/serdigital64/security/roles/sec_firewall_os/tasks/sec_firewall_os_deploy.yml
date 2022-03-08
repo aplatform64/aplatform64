@@ -1,5 +1,0 @@
----
-- name: "Security / Firewall / OS / Deploy / Package"
-  ansible.builtin.include_tasks:
-    file: "sec_firewall_os_deploy_package.yml"
-...

@@ -1,9 +1,0 @@
----
-test_stg_nfs_server_exports:
-  - path: "/mnt"
-    options: "ro"
-    enabled: true
-test_stg_nfs_server_subsystem:
-  enabled: true
-  status: "started"
-...

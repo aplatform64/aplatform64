@@ -1,5 +1,0 @@
----
-bkp_restic:
-  resolve_prereq: true
-  deploy: false
-...

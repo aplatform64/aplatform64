@@ -1,5 +1,0 @@
----
-- name: "System / DConf / Setup / Service"
-  ansible.builtin.include_tasks:
-    file: "sys_dconf_setup_service.yml"
-...

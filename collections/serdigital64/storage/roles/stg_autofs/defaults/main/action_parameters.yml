@@ -1,9 +1,0 @@
----
-stg_autofs:
-  resolve_prereq: false
-  prepare: false
-  deploy: false
-  setup: false
-  control: false
-  provision: false
-...

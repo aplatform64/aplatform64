@@ -1,1 +1,0 @@
-../../../docs/collections/system.md

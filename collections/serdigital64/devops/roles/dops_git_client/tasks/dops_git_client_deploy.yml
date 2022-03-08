@@ -1,5 +1,0 @@
----
-- name: "DevOps / GIT / Client / Deploy / Package"
-  ansible.builtin.include_tasks:
-    file: "dops_git_client_deploy_package.yml"
-...

@@ -1,5 +1,0 @@
----
-- name: "DevOps / BatsCore / Prepare / Paths"
-  ansible.builtin.include_tasks:
-    file: "{{ 'dops_batscore_prepare_paths.yml' }}"
-...

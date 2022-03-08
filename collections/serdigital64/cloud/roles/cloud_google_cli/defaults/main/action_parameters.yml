@@ -1,5 +1,0 @@
----
-cloud_google_cli:
-  resolve_prereq: false
-  deploy: false
-...

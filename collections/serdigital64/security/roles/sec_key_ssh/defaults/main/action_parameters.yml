@@ -1,4 +1,0 @@
----
-sec_key_ssh:
-  setup: false
-...

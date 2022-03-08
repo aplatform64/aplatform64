@@ -1,7 +1,0 @@
----
-roles: []
-collections:
-  - "ansible.posix"
-  - "serdigital64.backup"
-  - "serdigital64.system"
-...

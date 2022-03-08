@@ -1,5 +1,0 @@
----
-cloud_ibm_cli:
-  resolve_prereq: false
-  deploy: false
-...

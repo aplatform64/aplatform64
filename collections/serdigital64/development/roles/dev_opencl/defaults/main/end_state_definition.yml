@@ -1,7 +1,0 @@
----
-dev_opencl_application:
-  name: "opencl"
-  type: "distro"
-  version: "latest"
-  installed: true
-...

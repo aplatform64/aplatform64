@@ -1,8 +1,0 @@
----
-infra_terraform:
-  prepare: false
-  deploy: false
-  setup: false
-  control: false
-  provision: false
-...

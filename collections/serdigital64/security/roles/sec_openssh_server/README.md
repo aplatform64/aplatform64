@@ -1,1 +1,0 @@
-../../../../../docs/roles/sec_openssh_server.md

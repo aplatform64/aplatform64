@@ -1,7 +1,0 @@
----
-dev_tools_application:
-  name: "tools"
-  type: "distro"
-  version: "latest"
-  installed: true
-...

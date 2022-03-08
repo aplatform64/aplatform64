@@ -1,7 +1,0 @@
----
-sec_openssh_client_application:
-  name: "openssh_client"
-  type: "distro"
-  version: "latest"
-  installed: true
-...

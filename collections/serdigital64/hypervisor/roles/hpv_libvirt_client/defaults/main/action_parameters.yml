@@ -1,5 +1,0 @@
----
-hpv_libvirt_client:
-  resolve_prereq: false
-  deploy: false
-...

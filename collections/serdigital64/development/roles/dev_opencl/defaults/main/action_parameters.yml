@@ -1,5 +1,0 @@
----
-dev_opencl:
-  resolve_prereq: false
-  deploy: false
-...

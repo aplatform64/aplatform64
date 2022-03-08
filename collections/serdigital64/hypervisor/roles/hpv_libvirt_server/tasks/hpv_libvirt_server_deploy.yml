@@ -1,7 +1,0 @@
----
-- name: "Hypervisor / LibVirt / Server / Deploy / Package"
-  ansible.builtin.include_tasks:
-    file: "hpv_libvirt_server_deploy_package.yml"
-  when:
-    - hpv_libvirt_server_application is defined
-...

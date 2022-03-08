@@ -1,5 +1,0 @@
----
-- name: "Backup / RClone / Server / Deploy / Package"
-  ansible.builtin.include_tasks:
-    file: "bkp_rclone_server_deploy_package.yml"
-...

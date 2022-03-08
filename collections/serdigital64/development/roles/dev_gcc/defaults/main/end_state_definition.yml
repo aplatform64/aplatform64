@@ -1,7 +1,0 @@
----
-dev_gcc_application:
-  name: "gcc"
-  type: "distro"
-  version: "latest"
-  installed: true
-...

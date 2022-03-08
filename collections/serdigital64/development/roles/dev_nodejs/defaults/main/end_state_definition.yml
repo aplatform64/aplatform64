@@ -1,7 +1,0 @@
----
-dev_nodejs_application:
-  name: "nodejs"
-  type: "distro"
-  version: "latest"
-  installed: true
-...

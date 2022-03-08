@@ -1,1 +1,0 @@
-../../../docs/collections/web.md

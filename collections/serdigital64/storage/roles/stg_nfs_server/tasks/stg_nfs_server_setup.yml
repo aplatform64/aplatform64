@@ -1,9 +1,0 @@
----
-- name: "Storage / NFS / Server / Setup / Subsystem"
-  ansible.builtin.include_tasks:
-    file: "{{ 'stg_nfs_server_setup_subsystem-' + stg_nfs_server_os_family + '.yml' }}"
-
-- name: "Storage / NFS / Server / Setup / Firewall"
-  ansible.builtin.include_tasks:
-    file: "stg_nfs_server_setup_firewall.yml"
-...

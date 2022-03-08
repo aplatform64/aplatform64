@@ -1,7 +1,0 @@
----
-db_mysql_server_application:
-  name: "mysql_server"
-  type: "distro"
-  version: "latest"
-  installed: true
-...

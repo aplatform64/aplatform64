@@ -1,5 +1,0 @@
----
-- name: "Development / OpenCL / Deploy / Package"
-  ansible.builtin.include_tasks:
-    file: "dev_opencl_deploy_package.yml"
-...

@@ -1,9 +1,0 @@
----
-sys_mc_application:
-  name: "mc"
-  type: "distro"
-  version: "latest"
-  installed: true
-
-sys_mc_users: []
-...
