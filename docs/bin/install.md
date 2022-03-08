@@ -126,7 +126,7 @@ chmod 755 install.sh install_helper.sh
 
 Help on implementing new features and maintaining the code base is welcomed.
 
-Please see the [guidelines](../contributing/guidelines.md) for further details.
+Please see the [guidelines](https://aplatform64.readthedocs.io/en/latest/contributing/CONTRIBUTING) for further details.
 
 ## Author
 

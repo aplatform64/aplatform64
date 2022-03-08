@@ -30,13 +30,13 @@ Archive formats:
 - tar
 - compressed tar
 
-The **bkp_archive** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [backup](../collections/backup.md) Ansible-Collection.
+The **bkp_archive** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [backup](https://aplatform64.readthedocs.io/en/latest/collections/backup) Ansible-Collection.
 
 ## Usage
 
 The following example is an **Ansible Playbook** that includes all the supported features:
 
-[use this link if viewing the doc on github](../../collections/serdigital64/backup/playbooks/bkp_archive.yml)
+[use this link if viewing the doc on github](https://github.com/aplatform64/backup/blob/main/playbooks/bkp_archive.yml)
 
 ```yaml
 {% include "../../collections/serdigital64/backup/playbooks/bkp_archive.yml" %}
@@ -153,7 +153,7 @@ Automatic installation is also available by deploying [A:Platform64](https://apl
 
 Help on implementing new features and maintaining the code base is welcomed.
 
-Please see the [guidelines](../contributing/guidelines.md) for further details.
+Please see the [guidelines](https://aplatform64.readthedocs.io/en/latest/contributing/CONTRIBUTING) for further details.
 
 ## Author
 

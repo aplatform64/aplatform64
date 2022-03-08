@@ -38,13 +38,13 @@ Supported features in the current version:
   - Virtual environment (venv)
   - Python Modules
 
-The **dev_python** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [development](../collections/development.md) Ansible-Collection.
+The **dev_python** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [development](https://aplatform64.readthedocs.io/en/latest/collections/development) Ansible-Collection.
 
 ## Usage
 
 The following example is an **Ansible Playbook** that includes all the supported features:
 
-[use this link if viewing the doc on github](../../collections/serdigital64/development/playbooks/dev_python.yml)
+[use this link if viewing the doc on github](https://github.com/aplatform64/development/blob/main/playbooks/dev_python.yml)
 
 ```yaml
 {% include "../../collections/serdigital64/development/playbooks/dev_python.yml" %}
@@ -155,7 +155,7 @@ Automatic installation is also available by deploying [A:Platform64](https://apl
 
 Help on implementing new features and maintaining the code base is welcomed.
 
-Please see the [guidelines](../contributing/guidelines.md) for further details.
+Please see the [guidelines](https://aplatform64.readthedocs.io/en/latest/contributing/CONTRIBUTING) for further details.
 
 ## Author
 

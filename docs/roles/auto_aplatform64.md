@@ -38,7 +38,7 @@ Refer to the [deployment section](https://aplatform64.readthedocs.io/en/latest/#
 
 Help on implementing new features and maintaining the code base is welcomed.
 
-Please see the [guidelines](https://aplatform64.readthedocs.io/en/latest/contributing/guidelines/) for further details.
+Please see the [guidelines](https://aplatform64.readthedocs.io/en/latest/contributing/CONTRIBUTING/) for further details.
 
 ## Author
 

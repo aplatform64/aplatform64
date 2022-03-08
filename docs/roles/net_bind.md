@@ -8,13 +8,13 @@ Supported features in the current version:
 
 - Deploy application. Packages are defined in the variable `net_bind_profiles`.
 
-The **net_bind** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [network](../collections/network.md) Ansible-Collection.
+The **net_bind** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [network](https://aplatform64.readthedocs.io/en/latest/collections/network) Ansible-Collection.
 
 ## Usage
 
 The following example is an **Ansible Playbook** that includes all the supported features:
 
-[use this link if viewing the doc on github](../../collections/serdigital64/network/playbooks/net_bind.yml)
+[use this link if viewing the doc on github](https://github.com/aplatform64/network/blob/main/playbooks/net_bind.yml)
 
 ```yaml
 {% include "../../collections/serdigital64/network/playbooks/net_bind.yml" %}
@@ -111,7 +111,7 @@ Automatic installation is also available by deploying [A:Platform64](https://apl
 
 Help on implementing new features and maintaining the code base is welcomed.
 
-Please see the [guidelines](../contributing/guidelines.md) for further details.
+Please see the [guidelines](https://aplatform64.readthedocs.io/en/latest/contributing/CONTRIBUTING) for further details.
 
 ## Author
 

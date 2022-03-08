@@ -21,13 +21,13 @@ Supported features in the current version:
 - Deploy headless drivers with OpenCL support. Packages are defined in the variable `hw_gpu_amd_profiles`.
   _Download and open only. For now the install process is manual to avoid kernel level failures_
 
-The **hw_gpu_amd** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [hardware](../collections/hardware.md) Ansible-Collection.
+The **hw_gpu_amd** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [hardware](https://aplatform64.readthedocs.io/en/latest/collections/hardware) Ansible-Collection.
 
 ## Usage
 
 The following example is an **Ansible Playbook** that includes all the supported features:
 
-[use this link if viewing the doc on github](../../collections/serdigital64/hardware/playbooks/hw_gpu_amd.yml)
+[use this link if viewing the doc on github](https://github.com/aplatform64/hardware/blob/main/playbooks/hw_gpu_amd.yml)
 
 ```yaml
 {% include "../../collections/serdigital64/hardware/playbooks/hw_gpu_amd.yml" %}
@@ -117,7 +117,7 @@ Automatic installation is also available by deploying [A:Platform64](https://apl
 
 Help on implementing new features and maintaining the code base is welcomed.
 
-Please see the [guidelines](../contributing/guidelines.md) for further details.
+Please see the [guidelines](https://aplatform64.readthedocs.io/en/latest/contributing/CONTRIBUTING) for further details.
 
 ## Author
 

@@ -20,13 +20,13 @@ Supported features in the current version:
 
 - Deploy application. Packages are defined in the variable `cloud_ibm_cli_profiles`.
 
-The **cloud_ibm_cli** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [cloud](../collections/cloud.md) Ansible-Collection.
+The **cloud_ibm_cli** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [cloud](https://aplatform64.readthedocs.io/en/latest/collections/cloud) Ansible-Collection.
 
 ## Usage
 
 The following example is an **Ansible Playbook** that includes all the supported features:
 
-[use this link if viewing the doc on github](../../collections/serdigital64/cloud/playbooks/cloud_ibm_cli.yml)
+[use this link if viewing the doc on github](https://github.com/aplatform64/cloud/blob/main/playbooks/cloud_ibm_cli.yml)
 
 ```yaml
 {% include "../../collections/serdigital64/cloud/playbooks/cloud_ibm_cli.yml" %}
@@ -120,7 +120,7 @@ Automatic installation is also available by deploying [A:Platform64](https://apl
 
 Help on implementing new features and maintaining the code base is welcomed.
 
-Please see the [guidelines](../contributing/guidelines.md) for further details.
+Please see the [guidelines](https://aplatform64.readthedocs.io/en/latest/contributing/CONTRIBUTING) for further details.
 
 ## Author
 

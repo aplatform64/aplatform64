@@ -27,13 +27,13 @@ Supported features in the current version:
   - runuser
   - which
 
-The **auto_ansible_node** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [automation](../collections/automation.md) Ansible-Collection.
+The **auto_ansible_node** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [automation](https://aplatform64.readthedocs.io/en/latest/collections/automation) Ansible-Collection.
 
 ## Usage
 
 The following example is an **Ansible Playbook** that includes all the supported features:
 
-[use this link if viewing the doc on github](../../collections/serdigital64/automation/playbooks/auto_ansible_node.yml)
+[use this link if viewing the doc on github](https://github.com/aplatform64/automation/blob/main/playbooks/auto_ansible_node.yml)
 
 ```yaml
 {% include "../../collections/serdigital64/automation/playbooks/auto_ansible_node.yml" %}
@@ -150,7 +150,7 @@ Automatic installation is also available by deploying [A:Platform64](https://apl
 
 Help on implementing new features and maintaining the code base is welcomed.
 
-Please see the [guidelines](../contributing/guidelines.md) for further details.
+Please see the [guidelines](https://aplatform64.readthedocs.io/en/latest/contributing/CONTRIBUTING) for further details.
 
 ## Author
 
