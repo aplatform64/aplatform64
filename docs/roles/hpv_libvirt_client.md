@@ -29,7 +29,7 @@ The following example is an **Ansible Playbook** that includes all the supported
 [use this link if viewing the doc on github](https://github.com/aplatform64/hypervisor/blob/main/playbooks/hpv_libvirt_client.yml)
 
 ```yaml
-{% include "../../collections/serdigital64/hypervisor/playbooks/hpv_libvirt_client.yml" %}
+{% include "../examples/hpv_libvirt_client.yml" %}
 ```
 
 The playbook can be run by executing:

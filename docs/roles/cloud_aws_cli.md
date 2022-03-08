@@ -32,7 +32,7 @@ The following example is an **Ansible Playbook** that includes all the supported
 [use this link if viewing the doc on github](https://github.com/aplatform64/cloud/blob/main/playbooks/cloud_aws_cli.yml)
 
 ```yaml
-{% include "../../collections/serdigital64/cloud/playbooks/cloud_aws_cli.yml" %}
+{% include "../examples/cloud_aws_cli.yml" %}
 ```
 
 The playbook can be run by executing:

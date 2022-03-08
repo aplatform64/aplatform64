@@ -17,7 +17,7 @@ The following example is an **Ansible Playbook** that includes all the supported
 [use this link if viewing the doc on github](https://github.com/aplatform64/monitor/blob/main/playbooks/mon_fluentd.yml)
 
 ```yaml
-{% include "../../collections/serdigital64/monitor/playbooks/mon_fluentd.yml" %}
+{% include "../examples/mon_fluentd.yml" %}
 ```
 
 The playbook can be run by executing:

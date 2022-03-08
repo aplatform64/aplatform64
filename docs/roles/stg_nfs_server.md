@@ -34,7 +34,7 @@ The following example is an **Ansible Playbook** that includes all the supported
 [use this link if viewing the doc on github](https://github.com/aplatform64/storage/blob/main/playbooks/stg_nfs_server.yml)
 
 ```yaml
-{% include "../../collections/serdigital64/storage/playbooks/stg_nfs_server.yml" %}
+{% include "../examples/stg_nfs_server.yml" %}
 ```
 
 The playbook can be run by executing:

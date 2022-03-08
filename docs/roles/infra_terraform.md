@@ -43,7 +43,7 @@ The following example is an **Ansible Playbook** that includes all the supported
 [use this link if viewing the doc on github](https://github.com/aplatform64/infrastructure/blob/main/playbooks/infra_terraform.yml)
 
 ```yaml
-{% include "../../collections/serdigital64/infrastructure/playbooks/infra_terraform.yml" %}
+{% include "../examples/infra_terraform.yml" %}
 ```
 
 The playbook can be run by executing:
