@@ -29,7 +29,7 @@ The following example is an **Ansible Playbook** that includes all the supported
 [use this link if viewing the doc on github](https://github.com/aplatform64/development/blob/main/playbooks/dev_gcc.yml)
 
 ```yaml
-{% include "../../collections/serdigital64/development/playbooks/dev_gcc.yml" %}
+{% include "../examples/dev_gcc.yml" %}
 ```
 
 The playbook can be run by executing:

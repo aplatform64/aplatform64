@@ -29,7 +29,7 @@ The following example is an **Ansible Playbook** that includes all the supported
 [use this link if viewing the doc on github](https://github.com/aplatform64/backup/blob/main/playbooks/bkp_rclone_server.yml)
 
 ```yaml
-{% include "../../collections/serdigital64/backup/playbooks/bkp_rclone_server.yml" %}
+{% include "../examples/bkp_rclone_server.yml" %}
 ```
 
 The playbook can be run by executing:

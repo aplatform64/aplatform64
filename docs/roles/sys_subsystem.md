@@ -22,7 +22,7 @@ The following example is an **Ansible Playbook** that includes all the supported
 [use this link if viewing the doc on github](https://github.com/aplatform64/system/blob/main/playbooks/sys_subsystem.yml)
 
 ```yaml
-{% include "../../collections/serdigital64/system/playbooks/sys_subsystem.yml" %}
+{% include "../examples/sys_subsystem.yml" %}
 ```
 
 The playbook can be run by executing:

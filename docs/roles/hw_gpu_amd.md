@@ -30,7 +30,7 @@ The following example is an **Ansible Playbook** that includes all the supported
 [use this link if viewing the doc on github](https://github.com/aplatform64/hardware/blob/main/playbooks/hw_gpu_amd.yml)
 
 ```yaml
-{% include "../../collections/serdigital64/hardware/playbooks/hw_gpu_amd.yml" %}
+{% include "../examples/hw_gpu_amd.yml" %}
 ```
 
 The playbook can be run by executing:

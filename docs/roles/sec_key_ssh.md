@@ -31,7 +31,7 @@ The following example is an **Ansible Playbook** that includes all the supported
 [use this link if viewing the doc on github](https://github.com/aplatform64/security/blob/main/playbooks/sec_key_ssh.yml)
 
 ```yaml
-{% include "../../collections/serdigital64/security/playbooks/sec_key_ssh.yml" %}
+{% include "../examples/sec_key_ssh.yml" %}
 ```
 
 The playbook can be run by executing:

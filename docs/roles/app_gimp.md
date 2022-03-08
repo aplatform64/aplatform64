@@ -29,7 +29,7 @@ The following example is an **Ansible Playbook** that includes all the supported
 [use this link if viewing the doc on github](https://github.com/aplatform64/application/blob/main/playbooks/app_gimp.yml)
 
 ```yaml
-{% include "../../collections/serdigital64/application/playbooks/app_gimp.yml" %}
+{% include "../examples/app_gimp.yml" %}
 ```
 
 The playbook can be run by executing:

@@ -39,7 +39,7 @@ The following example is an **Ansible Playbook** that includes all the supported
 [use this link if viewing the doc on github](https://github.com/aplatform64/backup/blob/main/playbooks/bkp_archive.yml)
 
 ```yaml
-{% include "../../collections/serdigital64/backup/playbooks/bkp_archive.yml" %}
+{% include "../examples/bkp_archive.yml" %}
 ```
 
 The playbook can be run by executing:

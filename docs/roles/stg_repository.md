@@ -38,7 +38,7 @@ The following example is an **Ansible Playbook** that includes all the supported
 [use this link if viewing the doc on github](https://github.com/aplatform64/storage/blob/main/playbooks/stg_repository.yml)
 
 ```yaml
-{% include "../../collections/serdigital64/storage/playbooks/stg_repository.yml" %}
+{% include "../examples/stg_repository.yml" %}
 ```
 
 The playbook can be run by executing:

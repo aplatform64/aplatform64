@@ -17,7 +17,7 @@ The following example is an **Ansible Playbook** that includes all the supported
 [use this link if viewing the doc on github](https://github.com/aplatform64/application/blob/main/playbooks/app_blender.yml)
 
 ```yaml
-{% include "../../collections/serdigital64/application/playbooks/app_blender.yml" %}
+{% include "../examples/app_blender.yml" %}
 ```
 
 The playbook can be run by executing:

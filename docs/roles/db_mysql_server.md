@@ -17,7 +17,7 @@ The following example is an **Ansible Playbook** that includes all the supported
 [use this link if viewing the doc on github](https://github.com/aplatform64/database/blob/main/playbooks/db_mysql_server.yml)
 
 ```yaml
-{% include "../../collections/serdigital64/database/playbooks/db_mysql_server.yml" %}
+{% include "../examples/db_mysql_server.yml" %}
 ```
 
 The playbook can be run by executing:
