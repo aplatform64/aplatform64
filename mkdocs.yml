@@ -8,7 +8,7 @@ repo_url: "https://github.com/serdigital64/aplatform64"
 
 copyright: "GPL-3.0-or-later"
 docs_dir: "docs/"
-#site_dir: "build/site/"
+site_dir: "build/site/"
 strict: false
 
 extra_css:
