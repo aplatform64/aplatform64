@@ -143,25 +143,17 @@ Roles in the A:Platform64 collections have their own compatibility matrix. Refer
 
 Download the installation script and resources:
 
-- [install.sh](https://raw.githubusercontent.com/aplatform64/automation/main/roles/auto_aplatform64/files/installer/install.sh)
-- [install_helper.sh](https://raw.githubusercontent.com/aplatform64/automation/main/roles/auto_aplatform64/files/installer/install_helper.sh)
-- [install_helper.yml](https://raw.githubusercontent.com/aplatform64/automation/main/roles/auto_aplatform64/files/installer/install_helper.yml)
-- [bashlib64.bash](https://raw.githubusercontent.com/aplatform64/automation/main/roles/auto_aplatform64/files/scripts/bashlib64.bash)
+- [install-aplatform64](https://raw.githubusercontent.com/aplatform64/automation/main/roles/auto_aplatform64/files/installer/install-aplatform64)
 
 ```shell
-APLATFORM64_INSTALLER='https://raw.githubusercontent.com/aplatform64/automation/main/roles/auto_aplatform64/files'
-curl \
-  -O "$APLATFORM64_INSTALLER/scripts/bashlib64.bash" \
-  -O "$APLATFORM64_INSTALLER/installer/install.sh" \
-  -O "$APLATFORM64_INSTALLER/installer/install_helper.sh" \
-  -O "$APLATFORM64_INSTALLER/installer/install_helper.yml"
-chmod 755 install.sh install_helper.sh
+curl -O https://raw.githubusercontent.com/aplatform64/automation/main/roles/auto_aplatform64/files/installer/install-aplatform64
+chmod 0755 install-aplatform64
 ```
 
 Run the installation script with the default options. See the [documentation](https://aplatform64.readthedocs.io/en/latest/bin/install/) for more options
 
 ```shell
-./install.sh -x
+./install-aplatform64 -x
 ```
 
 Done. The **A:Platform64** platform is now installed.
@@ -174,7 +166,7 @@ To start using **A:Platform64** change to the Ansible Control user and set the e
 
 ```shell
 # Switch to the Ansible Control user
-sudo su - "$APLATFORM64_MANAGER"
+sudo su - sitectl
 
 # Set the environment for Ansible
 source /opt/aplatform64/bin/site/ansible_control.env

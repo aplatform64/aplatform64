@@ -1,4 +1,4 @@
-# Script: install.sh
+# Script: install-aplatform64
 
 ## Overview
 
@@ -19,7 +19,7 @@ Install the [A:Platform64](https://aplatform64.readthedocs.io) environment.
   - Use default parameters
 
 ```shell
-./install.sh -6 -p -w -u -s -a
+./install-aplatform64 -6 -p -w -u -s -a
 ```
 
 ### Install A:Platform64
@@ -31,12 +31,12 @@ Install the [A:Platform64](https://aplatform64.readthedocs.io) environment.
 
 ```shell
 # Install using default parameters. Assume all prereqs are met. Use os native python 3.9
-./install.sh -y '/usr/bin/python3.9' -6
+./install-aplatform64 -y '/usr/bin/python3.9' -6
 ```
 
 ## Command Line Interface
 
-> `./install.sh [-x] [-6] [-p] [-w] [-u] [-s] [-a] [-k] [-t SITE] [-y PYTHON] [-m USER] [-v VENV] [-r PATH] [-o PATH] [-l PATH] [-h]`
+> `./install-aplatform64 [-x] [-6] [-p] [-w] [-u] [-s] [-a] [-k] [-t SITE] [-y PYTHON] [-m USER] [-v VENV] [-r PATH] [-o PATH] [-l PATH] [-h]`
 
 ### Commands
 
@@ -98,17 +98,11 @@ Install the [A:Platform64](https://aplatform64.readthedocs.io) environment.
 
 ### Installation Procedure
 
-Download the installation script and resources:
+Download the installation script:
 
 ```shell
-APLATFORM64_INSTALLER='https://raw.githubusercontent.com/serdigital64/aplatform64/main/collections/serdigital64/automation/roles/auto_aplatform64/files/installer'
-APLATFORM64_SHELL64='https://raw.githubusercontent.com/serdigital64/aplatform64/main/collections/serdigital64/automation/roles/auto_aplatform64/files/scripts'
-curl \
-  -O "$APLATFORM64_SHELL64/bashlib64.bash" \
-  -O "$APLATFORM64_INSTALLER/install.sh" \
-  -O "$APLATFORM64_INSTALLER/install_helper.sh" \
-  -O "$APLATFORM64_INSTALLER/install_helper.yml"
-chmod 755 install.sh install_helper.sh
+curl -O https://raw.githubusercontent.com/aplatform64/automation/main/roles/auto_aplatform64/files/installer/install-aplatform64
+chmod 0755 install-aplatform64
 ```
 
 ## Contributing
