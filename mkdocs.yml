@@ -65,7 +65,7 @@ nav:
   - Home: "index.md"
   - Scripts:
     - ap64: "bin/ap64.md"
-    - install: "bin/install.md"
+    - install-aplatform64: "bin/install-aplatform64.md"
   - Contributing:
     - guidelines: "contributing/CONTRIBUTING.md"
     - conduct: "contributing/CODE_OF_CONDUCT.md"
