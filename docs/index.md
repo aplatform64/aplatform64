@@ -143,13 +143,13 @@ Roles in the A:Platform64 collections have their own compatibility matrix. Refer
 
 Download the installation script and resources:
 
-- [install.sh](https://raw.githubusercontent.com/serdigital64/aplatform64/main/collections/serdigital64/automation/roles/auto_aplatform64/files/installer/install.sh)
-- [install_helper.sh](https://raw.githubusercontent.com/serdigital64/aplatform64/main/collections/serdigital64/automation/roles/auto_aplatform64/files/installer/install_helper.sh)
-- [install_helper.yml](https://raw.githubusercontent.com/serdigital64/aplatform64/main/collections/serdigital64/automation/roles/auto_aplatform64/files/installer/install_helper.yml)
-- [bashlib64.bash](https://raw.githubusercontent.com/serdigital64/aplatform64/main/collections/serdigital64/automation/roles/auto_aplatform64/files/scripts/bashlib64.bash)
+- [install.sh](https://raw.githubusercontent.com/aplatform64/automation/main/roles/auto_aplatform64/files/installer/install.sh)
+- [install_helper.sh](https://raw.githubusercontent.com/aplatform64/automation/main/roles/auto_aplatform64/files/installer/install_helper.sh)
+- [install_helper.yml](https://raw.githubusercontent.com/aplatform64/automation/main/roles/auto_aplatform64/files/installer/install_helper.yml)
+- [bashlib64.bash](https://raw.githubusercontent.com/aplatform64/automation/main/roles/auto_aplatform64/files/scripts/bashlib64.bash)
 
 ```shell
-APLATFORM64_INSTALLER='https://raw.githubusercontent.com/serdigital64/aplatform64/main/collections/serdigital64/automation/roles/auto_aplatform64/files'
+APLATFORM64_INSTALLER='https://raw.githubusercontent.com/aplatform64/automation/main/roles/auto_aplatform64/files'
 curl \
   -O "$APLATFORM64_INSTALLER/scripts/bashlib64.bash" \
   -O "$APLATFORM64_INSTALLER/installer/install.sh" \

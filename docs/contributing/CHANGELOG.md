@@ -1,17 +1,19 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
-
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-
-## [Unreleased]
-
-## [2.12.0]
-
-### Changed
-
-- Collections moved to GIT submodules
-
-[Unreleased]: https://github.com/serdigital64/aplatform64/compare/2.12.0...HEAD
-[2.12.0]: https://github.com/serdigital64/aplatform64/releases/tag/2.12.0
+- [Collection application](https://raw.githubusercontent.com/aplatform64/application/main/CHANGELOG.md)
+- [Collection automation](https://raw.githubusercontent.com/aplatform64/automation/main/CHANGELOG.md)
+- [Collection backup](https://raw.githubusercontent.com/aplatform64/backup/main/CHANGELOG.md)
+- [Collection cloud](https://raw.githubusercontent.com/aplatform64/cloud/main/CHANGELOG.md)
+- [Collection container](https://raw.githubusercontent.com/aplatform64/container/main/CHANGELOG.md)
+- [Collection database](https://raw.githubusercontent.com/aplatform64/database/main/CHANGELOG.md)
+- [Collection development](https://raw.githubusercontent.com/aplatform64/development/main/CHANGELOG.md)
+- [Collection devops](https://raw.githubusercontent.com/aplatform64/devops/main/CHANGELOG.md)
+- [Collection hardware](https://raw.githubusercontent.com/aplatform64/hardware/main/CHANGELOG.md)
+- [Collection hypervisor](https://raw.githubusercontent.com/aplatform64/hypervisor/main/CHANGELOG.md)
+- [Collection infrastructure](https://raw.githubusercontent.com/aplatform64/infrastructure/main/CHANGELOG.md)
+- [Collection monitor](https://raw.githubusercontent.com/aplatform64/monitor/main/CHANGELOG.md)
+- [Collection network](https://raw.githubusercontent.com/aplatform64/network/main/CHANGELOG.md)
+- [Collection security](https://raw.githubusercontent.com/aplatform64/security/main/CHANGELOG.md)
+- [Collection storage](https://raw.githubusercontent.com/aplatform64/storage/main/CHANGELOG.md)
+- [Collection system](https://raw.githubusercontent.com/aplatform64/system/main/CHANGELOG.md)
+- [Collection web](https://raw.githubusercontent.com/aplatform64/web/main/CHANGELOG.md)
