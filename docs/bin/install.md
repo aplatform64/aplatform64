@@ -1,15 +1,3 @@
----
-title: "Script: install.sh"
-description: "Install the A:Platform64 environment"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Script: install.sh
 
 ## Overview
@@ -48,7 +36,7 @@ Install the [A:Platform64](https://aplatform64.readthedocs.io) environment.
 
 ## Command Line Interface
 
-> `./install.sh [-x] [-6] [-p] [-w] [-u] [-s] [-a] [-k] [-t SITE]  [-y PYTHON] [-m USER] [-v VENV] [-r PATH] [-o PATH] [-h]`
+> `./install.sh [-x] [-6] [-p] [-w] [-u] [-s] [-a] [-k] [-t SITE] [-y PYTHON] [-m USER] [-v VENV] [-r PATH] [-o PATH] [-l PATH] [-h]`
 
 ### Commands
 
@@ -71,14 +59,15 @@ Install the [A:Platform64](https://aplatform64.readthedocs.io) environment.
 
 ### Parameters
 
-| Parameter   | Format       | Default                | Value                                                              |
-| ----------- | ------------ | ---------------------- | ------------------------------------------------------------------ |
-| `-t SITE`   | `[a-z][0-9]` | `site`                 | Site name                                                          |
-| `-y PYTHON` | `full-path`  |                        | Python3.9 interpreter path                                         |
-| `-m USER`   | `[a-z][0-9]` | `sitectl`              | Control node account login name                                    |
-| `-v VENV`   | `[a-z][0-9]` | `aplatform64`          | Python virtual environment name where Ansible will be installed to |
-| `-r PATH`   | `full-path`  | `/opt/aplatform64`     | Install path for collections and configurations                    |
-| `-o PATH`   | `full-path`  | `/var/opt/aplatform64` | Install path for temporary and run-time data                       |
+| Parameter   | Format       | Default                | Value                                                                            |
+| ----------- | ------------ | ---------------------- | -------------------------------------------------------------------------------- |
+| `-t SITE`   | `[a-z][0-9]` | `site`                 | Site name                                                                        |
+| `-y PYTHON` | `full-path`  |                        | Python3.9 interpreter path                                                       |
+| `-m USER`   | `[a-z][0-9]` | `sitectl`              | Control node account login name                                                  |
+| `-v VENV`   | `[a-z][0-9]` | `aplatform64`          | Python virtual environment name where Ansible will be installed to               |
+| `-r PATH`   | `full-path`  | `/opt/aplatform64`     | Install path for collections and configurations                                  |
+| `-o PATH`   | `full-path`  | `/var/opt/aplatform64` | Install path for temporary and run-time data                                     |
+| `-l PATH`   | `full-path`  |                        | Path to local collection packages. Default: none (use Ansible Galaxy repository) |
 
 ### Exit Status
 
