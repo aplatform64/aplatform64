@@ -60,9 +60,9 @@
 
 Use the following code templates from the project [CodeSkel64](https://github.com/serdigital64/codeskel64) for adding content to the project:
 
-- [Collections](https://github.com/serdigital64/codeskel64/tree/main/Ansible/skeletons/collections/aplatform64)
-- [Roles](https://github.com/serdigital64/codeskel64/tree/main/Ansible/skeletons/roles/aplatform64-full)
-- [Tests](https://github.com/serdigital64/codeskel64/tree/main/Ansible/skeletons/molecule/aplatform64)
+- [Collections](https://github.com/serdigital64/codeskel64/tree/main/src/catalog/Ansible/skeletons/collection-aplatform64)
+- [Roles](https://github.com/serdigital64/codeskel64/tree/main/src/catalog/Ansible/skeletons/role-aplatform64-full)
+- [Tests](https://github.com/serdigital64/codeskel64/tree/main/src/catalog/Ansible/skeletons/molecule-aplatform64)
 
 ## Versioning Strategy
 
