@@ -150,7 +150,7 @@ curl -O https://raw.githubusercontent.com/aplatform64/automation/main/roles/auto
 chmod 0755 install-aplatform64
 ```
 
-Run the installation script with the default options. See the [documentation](https://aplatform64.readthedocs.io/en/latest/bin/install/) for more options
+Run the installation script with the default options. See the [documentation](https://aplatform64.readthedocs.io/en/latest/bin/install-aplatform64/) for more options
 
 ```shell
 ./install-aplatform64 -x
