@@ -8,17 +8,18 @@ This collection is part of the [A:Platform64](https://github.com/serdigital64/ap
 
 ## Content
 
-| role                                                                                    | purpose                                |
-| --------------------------------------------------------------------------------------- | -------------------------------------- |
-| [dops_ansiblelint](https://aplatform64.readthedocs.io/en/latest/roles/dops_ansiblelint) | Manage provisioning of Ansible Linter  |
-| [dops_batscore](https://aplatform64.readthedocs.io/en/latest/roles/dops_batscore)       | Manage provisioning of Bats Core       |
-| [dops_git_client](https://aplatform64.readthedocs.io/en/latest/roles/dops_git_client)   | Manage provisioning of client side GIT |
-| [dops_git_server](https://aplatform64.readthedocs.io/en/latest/roles/dops_git_server)   | Manage GIT server                      |
-| [dops_github_cli](https://aplatform64.readthedocs.io/en/latest/roles/dops_github_cli)   | Manage provisioning of GitHub CLI      |
-| [dops_jenkins](https://aplatform64.readthedocs.io/en/latest/roles/dops_jenkins)         | Manage Jenkins server                  |
-| [dops_molecule](https://aplatform64.readthedocs.io/en/latest/roles/dops_molecule)       | Manage provisioning of Molecule        |
-| [dops_shellcheck](https://aplatform64.readthedocs.io/en/latest/roles/dops_shellcheck)   | Manage provisioning of ShellCheck      |
-| [dops_yamllint](https://aplatform64.readthedocs.io/en/latest/roles/dops_yamllint)       | Manage provisioning of YAML Linter     |
+| role                                                                                        | purpose                                |
+| ------------------------------------------------------------------------------------------- | -------------------------------------- |
+| [dops_ansiblelint](https://aplatform64.readthedocs.io/en/latest/roles/dops_ansiblelint)     | Manage provisioning of Ansible Linter  |
+| [dops_batscore](https://aplatform64.readthedocs.io/en/latest/roles/dops_batscore)           | Manage provisioning of Bats Core       |
+| [dops_git_client](https://aplatform64.readthedocs.io/en/latest/roles/dops_git_client)       | Manage provisioning of client side GIT |
+| [dops_git_server](https://aplatform64.readthedocs.io/en/latest/roles/dops_git_server)       | Manage GIT server                      |
+| [dops_github_cli](https://aplatform64.readthedocs.io/en/latest/roles/dops_github_cli)       | Manage provisioning of GitHub CLI      |
+| [dops_gitlab_server](https://aplatform64.readthedocs.io/en/latest/roles/dops_gitlab_server) | Manage provisioning of GitLab Server   |
+| [dops_jenkins](https://aplatform64.readthedocs.io/en/latest/roles/dops_jenkins)             | Manage Jenkins server                  |
+| [dops_molecule](https://aplatform64.readthedocs.io/en/latest/roles/dops_molecule)           | Manage provisioning of Molecule        |
+| [dops_shellcheck](https://aplatform64.readthedocs.io/en/latest/roles/dops_shellcheck)       | Manage provisioning of ShellCheck      |
+| [dops_yamllint](https://aplatform64.readthedocs.io/en/latest/roles/dops_yamllint)           | Manage provisioning of YAML Linter     |
 
 ## Deployment
 
