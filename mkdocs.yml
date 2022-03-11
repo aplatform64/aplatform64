@@ -81,6 +81,7 @@ nav:
     - manage_doc_sites: "playbooks/manage_doc_sites.md"
     - manage_file_servers: "playbooks/manage_file_servers.md"
     - manage_git_servers: "playbooks/manage_git_servers.md"
+    - manage_gitlab_servers: "playbooks/manage_gitlab_servers.md"
     - manage_hpc_nodes: "playbooks/manage_hpc_nodes.md"
     - manage_jenkins_controllers: "playbooks/manage_jenkins_controllers.md"
     - manage_jenkins_workers: "playbooks/manage_jenkins_workers.md"

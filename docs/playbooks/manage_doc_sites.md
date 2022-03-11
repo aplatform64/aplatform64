@@ -1,15 +1,3 @@
----
-title: "Ansible Playbook: manage_doc_sites"
-description: "Provision documentation site management tools"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Playbook: manage_doc_sites
 
 ## Purpose

@@ -1,15 +1,3 @@
----
-title: "Ansible Playbook: manage_jenkins_workers"
-description: "Manage Jenkins workers"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Playbook: manage_jenkins_workers
 
 ## Purpose

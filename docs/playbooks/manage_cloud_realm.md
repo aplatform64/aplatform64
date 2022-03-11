@@ -1,15 +1,3 @@
----
-title: "Ansible Playbook: manage_cloud_realm"
-description: "Manage cloud provider accounts, users and organizations as a single entity"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Playbook: manage_cloud_realm
 
 ## Purpose

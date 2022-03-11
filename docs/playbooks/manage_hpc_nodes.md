@@ -1,15 +1,3 @@
----
-title: "Ansible Playbook: manage_hpc_nodes"
-description: "Provision high-performance computing environments"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Playbook: manage_hpc_nodes
 
 ## Purpose

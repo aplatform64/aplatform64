@@ -1,15 +1,3 @@
----
-title: "Ansible Playbook: manage_office_nodes"
-description: "Provision office productivity applications"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Playbook: manage_office_nodes
 
 ## Purpose

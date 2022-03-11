@@ -1,15 +1,3 @@
----
-title: "Ansible Playbook: manage_ansible_managed_nodes"
-description: "Manage Ansible Managed nodes"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Playbook: manage_ansible_managed_nodes
 
 ## Purpose

@@ -1,15 +1,3 @@
----
-title: "Ansible Playbook: manage_test_nodes"
-description: "Provision software testing tools"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Playbook: manage_test_nodes
 
 ## Purpose

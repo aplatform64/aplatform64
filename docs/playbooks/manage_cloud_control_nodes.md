@@ -1,15 +1,3 @@
----
-title: "Ansible Playbook: manage_cloud_control_nodes"
-description: "Provision public cloud management tools"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Playbook: manage_cloud_control_nodes
 
 ## Purpose
