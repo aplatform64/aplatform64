@@ -6,7 +6,10 @@ Manage GitLab servers.
 
 Supported features in the current version:
 
-- Deploy GitLab server
+- Configure OS package manager
+  - Add GitLab repo
+- Provision OS Firewall
+- Provision GitLab server
 
 ## Use Cases
 
@@ -49,6 +52,7 @@ Additional role specific settings are available to further customize the playboo
 
 | A:Platform64 role                                                                        | group_vars file                                                            |
 | ---------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| [serdigital64.devops.dops_gitlab_server](../roles/dops_gitlab_server.md#role-parameters) | `inventories/<SITE>/group_vars/gitlab_server_nodes/dops_gitlab_server.yml` |
 | [serdigital64.system.sys_repository](../roles/sys_repository.md#role-parameters)         | `inventories/<SITE>/group_vars/gitlab_server_nodes/sys_repository.yml`     |
 
 ## Deployment
@@ -57,8 +61,6 @@ Additional role specific settings are available to further customize the playboo
 
 - CentOS8
 - OracleLinux8
-- Fedora33
-- Fedora35
 
 ### Dependencies
 
@@ -66,8 +68,9 @@ Dependencies in this section are automatically solved during the installation of
 
 - Ansible Collections:
   - serdigital64.backup
-  - serdigital64.system
   - serdigital64.devops
+  - serdigital64.security
+  - serdigital64.system
 
 ### Prerequisites
 
