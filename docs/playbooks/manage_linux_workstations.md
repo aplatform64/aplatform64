@@ -1,15 +1,3 @@
----
-title: "Ansible Playbook: manage_linux_workstations"
-description: "Manage Linux Workstations"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Playbook: manage_linux_workstations
 
 ## Purpose

@@ -1,15 +1,3 @@
----
-title: "Ansible Playbook: manage_dev_nodes"
-description: "Provision software development environments"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Playbook: manage_dev_nodes
 
 ## Purpose

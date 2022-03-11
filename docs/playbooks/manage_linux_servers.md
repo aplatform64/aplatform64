@@ -1,15 +1,3 @@
----
-title: "Ansible Playbook: manage_linux_servers"
-description: "Manage Linux Servers"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Playbook: manage_linux_servers
 
 ## Purpose

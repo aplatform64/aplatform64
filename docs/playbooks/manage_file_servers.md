@@ -1,15 +1,3 @@
----
-title: "Ansible Playbook: manage_file_servers"
-description: "Manage file servers"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Playbook: manage_file_servers
 
 ## Purpose
