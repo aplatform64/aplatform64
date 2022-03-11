@@ -7,6 +7,9 @@ Manage provisioning of GitLab Server
 Supported features in the current version:
 
 - Deploy application. Packages are defined in the variable `dops_gitlab_server_profiles`.
+- Control application subsystem services. Services are defined in the variable `dops_gitlab_server_subsystems`.
+- Configure OS level firewall rules. Rules are defined in the varible `dops_gitlab_server_firewall_rules`.
+- Configure server options. Options are defined in the variable `dops_gitlab_server_server`.
 
 The **dops_gitlab_server** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [devops](https://aplatform64.readthedocs.io/en/latest/collections/devops) Ansible-Collection.
 
@@ -17,7 +20,7 @@ The following example is an **Ansible Playbook** that includes all the supported
 [use this link if viewing the doc on github](https://github.com/aplatform64/devops/blob/main/playbooks/dops_gitlab_server.yml)
 
 ```yaml
-{% include "../examples/dops_gitlab_server.yml" %}
+{% include "../../collections/serdigital64/devops/playbooks/dops_gitlab_server.yml" %}
 ```
 
 The playbook can be run by executing:
@@ -39,12 +42,16 @@ ansible-playbook "${ANSIBLE_COLLECTIONS_PATHS}/ansible_collections/serdigital64/
 dops_gitlab_server:
   resolve_prereq:
   deploy:
+  setup:
+  control:
 ```
 
 | Parameter                         | Required? | Type    | Default | Purpose / Value                              |
 | --------------------------------- | --------- | ------- | ------- | -------------------------------------------- |
 | dops_gitlab_server.resolve_prereq | no        | boolean | `false` | Enable automatic resolution of prequisites   |
 | dops_gitlab_server.deploy         | no        | boolean | `false` | Enable installation of application packages  |
+| dops_gitlab_server.setup          | no        | boolean | `false` | Enable application configuration             |
+| dops_gitlab_server.control        | no        | boolean | `false` | Enable application subsystem service control |
 
 ### End State
 
@@ -57,15 +64,29 @@ dops_gitlab_server_application:
   type:
   version:
   installed:
+dops_gitlab_server_subsystem:
+  enabled:
+  status:
+dops_gitlab_server_firewall:
+  zone:
+dops_gitlab_server_server:
+  external_url:
 ```
 
-| Parameter                                           | Required?    | Type       | Default                             | Purpose / Value                     |
-| --------------------------------------------------- | ------------ | ---------- | ----------------------------------- | ----------------------------------- |
-| dops_gitlab_server_application                      | yes(deploy)  | dictionary |                                     | Set application package end state   |
-| dops_gitlab_server_application.name                 | yes          | string     | `"gitlab_server"`                   | Select application package name     |
-| dops_gitlab_server_application.type                 | yes          | string     | `"distro"`                          | Select application package type     |
-| dops_gitlab_server_application.version              | yes          | string     | `"v14"`                             | Select application package version  |
-| dops_gitlab_server_application.installed            | yes          | boolean    | `true`                              | Set application package end state   |
+| Parameter                                | Required?    | Type       | Default                | Purpose / Value                     |
+| ---------------------------------------- | ------------ | ---------- | ---------------------- | ----------------------------------- |
+| dops_gitlab_server_application           | yes(deploy)  | dictionary |                        | Set application package end state   |
+| dops_gitlab_server_application.name      | yes          | string     | `"gitlab_server"`      | Select application package name     |
+| dops_gitlab_server_application.type      | yes          | string     | `"distro"`             | Select application package type     |
+| dops_gitlab_server_application.version   | yes          | string     | `"v14"`                | Select application package version  |
+| dops_gitlab_server_application.installed | yes          | boolean    | `true`                 | Set application package end state   |
+| dops_gitlab_server_subsystem             | yes(control) | dictionary |                        | Set application subsystem end state |
+| dops_gitlab_server_subsystem.enabled     | yes          | boolean    | `false`                | Enable the subsystem?               |
+| dops_gitlab_server_subsystem.status      | yes          | string     | `"stopped"`            | Set the service state               |
+| dops_gitlab_server_server                | yes(control) | dictionary |                        | Set subsystem server options        |
+| dops_gitlab_server_server.external_url   | yes          | string     | `"gitlab.localdomain"` | Server URL. Format: FQDN            |
+| dops_gitlab_server_firewall              | yes(setup)   | dictionary |                        | OS Firewall options                 |
+| dops_gitlab_server_firewall.zone         | yes          | string     | `"public"`             | Name of the target zone             |
 
 ## Deployment
 
@@ -82,6 +103,8 @@ dops_gitlab_server_application:
   - serdigital64.system
     - sys_package
     - sys_repository
+  - serdigital64.security
+    - sec_firewall_os
 
 ### Prerequisites
 
