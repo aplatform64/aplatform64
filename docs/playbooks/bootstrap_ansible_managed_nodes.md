@@ -1,15 +1,3 @@
----
-title: "Ansible Playbook: bootstrap_ansible_managed_nodes"
-description: "Bootstrap Ansible Managed nodes"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Playbook: bootstrap_ansible_managed_nodes
 
 ## Purpose

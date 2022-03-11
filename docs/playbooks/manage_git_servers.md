@@ -1,16 +1,4 @@
----
-title: "Ansible Playbook: manage_git_server_nodes"
-description: "Manage GIT servers"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
-# Ansible Playbook: manage_git_server_nodes
+# Ansible Playbook: manage_git_servers
 
 ## Purpose
 
@@ -27,11 +15,11 @@ Supported features in the current version:
 ### Deploy GIT server node
 
 - Verify that target nodes are registered in the inventory file: [git_service.ini](#inventory)
-- Verify that target endstate is set: [manage_git_server_nodes.yml](#end-state)
+- Verify that target endstate is set: [manage_git_servers.yml](#end-state)
 - Run the playbook. Use the `-s <SITE>` parameter to select the target site.
 
 ```shell
-/opt/aplatform64/bin/ap64.sh -n -p manage_git_server_nodes -s <SITE>
+/opt/aplatform64/bin/ap64.sh -n -p manage_git_servers -s <SITE>
 ```
 
 ## Playbook Parameters
@@ -41,30 +29,30 @@ Supported features in the current version:
 Register the hosts that will consume the service in the Ansible Inventory file:
 
 - File: `inventories/<SITE>/git_service.ini`
-- Host Group: `git_server_nodes`
+- Host Group: `git_servers`
 
 ### End State
 
 A dedicated group_vars directory is used to store end-state configuration settings for both the playbook and related Ansible Roles.
 
-Set playbook specific settings in the file: `inventories/<SITE>/group_vars/git_server_nodes/manage_git_server_nodes.yml`
+Set playbook specific settings in the file: `inventories/<SITE>/group_vars/git_servers/manage_git_servers.yml`
 
 ```yaml
-manage_git_server_nodes_apps:
+manage_git_servers_apps:
   git:
 ```
 
-| Parameter                        | Required? | Type       | Default | Purpose / Value                           |
-| -------------------------------- | --------- | ---------- | ------- | ----------------------------------------- |
-| manage_git_server_nodes_apps     | no        | dictionary |         | Define what applications will be deployed |
-| manage_git_server_nodes_apps.git | no        | boolean    | `true`  | Deploy the application?                   |
+| Parameter                   | Required? | Type       | Default | Purpose / Value                           |
+| --------------------------- | --------- | ---------- | ------- | ----------------------------------------- |
+| manage_git_servers_apps     | no        | dictionary |         | Define what applications will be deployed |
+| manage_git_servers_apps.git | no        | boolean    | `true`  | Deploy the application?                   |
 
 Additional role specific settings are available to further customize the playbook:
 
-| A:Platform64 role                                                                  | group_vars file                                                      |
-| ---------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| [serdigital64.system.sys_repository](../roles/sys_repository.md#role-parameters)   | `inventories/<SITE>/group_vars/git_server_nodes/sys_repository.yml`  |
-| [serdigital64.devops.dops_git_server](../roles/dops_git_server.md#role-parameters) | `inventories/<SITE>/group_vars/git_server_nodes/dops_git_server.yml` |
+| A:Platform64 role                                                                  | group_vars file                                                 |
+| ---------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| [serdigital64.system.sys_repository](../roles/sys_repository.md#role-parameters)   | `inventories/<SITE>/group_vars/git_servers/sys_repository.yml`  |
+| [serdigital64.devops.dops_git_server](../roles/dops_git_server.md#role-parameters) | `inventories/<SITE>/group_vars/git_servers/dops_git_server.yml` |
 
 ## Deployment
 

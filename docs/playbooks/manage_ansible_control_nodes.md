@@ -1,15 +1,3 @@
----
-title: "Ansible Playbook: manage_ansible_control_nodes"
-description: "Manage Ansible Control node"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Playbook: manage_ansible_control_nodes
 
 ## Purpose

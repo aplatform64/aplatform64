@@ -1,15 +1,3 @@
----
-title: "Ansible Playbook: manage_jenkins_controllers"
-description: "Manage Jenkins controllers"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Playbook: manage_jenkins_controllers
 
 ## Purpose
