@@ -1,15 +1,3 @@
----
-title: "Ansible Role: serdigital64.application.app_keepassxc"
-description: "Manage provisioning of the KeePassXC application"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Role: serdigital64.application.app_keepassxc
 
 ## Purpose
@@ -56,8 +44,8 @@ app_keepassxc:
   setup:
 ```
 
-| Parameter                   | Required? | Type    | Default | Purpose / Value                             |
-| --------------------------- | --------- | ------- | ------- | ------------------------------------------- |
+| Parameter                    | Required? | Type    | Default | Purpose / Value                             |
+| ---------------------------- | --------- | ------- | ------- | ------------------------------------------- |
 | app_keepassxc.resolve_prereq | no        | boolean | `false` | Enable automatic resolution of prequisites  |
 | app_keepassxc.deploy         | no        | boolean | `false` | Enable installation of application packages |
 | app_keepassxc.setup          | no        | boolean | `false` | Enable application configuration            |
@@ -73,21 +61,27 @@ app_keepassxc_application:
   type:
   version:
   installed:
+app_keepassxc_actions:
+  setup:
+    overwrite:
 app_keepassxc_setup_users:
   - user:
     home:
 ```
 
-| Parameter                          | Required?  | Type       | Default      | Purpose / Value                    |
-| ---------------------------------- | ---------- | ---------- | ------------ | ---------------------------------- |
-| app_keepassxc_application           | no         | dictionary |              | Set application package end state  |
-| app_keepassxc_application.name      | no         | string     | `"keepassxc"` | Select application package name    |
-| app_keepassxc_application.type      | no         | string     | `"distro"`   | Select application package type    |
-| app_keepassxc_application.version   | no         | string     | `"latest"`   | Select application package version |
-| app_keepassxc_application.installed | no         | boolean    | `true`       | Set application package end state  |
-| app_keepassxc_setup_users           | yes(setup) | list       |              | List of users for the setup task   |
-| app_keepassxc_setup_users.0.user    | yes        | string     |              | User login name                    |
-| app_keepassxc_setup_users.0.home    | yes        | string     |              | Home full path                     |
+| Parameter                             | Required?  | Type       | Default       | Purpose / Value                    |
+| ------------------------------------- | ---------- | ---------- | ------------- | ---------------------------------- |
+| app_keepassxc_application             | no         | dictionary |               | Set application package end state  |
+| app_keepassxc_application.name        | no         | string     | `"keepassxc"` | Select application package name    |
+| app_keepassxc_application.type        | no         | string     | `"distro"`    | Select application package type    |
+| app_keepassxc_application.version     | no         | string     | `"latest"`    | Select application package version |
+| app_keepassxc_application.installed   | no         | boolean    | `true`        | Set application package end state  |
+| app_keepassxc_actions                 | no         | dictionary |               | Set action options                 |
+| app_keepassxc_actions.setup           | no         | dictionary |               | Set setup action options           |
+| app_keepassxc_actions.setup.overwrite | no         | boolean    | `false`       | Overwrite user configurations?     |
+| app_keepassxc_setup_users             | yes(setup) | list       |               | List of users for the setup task   |
+| app_keepassxc_setup_users.0.user      | yes        | string     |               | User login name                    |
+| app_keepassxc_setup_users.0.home      | yes        | string     |               | Home full path                     |
 
 ## Deployment
 

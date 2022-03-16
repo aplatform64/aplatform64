@@ -1,15 +1,3 @@
----
-title: "Ansible Role: serdigital64.application.app_chrome"
-description: "Manage provisioning of the Google Chrome application"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - application
-  - linux
-  - automation
----
-
 # Ansible Role: serdigital64.application.app_chrome
 
 ## Purpose

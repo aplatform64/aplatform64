@@ -1,15 +1,3 @@
----
-title: "Ansible Role: serdigital64.application.app_tilix"
-description: "Manage provisioning of the Tilix application"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - application
-  - linux
-  - automation
----
-
 # Ansible Role: serdigital64.application.app_tilix
 
 ## Purpose

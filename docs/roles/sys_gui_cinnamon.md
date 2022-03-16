@@ -74,16 +74,16 @@ sys_gui_cinnamon:
 - Parameters should be declared in **host_vars** or **group_vars** as they are intended to be permanent.
 
 ```yaml
-sys_gui_cinnamon_users:
+sys_gui_cinnamon_dconf:
   desktop:
   nemo:
 ```
 
 | Parameter                      | Required?      | Type       | Default                     | Purpose / Value             |
 | ------------------------------ | -------------- | ---------- | --------------------------- | --------------------------- |
-| sys_gui_cinnamon_users         | yes(provision) | dictionary |                             | Define user options         |
-| sys_gui_cinnamon_users.desktop | yes            | string     | `"desktop_adapta_nokto_v1"` | Desktop configuration set   |
-| sys_gui_cinnamon_users.nemo    | yes            | string     | `"nemo_v1"`                 | Nemo configuration set name |
+| sys_gui_cinnamon_dconf         | yes(provision) | dictionary |                             | Define user options         |
+| sys_gui_cinnamon_dconf.desktop | yes            | string     | `"desktop_adapta_nokto_v1"` | Desktop configuration set   |
+| sys_gui_cinnamon_dconf.nemo    | yes            | string     | `"nemo_v1"`                 | Nemo configuration set name |
 
 ## Deployment
 

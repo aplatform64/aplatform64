@@ -66,6 +66,25 @@ sys_shell:
   resolve_prereq:
   deploy:
   setup:
+```
+
+| Parameter                | Required? | Type    | Default | Purpose / Value                             |
+| ------------------------ | --------- | ------- | ------- | ------------------------------------------- |
+| sys_shell.resolve_prereq | no        | boolean | `false` | Enable automatic resolution of prequisites  |
+| sys_shell.deploy         | no        | boolean | `false` | Enable installation of application packages |
+| sys_shell.setup          | no        | boolean | `false` | Enable user shell profile configuration     |
+
+### End State
+
+- Use **end-state** parameters to define the target state after role execution.
+- Parameters should be declared in **host_vars** or **group_vars** as they are intended to be permanent.
+
+```yaml
+sys_shell_catalog:
+  zsh: false
+  bash: false
+  ksh: false
+  csh: false
 sys_shell_users:
   - user:
     flavour:
@@ -83,51 +102,38 @@ sys_shell_users:
         export:
     sources:
     include_system:
+sys_shell_actions:
+  setup:
+    overwrite:
 ```
 
-| Parameter                         | Required? | Type       | Default | Purpose / Value                                                          |
-| --------------------------------- | --------- | ---------- | ------- | ------------------------------------------------------------------------ |
-| sys_shell.resolve_prereq          | no        | boolean    | `false` | Enable automatic resolution of prequisites                               |
-| sys_shell.deploy                  | no        | boolean    | `false` | Enable installation of application packages                              |
-| sys_shell.setup                   | no        | boolean    | `false` | Enable user shell profile configuration                                  |
-| sys_shell_user                    | no        | list       |         | Define the list of target users to setup                                 |
-| sys_shell_user.user               | yes       | string     |         | Login name                                                               |
-| sys_shell_user.flavour            | yes       | string     |         | Profile shell type. Use the associated tag from the supported shell list |
-| sys_shell_user.access             | no        | dictionary |         | Define access permissions for profile files                              |
-| sys_shell_user.access.owner       | no        | string     |         | Define owner                                                             |
-| sys_shell_user.access.group       | no        | string     |         | Define owning group                                                      |
-| sys_shell_user.access.mode        | no        | dictionary |         | Define file permissions                                                  |
-| sys_shell_user.access.mode.file   | no        | string     |         | Define permissions for files. Use octal notation                         |
-| sys_shell_user.access.mode.dir    | no        | string     |         | Define permissions for directories. Use octal notation                   |
-| sys_shell_user.home               | no        | string     |         | Full path to the user's home directory                                   |
-| sys_shell_user.paths              | no        | list       |         | List of full paths to add to the PATH variable                           |
-| sys_shell_user.variables          | no        | list       |         | List of user defined variables to be added to the profile                |
-| sys_shell_user.variables.0.name   | no        | string     |         | Variable name                                                            |
-| sys_shell_user.variables.0.value  | no        | string     |         | Variable value                                                           |
-| sys_shell_user.variables.0.export | no        | boolean    |         | Export the variable?                                                     |
-| sys_shell_user.sources            | no        | list       |         | List of full path scripts to be included in the profile (source)         |
-| sys_shell_user.include_system     | no        | boolean    |         | Include system wide profile?                                             |
-
-### End State
-
-- Use **end-state** parameters to define the target state after role execution.
-- Parameters should be declared in **host_vars** or **group_vars** as they are intended to be permanent.
-
-```yaml
-sys_shell_catalog:
-  zsh: false
-  bash: false
-  ksh: false
-  csh: false
-```
-
-| Parameter              | Required? | Type       | Default | Purpose / Value                                         |
-| ---------------------- | --------- | ---------- | ------- | ------------------------------------------------------- |
-| sys_shell_catalog      | no        | dictionary |         | Define what unix shells will be available on the system |
-| sys_shell_catalog.zsh  | no        | boolean    | `false` | Enable processing of the zsh shell                      |
-| sys_shell_catalog.bash | no        | boolean    | `false` | Enable processing of the bash shell                     |
-| sys_shell_catalog.csh  | no        | boolean    | `false` | Enable processing of the csh shell                      |
-| sys_shell_catalog.ksh  | no        | boolean    | `false` | Enable processing of the ksh shell                      |
+| Parameter                         | Required?  | Type       | Default | Purpose / Value                                                          |
+| --------------------------------- | ---------- | ---------- | ------- | ------------------------------------------------------------------------ |
+| sys_shell_catalog                 | no         | dictionary |         | Define what unix shells will be available on the system                  |
+| sys_shell_catalog.zsh             | no         | boolean    | `false` | Enable processing of the zsh shell                                       |
+| sys_shell_catalog.bash            | no         | boolean    | `false` | Enable processing of the bash shell                                      |
+| sys_shell_catalog.csh             | no         | boolean    | `false` | Enable processing of the csh shell                                       |
+| sys_shell_catalog.ksh             | no         | boolean    | `false` | Enable processing of the ksh shell                                       |
+| sys_shell_user                    | yes(setup) | list       |         | Define the list of target users to setup                                 |
+| sys_shell_user.user               | yes(setup) | string     |         | Login name                                                               |
+| sys_shell_user.flavour            | yes(setup) | string     |         | Profile shell type. Use the associated tag from the supported shell list |
+| sys_shell_user.access             | no         | dictionary |         | Define access permissions for profile files                              |
+| sys_shell_user.access.owner       | no         | string     |         | Define owner                                                             |
+| sys_shell_user.access.group       | no         | string     |         | Define owning group                                                      |
+| sys_shell_user.access.mode        | no         | dictionary |         | Define file permissions                                                  |
+| sys_shell_user.access.mode.file   | no         | string     |         | Define permissions for files. Use octal notation                         |
+| sys_shell_user.access.mode.dir    | no         | string     |         | Define permissions for directories. Use octal notation                   |
+| sys_shell_user.home               | no         | string     |         | Full path to the user's home directory                                   |
+| sys_shell_user.paths              | no         | list       |         | List of full paths to add to the PATH variable                           |
+| sys_shell_user.variables          | no         | list       |         | List of user defined variables to be added to the profile                |
+| sys_shell_user.variables.0.name   | no         | string     |         | Variable name                                                            |
+| sys_shell_user.variables.0.value  | no         | string     |         | Variable value                                                           |
+| sys_shell_user.variables.0.export | no         | boolean    |         | Export the variable?                                                     |
+| sys_shell_user.sources            | no         | list       |         | List of full path scripts to be included in the profile (source)         |
+| sys_shell_user.include_system     | no         | boolean    |         | Include system wide profile?                                             |
+| sys_shell_actions                 | no         | dictionary |         | Set action options                                                       |
+| sys_shell_actions.setup           | no         | dictionary |         | Set setup action options                                                 |
+| sys_shell_actions.setup.overwrite | no         | boolean    | `false` | Overwrite user configurations?                                           |
 
 ## Deployment
 
