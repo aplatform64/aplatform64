@@ -1,15 +1,3 @@
----
-title: "Ansible Role: serdigital64.automation.auto_ansible_node"
-description: "Automate the management of Ansible Managed Nodes"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Role: serdigital64.automation.auto_ansible_node
 
 ## Purpose

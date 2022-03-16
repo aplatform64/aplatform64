@@ -21,7 +21,7 @@ Supported features in the current version:
 - Prepare environment for application deployment.
 - Deploy application. Packages are defined in the variable `sys_gui_cinnamon_profiles`.
 - Provision application components:
-  - Create user default configuration. Available sets are defined in the variable `sys_gui_cinnamon_catalog_user`:
+  - Create user default configuration. Available sets are defined in the variable `sys_gui_cinnamon_dconf_catalog`:
     - desktop (theme, panel)
     - nemo
   - Deploy to system-wide DConf as local db
