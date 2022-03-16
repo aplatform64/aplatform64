@@ -1,15 +1,3 @@
----
-title: "Ansible Role: serdigital64.automation.auto_ansible_control"
-description: "Automate the management of Ansible Control Node"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Role: serdigital64.automation.auto_ansible_control
 
 ## Purpose

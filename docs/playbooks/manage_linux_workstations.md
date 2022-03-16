@@ -16,7 +16,7 @@ Supported features in the current version:
 - Install native Desktop Managers and tools
   - DConf
   - Cinnamon
-- Install GUI-based tools
+- Install and configure GUI-based tools
   - Tilix
 - Install and configure TUI-based tools
   - mc

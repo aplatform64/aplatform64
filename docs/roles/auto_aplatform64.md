@@ -1,15 +1,3 @@
----
-title: "Ansible Role: serdigital64.automation.auto_aplatform64"
-description: "Automate the management of computing environments"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Role: serdigital64.automation.auto_aplatform64
 
 ## Purpose

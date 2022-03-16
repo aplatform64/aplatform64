@@ -6,7 +6,9 @@ Manage provisioning of the Tilix application
 
 Supported features in the current version:
 
+- Prepare environment for application deployment.
 - Deploy application. Packages are defined in the variable `app_tilix_profiles`.
+- Configure users.
 
 The **app_tilix** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [application](https://aplatform64.readthedocs.io/en/latest/collections/application) Ansible-Collection.
 
@@ -38,13 +40,17 @@ ansible-playbook "${ANSIBLE_COLLECTIONS_PATHS}/ansible_collections/serdigital64/
 ```yaml
 app_tilix:
   resolve_prereq:
+  prepare:
   deploy:
+  setup:
 ```
 
 | Parameter                | Required? | Type    | Default | Purpose / Value                             |
 | ------------------------ | --------- | ------- | ------- | ------------------------------------------- |
 | app_tilix.resolve_prereq | no        | boolean | `false` | Enable automatic resolution of prequisites  |
+| app_tilix.prepare        | no        | boolean | `false` | Enable environment preparation              |
 | app_tilix.deploy         | no        | boolean | `false` | Enable installation of application packages |
+| app_tilix.setup          | no        | boolean | `false` | Enable application configuration            |
 
 ### End State
 
@@ -57,15 +63,19 @@ app_tilix_application:
   type:
   version:
   installed:
+app_tilix_dconf:
+  tilix:
 ```
 
-| Parameter                       | Required?   | Type       | Default    | Purpose / Value                    |
-| ------------------------------- | ----------- | ---------- | ---------- | ---------------------------------- |
-| app_tilix_application           | yes(deploy) | dictionary |            | Set application package end state  |
-| app_tilix_application.name      | yes(deploy) | string     | `"tilix"`  | Select application package name    |
-| app_tilix_application.type      | yes(deploy) | string     | `"distro"` | Select application package type    |
-| app_tilix_application.version   | yes(deploy) | string     | `"latest"` | Select application package version |
-| app_tilix_application.installed | yes(deploy) | boolean    | `true`     | Set application package end state  |
+| Parameter                       | Required?   | Type       | Default     | Purpose / Value                    |
+| ------------------------------- | ----------- | ---------- | ----------- | ---------------------------------- |
+| app_tilix_application           | yes(deploy) | dictionary |             | Set application package end state  |
+| app_tilix_application.name      | yes(deploy) | string     | `"tilix"`   | Select application package name    |
+| app_tilix_application.type      | yes(deploy) | string     | `"distro"`  | Select application package type    |
+| app_tilix_application.version   | yes(deploy) | string     | `"latest"`  | Select application package version |
+| app_tilix_application.installed | yes(deploy) | boolean    | `true`      | Set application package end state  |
+| app_tilix_dconf                 | yes(setup)  | dictionary |             | Define user options                |
+| app_tilix_dconf.tilix           | yes         | string     | `"p10k_v1"` | Desktop configuration set          |
 
 ## Deployment
 
