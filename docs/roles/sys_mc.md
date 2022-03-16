@@ -1,15 +1,3 @@
----
-title: "Ansible Role: serdigital64.system.sys_mc"
-description: "Manage provisioning of the Midnight Commander tool"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - system
-  - linux
-  - automation
----
-
 # Ansible Role: serdigital64.system.sys_mc
 
 ## Purpose
@@ -20,7 +8,7 @@ Supported features in the current version:
 
 - Deploy application. Packages are defined in the variable `sys_mc_profiles`.
 - Setup application:
-  - Create default configuration
+  - Create default user configuration
 
 The **sys_mc** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [system](https://aplatform64.readthedocs.io/en/latest/collections/system) Ansible-Collection.
 
@@ -73,23 +61,29 @@ sys_mc_application:
   type:
   version:
   installed:
+sys_mc_actions:
+  setup:
+    overwrite:
 sys_mc_users:
   - name:
     group:
     home:
 ```
 
-| Parameter                    | Required?   | Type       | Default    | Purpose / Value                    |
-| ---------------------------- | ----------- | ---------- | ---------- | ---------------------------------- |
-| sys_mc_application           | yes(deploy) | dictionary |            | Set application package end state  |
-| sys_mc_application.name      | yes(deploy) | string     | `"mc"`     | Select application package name    |
-| sys_mc_application.type      | yes(deploy) | string     | `"distro"` | Select application package type    |
-| sys_mc_application.version   | yes(deploy) | string     | `"latest"` | Select application package version |
-| sys_mc_application.installed | yes(deploy) | boolean    | `true`     | Set application package end state  |
-| sys_mc_users                 | yes(setup)  | list       |            | List of users that will use MC     |
-| sys_mc_users.0.name          | yes(setup)  | string     |            | User login name                    |
-| sys_mc_users.0.group         | yes(setup)  | string     |            | User primary group                 |
-| sys_mc_users.0.home          | yes(setup)  | string     |            | Home directory                     |
+| Parameter                      | Required?   | Type       | Default    | Purpose / Value                    |
+| ------------------------------ | ----------- | ---------- | ---------- | ---------------------------------- |
+| sys_mc_application             | yes(deploy) | dictionary |            | Set application package end state  |
+| sys_mc_application.name        | yes(deploy) | string     | `"mc"`     | Select application package name    |
+| sys_mc_application.type        | yes(deploy) | string     | `"distro"` | Select application package type    |
+| sys_mc_application.version     | yes(deploy) | string     | `"latest"` | Select application package version |
+| sys_mc_application.installed   | yes(deploy) | boolean    | `true`     | Set application package end state  |
+| sys_mc_actions                 | no          | dictionary |            | Set action options                 |
+| sys_mc_actions.setup           | no          | dictionary |            | Set setup action options           |
+| sys_mc_actions.setup.overwrite | no          | boolean    | `false`    | Overwrite user configurations?     |
+| sys_mc_users                   | yes(setup)  | list       |            | List of users that will use MC     |
+| sys_mc_users.0.name            | yes(setup)  | string     |            | User login name                    |
+| sys_mc_users.0.group           | yes(setup)  | string     |            | User primary group                 |
+| sys_mc_users.0.home            | yes(setup)  | string     |            | Home directory                     |
 
 ## Deployment
 

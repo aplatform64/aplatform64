@@ -22,6 +22,8 @@ Supported features in the current version:
   - Skype
   - Spotify
   - Zoom
+- Deploy user configuration for:
+  - KeePassXC
 
 ## Use Cases
 
@@ -88,9 +90,10 @@ office_nodes_apps:
 
 Additional role specific settings are available to further customize the playbook:
 
-| A:Platform64 role                                                                | group_vars file                                                 |
-| -------------------------------------------------------------------------------- | --------------------------------------------------------------- |
-| [serdigital64.system.sys_repository](../roles/sys_repository.md#role-parameters) | `inventories/<SITE>/group_vars/office_nodes/sys_repository.yml` |
+| A:Platform64 role                                                                   | group_vars file                                                 |
+| ----------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| [serdigital64.application.app_keepassxc](../roles/app_keepassxc.md#role-parameters) | `inventories/<SITE>/group_vars/office_nodes/app_keepassxc.yml`  |
+| [serdigital64.system.sys_repository](../roles/sys_repository.md#role-parameters)    | `inventories/<SITE>/group_vars/office_nodes/sys_repository.yml` |
 
 ## Deployment
 
