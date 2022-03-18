@@ -5,9 +5,9 @@ dependency:
     ignore-errors: true
     role-file: "meta/requirements-dev.yml"
     requirements-file: "meta/requirements-dev.yml"
-    collections-path: ${DEVAP_CACHE_ANSIBLE}
+    collections-path: ${DEVAP_VAR_COLLECTIONS}
 driver:
-  name: "podman"
+  name: "docker"
 provisioner:
   name: "ansible"
   options:
@@ -44,8 +44,48 @@ platforms:
   #   capabilities:
   #     - "SYS_ADMIN"
   #   command: "/lib/systemd/systemd"
+  - name: "rhel8"
+    image: "ghcr.io/serdigital64/rhel-8-ansible-node:0.2.0"
+    pre_build_image: true
+    groups:
+      - "ubi"
+      - "ubi-systemd"
+      - "redhat"
+      - "redhat-systemd"
+      - "rhel"
+      - "rhel-systemd"
+      - "linux"
+      - "linux-systemd"
+    tmpfs:
+      - "/run"
+      - "/tmp"
+    volumes:
+      - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
+    capabilities:
+      - "SYS_ADMIN"
+    command: "/lib/systemd/systemd"
+  - name: "almalinux8"
+    image: "ghcr.io/serdigital64/almalinux-8-ansible-node:0.1.0"
+    pre_build_image: true
+    groups:
+      - "alm"
+      - "alm-systemd"
+      - "redhat"
+      - "redhat-systemd"
+      - "rhel"
+      - "rhel-systemd"
+      - "linux"
+      - "linux-systemd"
+    tmpfs:
+      - "/run"
+      - "/tmp"
+    volumes:
+      - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
+    capabilities:
+      - "SYS_ADMIN"
+    command: "/lib/systemd/systemd"
   - name: "oraclelinux8"
-    image: "ghcr.io/serdigital64/oraclelinux-8-ansible-node:0.1.0"
+    image: "ghcr.io/serdigital64/oraclelinux-8-ansible-node:0.2.0"
     pre_build_image: true
     groups:
       - "oel"
@@ -65,7 +105,7 @@ platforms:
       - "SYS_ADMIN"
     command: "/lib/systemd/systemd"
   - name: "fedora33"
-    image: "ghcr.io/serdigital64/fedora-33-ansible-node:0.1.0"
+    image: "ghcr.io/serdigital64/fedora-33-ansible-node:0.2.0"
     pre_build_image: true
     groups:
       - "fedora"
@@ -83,7 +123,7 @@ platforms:
       - "SYS_ADMIN"
     command: "/lib/systemd/systemd"
   - name: "fedora35"
-    image: "ghcr.io/serdigital64/fedora-35-ansible-node:0.1.0"
+    image: "ghcr.io/serdigital64/fedora-35-ansible-node:0.2.0"
     pre_build_image: true
     groups:
       - "fedora"
@@ -117,7 +157,7 @@ platforms:
       - "SYS_ADMIN"
     command: "/lib/systemd/systemd"
   - name: "debian11"
-    image: "ghcr.io/serdigital64/debian-11-ansible-node:0.1.0"
+    image: "ghcr.io/serdigital64/debian-11-ansible-node:0.2.0"
     pre_build_image: true
     groups:
       - "debian"
@@ -133,7 +173,7 @@ platforms:
       - "SYS_ADMIN"
     command: "/lib/systemd/systemd"
   - name: "ubuntu20"
-    image: "ghcr.io/serdigital64/ubuntu-20.4-ansible-node:0.1.0"
+    image: "ghcr.io/serdigital64/ubuntu-20.4-ansible-node:0.2.0"
     pre_build_image: true
     groups:
       - "ubuntu"
@@ -151,7 +191,7 @@ platforms:
       - "SYS_ADMIN"
     command: "/lib/systemd/systemd"
   - name: "ubuntu21"
-    image: "ghcr.io/serdigital64/ubuntu-21.4-ansible-node:0.1.0"
+    image: "ghcr.io/serdigital64/ubuntu-21.4-ansible-node:0.2.0"
     pre_build_image: true
     groups:
       - "ubuntu"
