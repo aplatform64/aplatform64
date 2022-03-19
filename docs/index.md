@@ -277,7 +277,7 @@ mkvirtualenv aplatform64
 - Install Python dev modules
 
 ```shell
-pip3 install --upgrade -r requirements-full.txt
+pip3 install --upgrade -r requirements-aplatform64.txt
 ```
 
 - The environment is now ready. From now use the following script to load environment variables and set the virtual Python environment:
