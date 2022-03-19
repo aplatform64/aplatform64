@@ -3,25 +3,46 @@ dependency:
   name: "galaxy"
   options:
     ignore-errors: true
-    role-file: "meta/requirements-dev.yml"
+    #role-file: "meta/requirements-dev.yml"
     requirements-file: "meta/requirements-dev.yml"
     collections-path: ${DEVAP_VAR_COLLECTIONS}
 driver:
-  name: "docker"
+  name: ${DEVAP_MOLECULE_DRIVER}
 provisioner:
   name: "ansible"
+  log: ${DEVAP_TEST_DEBUG}
+  ansible_args:
+    - ${DEVAP_TEST_VERBOSE}
+  env:
+    # Required to let molecule find installed collections in test environment
+    ANSIBLE_COLLECTIONS_PATHS: ${ANSIBLE_COLLECTIONS_PATHS}
+    ANSIBLE_COLLECTIONS_PATH: ${ANSIBLE_COLLECTIONS_PATH}
   options:
       vvv: ${DEVAP_TEST_DEBUG}
   config_options:
+      ssh_connection:
+        pipelining: yes
       defaults:
+        allow_world_readable_tmpfiles: false
+        keep_remote_files: false
+        string_conversion_action: error
+        gathering: explicit
+        fact_caching: yaml
+        transport: ssh
+        any_errors_fatal: true
+        error_on_undefined_vars: true
+        system_warning: true
+        invalid_task_attribute_failed: true
+        deprecation_warnings: true
+        action_warnings: true
         display_args_to_stdout: ${DEVAP_TEST_DEBUG}
         verbosity: ${DEVAP_TEST_VERBOSITY}
 verifier:
   name: "ansible"
 lint: |
   set -e
-  yamllint --format colored ${DEVAP_TEST_ROLE_PATH}
-  ansible-lint -c ${DEVAP_ANSIBLE_LINT} --project-dir ${DEVAP_TEST_ROLE_PATH} --exclude molecule/
+  ${DEVAP_CMD_YAMLLINT} --format colored ${DEVAP_TEST_ROLE_PATH}
+  ${DEVAP_CMD_ANSIBLELINT} -c ${DEVAP_ANSIBLE_LINT} --project-dir ${DEVAP_TEST_ROLE_PATH} --exclude molecule/
 platforms:
   # TODO: define repo update strategy (product EOL)
   # - name: "centos8"
@@ -29,13 +50,13 @@ platforms:
   #   pre_build_image: true
   #   groups:
   #     - "centos"
-  #     - "centos-systemd"
+  #     - "centos_systemd"
   #     - "redhat"
-  #     - "redhat-systemd"
+  #     - "redhat_systemd"
   #     - "rhel"
-  #     - "rhel-systemd"
+  #     - "rhel_systemd"
   #     - "linux"
-  #     - "linux-systemd"
+  #     - "linux_systemd"
   #   tmpfs:
   #     - "/run"
   #     - "/tmp"
@@ -49,13 +70,13 @@ platforms:
     pre_build_image: true
     groups:
       - "ubi"
-      - "ubi-systemd"
+      - "ubi_systemd"
       - "redhat"
-      - "redhat-systemd"
+      - "redhat_systemd"
       - "rhel"
-      - "rhel-systemd"
+      - "rhel_systemd"
       - "linux"
-      - "linux-systemd"
+      - "linux_systemd"
     tmpfs:
       - "/run"
       - "/tmp"
@@ -69,13 +90,13 @@ platforms:
     pre_build_image: true
     groups:
       - "alm"
-      - "alm-systemd"
+      - "alm_systemd"
       - "redhat"
-      - "redhat-systemd"
+      - "redhat_systemd"
       - "rhel"
-      - "rhel-systemd"
+      - "rhel_systemd"
       - "linux"
-      - "linux-systemd"
+      - "linux_systemd"
     tmpfs:
       - "/run"
       - "/tmp"
@@ -89,13 +110,13 @@ platforms:
     pre_build_image: true
     groups:
       - "oel"
-      - "oel-systemd"
+      - "oel_systemd"
       - "redhat"
-      - "redhat-systemd"
+      - "redhat_systemd"
       - "rhel"
-      - "rhel-systemd"
+      - "rhel_systemd"
       - "linux"
-      - "linux-systemd"
+      - "linux_systemd"
     tmpfs:
       - "/run"
       - "/tmp"
@@ -109,11 +130,11 @@ platforms:
     pre_build_image: true
     groups:
       - "fedora"
-      - "fedora-systemd"
+      - "fedora_systemd"
       - "redhat"
-      - "redhat-systemd"
+      - "redhat_systemd"
       - "linux"
-      - "linux-systemd"
+      - "linux_systemd"
     tmpfs:
       - "/run"
       - "/tmp"
@@ -127,11 +148,11 @@ platforms:
     pre_build_image: true
     groups:
       - "fedora"
-      - "fedora-systemd"
+      - "fedora_systemd"
       - "redhat"
-      - "redhat-systemd"
+      - "redhat_systemd"
       - "linux"
-      - "linux-systemd"
+      - "linux_systemd"
     tmpfs:
       - "/run"
       - "/tmp"
@@ -145,9 +166,9 @@ platforms:
     pre_build_image: true
     groups:
       - "debian"
-      - "debian-systemd"
+      - "debian_systemd"
       - "linux"
-      - "linux-systemd"
+      - "linux_systemd"
     tmpfs:
       - "/run"
       - "/tmp"
@@ -161,9 +182,9 @@ platforms:
     pre_build_image: true
     groups:
       - "debian"
-      - "debian-systemd"
+      - "debian_systemd"
       - "linux"
-      - "linux-systemd"
+      - "linux_systemd"
     tmpfs:
       - "/run"
       - "/tmp"
@@ -177,11 +198,11 @@ platforms:
     pre_build_image: true
     groups:
       - "ubuntu"
-      - "ubuntu-systemd"
+      - "ubuntu_systemd"
       - "debian"
-      - "debian-systemd"
+      - "debian_systemd"
       - "linux"
-      - "linux-systemd"
+      - "linux_systemd"
     tmpfs:
       - "/run"
       - "/tmp"
@@ -195,11 +216,11 @@ platforms:
     pre_build_image: true
     groups:
       - "ubuntu"
-      - "ubuntu-systemd"
+      - "ubuntu_systemd"
       - "debian"
-      - "debian-systemd"
+      - "debian_systemd"
       - "linux"
-      - "linux-systemd"
+      - "linux_systemd"
     tmpfs:
       - "/run"
       - "/tmp"

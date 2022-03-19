@@ -22,7 +22,10 @@ function devap_test_reset() {
 
   bl64_msg_show_task 'reset var area'
   bl64_os_rm_full "$DEVAP_VAR_ANSIBLE" >/dev/null
-  bl64_os_mkdir_full "$DEVAP_VAR_ANSIBLE"
+  bl64_os_mkdir_full \
+    "$DEVAP_VAR_ANSIBLE" \
+    "$DEVAP_VAR_COLLECTIONS" \
+    "$DEVAP_VAR_ROLES"
 
   bl64_msg_show_task 'reset cache area'
   bl64_os_rm_full "$DEVAP_CACHE_GALAXY" >/dev/null
@@ -57,7 +60,8 @@ function devap_test_role_test() {
   if [[ "$debug" == '1' ]]; then
     debug='--debug --verbose'
     DEVAP_TEST_DEBUG='true'
-    DEVAP_TEST_VERBOSITY='3'
+    DEVAP_TEST_VERBOSITY='5'
+    DEVAP_TEST_VERBOSE='-vvvvv'
   else
     debug=''
   fi
@@ -112,7 +116,8 @@ function devap_test_role_converge() {
   if [[ "$debug" == '1' ]]; then
     debug='--debug --verbose'
     DEVAP_TEST_DEBUG='true'
-    DEVAP_TEST_VERBOSITY='3'
+    DEVAP_TEST_VERBOSITY='5'
+    DEVAP_TEST_VERBOSE='-vvvvv'
   else
     debug=''
   fi
@@ -209,10 +214,12 @@ function devap_test_help() {
 # Main
 #
 
-export DEVAP_TEST_ROLE_PATH=''
-export DEVAP_TEST_PLATFORM=''
-export DEVAP_TEST_DEBUG='false'
-export DEVAP_TEST_VERBOSITY='0'
+# From .env
+export DEVAP_TEST_ROLE_PATH
+export DEVAP_TEST_PLATFORM
+export DEVAP_TEST_DEBUG
+export DEVAP_TEST_VERBOSITY
+export DEVAP_TEST_VERBOSE
 
 declare devap_test_status=1
 declare devap_test_command=''
