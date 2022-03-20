@@ -1,15 +1,3 @@
----
-title: "Ansible Role: serdigital64.devops.dops_git_server"
-description: "Manage GIT server"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Role: serdigital64.devops.dops_git_server
 
 ## Purpose
@@ -111,6 +99,8 @@ dops_git_server_repositories:
 ### OS Compatibility
 
 - CentOS8
+- RedHat8
+- AlmaLinux8
 - OracleLinux8
 - Ubuntu20
 - Ubuntu21

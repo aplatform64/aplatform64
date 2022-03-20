@@ -1,15 +1,3 @@
----
-title: "Ansible Role: serdigital64.backup.bkp_restic"
-description: "Manage provisioning of the Restic tool"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Role: serdigital64.backup.bkp_restic
 
 ## Purpose
@@ -84,6 +72,8 @@ bkp_restic_application:
 ### OS Compatibility
 
 - CentOS8
+- RedHat8
+- AlmaLinux8
 - OracleLinux8
 - Ubuntu20
 - Ubuntu21

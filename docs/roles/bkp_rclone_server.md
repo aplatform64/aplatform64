@@ -1,15 +1,3 @@
----
-title: "Ansible Role: serdigital64.backup.bkp_rclone_server"
-description: "Manage provisioning of RClone as a server"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Role: serdigital64.backup.bkp_rclone_server
 
 ## Purpose
@@ -84,6 +72,8 @@ bkp_rclone_server_application:
 ### OS Compatibility
 
 - CentOS8
+- RedHat8
+- AlmaLinux8
 - OracleLinux8
 - Ubuntu20
 - Ubuntu21

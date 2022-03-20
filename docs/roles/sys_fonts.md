@@ -1,15 +1,3 @@
----
-title: "Ansible Role: serdigital64.system.sys_fonts"
-description: "Manage OS fonts provisioning"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Role: serdigital64.system.sys_fonts
 
 ## Purpose
@@ -86,6 +74,8 @@ sys_fonts_catalog:
 ### OS Compatibility
 
 - CentOS8
+- RedHat8
+- AlmaLinux8
 - OracleLinux8
 - Ubuntu20
 - Ubuntu21

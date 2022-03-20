@@ -1,15 +1,3 @@
----
-title: "Ansible Role: serdigital64.development.dev_opencl"
-description: "Manage provision OpenCL development environment"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Role: serdigital64.development.dev_opencl
 
 ## Purpose

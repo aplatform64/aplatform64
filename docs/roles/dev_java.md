@@ -1,15 +1,3 @@
----
-title: "Ansible Role: serdigital64.development.dev_java"
-description: "Manage provisioning of Java"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Role: serdigital64.development.dev_java
 
 ## Purpose
@@ -112,6 +100,8 @@ dev_java_application:
 ### OS Compatibility
 
 - CentOS8
+- RedHat8
+- AlmaLinux8
 - OracleLinux8
 - Ubuntu20
 - Ubuntu21

@@ -1,15 +1,3 @@
----
-title: "Ansible Role: serdigital64.system.sys_tools"
-description: "Manage basic OS tools provisioning"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Role: serdigital64.system.sys_tools
 
 ## Purpose
@@ -19,9 +7,13 @@ Manage basic OS tools provisioning.
 Supported features in the current version:
 
 - Deploy tools:
-  - less
-  - groff
   - file
+  - gawk
+  - grep
+  - groff
+  - less
+  - lsof
+  - sed
 
 The **sys_tools** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [system](https://aplatform64.readthedocs.io/en/latest/collections/system) Ansible-Collection.
 
@@ -69,22 +61,32 @@ sys_tools:
 ```yaml
 sys_tools_catalog:
   file:
+  gawk:
+  grep:
   groff:
   less:
+  lsof:
+  sed:
 ```
 
 | Parameter               | Required? | Type       | Default | Purpose / Value        |
 | ----------------------- | --------- | ---------- | ------- | ---------------------- |
 | sys_tools_catalog       | no        | dictionary |         | Define available tools |
 | sys_tools_catalog.file  | no        | boolean    | `false` | Install the tool?      |
+| sys_tools_catalog.gawk  | no        | boolean    | `false` | Install the tool?      |
+| sys_tools_catalog.grep  | no        | boolean    | `false` | Install the tool?      |
 | sys_tools_catalog.groff | no        | boolean    | `false` | Install the tool?      |
 | sys_tools_catalog.less  | no        | boolean    | `false` | Install the tool?      |
+| sys_tools_catalog.lsof  | no        | boolean    | `false` | Install the tool?      |
+| sys_tools_catalog.sed   | no        | boolean    | `false` | Install the tool?      |
 
 ## Deployment
 
 ### OS Compatibility
 
 - CentOS8
+- RedHat8
+- AlmaLinux8
 - OracleLinux8
 - Ubuntu20
 - Ubuntu21

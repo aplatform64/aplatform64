@@ -1,15 +1,3 @@
----
-title: "Ansible Role: serdigital64.system.sys_user"
-description: "Manage Unix users and groups provisioning"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Role: serdigital64.system.sys_user
 
 ## Purpose
@@ -110,6 +98,8 @@ sys_user_groups:
 ### OS Compatibility
 
 - CentOS8
+- RedHat8
+- AlmaLinux8
 - OracleLinux8
 - Ubuntu20
 - Ubuntu21

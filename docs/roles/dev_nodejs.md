@@ -1,15 +1,3 @@
----
-title: "Ansible Role: serdigital64.development.dev_gcc"
-description: "Manage provisioning of NodeJS"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Role: serdigital64.development.dev_gcc
 
 ## Purpose
@@ -84,6 +72,8 @@ dev_gcc_application:
 ### OS Compatibility
 
 - CentOS8
+- RedHat8
+- AlmaLinux8
 - OracleLinux8
 - Ubuntu20
 - Ubuntu21

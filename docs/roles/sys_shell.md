@@ -1,15 +1,3 @@
----
-title: "Ansible Role: serdigital64.system.sys_shell"
-description: "Manage Unix shells provisioning"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Role: serdigital64.system.sys_shell
 
 ## Purpose
@@ -140,6 +128,8 @@ sys_shell_actions:
 ### OS Compatibility
 
 - CentOS8
+- RedHat8
+- AlmaLinux8
 - OracleLinux8
 - Ubuntu20
 - Ubuntu21
