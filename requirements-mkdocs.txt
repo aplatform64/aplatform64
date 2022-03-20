@@ -1,6 +1,14 @@
+Markdown
 mdx-truly-sane-lists
-mkdocs-mermaid2-plugin
-mkdocs-markmap
+mkdocs
+mkdocs-autorefs
+mkdocs-awesome-pages-plugin
+mkdocs-exclude
 mkdocs-include-markdown-plugin
-mkdocs-minify-plugin
+mkdocs-markmap
 mkdocs-material
+mkdocs-mermaid2-plugin
+mkdocs-minify-plugin
+mkdocstrings
+Pygments
+pymdown-extensions

@@ -1,15 +1,3 @@
----
-title: "Ansible Role: serdigital64.backup.bkp_archive"
-description: "Extract file archives"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Role: serdigital64.backup.bkp_archive
 
 ## Purpose
@@ -117,6 +105,8 @@ bkp_archive_packages_installed:
 ### OS Compatibility
 
 - CentOS8
+- RedHat8
+- AlmaLinux8
 - OracleLinux8
 - Ubuntu20
 - Ubuntu21

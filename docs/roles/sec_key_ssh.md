@@ -1,15 +1,3 @@
----
-title: "Ansible Role: serdigital64.security.sec_key_ssh"
-description: "Manage SSH Keys provisioning"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Role: serdigital64.security.sec_key_ssh
 
 ## Purpose
@@ -110,6 +98,8 @@ sec_key_ssh_knownhosts:
 ### OS Compatibility
 
 - CentOS8
+- RedHat8
+- AlmaLinux8
 - OracleLinux8
 - Ubuntu20
 - Ubuntu21

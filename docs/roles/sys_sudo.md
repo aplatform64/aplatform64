@@ -1,15 +1,3 @@
----
-title: "Ansible Role: serdigital64.system.sys_sudo"
-description: "Manage provisioning of the SuDo tool"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Role: serdigital64.system.sys_sudo
 
 ## Purpose
@@ -98,6 +86,8 @@ sys_sudo_rules:
 ### OS Compatibility
 
 - CentOS8
+- RedHat8
+- AlmaLinux8
 - OracleLinux8
 - Ubuntu20
 - Ubuntu21

@@ -29,3 +29,6 @@ fi
 
 # Activate Python Virtual Environment
 workon "$DEVAP_VEW_WORKSPACE"
+
+# Show exported vars
+set | grep DEVAP_

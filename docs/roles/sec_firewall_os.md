@@ -1,15 +1,3 @@
----
-title: "Ansible Role: serdigital64.security.sec_firewall_os"
-description: "Manage provisioning of Operating System native Firewall"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Role: serdigital64.security.sec_firewall_os
 
 ## Purpose
@@ -111,6 +99,8 @@ sec_firewall_os_rules:
 ### OS Compatibility
 
 - CentOS8
+- RedHat8
+- AlmaLinux8
 - OracleLinux8
 - Fedora33
 - Fedora35

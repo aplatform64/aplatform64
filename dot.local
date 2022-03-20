@@ -16,7 +16,7 @@ DEVAP_PYTHON_SYSTEM='/usr/bin/python3.9'
 export DEVAP_PYTHON_SYSTEM
 
 # Virtual Environment Wrapper / Loader
-DEVAP_VEW_LOADER='/usr/local/bin/virtualenvwrapper.sh'
+DEVAP_VEW_LOADER="$HOME/.local/bin/virtualenvwrapper.sh"
 export DEVAP_VEW_LOADER
 
 # Virtual Environment Wrapper / Home
@@ -27,5 +27,5 @@ export DEVAP_VEW_HOME
 DEVAP_SYSCTL_MAX_USER_INSTANCES='1024'
 export DEVAP_SYSCTL_MAX_USER_INSTANCES
 
-PATH="${HOME}/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+PATH="${HOME}/.local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 export PATH

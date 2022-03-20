@@ -5,7 +5,7 @@
 # Author: serdigital64 (https://github.com/serdigital64)
 # License: GPL-3.0-or-later (https://www.gnu.org/licenses/gpl-3.0.txt)
 # Repository: https://github.com/serdigital64/aplatform64
-# Version: 1.0.0
+# Version: 1.1.0
 #######################################
 
 [[ -d "$DEVAP_BIN" ]] || {
@@ -18,13 +18,37 @@ BL64_LIB_STRICT='0'
 # shellcheck disable=SC1091
 source "${DEVAP_BIN}/bashlib64.bash"
 
+function devap_test_reset() {
+
+  bl64_msg_show_task 'reset var area'
+  bl64_os_rm_full "$DEVAP_VAR_ANSIBLE" >/dev/null
+  bl64_os_mkdir_full \
+    "$DEVAP_VAR_ANSIBLE" \
+    "$DEVAP_VAR_COLLECTIONS" \
+    "$DEVAP_VAR_ROLES"
+
+  bl64_msg_show_task 'reset cache area'
+  bl64_os_rm_full "$DEVAP_CACHE_GALAXY" >/dev/null
+  bl64_os_rm_full "$DEVAP_CACHE_MOLECULE" >/dev/null
+  bl64_os_rm_full "$DEVAP_CACHE_ANSIBLE" >/dev/null
+  bl64_os_mkdir_full \
+    "$DEVAP_CACHE_GALAXY" \
+    "$DEVAP_CACHE_MOLECULE" \
+    "$DEVAP_CACHE_ANSIBLE"
+
+  bl64_msg_show_task 'reset tmp area'
+  bl64_os_rm_full "$DEVAP_TMP_ANSIBLE" >/dev/null
+  bl64_os_mkdir_full "$DEVAP_TMP_ANSIBLE"
+}
+
 function devap_test_role_test() {
 
-  local collection="$1"
-  local role="$2"
-  local target="$3"
-  local group="$4"
-  local debug="$5"
+  local debug="$1"
+  local reset="$2"
+  local collection="$3"
+  local role="$4"
+  local target="$5"
+  local group="$6"
   local scenario=''
 
   bl64_msg_show_task 'prepare test environment'
@@ -36,7 +60,9 @@ function devap_test_role_test() {
   if [[ "$debug" == '1' ]]; then
     debug='--debug --verbose'
     DEVAP_TEST_DEBUG='true'
-    DEVAP_TEST_VERBOSITY='3'
+    DEVAP_TEST_ANSIBLE_VERBOSITY='5'
+    DEVAP_TEST_ANSIBLE_VERBOSE='-vvvvv'
+    DEVAP_TEST_ANSIBLE_LINT_VERBOSE='-vv'
   else
     debug=''
   fi
@@ -56,21 +82,27 @@ function devap_test_role_test() {
   fi
 
   # Run tests
-  bl64_msg_show_task 'run tests'
   for scenario in $target; do
+    bl64_check_directory "${DEVAP_TEST_ROLE_PATH}/molecule/${scenario}" || return 1
+    if [[ "$reset" == '1' ]]; then
+      bl64_msg_show_task "reset test environment: $scenario"
+      "$DEVAP_CMD_MOLECULE" 'destroy' --scenario-name "$scenario"
+      "$DEVAP_CMD_MOLECULE" 'reset' --scenario-name "$scenario"
+    fi
     bl64_msg_show_task "run test: $scenario"
-    "$DEVAP_CMD_MOLECULE" $debug 'test' --scenario-name "$scenario"
+    "$DEVAP_CMD_MOLECULE" $debug 'test' --scenario-name "$scenario" || return 1
   done
 
 }
 
 function devap_test_role_converge() {
 
-  local collection="$1"
-  local role="$2"
-  local target="$3"
-  local group="$4"
-  local debug="$5"
+  local debug="$1"
+  local reset="$2"
+  local collection="$3"
+  local role="$4"
+  local target="$5"
+  local group="$6"
 
   [[ "$target" == 'all' ]] && bl64_msg_show_error 'invalid option. This action supports only one test' && return 1
 
@@ -79,11 +111,15 @@ function devap_test_role_converge() {
   DEVAP_TEST_ROLE_PATH="${DEVAP_COLLECTIONS}/${collection}/roles/${role}"
   bl64_check_directory "$DEVAP_TEST_ROLE_PATH" && cd "$DEVAP_TEST_ROLE_PATH" || return 1
 
+  bl64_check_directory "${DEVAP_TEST_ROLE_PATH}/molecule/${target}" || return 1
+
   # Enable debug mode
   if [[ "$debug" == '1' ]]; then
     debug='--debug --verbose'
     DEVAP_TEST_DEBUG='true'
-    DEVAP_TEST_VERBOSITY='3'
+    DEVAP_TEST_ANSIBLE_VERBOSITY='5'
+    DEVAP_TEST_ANSIBLE_VERBOSE='-vvvvv'
+    DEVAP_TEST_ANSIBLE_LINT_VERBOSE='-vv'
   else
     debug=''
   fi
@@ -94,8 +130,11 @@ function devap_test_role_converge() {
   # Tune kernel for multiple containers
   "$BL64_SUDO_CMD_SUDO" sysctl fs.inotify.max_user_instances="$DEVAP_SYSCTL_MAX_USER_INSTANCES"
 
-  # Destroy the previous test
-  "$DEVAP_CMD_MOLECULE" 'destroy' --scenario-name "$target"
+  if [[ "$reset" == '1' ]]; then
+    bl64_msg_show_task 'reset test environment'
+    "$DEVAP_CMD_MOLECULE" 'destroy' --scenario-name "$target"
+    "$DEVAP_CMD_MOLECULE" 'reset' --scenario-name "$target"
+  fi
 
   bl64_msg_show_task 'run test'
   "$DEVAP_CMD_MOLECULE" $debug 'converge' --scenario-name "$target"
@@ -154,15 +193,17 @@ function devap_test_check() {
 function devap_test_help() {
 
   bl64_msg_show_usage \
-    '<-r|-v|-g|-l> [-d] [-c name] [-e name] [-i id] [-n id] [-h]' \
+    '<-r|-v|-g|-l|-q> [-d] [-c name] [-e name] [-i id] [-n id] [-x] [-h]' \
     'Test A:Platform64 components' \
     '
     -r     : run role tests (molecule test)
     -v     : run role tests (molecule converge)
     -g     : run role tests (molecule login)
     -l     : list role tests
+    -q     : reset global test environment
     ' '
     -d     : enable debug mode
+    -x     : reset role test environment
     ' '
     -c name: collection name
     -e name: role name
@@ -175,10 +216,13 @@ function devap_test_help() {
 # Main
 #
 
-export DEVAP_TEST_ROLE_PATH=''
-export DEVAP_TEST_PLATFORM=''
-export DEVAP_TEST_DEBUG='false'
-export DEVAP_TEST_VERBOSITY='0'
+# From .env
+export DEVAP_TEST_ROLE_PATH
+export DEVAP_TEST_PLATFORM
+export DEVAP_TEST_DEBUG
+export DEVAP_TEST_ANSIBLE_VERBOSITY
+export DEVAP_TEST_ANSIBLE_VERBOSE
+export DEVAP_TEST_ANSIBLE_LINT_VERBOSE
 
 declare devap_test_status=1
 declare devap_test_command=''
@@ -186,11 +230,12 @@ declare devap_test_command_tag=''
 declare devap_test_collection=''
 declare devap_test_role=''
 declare devap_test_debug='0'
+declare devap_test_reset='0'
 declare devap_test_target='all'
 declare devap_test_group='all'
 
 (($# == 0)) && devap_test_help && exit 1
-while getopts ':rvgldc:e:i:n:h' devap_test_option; do
+while getopts ':rvgldqc:e:i:n:xh' devap_test_option; do
   case "$devap_test_option" in
   r)
     devap_test_command='devap_test_role_test'
@@ -208,7 +253,12 @@ while getopts ':rvgldc:e:i:n:h' devap_test_option; do
     devap_test_command='devap_test_role_list'
     devap_test_command_tag='list role tests'
     ;;
+  q)
+    devap_test_command='devap_test_reset'
+    devap_test_command_tag='reset test environment'
+    ;;
   d) devap_test_debug='1' ;;
+  x) devap_test_reset='1' ;;
   c) devap_test_collection="$OPTARG" ;;
   e) devap_test_role="$OPTARG" ;;
   i) devap_test_target="$OPTARG" ;;
@@ -240,11 +290,25 @@ fi
 
 bl64_msg_show_batch_start "$devap_test_command_tag"
 case "$devap_test_command" in
-'devap_test_role_test' | 'devap_test_role_converge') "$devap_test_command" \
-  "$devap_test_collection" "$devap_test_role" "$devap_test_target" "$devap_test_group" "$devap_test_debug" ;;
-'devap_test_role_login') "$devap_test_command" \
-  "$devap_test_collection" "$devap_test_role" "$devap_test_target" "$devap_test_group" ;;
-'devap_test_role_list') "$devap_test_command" "$devap_test_collection" "$devap_test_role" ;;
+'devap_test_role_test' | 'devap_test_role_converge')
+  "$devap_test_command" \
+    "$devap_test_debug" \
+    "$devap_test_reset" \
+    "$devap_test_collection" \
+    "$devap_test_role" \
+    "$devap_test_target" \
+    "$devap_test_group"
+  ;;
+'devap_test_role_login')
+  "$devap_test_command" \
+    "$devap_test_collection" "$devap_test_role" "$devap_test_target" "$devap_test_group"
+  ;;
+'devap_test_role_list')
+  "$devap_test_command" "$devap_test_collection" "$devap_test_role"
+  ;;
+'devap_test_reset')
+  "$devap_test_command"
+  ;;
 esac
 devap_test_status=$?
 

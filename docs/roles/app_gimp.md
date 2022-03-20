@@ -1,15 +1,3 @@
----
-title: "Ansible Role: serdigital64.application.app_gimp"
-description: "Manage provisioning of the GIMP application"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Role: serdigital64.application.app_gimp
 
 ## Purpose
@@ -84,6 +72,8 @@ app_gimp_application:
 ### OS Compatibility
 
 - CentOS8
+- RedHat8
+- AlmaLinux8
 - OracleLinux8
 - Ubuntu20
 - Ubuntu21

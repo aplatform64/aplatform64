@@ -1,15 +1,3 @@
----
-title: "Ansible Role: serdigital64.devops.dops_jenkins"
-description: "Manage Jenkins server"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Role: serdigital64.devops.dops_jenkins
 
 ## Purpose
@@ -110,6 +98,8 @@ dops_jenkins_firewall:
 ### OS Compatibility
 
 - CentOS8
+- RedHat8
+- AlmaLinux8
 - OracleLinux8
 - Ubuntu20
 - Ubuntu21
