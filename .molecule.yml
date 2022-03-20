@@ -3,7 +3,7 @@ dependency:
   name: "galaxy"
   options:
     ignore-errors: true
-    #role-file: "meta/requirements-dev.yml"
+    role-file: "meta/requirements-dev.yml"
     requirements-file: "meta/requirements-dev.yml"
     collections-path: ${DEVAP_VAR_COLLECTIONS}
 driver:
@@ -12,7 +12,7 @@ provisioner:
   name: "ansible"
   log: ${DEVAP_TEST_DEBUG}
   ansible_args:
-    - ${DEVAP_TEST_VERBOSE}
+    - ${DEVAP_TEST_ANSIBLE_VERBOSE}
   env:
     # Required to let molecule find installed collections in test environment
     ANSIBLE_COLLECTIONS_PATHS: ${ANSIBLE_COLLECTIONS_PATHS}
@@ -36,13 +36,13 @@ provisioner:
         deprecation_warnings: true
         action_warnings: true
         display_args_to_stdout: ${DEVAP_TEST_DEBUG}
-        verbosity: ${DEVAP_TEST_VERBOSITY}
+        verbosity: ${DEVAP_TEST_ANSIBLE_VERBOSITY}
 verifier:
   name: "ansible"
 lint: |
   set -e
   ${DEVAP_CMD_YAMLLINT} --format colored ${DEVAP_TEST_ROLE_PATH}
-  ${DEVAP_CMD_ANSIBLELINT} -c ${DEVAP_ANSIBLE_LINT} --project-dir ${DEVAP_TEST_ROLE_PATH} --exclude molecule/
+  ${DEVAP_CMD_ANSIBLELINT} ${DEVAP_TEST_ANSIBLE_LINT_VERBOSE} -c ${DEVAP_ANSIBLE_LINT} --project-dir ${DEVAP_TEST_ROLE_PATH} --exclude molecule
 platforms:
   - name: "centos8"
     image: "ghcr.io/serdigital64/centos-8-ansible-node:0.1.0"
