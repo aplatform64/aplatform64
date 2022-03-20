@@ -1,15 +1,3 @@
----
-title: "Ansible Role: serdigital64.development.dev_python"
-description: "Manage provision of Python"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Role: serdigital64.development.dev_python
 
 ## Purpose
@@ -119,6 +107,8 @@ dev_python_applications:
 ### OS Compatibility
 
 - CentOS8
+- RedHat8
+- AlmaLinux8
 - OracleLinux8
 - Ubuntu20
 - Ubuntu21

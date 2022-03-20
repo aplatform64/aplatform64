@@ -1,15 +1,3 @@
----
-title: "Ansible Role: serdigital64.application.app_drawio"
-description: "Manage provisioning of the DrawIO application"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Role: serdigital64.application.app_drawio
 
 ## Purpose
@@ -84,6 +72,8 @@ app_drawio_application:
 ### OS Compatibility
 
 - CentOS8
+- RedHat8
+- AlmaLinux8
 - OracleLinux8
 - Ubuntu20
 - Ubuntu21

@@ -1,15 +1,3 @@
----
-title: "Ansible Role: serdigital64.security.sec_openssh_client"
-description: "Manage provisioning of OpenSSH client"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Role: serdigital64.security.sec_openssh_client
 
 ## Purpose
@@ -84,6 +72,8 @@ sec_openssh_client_application:
 ### OS Compatibility
 
 - CentOS8
+- RedHat8
+- AlmaLinux8
 - OracleLinux8
 - Ubuntu20
 - Ubuntu21

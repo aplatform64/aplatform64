@@ -116,6 +116,8 @@ Each playbook will integrate the roles needed to implement the service along wit
 **A:Platform64** is compatible with the following Linux operating systems:
 
 - CentOS8
+- RedHat8
+- AlmaLinux8
 - OracleLinux8
 - Ubuntu20
 - Ubuntu21
@@ -124,7 +126,7 @@ Each playbook will integrate the roles needed to implement the service along wit
 - Debian10
 - Debian11
 
-Roles in the A:Platform64 collections have their own compatibility matrix. Refer to the role documentation for further details.
+Notice that roles have their own compatibility matrix. Refer to their documentation for further details.
 
 ### Prerequisites
 

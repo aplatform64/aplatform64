@@ -1,15 +1,3 @@
----
-title: "Ansible Role: serdigital64.system.sys_package"
-description: "Manage application package provisioning"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Role: serdigital64.system.sys_package
 
 ## Purpose
@@ -171,6 +159,8 @@ sys_package_profiles:
 ### OS Compatibility
 
 - CentOS8
+- RedHat8
+- AlmaLinux8
 - OracleLinux8
 - Ubuntu20
 - Ubuntu21

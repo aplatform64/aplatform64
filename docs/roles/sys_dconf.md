@@ -1,15 +1,3 @@
----
-title: "Ansible Role: serdigital64.system.sys_dconf"
-description: "Manage provisioning of the DConf service"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - system
-  - linux
-  - automation
----
-
 # Ansible Role: serdigital64.system.sys_dconf
 
 ## Purpose
@@ -91,6 +79,8 @@ sys_dconf_db_local:
 ### OS Compatibility
 
 - CentOS8
+- RedHat8
+- AlmaLinux8
 - OracleLinux8
 - Ubuntu20
 - Ubuntu21

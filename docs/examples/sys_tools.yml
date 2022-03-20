@@ -10,9 +10,13 @@
           resolve_prereq: true
           deploy: true
         sys_tools_catalog:
-          less: true
-          groff: true
           file: true
+          groff: true
+          less: true
+          sed: true
+          gawk: true
+          grep: true
+          lsof: true
       ansible.builtin.include_role:
         name: "serdigital64.system.sys_tools"
 ...

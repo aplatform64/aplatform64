@@ -1,15 +1,3 @@
----
-title: "Ansible Role: serdigital64.system.sys_repository"
-description: "Manage application package repositories"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Role: serdigital64.system.sys_repository
 
 ## Purpose
@@ -155,6 +143,8 @@ sys_repository_custom_apt:
 ### OS Compatibility
 
 - CentOS8
+- RedHat8
+- AlmaLinux8
 - OracleLinux8
 - Ubuntu20
 - Ubuntu21
