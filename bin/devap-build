@@ -66,10 +66,14 @@ function devap_build_refresh() {
   for collection in $target; do
     bl64_msg_show_task "refresh license (master -> ${collection})" &&
       bl64_os_cp_file "${DEVAP_DOCS}/contributing/COPYING" "$DEVAP_COLLECTIONS/${collection}/COPYING" &&
-      bl64_os_cp_file "${DEVAP_DOCS}/contributing/CODE_OF_CONDUCT.md" "$DEVAP_COLLECTIONS/${collection}/CODE_OF_CONDUCT.md" &&
-      bl64_msg_show_task "sync docs (${collection} -> master)" &&
-      bl64_os_cp_file "$DEVAP_COLLECTIONS/${collection}/README.md" "${DEVAP_DOCS}/collections/${collection}.md" ||
-      return 1
+      bl64_os_cp_file "${DEVAP_DOCS}/contributing/CODE_OF_CONDUCT.md" "$DEVAP_COLLECTIONS/${collection}/CODE_OF_CONDUCT.md" || return 1
+
+    bl64_msg_show_task "refresh tool configurations (master -> ${collection})" &&
+      bl64_os_cp_file "${DEVAP_ANSIBLE_LINT}" "$DEVAP_COLLECTIONS/${collection}" &&
+      bl64_os_cp_file "${YAMLLINT_CONFIG_FILE}" "$DEVAP_COLLECTIONS/${collection}" || return 1
+
+    bl64_msg_show_task "sync role doc (${collection} -> master)" &&
+      bl64_os_cp_file "$DEVAP_COLLECTIONS/${collection}/README.md" "${DEVAP_DOCS}/collections/${collection}.md" || return 1
 
     # shellcheck disable=SC2164
     for role in $(
