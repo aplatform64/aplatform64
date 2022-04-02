@@ -40,12 +40,11 @@ provisioner:
 verifier:
   name: "ansible"
 lint: |
-  set -e
-  ${DEVAP_CMD_YAMLLINT} --format colored ${DEVAP_TEST_ROLE_PATH}
+  ${DEVAP_CMD_YAMLLINT} --format colored ${DEVAP_TEST_ROLE_PATH} &&
   ${DEVAP_CMD_ANSIBLELINT} ${DEVAP_TEST_ANSIBLE_LINT_VERBOSE} -c ${DEVAP_ANSIBLE_LINT} --project-dir ${DEVAP_TEST_ROLE_PATH} --exclude molecule
 platforms:
   - name: "centos8"
-    image: "ghcr.io/serdigital64/centos-8-ansible-node:0.1.0"
+    image: "ghcr.io/serdigital64/centos-8-ansible-node:0.2.0"
     pre_build_image: true
     groups:
       - "centos"
@@ -161,7 +160,7 @@ platforms:
       - "SYS_ADMIN"
     command: "/lib/systemd/systemd"
   - name: "debian10"
-    image: "ghcr.io/serdigital64/debian-10-ansible-node:0.1.0"
+    image: "ghcr.io/serdigital64/debian-10-ansible-node:0.2.0"
     pre_build_image: true
     groups:
       - "debian"
