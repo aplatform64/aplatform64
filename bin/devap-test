@@ -18,6 +18,11 @@ BL64_LIB_STRICT='0'
 # shellcheck disable=SC1091
 source "${DEVAP_BIN}/bashlib64.bash"
 
+function devap_test_prepare_environment() {
+  # Tune kernel for multiple containers
+  "$BL64_SUDO_CMD_SUDO" sysctl fs.inotify.max_user_instances="$DEVAP_SYSCTL_MAX_USER_INSTANCES"
+}
+
 function devap_test_reset() {
 
   bl64_msg_show_task 'reset var area'
@@ -70,11 +75,11 @@ function devap_test_role_test() {
   # Select hosts
   DEVAP_TEST_PLATFORM="$group"
 
-  # Tune kernel for multiple containers
-  "$BL64_SUDO_CMD_SUDO" sysctl fs.inotify.max_user_instances="$DEVAP_SYSCTL_MAX_USER_INSTANCES"
+  devap_test_prepare_environment
 
   # Select scenarios
   if [[ "$target" == 'all' ]]; then
+    # shellcheck disable=SC2164,SC2086
     target="$(
       cd "${DEVAP_COLLECTIONS}/${collection}/roles/${role}/molecule"
       echo ${role}_*
@@ -107,11 +112,11 @@ function devap_test_role_converge() {
   [[ "$target" == 'all' ]] && bl64_msg_show_error 'invalid option. This action supports only one test' && return 1
 
   bl64_msg_show_task 'prepare test environment'
+
   # Set project path
   DEVAP_TEST_ROLE_PATH="${DEVAP_COLLECTIONS}/${collection}/roles/${role}"
-  bl64_check_directory "$DEVAP_TEST_ROLE_PATH" && cd "$DEVAP_TEST_ROLE_PATH" || return 1
-
   bl64_check_directory "${DEVAP_TEST_ROLE_PATH}/molecule/${target}" || return 1
+  bl64_check_directory "$DEVAP_TEST_ROLE_PATH" && cd "$DEVAP_TEST_ROLE_PATH" || return 1
 
   # Enable debug mode
   if [[ "$debug" == '1' ]]; then
@@ -127,8 +132,7 @@ function devap_test_role_converge() {
   # Select target hosts
   DEVAP_TEST_PLATFORM="$group"
 
-  # Tune kernel for multiple containers
-  "$BL64_SUDO_CMD_SUDO" sysctl fs.inotify.max_user_instances="$DEVAP_SYSCTL_MAX_USER_INSTANCES"
+  devap_test_prepare_environment
 
   if [[ "$reset" == '1' ]]; then
     bl64_msg_show_task 'reset test environment'
@@ -160,8 +164,7 @@ function devap_test_role_login() {
   # Select target hosts
   DEVAP_TEST_PLATFORM="$group"
 
-  # Tune kernel for multiple containers
-  "$BL64_SUDO_CMD_SUDO" sysctl fs.inotify.max_user_instances="$DEVAP_SYSCTL_MAX_USER_INSTANCES"
+  devap_test_prepare_environment
 
   bl64_msg_show_task 'login to the test container'
   "$DEVAP_CMD_MOLECULE" 'login' --scenario-name "$target" --host "$group"

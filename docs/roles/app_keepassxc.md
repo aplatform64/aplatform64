@@ -65,7 +65,7 @@ app_keepassxc_actions:
   setup:
     overwrite:
 app_keepassxc_setup_users:
-  - user:
+  - name:
     home:
 ```
 
@@ -80,7 +80,7 @@ app_keepassxc_setup_users:
 | app_keepassxc_actions.setup           | no         | dictionary |               | Set setup action options           |
 | app_keepassxc_actions.setup.overwrite | no         | boolean    | `false`       | Overwrite user configurations?     |
 | app_keepassxc_setup_users             | yes(setup) | list       |               | List of users for the setup task   |
-| app_keepassxc_setup_users.0.user      | yes        | string     |               | User login name                    |
+| app_keepassxc_setup_users.0.name      | yes        | string     |               | User login name                    |
 | app_keepassxc_setup_users.0.home      | yes        | string     |               | Home full path                     |
 
 ## Deployment

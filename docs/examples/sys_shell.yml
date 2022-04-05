@@ -38,7 +38,7 @@
         sys_shell_catalog:
           bash: true
         sys_shell_users:
-          - user: "{{ test_user }}"
+          - name: "{{ test_user }}"
             home: "{{ test_home }}"
             flavour: "bash"
             paths:

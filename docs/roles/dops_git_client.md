@@ -98,12 +98,12 @@ dops_git_client_repositories:
 
 | Parameter                                    | Required?      | Type       | Default    | Purpose / Value                           |
 | -------------------------------------------- | -------------- | ---------- | ---------- | ----------------------------------------- |
-| dops_git_client_application                  | no             | dictionary |            | Set application package end state         |
-| dops_git_client_application.client           | no             | dictionary |            | Set application package end state         |
-| dops_git_client_application.client.name      | no             | string     | `"git"`    | Select application package name           |
-| dops_git_client_application.client.type      | no             | string     | `"distro"` | Select application package type           |
-| dops_git_client_application.client.version   | no             | string     | `"latest"` | Select application package version        |
-| dops_git_client_application.client.installed | no             | boolean    | `true`     | Set application package end state         |
+| dops_git_client_application                  | yes(deploy)    | dictionary |            | Set application package end state         |
+| dops_git_client_application.client           | yes            | dictionary |            | Set application package end state         |
+| dops_git_client_application.client.name      | yes            | string     | `"git"`    | Select application package name           |
+| dops_git_client_application.client.type      | yes            | string     | `"distro"` | Select application package type           |
+| dops_git_client_application.client.version   | yes            | string     | `"latest"` | Select application package version        |
+| dops_git_client_application.client.installed | yes            | boolean    | `true`     | Set application package end state         |
 | dops_git_client_application.extras           | no             | dictionary |            | Set application package end state         |
 | dops_git_client_application.extras.name      | no             | string     | `"extras"` | Select application package name           |
 | dops_git_client_application.extras.type      | no             | string     | `"distro"` | Select application package type           |
@@ -129,16 +129,7 @@ dops_git_client_repositories:
 
 ### OS Compatibility
 
-- CentOS8
-- RedHat8
-- AlmaLinux8
-- OracleLinux8
-- Ubuntu20
-- Ubuntu21
-- Fedora33
-- Fedora35
-- Debian10
-- Debian11
+The operating system compatibility list is defined in the variable: `dops_git_client_platforms`
 
 ### Dependencies
 
