@@ -70,35 +70,26 @@ sys_mc_users:
     home:
 ```
 
-| Parameter                      | Required?   | Type       | Default    | Purpose / Value                    |
-| ------------------------------ | ----------- | ---------- | ---------- | ---------------------------------- |
-| sys_mc_application             | yes(deploy) | dictionary |            | Set application package end state  |
-| sys_mc_application.name        | yes(deploy) | string     | `"mc"`     | Select application package name    |
-| sys_mc_application.type        | yes(deploy) | string     | `"distro"` | Select application package type    |
-| sys_mc_application.version     | yes(deploy) | string     | `"latest"` | Select application package version |
-| sys_mc_application.installed   | yes(deploy) | boolean    | `true`     | Set application package end state  |
-| sys_mc_actions                 | no          | dictionary |            | Set action options                 |
-| sys_mc_actions.setup           | no          | dictionary |            | Set setup action options           |
-| sys_mc_actions.setup.overwrite | no          | boolean    | `false`    | Overwrite user configurations?     |
-| sys_mc_users                   | yes(setup)  | list       |            | List of users that will use MC     |
-| sys_mc_users.0.name            | yes(setup)  | string     |            | User login name                    |
-| sys_mc_users.0.group           | yes(setup)  | string     |            | User primary group                 |
-| sys_mc_users.0.home            | yes(setup)  | string     |            | Home directory                     |
+| Parameter                      | Required?   | Type       | Default            | Purpose / Value                    |
+| ------------------------------ | ----------- | ---------- | ------------------ | ---------------------------------- |
+| sys_mc_application             | yes(deploy) | dictionary |                    | Set application package end state  |
+| sys_mc_application.name        | yes(deploy) | string     | `"mc"`             | Select application package name    |
+| sys_mc_application.type        | yes(deploy) | string     | `"distro"\|"brew"` | Select application package type    |
+| sys_mc_application.version     | yes(deploy) | string     | `"latest"`         | Select application package version |
+| sys_mc_application.installed   | yes(deploy) | boolean    | `true`             | Set application package end state  |
+| sys_mc_actions                 | no          | dictionary |                    | Set action options                 |
+| sys_mc_actions.setup           | no          | dictionary |                    | Set setup action options           |
+| sys_mc_actions.setup.overwrite | no          | boolean    | `false`            | Overwrite user configurations?     |
+| sys_mc_users                   | yes(setup)  | list       |                    | List of users that will use MC     |
+| sys_mc_users.0.name            | yes(setup)  | string     |                    | User login name                    |
+| sys_mc_users.0.group           | yes(setup)  | string     |                    | User primary group                 |
+| sys_mc_users.0.home            | yes(setup)  | string     |                    | Home directory                     |
 
 ## Deployment
 
 ### OS Compatibility
 
-- CentOS8
-- RedHat8
-- AlmaLinux8
-- OracleLinux8
-- Ubuntu20
-- Ubuntu21
-- Fedora33
-- Fedora35
-- Debian10
-- Debian11
+The operating system compatibility list is defined in the variable: `sys_mc_platforms`
 
 ### Dependencies
 

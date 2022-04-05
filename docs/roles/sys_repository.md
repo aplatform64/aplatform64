@@ -6,21 +6,35 @@ Manage application package repositories.
 
 Features available in the current version:
 
-- Install repository management tools. Package list is defined in the variable `sys_repository_packages`.
+- Install repository management tools
+  - flatpak: distro native CLI and service
+  - snap: distro native CLI and service
+  - git: distro native CLI
+  - pip: distro native pip
+  - brew: shared CLI using dedicated regular user
 - Add remote repositories.
+  - yum
+  - apt
+  - flatpak
 - Manage availability of installed repositories. Predefined optional repositories are declared in the variable `sys_repository_sources`.
+  - distro
+  - yum
+  - apt
+- Prepare repository for usage
+  - distro: update cache
 
 Supported repositories types as defined in the variable `sys_repository_flavours`:
 
-| Type    | Description                                                              |
-| ------- | ------------------------------------------------------------------------ |
-| distro  | Linux native package manager. Depending on the distro, can be yum or apt |
-| yum     | Redhat based package manager. Used for optional repositories.            |
-| apt     | Debian based package manager. Used for optional repositories.            |
-| snap    | [SnapCraft](https://snapcraft.io/) package manager                       |
-| flatpak | [FlatHub](https://flathub.org) package manager                           |
-| git     | Git based repository                                                     |
-| pip     | Repository for Python modules                                            |
+| Type    | Description                     |
+| ------- | ------------------------------- |
+| apt     | Repository for DEB packages     |
+| brew    | Repository for BREW packages    |
+| distro  | OS native repository            |
+| flatpak | Repository for FLATPAK packages |
+| git     | Git based repository            |
+| pip     | Repository for Python modules   |
+| snap    | Repository for SNAP packages    |
+| yum     | Repository for RPM packages     |
 
 The **sys_repository** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [system](https://aplatform64.readthedocs.io/en/latest/collections/system) Ansible-Collection.
 
@@ -71,10 +85,11 @@ sys_repository:
 
 ```yaml
 sys_repository_managers:
+  brew:
   flatpak:
-  snap:
   git:
   pip:
+  snap:
 sys_repository_catalog_distro:
   NAME:
 sys_repository_catalog_flatpak:
@@ -106,10 +121,11 @@ sys_repository_custom_apt:
 
 | Parameter                               | Required? | Type       | Default | Purpose / Value                                                   |
 | --------------------------------------- | --------- | ---------- | ------- | ----------------------------------------------------------------- |
-| sys_repository_managers.flatpak         | no        | boolean    | `false` | Enable/Disable support for FlatHub repositories                   |
-| sys_repository_managers.snap            | no        | boolean    | `false` | Enable/Disable support for Snap repositories                      |
-| sys_repository_managers.git             | no        | boolean    | `false` | Enable/Disable support for packages stored in GIT repositories    |
-| sys_repository_managers.pip             | no        | boolean    | `false` | Enable/Disable support for packages stored in Python repositories |
+| sys_repository_managers.brew            | no        | boolean    | `false` | Enable/Disable Homebrew repository                                |
+| sys_repository_managers.flatpak         | no        | boolean    | `false` | Enable/Disable FlatHub repository                                 |
+| sys_repository_managers.snap            | no        | boolean    | `false` | Enable/Disable Snap repository                                    |
+| sys_repository_managers.git             | no        | boolean    | `false` | Enable/Disable GIT repositories                                   |
+| sys_repository_managers.pip             | no        | boolean    | `false` | Enable/Disable Python modules repository                          |
 | sys_repository_catalog_distro           | no        | dictionary |         | Define installed distro native repositories state.                |
 | sys_repository_catalog_distro.NAME      | no        | boolean    |         | Is the repository enabled?. Replace NAME with the repository name |
 | sys_repository_catalog_flatpak          | no        | dictionary |         | Define installed flatpak repositories state.                      |
@@ -142,20 +158,17 @@ sys_repository_custom_apt:
 
 ### OS Compatibility
 
-- CentOS8
-- RedHat8
-- AlmaLinux8
-- OracleLinux8
-- Ubuntu20
-- Ubuntu21
-- Fedora33
-- Fedora35
-- Debian10
-- Debian11
+The operating system compatibility list is defined in the variable: `sys_repository_platforms`
 
 ### Dependencies
 
-None
+- Ansible Collections:
+  - serdigital64.system
+    - sys_user
+  - serdigital64.devops
+    - dops_git_client
+  - serdigital64-development
+    - dev_python
 
 ### Prerequisites
 

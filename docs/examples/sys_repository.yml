@@ -110,4 +110,14 @@
       when:
         - ansible_distribution == 'Debian' or
           ansible_distribution == 'Ubuntu'
+
+    - name: "Example: Install the Homebrew package manager"
+      vars:
+        sys_repository:
+          prepare: true
+          deploy: true
+        sys_repository_managers:
+          brew: true
+      ansible.builtin.include_role:
+        name: "serdigital64.system.sys_repository"
 ...

@@ -74,11 +74,13 @@ sys_shell_catalog:
   ksh: false
   csh: false
 sys_shell_users:
-  - user:
+  - name:
     flavour:
     access:
-      owner:
+      user:
+        owner:
       group:
+        owner:
       mode:
         file:
         dir:
@@ -103,11 +105,13 @@ sys_shell_actions:
 | sys_shell_catalog.csh             | no         | boolean    | `false` | Enable processing of the csh shell                                       |
 | sys_shell_catalog.ksh             | no         | boolean    | `false` | Enable processing of the ksh shell                                       |
 | sys_shell_user                    | yes(setup) | list       |         | Define the list of target users to setup                                 |
-| sys_shell_user.user               | yes(setup) | string     |         | Login name                                                               |
+| sys_shell_user.name               | yes(setup) | string     |         | Login name                                                               |
 | sys_shell_user.flavour            | yes(setup) | string     |         | Profile shell type. Use the associated tag from the supported shell list |
 | sys_shell_user.access             | no         | dictionary |         | Define access permissions for profile files                              |
-| sys_shell_user.access.owner       | no         | string     |         | Define owner                                                             |
-| sys_shell_user.access.group       | no         | string     |         | Define owning group                                                      |
+| sys_shell_user.access.user        | no         | dictionary |         | Define owning user                                                       |
+| sys_shell_user.access.owner       | no         | string     |         | User name                                                                |
+| sys_shell_user.access.group       | no         | dictionary |         | Define owning group                                                      |
+| sys_shell_user.access.owner       | no         | string     |         | Group name                                                               |
 | sys_shell_user.access.mode        | no         | dictionary |         | Define file permissions                                                  |
 | sys_shell_user.access.mode.file   | no         | string     |         | Define permissions for files. Use octal notation                         |
 | sys_shell_user.access.mode.dir    | no         | string     |         | Define permissions for directories. Use octal notation                   |
@@ -127,23 +131,14 @@ sys_shell_actions:
 
 ### OS Compatibility
 
-- CentOS8
-- RedHat8
-- AlmaLinux8
-- OracleLinux8
-- Ubuntu20
-- Ubuntu21
-- Fedora33
-- Fedora35
-- Debian10
-- Debian11
+The operating system compatibility list is defined in the variable: `sys_shell_platforms`
 
 ### Dependencies
 
 - Ansible Collections:
   - serdigital64.automation
     - auto_ansible_node
-  - serdigital64.core
+  - serdigital64.system
     - sys_package
     - sys_repository
 
