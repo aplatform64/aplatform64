@@ -32,7 +32,8 @@ This collection is part of the [A:Platform64](https://github.com/serdigital64/ap
   - community.general
   - serdigital64.automation
   - serdigital64.backup
-  - serdigital64.system
+  - serdigital64.development
+  - serdigital64.devops
 
 ### Installation Procedure
 

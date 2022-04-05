@@ -104,21 +104,12 @@ bkp_archive_packages_installed:
 
 ### OS Compatibility
 
-- CentOS8
-- RedHat8
-- AlmaLinux8
-- OracleLinux8
-- Ubuntu20
-- Ubuntu21
-- Fedora33
-- Fedora35
-- Debian10
-- Debian11
+The operating system compatibility list is defined in the variable: `bkp_archive_platforms`
 
 ### Dependencies
 
 - Ansible Collections:
-  - serdigital64.core
+  - serdigital64.system
     - sys_repository
 
 ### Prerequisites

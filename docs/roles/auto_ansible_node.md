@@ -9,7 +9,6 @@ Supported features in the current version:
 - Create managed node user.
 - Grant root privilege to managed node user.
 - Provision Ansible Control Node OpenSSH Key for password-less remote access.
-- Deploy latest os provided version of python (bootstrap mode)os tools used by common Ansible modules. Package list is defined in the variables `auto_ansible_node_python3`.
 - Deploy os tools used by common Ansible modules. Package list is defined in the variables `auto_ansible_node_tools`.
   - su
   - runuser
@@ -96,16 +95,7 @@ auto_ansible_node_bootstrap:
 
 ### OS Compatibility
 
-- CentOS8
-- RedHat8
-- AlmaLinux8
-- OracleLinux8
-- Ubuntu20
-- Ubuntu21
-- Fedora33
-- Fedora35
-- Debian10
-- Debian11
+The operating system compatibility list is defined in the variable: `auto_ansible_node_platforms`
 
 ### Dependencies
 

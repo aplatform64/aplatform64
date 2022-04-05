@@ -68,6 +68,7 @@ sys_user_accounts:
       xdg:
 sys_user_groups:
   - name:
+    description:
     gid:
     system:
 ```
@@ -90,6 +91,7 @@ sys_user_groups:
 | sys_user_accounts.[0].options.xdg | no        | boolean |         | Create XDG paths?             |
 | sys_user_groups                   | no        | list    |         | List of group definitions     |
 | sys_user_groups.[0].name          | yes       | string  |         | Group name                    |
+| sys_user_groups.[0].description   | no        | string  |         | Group description             |
 | sys_user_groups.[0].gid           | no        | string  |         | Unix group ID                 |
 | sys_user_groups.[0].system        | no        | string  |         | Is this a system group?       |
 
@@ -97,16 +99,7 @@ sys_user_groups:
 
 ### OS Compatibility
 
-- CentOS8
-- RedHat8
-- AlmaLinux8
-- OracleLinux8
-- Ubuntu20
-- Ubuntu21
-- Fedora33
-- Fedora35
-- Debian10
-- Debian11
+The operating system compatibility list is defined in the variable: `sys_user_platforms`
 
 ### Dependencies
 
