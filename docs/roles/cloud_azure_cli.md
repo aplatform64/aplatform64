@@ -1,15 +1,3 @@
----
-title: "Ansible Role: serdigital64.cloud.cloud_azure_cli"
-description: "Manage provisioning of Azure CLI"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Role: serdigital64.cloud_azure_cli
 
 ## Purpose

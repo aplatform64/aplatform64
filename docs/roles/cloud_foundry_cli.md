@@ -1,15 +1,3 @@
----
-title: "Ansible Role: serdigital64.cloud.cloud_foundry_cli"
-description: "Manage provisioning of Cloud Foundry CLI"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Role: serdigital64.cloud_foundry_cli
 
 ## Purpose

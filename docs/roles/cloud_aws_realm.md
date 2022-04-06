@@ -1,15 +1,3 @@
----
-title: "Ansible Role: serdigital64.cloud.cloud_aws_realm"
-description: "Manage AWS Accounts, IAM and Organizations"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Role: serdigital64.cloud.cloud_aws_realm
 
 ## Purpose
