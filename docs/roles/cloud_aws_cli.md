@@ -1,15 +1,3 @@
----
-title: "Ansible Role: serdigital64.cloud.cloud_aws_cli"
-description: "Manage provisioning of AWS CLI"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Role: serdigital64.cloud.cloud_aws_cli
 
 ## Purpose

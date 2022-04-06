@@ -16,10 +16,12 @@ Features available in the current version:
   - yum
   - apt
   - flatpak
+  - brew
 - Manage availability of installed repositories. Predefined optional repositories are declared in the variable `sys_repository_sources`.
   - distro
   - yum
   - apt
+  - brew
 - Prepare repository for usage
   - distro: update cache
 
@@ -98,12 +100,17 @@ sys_repository_catalog_apt:
   NAME:
 sys_repository_catalog_yum:
   NAME:
+sys_repository_catalog_brew:
+  NAME:
 sys_repository_custom_distro:
   - name:
     package:
 sys_repository_custom_flatpak:
   - name:
     url:
+sys_repository_custom_brew:
+  - name:
+    source:
 sys_repository_custom_yum:
   - name:
     description:
@@ -134,12 +141,17 @@ sys_repository_custom_apt:
 | sys_repository_catalog_apt.NAME         | no        | boolean    |         | Is the repository enabled?. Replace NAME with the repository name |
 | sys_repository_catalog_yum              | no        | dictionary |         | Define installed yum repositories state.                          |
 | sys_repository_catalog_yum.NAME         | no        | boolean    |         | Is the repository enabled?. Replace NAME with the repository name |
+| sys_repository_catalog_brew             | no        | dictionary |         | Define installed yum repositories state.                          |
+| sys_repository_catalog_brew.NAME        | no        | boolean    |         | Is the repository enabled?. Replace NAME with the repository name |
 | sys_repository_custom_distro            | no        | list       |         | Define optional distro native repositories                        |
 | sys_repository_custom_distro.0.name     | yes       | string     |         | Define repository name                                            |
 | sys_repository_custom_distro.0.package  | yes       | string     |         | Define package name                                               |
 | sys_repository_custom_flatpak           | yes       | list       |         | Define optional flatpak repositories                              |
 | sys_repository_custom_flatpak.0.name    | yes       | string     |         | Define repository name                                            |
 | sys_repository_custom_flatpak.0.url     | yes       | string     |         | Define repository location                                        |
+| sys_repository_custom_brew              | no        | list       |         | Define optional flatpak repositories                              |
+| sys_repository_custom_brew.0.name       | yes       | string     |         | Define repository name                                            |
+| sys_repository_custom_brew.0.source     | yes       | string     |         | Define repository source                                          |
 | sys_repository_custom_yum               | no        | list       |         | Define optional yum repositories                                  |
 | sys_repository_custom_yum.0.name        | yes       | string     |         | Set repository short name                                         |
 | sys_repository_custom_yum.0.description | yes       | string     |         | Describe content                                                  |
@@ -165,6 +177,7 @@ The operating system compatibility list is defined in the variable: `sys_reposit
 - Ansible Collections:
   - serdigital64.system
     - sys_user
+    - sys_sudo
   - serdigital64.devops
     - dops_git_client
   - serdigital64-development

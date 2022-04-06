@@ -33,6 +33,8 @@ Package specific actions:
   - Create user and group owners
   - Create loader script that will activate the venv and call the app CLI
 
+In order to allow homogeneous package profile definitions use the variable `sys_package_profiles.T.V.supported` to flag packages that are not available in the target platform. This will skip the package deploy without generating execution errors.
+
 The **sys_package** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [system](https://aplatform64.readthedocs.io/en/latest/collections/system) Ansible-Collection.
 
 ## Usage
@@ -85,6 +87,8 @@ sys_package_profiles:
             branch:
           referer:
       options:
+        brew:
+          cask:
         pip:
           owner:
           group:
@@ -107,53 +111,55 @@ sys_package_profiles:
       cleanup:
 ```
 
-| Parameter                                        | Required? | Type       | Default  | Purpose / Value                                                                                          |
-| ------------------------------------------------ | --------- | ---------- | -------- | -------------------------------------------------------------------------------------------------------- |
-| sys_package.resolve_prereq                       | no        | boolean    | `false`  | Enable automatic resolution of prequisites                                                               |
-| sys_package.prepare                              | no        | boolean    | `false`  | Enable preparation of the runtime environment                                                            |
-| sys_package.provision                            | no        | boolean    | `false`  | Enable installation/uninstallation of packages                                                           |
-| sys_package_application                          | yes       | dictionary |          | Required when `provision == true`. Define target application from profile list                           |
-| sys_package_application.name                     | yes       | string     |          | Select application package name                                                                          |
-| sys_package_application.type                     | yes       | string     |          | Select application package type                                                                          |
-| sys_package_application.version                  | yes       | string     |          | Select application package version                                                                       |
-| sys_package_application.installed                | yes       | boolean    |          | Set application end state                                                                                |
-| sys_package_profiles                             | yes       | dictionary |          | Required when `provision == true`. Define application details                                            |
-| sys_package_profiles.T                           | yes       | dictionary |          | Define application details for the package type _T_. Replace _T_ with a valid type                       |
-| sys_package_profiles.T.V                         | yes       | dictionary |          | Define application details for the version _V_. Replace _V_ with `latest` or version `vX_Y_Z`            |
-| sys_package_profiles.T.V.supported               | no        | boolean    | `true`   | Is the application version supported?. Use to ignore versions that are not available in the target OS    |
-| sys_package_profiles.T.V.origin                  | yes       | string     |          | (_binary,deb,flatpak,git,rpm_) Repository URL or name from where the file package will be downloaded     |
-| sys_package_profiles.T.V.packages                | yes       | list       |          | List of application packages to be installed                                                             |
-| sys_package_profiles.T.V.packages.0.name         | yes       | string     |          | (_brew,flatpak,snap,rpm,deb,distro,pip_) Package name as found in the package repository or package file |
-| sys_package_profiles.T.V.packages.0.file         | yes       | string     |          | (_binary,deb,git,rpm_) Package file name as found in the origin                                          |
-| sys_package_profiles.T.V.packages.0.referer      | no        | string     |          | Set the HTTP Header Referer field. Value: URL. Used for sites that will not allow direct URL download    |
-| sys_package_profiles.T.V.packages.0.uncompress   | no        | boolean    |          | (_binary_) Uncompress the package file before installing                                                 |
-| sys_package_profiles.T.V.packages.0.snap         | no        | dictionary |          | (_snap_) Snap options                                                                                    |
-| sys_package_profiles.T.V.packages.0.snap.classic | no        | boolean    |          | (_snap_) Set the _classic_ flag when installing the snap package                                         |
-| sys_package_profiles.T.V.packages.0.git          | no        | dictionary |          | (_git_) GIT options                                                                                      |
-| sys_package_profiles.T.V.packages.0.git.branch   | no        | string     |          | (_git_) Set the target branch.                                                                           |
-| sys_package_profiles.T.V.options                 | yes       | dictionary |          | (_pip_) Global package options                                                                           |
-| sys_package_profiles.T.V.options.pip             | yes       | dictionary |          | (_pip_) PIP options                                                                                      |
-| sys_package_profiles.T.V.options.pip.owner       | no        | string     | `"root"` | (_pip_) Destination path owner                                                                           |
-| sys_package_profiles.T.V.options.pip.group       | no        | string     | `"root"` | (_pip_) Destination path group owner                                                                     |
-| sys_package_profiles.T.V.options.pip.path        | yes       | string     |          | (_pip_) Destination path where the Python modules and venv will be installed to                          |
-| sys_package_profiles.T.V.options.pip.cli         | yes       | string     |          | (_pip_) CLI (python app) name to call the module directly from the shell                                 |
-| sys_package_profiles.T.V.options.pip.system      | no        | boolean    | `false`  | (_pip_) Enable --system-site-packages venv creation option                                               |
-| sys_package_profiles.T.V.options.pip.python      | no        | string     |          | (_pip_) Full path to the Python interpreter. Default is OS dependant                                     |
-| sys_package_profiles.T.V.paths                   | no        | list       |          | (_binary,git_) List of paths to be created before promotion                                              |
-| sys_package_profiles.T.V.paths.0.target          | yes       | string     |          | Full path where files will be promoted (copied) to                                                       |
-| sys_package_profiles.T.V.paths.0.mode            | no        | string     |          | Target's permissions (octal)                                                                             |
-| sys_package_profiles.T.V.paths.0.owner           | no        | string     |          | Target's owner: user name                                                                                |
-| sys_package_profiles.T.V.paths.0.group           | no        | string     |          | Target's Owner: group                                                                                    |
-| sys_package_profiles.T.V.promotion               | no        | dictionary |          | (_binary,git_) List of files that will be promoted (copied) after the package file is opened             |
-| sys_package_profiles.T.V.promotion.0.source      | yes       | string     |          | Relative path to the source file that will be promoted                                                   |
-| sys_package_profiles.T.V.promotion.0.target      | yes       | string     |          | Full path to the destination where the file will be promoted (copied) to                                 |
-| sys_package_profiles.T.V.promotion.0.mode        | no        | string     |          | Target's permissions (octal)                                                                             |
-| sys_package_profiles.T.V.promotion.0.owner       | no        | string     |          | Target's owner: user name                                                                                |
-| sys_package_profiles.T.V.promotion.0.group       | no        | string     |          | Target's Owner: group                                                                                    |
-| sys_package_profiles.T.V.script                  | no        | list       |          | (_binary_) Script or command to run after the application package is opened in staging                   |
-| sys_package_profiles.T.V.script.0                | yes       | string     |          | Path to the script or command. Relative to the installation base                                         |
-| sys_package_profiles.T.V.script.N                | no        | string     |          | Parameter definition. Add as many lines as parameters. Same format as `ansible.builtin.command.argv`     |
-| sys_package_profiles.T.V.cleanup                 | no        | list       |          | List of full path files that must be removed after the application is uninstalled.                       |
+| Parameter                                        | Required? | Type       | Default  | Purpose / Value                                                                                        |
+| ------------------------------------------------ | --------- | ---------- | -------- | ------------------------------------------------------------------------------------------------------ |
+| sys_package.resolve_prereq                       | no        | boolean    | `false`  | Enable automatic resolution of prequisites                                                             |
+| sys_package.prepare                              | no        | boolean    | `false`  | Enable preparation of the runtime environment                                                          |
+| sys_package.provision                            | no        | boolean    | `false`  | Enable installation/uninstallation of packages                                                         |
+| sys_package_application                          | yes       | dictionary |          | Required when `provision == true`. Define target application from profile list                         |
+| sys_package_application.name                     | yes       | string     |          | Select application package name                                                                        |
+| sys_package_application.type                     | yes       | string     |          | Select application package type                                                                        |
+| sys_package_application.version                  | yes       | string     |          | Select application package version                                                                     |
+| sys_package_application.installed                | yes       | boolean    |          | Set application end state                                                                              |
+| sys_package_profiles                             | yes       | dictionary |          | Required when `provision == true`. Define application details                                          |
+| sys_package_profiles.T                           | yes       | dictionary |          | Define application details for the package type _T_. Replace _T_ with a valid type                     |
+| sys_package_profiles.T.V                         | yes       | dictionary |          | Define application details for the version _V_. Replace _V_ with `latest` or version `vX_Y_Z`          |
+| sys_package_profiles.T.V.supported               | no        | boolean    | `true`   | Is the application available for the target platform?                                                  |
+| sys_package_profiles.T.V.origin                  | yes       | string     |          | (binary,deb,flatpak,git,rpm) Repository URL or name from where the file package will be downloaded     |
+| sys_package_profiles.T.V.packages                | yes       | list       |          | List of application packages to be installed                                                           |
+| sys_package_profiles.T.V.packages.0.name         | yes       | string     |          | (brew,flatpak,snap,rpm,deb,distro,pip) Package name as found in the package repository or package file |
+| sys_package_profiles.T.V.packages.0.file         | yes       | string     |          | (binary,deb,git,rpm) Package file name as found in the origin                                          |
+| sys_package_profiles.T.V.packages.0.referer      | no        | string     |          | Set the HTTP Header Referer field. Value: URL. Used for sites that will not allow direct URL download  |
+| sys_package_profiles.T.V.packages.0.uncompress   | no        | boolean    |          | (binary) Uncompress the package file before installing                                                 |
+| sys_package_profiles.T.V.packages.0.snap         | no        | dictionary |          | (snap) Snap options                                                                                    |
+| sys_package_profiles.T.V.packages.0.snap.classic | no        | boolean    |          | (snap) Set the _classic_ flag when installing the snap package                                         |
+| sys_package_profiles.T.V.packages.0.git          | no        | dictionary |          | (git) GIT options                                                                                      |
+| sys_package_profiles.T.V.packages.0.git.branch   | no        | string     |          | (git) Set the target branch.                                                                           |
+| sys_package_profiles.T.V.options                 | yes       | dictionary |          | (pip) Global package options                                                                           |
+| sys_package_profiles.T.V.options.brew            | no        | dictionary |          | (brew) Homebrew options                                                                                |
+| sys_package_profiles.T.V.options.brew.cask       | no        | boolean    |          | (brew) The package is a cask                                                                           |
+| sys_package_profiles.T.V.options.pip             | yes       | dictionary |          | (pip) PIP options                                                                                      |
+| sys_package_profiles.T.V.options.pip.owner       | no        | string     | `"root"` | (pip) Destination path owner                                                                           |
+| sys_package_profiles.T.V.options.pip.group       | no        | string     | `"root"` | (pip) Destination path group owner                                                                     |
+| sys_package_profiles.T.V.options.pip.path        | yes       | string     |          | (pip) Destination path where the Python modules and venv will be installed to                          |
+| sys_package_profiles.T.V.options.pip.cli         | yes       | string     |          | (pip) CLI (python app) name to call the module directly from the shell                                 |
+| sys_package_profiles.T.V.options.pip.system      | no        | boolean    | `false`  | (pip) Enable --system-site-packages venv creation option                                               |
+| sys_package_profiles.T.V.options.pip.python      | no        | string     |          | (pip) Full path to the Python interpreter. Default is OS dependant                                     |
+| sys_package_profiles.T.V.paths                   | no        | list       |          | (binary,git) List of paths to be created before promotion                                              |
+| sys_package_profiles.T.V.paths.0.target          | yes       | string     |          | Full path where files will be promoted (copied) to                                                     |
+| sys_package_profiles.T.V.paths.0.mode            | no        | string     |          | Target's permissions (octal)                                                                           |
+| sys_package_profiles.T.V.paths.0.owner           | no        | string     |          | Target's owner: user name                                                                              |
+| sys_package_profiles.T.V.paths.0.group           | no        | string     |          | Target's Owner: group                                                                                  |
+| sys_package_profiles.T.V.promotion               | no        | dictionary |          | (binary,git) List of files that will be promoted (copied) after the package file is opened             |
+| sys_package_profiles.T.V.promotion.0.source      | yes       | string     |          | Relative path to the source file that will be promoted                                                 |
+| sys_package_profiles.T.V.promotion.0.target      | yes       | string     |          | Full path to the destination where the file will be promoted (copied) to                               |
+| sys_package_profiles.T.V.promotion.0.mode        | no        | string     |          | Target's permissions (octal)                                                                           |
+| sys_package_profiles.T.V.promotion.0.owner       | no        | string     |          | Target's owner: user name                                                                              |
+| sys_package_profiles.T.V.promotion.0.group       | no        | string     |          | Target's Owner: group                                                                                  |
+| sys_package_profiles.T.V.script                  | no        | list       |          | (binary) Script or command to run after the application package is opened in staging                   |
+| sys_package_profiles.T.V.script.0                | yes       | string     |          | Path to the script or command. Relative to the installation base                                       |
+| sys_package_profiles.T.V.script.N                | no        | string     |          | Parameter definition. Add as many lines as parameters. Same format as `ansible.builtin.command.argv`   |
+| sys_package_profiles.T.V.cleanup                 | no        | list       |          | List of full path files that must be removed after the application is uninstalled.                     |
 
 ### End State
 

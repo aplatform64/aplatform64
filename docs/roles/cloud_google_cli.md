@@ -1,15 +1,3 @@
----
-title: "Ansible Role: serdigital64.cloud.cloud_google_cli"
-description: "Manage provisioning of Google Cloud CLI"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Role: serdigital64.cloud.cloud_google_cli
 
 ## Purpose
@@ -71,26 +59,19 @@ cloud_google_cli_application:
   installed:
 ```
 
-| Parameter                              | Required? | Type       | Default    | Purpose / Value                    |
-| -------------------------------------- | --------- | ---------- | ---------- | ---------------------------------- |
-| cloud_google_cli_application           | no        | dictionary |            | Set application package end state  |
-| cloud_google_cli_application.name      | no        | string     | `"gcloud"` | Select application package name    |
-| cloud_google_cli_application.type      | no        | string     | `"distro"` | Select application package type    |
-| cloud_google_cli_application.version   | no        | string     | `"latest"` | Select application package version |
-| cloud_google_cli_application.installed | no        | boolean    | `true`     | Set application package end state  |
+| Parameter                              | Required? | Type       | Default              | Purpose / Value                    |
+| -------------------------------------- | --------- | ---------- | -------------------- | ---------------------------------- |
+| cloud_google_cli_application           | no        | dictionary |                      | Set application package end state  |
+| cloud_google_cli_application.name      | no        | string     | `"gcloud"`           | Select application package name    |
+| cloud_google_cli_application.type      | no        | string     | `"distro" \| "brew"` | Select application package type    |
+| cloud_google_cli_application.version   | no        | string     | `"latest"`           | Select application package version |
+| cloud_google_cli_application.installed | no        | boolean    | `true`               | Set application package end state  |
 
 ## Deployment
 
 ### OS Compatibility
 
-- CentOS8
-- OracleLinux8
-- Ubuntu20
-- Ubuntu21
-- Fedora33
-- Fedora35
-- Debian10
-- Debian11
+The operating system compatibility list is defined in the variable: `cloud_google_cli_platforms`
 
 ### Dependencies
 

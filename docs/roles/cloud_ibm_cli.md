@@ -1,15 +1,3 @@
----
-title: "Ansible Role: serdigital64.cloud.cloud_ibm_cli"
-description: "Manage provisioning of IBM Cloud CLI"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Role: serdigital64.cloud.cloud_ibm_cli
 
 ## Purpose
