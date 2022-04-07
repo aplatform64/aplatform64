@@ -1,15 +1,3 @@
----
-title: "Ansible Role: serdigital64.storage.stg_autofs"
-description: "Manage the AutoFS service"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - storage
-  - linux
-  - automation
----
-
 # Ansible Role: serdigital64.storage.stg_autofs
 
 ## Purpose
@@ -125,14 +113,7 @@ stg_autofs_maps:
 
 ### OS Compatibility
 
-- CentOS8
-- OracleLinux8
-- Ubuntu20
-- Ubuntu21
-- Fedora33
-- Fedora35
-- Debian10
-- Debian11
+The operating system compatibility list is defined in the variable: `stg_autofs_platforms`
 
 ### Dependencies
 

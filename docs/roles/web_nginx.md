@@ -41,10 +41,10 @@ web_nginx:
   deploy:
 ```
 
-| Parameter                    | Required? | Type    | Default | Purpose / Value                               |
-| ---------------------------- | --------- | ------- | ------- | --------------------------------------------- |
-| web_nginx.resolve_prereq | no        | boolean | `false` | Enable automatic resolution of prequisites    |
-| web_nginx.deploy         | no        | boolean | `false` | Enable installation of application packages   |
+| Parameter                | Required? | Type    | Default | Purpose / Value                             |
+| ------------------------ | --------- | ------- | ------- | ------------------------------------------- |
+| web_nginx.resolve_prereq | no        | boolean | `false` | Enable automatic resolution of prequisites  |
+| web_nginx.deploy         | no        | boolean | `false` | Enable installation of application packages |
 
 ### End State
 
@@ -59,26 +59,19 @@ web_nginx_application:
   installed:
 ```
 
-| Parameter                                      | Required?    | Type       | Default                             | Purpose / Value                     |
-| ---------------------------------------------- | ------------ | ---------- | ----------------------------------- | ----------------------------------- |
-| web_nginx_application                      | yes(deploy)  | dictionary |                                     | Set application package end state   |
-| web_nginx_application.name                 | yes          | string     | `"nginx"`                      | Select application package name     |
-| web_nginx_application.type                 | yes          | string     | `"distro"`                    | Select application package type     |
-| web_nginx_application.version              | yes          | string     | `"latest"`                 | Select application package version  |
-| web_nginx_application.installed            | yes          | boolean    | `true`                              | Set application package end state   |
+| Parameter                       | Required?   | Type       | Default    | Purpose / Value                    |
+| ------------------------------- | ----------- | ---------- | ---------- | ---------------------------------- |
+| web_nginx_application           | yes(deploy) | dictionary |            | Set application package end state  |
+| web_nginx_application.name      | yes         | string     | `"nginx"`  | Select application package name    |
+| web_nginx_application.type      | yes         | string     | `"distro"` | Select application package type    |
+| web_nginx_application.version   | yes         | string     | `"latest"` | Select application package version |
+| web_nginx_application.installed | yes         | boolean    | `true`     | Set application package end state  |
 
 ## Deployment
 
 ### OS Compatibility
 
-- CentOS8
-- OracleLinux8
-- Ubuntu20
-- Ubuntu21
-- Fedora33
-- Fedora35
-- Debian10
-- Debian11
+The operating system compatibility list is defined in the variable: `web_nginx_platforms`
 
 ### Dependencies
 

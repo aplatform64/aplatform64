@@ -1,15 +1,3 @@
----
-title: "Ansible Role: serdigital64.web.web_mkdocs"
-description: "Manage provisioning of the MkDocs tool"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - web
-  - linux
-  - automation
----
-
 # Ansible Role: serdigital64.web.web_mkdocs
 
 ## Purpose
@@ -86,14 +74,7 @@ web_mkdocs_application:
 
 ### OS Compatibility
 
-- CentOS8
-- OracleLinux8
-- Ubuntu20
-- Ubuntu21
-- Fedora33
-- Fedora35
-- Debian10
-- Debian11
+The operating system compatibility list is defined in the variable: `web_mkdocs_platforms`
 
 ### Dependencies
 
