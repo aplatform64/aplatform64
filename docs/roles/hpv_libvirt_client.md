@@ -1,15 +1,3 @@
----
-title: "Ansible Role: serdigital64.hypervisor.hpv_libvirt_client"
-description: "Manage provisioning of LibVirt client"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Role: serdigital64.hypervisor.hpv_libvirt_client
 
 ## Purpose
@@ -83,14 +71,7 @@ hpv_libvirt_client_application:
 
 ### OS Compatibility
 
-- CentOS8
-- OracleLinux8
-- Ubuntu20
-- Ubuntu21
-- Fedora33
-- Fedora35
-- Debian10
-- Debian11
+The operating system compatibility list is defined in the variable: `hpv_libvirt_client_platforms`
 
 ### Dependencies
 

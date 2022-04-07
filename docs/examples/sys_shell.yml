@@ -40,6 +40,11 @@
         sys_shell_users:
           - name: "{{ test_user }}"
             home: "{{ test_home }}"
+            access:
+              user:
+                owner: "{{ test_user }}"
+              group:
+                owner: "{{ test_user }}"
             flavour: "bash"
             paths:
               - "/tmp/test1"
