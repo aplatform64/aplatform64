@@ -1,15 +1,3 @@
----
-title: "Ansible Role: serdigital64.storage.stg_repository"
-description: "Manage file repositories provisioning"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - storage
-  - linux
-  - automation
----
-
 # Ansible Role: serdigital64.storage.stg_repository
 
 ## Purpose
@@ -116,14 +104,7 @@ stg_repositories_groups:
 
 ### OS Compatibility
 
-- CentOS8
-- OracleLinux8
-- Ubuntu20
-- Ubuntu21
-- Fedora33
-- Fedora35
-- Debian10
-- Debian11
+The operating system compatibility list is defined in the variable: `stg_repository_platforms`
 
 ### Dependencies
 

@@ -1,15 +1,3 @@
----
-title: "Ansible Role: serdigital64.storage.stg_nfs_server"
-description: "Manage the Linux NFS server"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - storage
-  - linux
-  - automation
----
-
 # Ansible Role: serdigital64.storage.stg_nfs_server
 
 ## Purpose
@@ -112,10 +100,7 @@ stg_nfs_server_exports:
 
 ### OS Compatibility
 
-- CentOS8
-- OracleLinux8
-- Fedora33
-- Fedora35
+The operating system compatibility list is defined in the variable: `stg_nfs_server_platforms`
 
 ### Dependencies
 
