@@ -1,15 +1,3 @@
----
-title: "Ansible Role: serdigital64.infrastructure.infra_vagrant"
-description: "Manage provisioning of the Vagrant tool"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Role: serdigital64.infrastructure.infra_vagrant
 
 ## Purpose

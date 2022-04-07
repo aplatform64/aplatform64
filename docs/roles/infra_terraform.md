@@ -1,15 +1,3 @@
----
-title: "Ansible Role: serdigital64.infrastructure.infra_terraform"
-description: "Manage provisioning of the Terraform tool"
-authors:
-  - SerDigital64
-tags:
-  - ansible
-  - devops
-  - linux
-  - automation
----
-
 # Ansible Role: serdigital64.infrastructure.infra_terraform
 
 ## Purpose
@@ -129,14 +117,7 @@ infra_terraform_projects:
 
 ### OS Compatibility
 
-- CentOS8
-- OracleLinux8
-- Ubuntu20
-- Ubuntu21
-- Fedora33
-- Fedora35
-- Debian10
-- Debian11
+The operating system compatibility list is defined in the variable: `infra_terraform_platforms`
 
 ### Dependencies
 

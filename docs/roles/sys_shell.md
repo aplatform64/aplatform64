@@ -69,10 +69,10 @@ sys_shell:
 
 ```yaml
 sys_shell_catalog:
-  zsh: false
-  bash: false
-  ksh: false
-  csh: false
+  zsh:
+  bash:
+  ksh:
+  csh:
 sys_shell_users:
   - name:
     flavour:
@@ -108,10 +108,10 @@ sys_shell_actions:
 | sys_shell_user.name               | yes(setup) | string     |         | Login name                                                               |
 | sys_shell_user.flavour            | yes(setup) | string     |         | Profile shell type. Use the associated tag from the supported shell list |
 | sys_shell_user.access             | no         | dictionary |         | Define access permissions for profile files                              |
-| sys_shell_user.access.user        | no         | dictionary |         | Define owning user                                                       |
-| sys_shell_user.access.owner       | no         | string     |         | User name                                                                |
-| sys_shell_user.access.group       | no         | dictionary |         | Define owning group                                                      |
-| sys_shell_user.access.owner       | no         | string     |         | Group name                                                               |
+| sys_shell_user.access.user        | yes(setup) | dictionary |         | Define owning user                                                       |
+| sys_shell_user.access.user.owner  | yes(setup) | string     |         | User name                                                                |
+| sys_shell_user.access.group       | yes(setup) | dictionary |         | Define owning group                                                      |
+| sys_shell_user.access.group.owner | yes(setup) | string     |         | Group name                                                               |
 | sys_shell_user.access.mode        | no         | dictionary |         | Define file permissions                                                  |
 | sys_shell_user.access.mode.file   | no         | string     |         | Define permissions for files. Use octal notation                         |
 | sys_shell_user.access.mode.dir    | no         | string     |         | Define permissions for directories. Use octal notation                   |
