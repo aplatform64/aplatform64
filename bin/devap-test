@@ -5,7 +5,7 @@
 # Author: serdigital64 (https://github.com/serdigital64)
 # License: GPL-3.0-or-later (https://www.gnu.org/licenses/gpl-3.0.txt)
 # Repository: https://github.com/serdigital64/aplatform64
-# Version: 1.1.0
+# Version: 1.2.0
 #######################################
 
 [[ -d "$DEVAP_BIN" ]] || {
@@ -20,30 +20,30 @@ source "${DEVAP_BIN}/bashlib64.bash"
 
 function devap_test_prepare_environment() {
   # Tune kernel for multiple containers
-  "$BL64_SUDO_CMD_SUDO" sysctl fs.inotify.max_user_instances="$DEVAP_SYSCTL_MAX_USER_INSTANCES"
+  bl64_rbac_run_command sysctl fs.inotify.max_user_instances="$DEVAP_SYSCTL_MAX_USER_INSTANCES"
 }
 
 function devap_test_reset() {
 
   bl64_msg_show_task 'reset var area'
-  bl64_os_rm_full "$DEVAP_VAR_ANSIBLE" >/dev/null
-  bl64_os_mkdir_full \
+  bl64_fs_rm_full "$DEVAP_VAR_ANSIBLE" >/dev/null
+  bl64_fs_mkdir_full \
     "$DEVAP_VAR_ANSIBLE" \
     "$DEVAP_VAR_COLLECTIONS" \
     "$DEVAP_VAR_ROLES"
 
   bl64_msg_show_task 'reset cache area'
-  bl64_os_rm_full "$DEVAP_CACHE_GALAXY" >/dev/null
-  bl64_os_rm_full "$DEVAP_CACHE_MOLECULE" >/dev/null
-  bl64_os_rm_full "$DEVAP_CACHE_ANSIBLE" >/dev/null
-  bl64_os_mkdir_full \
+  bl64_fs_rm_full "$DEVAP_CACHE_GALAXY" >/dev/null
+  bl64_fs_rm_full "$DEVAP_CACHE_MOLECULE" >/dev/null
+  bl64_fs_rm_full "$DEVAP_CACHE_ANSIBLE" >/dev/null
+  bl64_fs_mkdir_full \
     "$DEVAP_CACHE_GALAXY" \
     "$DEVAP_CACHE_MOLECULE" \
     "$DEVAP_CACHE_ANSIBLE"
 
   bl64_msg_show_task 'reset tmp area'
-  bl64_os_rm_full "$DEVAP_TMP_ANSIBLE" >/dev/null
-  bl64_os_mkdir_full "$DEVAP_TMP_ANSIBLE"
+  bl64_fs_rm_full "$DEVAP_TMP_ANSIBLE" >/dev/null
+  bl64_fs_mkdir_full "$DEVAP_TMP_ANSIBLE"
 }
 
 function devap_test_role_test() {
@@ -186,9 +186,11 @@ function devap_test_role_list() {
 
 function devap_test_check() {
 
-  bl64_check_directory "$DEVAP_COLLECTIONS" &&
+  bl64_check_export 'DEVAP_COLLECTIONS' &&
+    bl64_check_export 'DEVAP_CMD_MOLECULE' &&
+    bl64_check_export 'DEVAP_VEW_LOADER' &&
+    bl64_check_directory "$DEVAP_COLLECTIONS" &&
     bl64_check_command "$DEVAP_CMD_MOLECULE" &&
-    bl64_check_command "$BL64_SUDO_CMD_SUDO" &&
     bl64_check_file "$DEVAP_VEW_LOADER"
 
 }
