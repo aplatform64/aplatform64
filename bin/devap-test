@@ -8,15 +8,14 @@
 # Version: 1.2.0
 #######################################
 
-[[ -d "$DEVAP_BIN" ]] || {
-  echo "Error: dev environment not set"
+# shellcheck source=SCRIPTDIR/devap-set
+source './bin/devap-set' || {
+  echo 'unable to load dev env'
   exit 1
 }
 
-# shellcheck disable=SC2034
-BL64_LIB_STRICT='0'
-# shellcheck disable=SC1091
-source "${DEVAP_BIN}/bashlib64.bash"
+# shellcheck source-path=SCRIPTDIR/../lib disable=SC2154
+source "$DEVAP_BASHLIB64" || exit 1
 
 function devap_test_prepare_environment() {
   # Tune kernel for multiple containers
@@ -269,7 +268,7 @@ while getopts ':rvgldqc:e:i:n:xh' devap_test_option; do
   i) devap_test_target="$OPTARG" ;;
   n) devap_test_group="$OPTARG" ;;
   h) devap_test_help && exit ;;
-  \?) devap_test_help && exit 1 ;;
+  *) devap_test_help && exit 1 ;;
   esac
 done
 [[ -z "$devap_test_command" ]] && devap_test_help && exit 1
@@ -304,16 +303,10 @@ case "$devap_test_command" in
     "$devap_test_target" \
     "$devap_test_group"
   ;;
-'devap_test_role_login')
-  "$devap_test_command" \
-    "$devap_test_collection" "$devap_test_role" "$devap_test_target" "$devap_test_group"
-  ;;
-'devap_test_role_list')
-  "$devap_test_command" "$devap_test_collection" "$devap_test_role"
-  ;;
-'devap_test_reset')
-  "$devap_test_command"
-  ;;
+'devap_test_role_login') "$devap_test_command" "$devap_test_collection" "$devap_test_role" "$devap_test_target" "$devap_test_group" ;;
+'devap_test_role_list') "$devap_test_command" "$devap_test_collection" "$devap_test_role" ;;
+'devap_test_reset') "$devap_test_command" ;;
+*) bl64_check_show_undefined "$devap_test_command" ;;
 esac
 devap_test_status=$?
 

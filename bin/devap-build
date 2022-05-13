@@ -8,15 +8,14 @@
 # Version: 1.2.0
 #######################################
 
-[[ -d "$DEVAP_BIN" ]] || {
-  echo "Error: dev environment not set"
+# shellcheck source=SCRIPTDIR/devap-set
+source './bin/devap-set' || {
+  echo 'unable to load dev env'
   exit 1
 }
 
-# shellcheck disable=SC2034
-BL64_LIB_STRICT='0'
-# shellcheck disable=SC1091
-source "${DEVAP_BIN}/bashlib64.bash" || exit 1
+# shellcheck source-path=SCRIPTDIR/../lib disable=SC2154
+source "$DEVAP_BASHLIB64" || exit 1
 
 function devap_build_test() {
 
@@ -231,7 +230,7 @@ while getopts ':ritpuc:h' devap_build_option; do
     ;;
   c) devap_build_collection="$OPTARG" ;;
   h) devap_build_help && exit ;;
-  \?) devap_build_help && exit 1 ;;
+  *) devap_build_help && exit 1 ;;
   esac
 done
 [[ -z "$devap_build_command" ]] && devap_build_help && exit 1
@@ -259,6 +258,7 @@ bl64_msg_show_batch_start "$devap_build_command_tag"
 case "$devap_build_command" in
 'devap_build_test' | 'devap_build_prod' | 'devap_build_publish' | 'devap_build_refresh') "$devap_build_command" "$devap_build_collection" ;;
 'devap_build_installer') "$devap_build_command" ;;
+*) bl64_check_show_undefined "$devap_build_command" ;;
 esac
 devap_build_status=$?
 
