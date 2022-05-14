@@ -104,7 +104,7 @@ function devap_build_installer() {
   local target_file="$DEVAP_TMP/devap-build-collections.sh"
 
   for name in $(devap_get_collections); do
-    target="${target} ${DEVAP_NAMESPACE}-${name}"
+    target="${target} ${DEVAP_NAMESPACE}.${name}"
   done
   printf 'readonly INSTAP64_COLLECTIONS="%s"\n' "$target" >"$target_file"
 
