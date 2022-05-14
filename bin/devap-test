@@ -62,13 +62,14 @@ function devap_test_role_test() {
 
   # Enable debug mode
   if [[ "$debug" == '1' ]]; then
-    debug='--debug --verbose'
+    debug="$DEVAP_TEST_MOLECULE_DEBUG"
     DEVAP_TEST_DEBUG='true'
     DEVAP_TEST_ANSIBLE_VERBOSITY='5'
     DEVAP_TEST_ANSIBLE_VERBOSE='-vvvvv'
     DEVAP_TEST_ANSIBLE_LINT_VERBOSE='-vv'
+    DEVAP_TEST_YAML_LINT_VERBOSE=''
   else
-    debug=''
+    debug="$DEVAP_TEST_MOLECULE_VERBOSE"
   fi
 
   # Select hosts
