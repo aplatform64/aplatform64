@@ -1,8 +1,8 @@
-# Ansible Playbook: manage_ansible_control_nodes
+# Ansible Playbook: manage_aplatform64_servers
 
 ## Purpose
 
-Manage Ansible Control node.
+Manage A:Platform64 servers.
 
 Supported features in the current version:
 
@@ -24,8 +24,8 @@ The playbook must be run using the [A:Platform64 CLI](https://aplatform64.readth
 
 Register the hosts that will consume the service in the Ansible Inventory file:
 
-- File: `inventories/<SITE>/ansible_service.ini`
-- Host Group: `ansible_control_nodes`
+- File: `inventories/<SITE>/aplatform64_service.ini`
+- Host Group: `aplatform64_servers`
 
 ### End State
 
@@ -33,22 +33,15 @@ A dedicated group_vars directory is used to store end-state configuration settin
 
 Role specific settings are available to further customize the playbook:
 
-| A:Platform64 role                                                                                | group_vars file                                                                |
-| ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
-| [serdigital64.automation.auto_ansible_control](../roles/auto_ansible_control.md#role-parameters) | `inventories/<SITE>/group_vars/ansible_control_nodes/auto_ansible_control.yml` |
+| A:Platform64 role                                                                                | group_vars file                                                              |
+| ------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------- |
+| [serdigital64.automation.auto_ansible_control](../roles/auto_ansible_control.md#role-parameters) | `inventories/<SITE>/group_vars/aplatform64_servers/auto_ansible_control.yml` |
 
 ## Deployment
 
 ### OS Compatibility
 
-- CentOS8
-- OracleLinux8
-- Ubuntu20
-- Ubuntu21
-- Fedora33
-- Fedora35
-- Debian10
-- Debian11
+OS compatibility is role dependant. Please refer to the respective role documentation.
 
 ### Dependencies
 

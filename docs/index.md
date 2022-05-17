@@ -90,24 +90,25 @@ Each playbook will integrate the roles needed to implement the service along wit
 - End-State configuration location: `inventories/<SITE>/group_vars/<GROUP_NAME>/`
 - Inventory definition: `inventories/<SITE>/<INVENTORY>.ini`
 
-| Playbook                                                                                                                   | Description                                                                |
-| -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| [bootstrap_ansible_managed_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/bootstrap_ansible_managed_nodes/) | Bootstrap Ansible Managed nodes                                            |
-| [manage_ansible_control_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_ansible_control_nodes/)       | Manage Ansible Control node                                                |
-| [manage_ansible_managed_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_ansible_managed_nodes/)       | Manage Ansible Managed nodes                                               |
-| [manage_cloud_control_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_cloud_control_nodes/)           | Provision public cloud management tools                                    |
-| [manage_cloud_realm](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_cloud_realm/)                           | Manage cloud provider accounts, users and organizations as a single entity |
-| [manage_dev_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_dev_nodes/)                               | Provision software development environments                                |
-| [manage_doc_sites](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_doc_sites/)                               | Provision documentation site management tools                              |
-| [manage_file_servers](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_file_servers/)                         | Manage file servers                                                        |
-| [manage_git_servers](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_git_servers/)                           | Manage GIT servers                                                         |
-| [manage_hpc_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_hpc_nodes/)                               | Provision high-performance computing environments                          |
-| [manage_jenkins_controllers](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_jenkins_controllers/)           | Manage Jenkins controllers                                                 |
-| [manage_jenkins_workers](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_jenkins_workers/)                   | Manage Jenkins workers                                                     |
-| [manage_linux_servers](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_linux_servers/)                       | Manage Linux Servers                                                       |
-| [manage_linux_workstations](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_linux_workstations/)             | Manage Linux Workstations                                                  |
-| [manage_office_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_office_nodes/)                         | Provision office productivity applications                                 |
-| [manage_test_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_test_nodes/)                             | Provision software testing tools                                           |
+| Playbook                                                                                                           | Description                                                                |
+| ------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------- |
+| [bootstrap_aplatform64_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/bootstrap_aplatform64_nodes/) | Bootstrap Ansible Managed nodes                                            |
+| [manage_aplatform64_servers](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_aplatform64_servers/)   | Manage Ansible Control node                                                |
+| [manage_aplatform64_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_aplatform64_nodes/)       | Manage Ansible Managed nodes                                               |
+| [manage_cloud_control_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_cloud_control_nodes/)   | Provision public cloud management tools                                    |
+| [manage_cloud_realm](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_cloud_realm/)                   | Manage cloud provider accounts, users and organizations as a single entity |
+| [manage_dev_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_dev_nodes/)                       | Provision software development environments                                |
+| [manage_doc_sites](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_doc_sites/)                       | Provision documentation site management tools                              |
+| [manage_file_servers](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_file_servers/)                 | Manage file servers                                                        |
+| [manage_git_servers](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_git_servers/)                   | Manage GIT servers                                                         |
+| [manage_hpc_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_hpc_nodes/)                       | Provision high-performance computing environments                          |
+| [manage_jenkins_controllers](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_jenkins_controllers/)   | Manage Jenkins controllers                                                 |
+| [manage_jenkins_workers](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_jenkins_workers/)           | Manage Jenkins workers                                                     |
+| [manage_linux_servers](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_linux_servers/)               | Manage Linux Servers                                                       |
+| [manage_linux_workstations](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_linux_workstations/)     | Manage Linux Workstations                                                  |
+| [manage_macos_workstations](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_macos_workstations/)     | Manage MacOS Workstations                                                  |
+| [manage_office_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_office_nodes/)                 | Provision office productivity applications                                 |
+| [manage_test_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_test_nodes/)                     | Provision software testing tools                                           |
 
 ## Deployment
 
@@ -125,8 +126,9 @@ Each playbook will integrate the roles needed to implement the service along wit
 - Fedora35
 - Debian10
 - Debian11
+- MacOSX12
 
-Notice that roles have their own compatibility matrix. Refer to their documentation for further details.
+Notice that roles have their own compatibility matrix. Refer to the respective documentation for further details.
 
 ### Prerequisites
 
@@ -182,29 +184,29 @@ cd /opt/aplatform64/
 
 Register the target remote host in the bootstrap process by adding it to the inventory:
 
-- file: `inventories/site/ansible_service.ini`
-- group `[bootstrap_ansible_managed_nodes_distro]`
+- file: `inventories/site/aplatform64_service.ini`
+- group `[bootstrap_aplatform64_nodes_distro]`
 
 The bootstrap process will connect to the managed node using a pre-existing user account with root privilege and then create the dedicated account for Ansible.
 
 Register the bootstrap user details and review the dedicated user definition:
 
-- file: `inventories/site/group_vars/bootstrap_ansible_managed_nodes/auto_ansible_node.yml`
+- file: `inventories/site/group_vars/bootstrap_aplatform64_nodes/auto_ansible_node.yml`
   - variable `auto_ansible_node_bootstrap:`
   - variable `auto_ansible_node_user:`
-- file: `inventories/site/group_vars/ansible_managed_nodes/auto_ansible_node.yml`
+- file: `inventories/site/group_vars/aplatform64_nodes/auto_ansible_node.yml`
   - variable `auto_ansible_node_user:`
 
 Execute the bootstrap process:
 
 ```shell
-/opt/aplatform64/bin/ap64.sh -n -p bootstrap_ansible_managed_nodes -s "${APLATFORM64_SITE}"
+/opt/aplatform64/bin/ap64.sh -n -p bootstrap_aplatform64_nodes -s "${APLATFORM64_SITE}"
 ```
 
-The host is now ready for Ansible. Promote the hostname by removing it from the `[bootstrap_ansible_managed_nodes_distro]` group and adding it to:
+The host is now ready for Ansible. Promote the hostname by removing it from the `[bootstrap_aplatform64_nodes_distro]` group and adding it to:
 
-- File: `inventories/site/ansible_service.ini`
-- Host Group: `ansible_managed_nodes`
+- File: `inventories/site/aplatform64_service.ini`
+- Host Group: `aplatform64_nodes`
 
 ### Run automation scripts
 

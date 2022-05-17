@@ -1,0 +1,14 @@
+---
+- name: "Infrastructure / TFSec / Usage example"
+  hosts: "localhost"
+  gather_facts: true
+
+  tasks:
+    - name: "Example: Install TFSec"
+      vars:
+        infra_tfsec:
+          resolve_prereq: true
+          deploy: true
+      ansible.builtin.include_role:
+        name: "serdigital64.infrastructure.infra_tfsec"
+...

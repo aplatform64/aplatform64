@@ -8,10 +8,11 @@ This collection is part of the [A:Platform64](https://github.com/serdigital64/ap
 
 ## Content
 
-| role                                                                        | purpose                       |
-| --------------------------------------------------------------------------- | ----------------------------- |
-| [cnd_docker](https://aplatform64.readthedocs.io/en/latest/roles/cnd_docker) | Manage provisioning of Docker |
-| [cnd_podman](https://aplatform64.readthedocs.io/en/latest/roles/cnd_podman) | Manage provisioning of Podman |
+| role                                                                          | purpose                        |
+| ----------------------------------------------------------------------------- | ------------------------------ |
+| [cnd_docker](https://aplatform64.readthedocs.io/en/latest/roles/cnd_docker)   | Manage provisioning of Docker  |
+| [cnt_kubectl](https://aplatform64.readthedocs.io/en/latest/roles/cnt_kubectl) | Manage provisioning of KubeCtl |
+| [cnd_podman](https://aplatform64.readthedocs.io/en/latest/roles/cnd_podman)   | Manage provisioning of Podman  |
 
 ## Deployment
 
