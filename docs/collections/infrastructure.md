@@ -10,8 +10,8 @@ This collection is part of the [A:Platform64](https://github.com/serdigital64/ap
 
 | role                                                                                    | purpose                                    |
 | --------------------------------------------------------------------------------------- | ------------------------------------------ |
+| [infra_helm](https://aplatform64.readthedocs.io/en/latest/roles/infra_helm)             | Manage provisioning of Helm CLI            |
 | [infra_terraform](https://aplatform64.readthedocs.io/en/latest/roles/infra_terraform)   | Manage provisioning of the Vagrant tool    |
-| [infra_tfsec](https://aplatform64.readthedocs.io/en/latest/roles/infra_tfsec)           | Manage provisioning of the TFSec tool      |
 | [infra_terragrunt](https://aplatform64.readthedocs.io/en/latest/roles/infra_terragrunt) | Manage provisioning of the Terragrunt tool |
 | [infra_vagrant](https://aplatform64.readthedocs.io/en/latest/roles/infra_vagrant)       | Manage provisioning of the Terraform tool  |
 

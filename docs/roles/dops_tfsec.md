@@ -1,23 +1,23 @@
-# Ansible Role: serdigital64.container.cnt_kubectl
+# Ansible Role: serdigital64.devops.dops_tfsec
 
 ## Purpose
 
-Manage provisioning of KubeCtl.
+Manage provisioning of the TFSec tool.
 
 Supported features in the current version:
 
-- Deploy application. Packages are defined in the variable `cnt_kubectl_profiles`.
+- Deploy application. Packages are defined in the variable `dops_tfsec_profiles`.
 
-The **cnt_kubectl** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [container](https://aplatform64.readthedocs.io/en/latest/collections/container) Ansible-Collection.
+The **dops_tfsec** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [devops](https://aplatform64.readthedocs.io/en/latest/collections/devops) Ansible-Collection.
 
 ## Usage
 
 The following example is an **Ansible Playbook** that includes all the supported features:
 
-[use this link if viewing the doc on github](https://github.com/aplatform64/container/blob/main/playbooks/cnt_kubectl.yml)
+[use this link if viewing the doc on github](https://github.com/aplatform64/devops/blob/main/playbooks/dops_tfsec.yml)
 
 ```yaml
-{% include "../examples/cnt_kubectl.yml" %}
+{% include "../examples/dops_tfsec.yml" %}
 ```
 
 The playbook can be run by executing:
@@ -25,7 +25,7 @@ The playbook can be run by executing:
 ```shell
 # Set ANSIBLE_COLLECTIONS_PATHS to the default location. Change as needed.
 ANSIBLE_COLLECTIONS_PATHS="${HOME}/.ansible/collections"
-ansible-playbook "${ANSIBLE_COLLECTIONS_PATHS}/ansible_collections/serdigital64/container/playbooks/cnt_kubectl.yml"
+ansible-playbook "${ANSIBLE_COLLECTIONS_PATHS}/ansible_collections/serdigital64/devops/playbooks/dops_tfsec.yml"
 ```
 
 ## Role Parameters
@@ -36,15 +36,15 @@ ansible-playbook "${ANSIBLE_COLLECTIONS_PATHS}/ansible_collections/serdigital64/
 - Parameters should be declared as task level vars as they are intented to be dynamic.
 
 ```yaml
-cnt_kubectl:
+dops_tfsec:
   resolve_prereq:
   deploy:
 ```
 
 | Parameter                  | Required? | Type    | Default | Purpose / Value                             |
 | -------------------------- | --------- | ------- | ------- | ------------------------------------------- |
-| cnt_kubectl.resolve_prereq | no        | boolean | `false` | Enable automatic resolution of prequisites  |
-| cnt_kubectl.deploy         | no        | boolean | `false` | Enable installation of application packages |
+| dops_tfsec.resolve_prereq | no        | boolean | `false` | Enable automatic resolution of prequisites  |
+| dops_tfsec.deploy         | no        | boolean | `false` | Enable installation of application packages |
 
 ### End State
 
@@ -52,26 +52,26 @@ cnt_kubectl:
 - Parameters should be declared in **host_vars** or **group_vars** as they are intended to be permanent.
 
 ```yaml
-cnt_kubectl_application:
+dops_tfsec_application:
   name:
   type:
   version:
   installed:
 ```
 
-| Parameter                         | Required?   | Type       | Default           | Purpose / Value                    |
-| --------------------------------- | ----------- | ---------- | ----------------- | ---------------------------------- |
-| cnt_kubectl_application           | yes(deploy) | dictionary |                   | Set application package end state  |
-| cnt_kubectl_application.name      | yes         | string     | `"kubectl"`       | Select application package name    |
-| cnt_kubectl_application.type      | yes         | string     | `"distro","brew"` | Select application package type    |
-| cnt_kubectl_application.version   | yes         | string     | `"latest"`        | Select application package version |
-| cnt_kubectl_application.installed | yes         | boolean    | `true`            | Set application package end state  |
+| Parameter                         | Required?   | Type       | Default    | Purpose / Value                    |
+| --------------------------------- | ----------- | ---------- | ---------- | ---------------------------------- |
+| dops_tfsec_application           | yes(deploy) | dictionary |            | Set application package end state  |
+| dops_tfsec_application.name      | yes         | string     | `"tfsec"`  | Select application package name    |
+| dops_tfsec_application.type      | yes         | string     | `"brew"`   | Select application package type    |
+| dops_tfsec_application.version   | yes         | string     | `"latest"` | Select application package version |
+| dops_tfsec_application.installed | yes         | boolean    | `true`     | Set application package end state  |
 
 ## Deployment
 
 ### OS Compatibility
 
-The operating system compatibility list is defined in the variable: `cnt_kubectl_platforms`
+The operating system compatibility list is defined in the variable: `dops_tfsec_platforms`
 
 ### Dependencies
 
@@ -95,7 +95,7 @@ In addition the following prerequisites can be automatically solved when running
 Manually install Ansible Collections from the Ansible Galaxy repository:
 
 ```shell
-ansible-galaxy collection install serdigital64.container
+ansible-galaxy collection install serdigital64.devops
 ```
 
 Automatic installation is also available by deploying [A:Platform64](https://aplatform64.readthedocs.io/en/latest/#deployment)
