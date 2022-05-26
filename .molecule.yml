@@ -12,7 +12,7 @@ provisioner:
   name: "ansible"
   log: ${DEVAP_TEST_DEBUG}
   ansible_args:
-    - ${DEVAP_TEST_ANSIBLE_VERBOSE}
+    - "${DEVAP_TEST_ANSIBLE_VERBOSE}"
   env:
     # Required to let molecule find installed collections in test environment
     ANSIBLE_COLLECTIONS_PATHS: ${ANSIBLE_COLLECTIONS_PATHS}
