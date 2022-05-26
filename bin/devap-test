@@ -23,7 +23,6 @@ function devap_test_prepare_environment() {
 }
 
 function devap_test_reset() {
-
   bl64_msg_show_task 'reset var area'
   bl64_fs_rm_full "$DEVAP_VAR_ANSIBLE" >/dev/null
   bl64_fs_mkdir_full \
@@ -46,7 +45,6 @@ function devap_test_reset() {
 }
 
 function devap_test_role_test() {
-
   local debug="$1"
   local reset="$2"
   local collection="$3"
@@ -97,11 +95,9 @@ function devap_test_role_test() {
     bl64_msg_show_task "run test: $scenario"
     "$DEVAP_CMD_MOLECULE" $debug 'test' --scenario-name "$scenario" || return 1
   done
-
 }
 
 function devap_test_role_converge() {
-
   local debug="$1"
   local reset="$2"
   local collection="$3"
@@ -142,11 +138,9 @@ function devap_test_role_converge() {
 
   bl64_msg_show_task 'run test'
   "$DEVAP_CMD_MOLECULE" $debug 'converge' --scenario-name "$target"
-
 }
 
 function devap_test_role_login() {
-
   local collection="$1"
   local role="$2"
   local target="$3"
@@ -168,11 +162,9 @@ function devap_test_role_login() {
 
   bl64_msg_show_task 'login to the test container'
   "$DEVAP_CMD_MOLECULE" 'login' --scenario-name "$target" --host "$group"
-
 }
 
 function devap_test_role_list() {
-
   local collection="$1"
   local role="$2"
 
@@ -181,22 +173,18 @@ function devap_test_role_list() {
   bl64_check_directory "$path" && cd "$path" || return 1
 
   "$DEVAP_CMD_MOLECULE" 'list'
-
 }
 
 function devap_test_check() {
-
   bl64_check_export 'DEVAP_COLLECTIONS' &&
     bl64_check_export 'DEVAP_CMD_MOLECULE' &&
     bl64_check_export 'DEVAP_VEW_LOADER' &&
     bl64_check_directory "$DEVAP_COLLECTIONS" &&
     bl64_check_command "$DEVAP_CMD_MOLECULE" &&
     bl64_check_file "$DEVAP_VEW_LOADER"
-
 }
 
 function devap_test_help() {
-
   bl64_msg_show_usage \
     '<-r|-v|-g|-l|-q> [-d] [-c name] [-e name] [-i id] [-n id] [-x] [-h]' \
     'Test A:Platform64 components' \
@@ -214,7 +202,6 @@ function devap_test_help() {
     -e name: role name
     -i id  : test id. Default: all
     -n id  : group id. Default: all'
-
 }
 
 #
