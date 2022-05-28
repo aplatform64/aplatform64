@@ -5,7 +5,7 @@
 # Author: serdigital64 (https://github.com/serdigital64)
 # License: GPL-3.0-or-later (https://www.gnu.org/licenses/gpl-3.0.txt)
 # Repository: https://github.com/serdigital64/aplatform64
-# Version: 1.2.0
+# Version: 1.3.0
 #######################################
 
 # shellcheck source=SCRIPTDIR/devap-set
@@ -19,7 +19,7 @@ source "$DEVAP_BASHLIB64" || exit 1
 
 function devap_test_prepare_environment() {
   # Tune kernel for multiple containers
-  bl64_rbac_run_command sysctl fs.inotify.max_user_instances="$DEVAP_SYSCTL_MAX_USER_INSTANCES"
+  bl64_rbac_run_command root sysctl fs.inotify.max_user_instances="$DEVAP_SYSCTL_MAX_USER_INSTANCES"
 }
 
 function devap_test_reset() {
