@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
 #######################################
-# Set development environment
 #
-# Author: serdigital64 (https://github.com/serdigital64)
-# License: GPL-3.0-or-later (https://www.gnu.org/licenses/gpl-3.0.txt)
-# Repository: https://github.com/serdigital64/aplatform64
-# Version: 1.0.0
-#######################################
+# Set development environment variables
+#
+# * Source this script from the project's root directory
+# * Template Version: v1.0.1
+#
 
 # Check calling location
 test -f ./.local
@@ -15,12 +14,15 @@ if test $? -ne 0; then
 fi
 
 # Load local variables
+# shellcheck source=SCRIPTDIR/../.local
 . ./.local
 
 # Load secrets
+# shellcheck source=SCRIPTDIR/../.secrets
 . ./.secrets
 
 # Load global variables
+# shellcheck source=SCRIPTDIR/../.env
 . ./.env
 
 # Load Python Virtual Environment Wrapper functions
@@ -29,6 +31,3 @@ fi
 
 # Activate Python Virtual Environment
 workon "$DEVAP_VEW_WORKSPACE"
-
-# Show exported vars
-set | grep DEVAP_

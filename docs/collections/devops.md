@@ -19,6 +19,7 @@ This collection is part of the [A:Platform64](https://github.com/serdigital64/ap
 | [dops_jenkins](https://aplatform64.readthedocs.io/en/latest/roles/dops_jenkins)             | Manage Jenkins server                  |
 | [dops_molecule](https://aplatform64.readthedocs.io/en/latest/roles/dops_molecule)           | Manage provisioning of Molecule        |
 | [dops_shellcheck](https://aplatform64.readthedocs.io/en/latest/roles/dops_shellcheck)       | Manage provisioning of ShellCheck      |
+| [dops_tfsec](https://aplatform64.readthedocs.io/en/latest/roles/dops_tfsec)                 | Manage provisioning of the TFSec tool  |
 | [dops_yamllint](https://aplatform64.readthedocs.io/en/latest/roles/dops_yamllint)           | Manage provisioning of YAML Linter     |
 
 ## Deployment

@@ -1,23 +1,23 @@
-# Ansible Playbook: manage_ansible_managed_nodes
+# Ansible Playbook: manage_aplatform64_nodes
 
 ## Purpose
 
-Manage Ansible Managed nodes.
+Manage A:Platform64 nodes.
 
 Supported features in the current version:
 
-- Maintain the environment for the execution of A:Platform64 roles
+- Maintain the environment for the execution of A:Platform64 Ansible roles
 
 ## Use Cases
 
-### Prepare Ansible Managed node
+### Prepare A:Platform64 node
 
-- Verify that target nodes are registered in the inventory file: [ansible_service.ini](#inventory)
-- Verify that target endstate is set: [manage_ansible_managed_nodes.yml](#end-state)
+- Verify that target nodes are registered in the inventory file: [aplatform64_service.ini](#inventory)
+- Verify that target endstate is set: [manage_aplatform64_nodes.yml](#end-state)
 - Run the playbook. Use the `-s <SITE>` parameter to select the target site.
 
 ```shell
-/opt/aplatform64/bin/ap64.sh -n -p manage_ansible_managed_nodes -s <SITE>
+/opt/aplatform64/bin/ap64.sh -n -p manage_aplatform64_nodes -s <SITE>
 ```
 
 ## Playbook Parameters
@@ -26,8 +26,8 @@ Supported features in the current version:
 
 Register the hosts that will consume the service in the Ansible Inventory file:
 
-- File: `inventories/<SITE>/ansible_service.ini`
-- Host Group: `ansible_managed_nodes`
+- File: `inventories/<SITE>/aplatform64_service.ini`
+- Host Group: `aplatform64_nodes`
 
 ### End State
 
@@ -35,22 +35,15 @@ A dedicated group_vars directory is used to store end-state configuration settin
 
 Role specific settings are available to further customize the playbook:
 
-| A:Platform64 role                                                                          | group_vars file                                                           |
-| ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------- |
-| [serdigital64.automation.auto_ansible_node](../roles/auto_ansible_node.md#role-parameters) | `inventories/<SITE>/group_vars/ansible_managed_nodes/auto_ansible_node.yml` |
+| A:Platform64 role                                                                          | group_vars file                                                         |
+| ------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------- |
+| [serdigital64.automation.auto_ansible_node](../roles/auto_ansible_node.md#role-parameters) | `inventories/<SITE>/group_vars/aplatform64_nodes/auto_ansible_node.yml` |
 
 ## Deployment
 
 ### OS Compatibility
 
-- CentOS8
-- OracleLinux8
-- Ubuntu20
-- Ubuntu21
-- Fedora33
-- Fedora35
-- Debian10
-- Debian11
+OS compatibility is role dependant. Please refer to the respective role documentation.
 
 ### Dependencies
 

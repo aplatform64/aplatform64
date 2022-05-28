@@ -1,22 +1,24 @@
 #
 # Project
 #
+# * Source template: dot.env (v1.0.1)
+#
 
 .tmp/*
-.cache/*
 .var/*
 
 # VScode
-.vscode/*
+.vscode
 *.code-workspace
 
 # Builds for prod/dev/test
-dist/*
 build/*
+
+# Dev libs. Dynamic content update at dev time
+lib/*
 
 # Secrets
 .secrets
-.git-secrets
 
 # Local variables
 .local
@@ -27,3 +29,5 @@ build/*
 #
 # Tools
 #
+
+.git-secrets

@@ -60,8 +60,7 @@ Additional role specific settings are available to further customize the playboo
 
 ### OS Compatibility
 
-- CentOS8
-- OracleLinux8
+OS compatibility is role dependant. Please refer to the respective role documentation.
 - Ubuntu20
 - Ubuntu21
 - Fedora33
