@@ -19,7 +19,7 @@ This collection is part of the [A:Platform64](https://github.com/serdigital64/ap
 ### Dependencies
 
 - Ansible Collections:
-  - ansible.posix
+  - community.general.ini_file
   - serdigital64.backup
   - serdigital64.system
   - serdigital64.security
