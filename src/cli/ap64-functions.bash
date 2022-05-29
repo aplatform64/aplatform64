@@ -86,8 +86,8 @@ function ap64_upgrade() {
 
     # shellcheck disable=SC2164
     for collection in $collections; do
-      bl64_msg_show_task "upgrade collection (serdigital64.${collection})" &&
-        bl64_ans_collections_install "serdigital64.${collection}" ||
+      bl64_msg_show_task "upgrade collection (${collection})" &&
+        bl64_ans_collections_install "$collection" ||
         return $?
     done
   else
