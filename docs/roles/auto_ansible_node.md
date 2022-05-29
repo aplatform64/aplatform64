@@ -8,11 +8,8 @@ Supported features in the current version:
 
 - Create managed node user.
 - Grant root privilege to managed node user.
-- Provision Ansible Control Node OpenSSH Key for password-less remote access.
-- Deploy os tools used by common Ansible modules. Package list is defined in the variables `auto_ansible_node_tools`.
-  - su
-  - runuser
-  - which
+
+Notice that first time usage requires a bootstrap process where the role is run using temporary access credentials to perform the initial setup.
 
 The **auto_ansible_node** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [automation](https://aplatform64.readthedocs.io/en/latest/collections/automation) Ansible-Collection.
 
@@ -44,17 +41,11 @@ ansible-playbook "${ANSIBLE_COLLECTIONS_PATHS}/ansible_collections/serdigital64/
 ```yaml
 auto_ansible_node:
   prepare:
-  deploy:
-  provision:
-  bootstrap:
 ```
 
-| Parameter | Required? | Type    | Default | Purpose / Value           |
-| --------- | --------- | ------- | ------- | ------------------------- |
-| prepare   | no        | boolean | false   | Enable preparation tasks  |
-| depploy   | no        | boolean | false   | Enable deployment tasks   |
-| provision | no        | boolean | false   | Enable provisioning tasks |
-| bootstrap | no        | boolean | false   | Enable bootstrap mode     |
+| Parameter | Required? | Type    | Default | Purpose / Value          |
+| --------- | --------- | ------- | ------- | ------------------------ |
+| prepare   | no        | boolean | false   | Enable preparation tasks |
 
 ### End State
 
@@ -62,34 +53,22 @@ auto_ansible_node:
 - Parameters should be declared in **host_vars** or **group_vars** as they are intended to be permanent.
 
 ```yaml
-auto_ansible_node_user:
-  name:
-  group:
-  home:
-  description:
-  control_key:
-  become_method:
-auto_ansible_node_bootstrap:
-  user:
-  password:
-  become_method:
-  become_password:
+auto_ansible_node_paths:
+  var:
+auto_ansible_node_owners:
+  node:
+    user:
+    group:
 ```
 
-| Parameter                                   | Required? | Type       | Default                  | Purpose / Value                   |
-| ------------------------------------------- | --------- | ---------- | ------------------------ | --------------------------------- |
-| auto_ansible_node_user                      | yes       | dictionary |                          | Define managed node user details  |
-| auto_ansible_node_user.name                 | yes       | string     | `"amnode"`               | User name                         |
-| auto_ansible_node_user.group                | yes       | string     | `"amnode"`               | User's primary group              |
-| auto_ansible_node_user.home                 | yes       | string     | `"/home/amnode"`         | User's home directory             |
-| auto_ansible_node_user.description          | yes       | string     | `"Ansible managed node"` | User description                  |
-| auto_ansible_node_user.control_key          | yes       | string     |                          | Full path to the SSH public Key   |
-| auto_ansible_node_user.become_method        | yes       | string     | `"sudo"`                 | Ansible become method             |
-| auto_ansible_node_bootstrap                 | no        | dictionary |                          | Define bootstrap details          |
-| auto_ansible_node_bootstrap.user            | yes       | string     | `"sysadmin"`             | User name                         |
-| auto_ansible_node_bootstrap.password        | yes       | string     |                          | User's password (plain or vault)  |
-| auto_ansible_node_bootstrap.become_method   | yes       | string     | `"sudo"`                 | Become method                     |
-| auto_ansible_node_bootstrap.become_password | yes       | string     |                          | Become password (plain or vault)  |
+| Parameter                              | Required?    | Type       | Default                  | Purpose / Value                  |
+| -------------------------------------- | ------------ | ---------- | ------------------------ | -------------------------------- |
+| auto_ansible_node_paths                | yes(prepare) | dictionary |                          | Set paths                        |
+| auto_ansible_node_paths.var            | yes          | string     | `"/var/opt/amnode"`      | Runtime data repository          |
+| auto_ansible_node_owners               | yes(prepare) | dictionary |                          | Define users                     |
+| auto_ansible_node_owners.node          | yes          | dictionary |                          | Define directory structure owner |
+| auto_ansible_node_owners.node.user     | yes          | string     | `"amnode"`               | Set login name                   |
+| auto_ansible_node_owners.node.group    | yes          | string     | `"amnode"`               | Set group name                   |
 
 ## Deployment
 
@@ -99,9 +78,7 @@ The operating system compatibility list is defined in the variable: `auto_ansibl
 
 ### Dependencies
 
-- Ansible Collections:
-  - ansible.posix
-    - authorized_key
+- Ansible Collections: None
 
 ### Prerequisites
 
