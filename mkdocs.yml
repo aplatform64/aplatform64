@@ -1,6 +1,6 @@
 ---
 site_name: "A:Platform64 Project"
-site_description: "A:Platform64 is an automated infrastructure-as-code management solution for small to medium computing environments"
+site_description: "A:Platform64 is an automated infrastructure-as-code management platform based on Ansible."
 site_author: "SerDigital64"
 
 site_url: "https://aplatform64.readthedocs.io"
@@ -65,7 +65,6 @@ nav:
   - Home: "index.md"
   - Scripts:
     - ap64: "bin/ap64.md"
-    - install-aplatform64: "bin/install-aplatform64.md"
   - Contributing:
     - guidelines: "contributing/CONTRIBUTING.md"
     - conduct: "contributing/CODE_OF_CONDUCT.md"
