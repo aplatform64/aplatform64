@@ -11,7 +11,7 @@
 
 ## Overview
 
-**A:Platform64** is an automated infrastructure-as-code management platform based on Ansible for small to medium computing environments.
+**A:Platform64** is an automated infrastructure-as-code management platform based on Ansible.
 
 ### Design Principles
 
@@ -90,24 +90,23 @@ Each playbook will integrate the roles needed to implement the service along wit
 - End-State configuration location: `inventories/<SITE>/group_vars/<GROUP_NAME>/`
 - Inventory definition: `inventories/<SITE>/<INVENTORY>.ini`
 
-| Playbook                                                                                                                   | Description                                                                |
-| -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| [bootstrap_ansible_managed_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/bootstrap_ansible_managed_nodes/) | Bootstrap Ansible Managed nodes                                            |
-| [manage_ansible_control_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_ansible_control_nodes/)       | Manage Ansible Control node                                                |
-| [manage_ansible_managed_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_ansible_managed_nodes/)       | Manage Ansible Managed nodes                                               |
-| [manage_cloud_control_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_cloud_control_nodes/)           | Provision public cloud management tools                                    |
-| [manage_cloud_realm](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_cloud_realm/)                           | Manage cloud provider accounts, users and organizations as a single entity |
-| [manage_dev_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_dev_nodes/)                               | Provision software development environments                                |
-| [manage_doc_sites](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_doc_sites/)                               | Provision documentation site management tools                              |
-| [manage_file_servers](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_file_servers/)                         | Manage file servers                                                        |
-| [manage_git_servers](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_git_servers/)                           | Manage GIT servers                                                         |
-| [manage_hpc_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_hpc_nodes/)                               | Provision high-performance computing environments                          |
-| [manage_jenkins_controllers](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_jenkins_controllers/)           | Manage Jenkins controllers                                                 |
-| [manage_jenkins_workers](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_jenkins_workers/)                   | Manage Jenkins workers                                                     |
-| [manage_linux_servers](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_linux_servers/)                       | Manage Linux Servers                                                       |
-| [manage_linux_workstations](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_linux_workstations/)             | Manage Linux Workstations                                                  |
-| [manage_office_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_office_nodes/)                         | Provision office productivity applications                                 |
-| [manage_test_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_test_nodes/)                             | Provision software testing tools                                           |
+| Playbook                                                                                                         | Description                                       |
+| ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------- |
+| [manage_aplatform64_servers](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_aplatform64_servers/) | Manage A:Platform64 Control node                  |
+| [manage_aplatform64_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_aplatform64_nodes/)     | Manage A:Platform64 Managed nodes                 |
+| [manage_cloud_control_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_cloud_control_nodes/) | Provision public cloud management tools           |
+| [manage_dev_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_dev_nodes/)                     | Provision software development environments       |
+| [manage_doc_sites](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_doc_sites/)                     | Provision documentation site management tools     |
+| [manage_file_servers](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_file_servers/)               | Manage file servers                               |
+| [manage_git_servers](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_git_servers/)                 | Manage GIT servers                                |
+| [manage_hpc_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_hpc_nodes/)                     | Provision high-performance computing environments |
+| [manage_jenkins_controllers](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_jenkins_controllers/) | Manage Jenkins controllers                        |
+| [manage_jenkins_workers](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_jenkins_workers/)         | Manage Jenkins workers                            |
+| [manage_linux_servers](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_linux_servers/)             | Manage Linux Servers                              |
+| [manage_linux_workstations](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_linux_workstations/)   | Manage Linux Workstations                         |
+| [manage_macos_workstations](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_macos_workstations/)   | Manage MacOS Workstations                         |
+| [manage_office_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_office_nodes/)               | Provision office productivity applications        |
+| [manage_test_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_test_nodes/)                   | Provision software testing tools                  |
 
 ## Deployment
 
@@ -115,18 +114,21 @@ Each playbook will integrate the roles needed to implement the service along wit
 
 **A:Platform64** is compatible with the following Linux operating systems:
 
-- CentOS8
-- RedHat8
 - AlmaLinux8
-- OracleLinux8
-- Ubuntu20
-- Ubuntu21
-- Fedora33
-- Fedora35
+- CentOS8
 - Debian10
 - Debian11
+- Fedora33
+- Fedora35
+- MacOSX12
+- OracleLinux8
+- RedHat8
+- RockyLinux8
+- Ubuntu20
+- Ubuntu21
+- Ubuntu22
 
-Notice that roles have their own compatibility matrix. Refer to their documentation for further details.
+Notice that roles have their own compatibility matrix. Refer to the respective documentation for further details.
 
 ### Prerequisites
 
@@ -143,168 +145,118 @@ Notice that roles have their own compatibility matrix. Refer to their documentat
 
 ### Installation
 
-Download the installation script and resources:
-
-- [install-aplatform64](https://raw.githubusercontent.com/aplatform64/automation/main/roles/auto_aplatform64/files/installer/install-aplatform64)
+- Download the installation script:
 
 ```shell
-curl -O https://raw.githubusercontent.com/aplatform64/automation/main/roles/auto_aplatform64/files/installer/install-aplatform64
-chmod 0755 install-aplatform64
+curl -O https://raw.githubusercontent.com/serdigital64/aplatform64/main/ap64
+chmod 0755 ap64
 ```
 
-Run the installation script with the default options. See the [documentation](https://aplatform64.readthedocs.io/en/latest/bin/install-aplatform64/) for more options
+- Run installation script with the default options. Curent user must have sudo privileges.
 
 ```shell
-./install-aplatform64 -x
+./ap64 -i
 ```
 
-Done. The **A:Platform64** platform is now installed.
+- Done, **A:Platform64** is now installed and ready to use:
+  - installation location: `/opt/ap64`
+  - installation user: `ap64`
+  - CLI: `/opt/ap64/ap64`
 
 ## Usage
 
-### Initialize the environment
-
-To start using **A:Platform64** change to the Ansible Control user and set the environment:
+### Command Line Interface (CLI)
 
 ```shell
-# Switch to the Ansible Control user
-sudo su - sitectl
+Usage: ap64 <-i|-j|-c|-o|-r|-u|-l|-n|-t|-k> [-s Site] [-x Host] [-p Playbook] [-e Collection|-f Package] [-b Root] [-d Var] [-g User] [-h]
 
-# Set the environment for Ansible
-source /opt/aplatform64/bin/site/ansible_control.env
-workon aplatform64
+A:Platform64 command line interface
 
-# Go to the install location
-cd /opt/aplatform64/
+Commands
+
+  -i           : Install A:Platform64
+  -j           : Bootstrap A:Platform64
+  -c           : Create a A:Platform64 site
+  -o           : Remove a A:Platform64 site
+  -r           : Refresh A:Platform64 site configuration by rerunning the setup process
+  -u           : Upgrade A:Platform64 Ansible collections to the latest version in Ansible Galaxy
+  -l           : List available playbooks
+  -n           : Run playbook
+  -t           : List sites
+  -k           : Add node
+
+Flags
+
+  -h           : Show usage info
+
+Parameters
+
+  -b Root      : APlatform64 root path. Default: /opt/ap64
+  -d Var       : APlatform64 var path. Default: /var/opt/ap64
+  -g User      : APlatform64 user name. Default: ap64
+  -s Site      : Target Site. Defaul: site
+  -x Host      : Target host for playbook run. Default: all
+  -p Playbook  : Name of the playbook to run
+  -e Collection: Collection name for the upgrade option (-u). Default: all
+  -f Package   : Collection package file (-u). Default: none
 ```
 
-### Register managed hosts
+### Common Use Cases
 
-Register the target remote host in the bootstrap process by adding it to the inventory:
+#### Register managed node
 
-- file: `inventories/site/ansible_service.ini`
-- group `[bootstrap_ansible_managed_nodes_distro]`
+Use to register managed nodes.
 
-The bootstrap process will connect to the managed node using a pre-existing user account with root privilege and then create the dedicated account for Ansible.
-
-Register the bootstrap user details and review the dedicated user definition:
-
-- file: `inventories/site/group_vars/bootstrap_ansible_managed_nodes/auto_ansible_node.yml`
-  - variable `auto_ansible_node_bootstrap:`
-  - variable `auto_ansible_node_user:`
-- file: `inventories/site/group_vars/ansible_managed_nodes/auto_ansible_node.yml`
-  - variable `auto_ansible_node_user:`
-
-Execute the bootstrap process:
+The target node must be prepared for running Ansible (i.e.: have a compatible Linux distro, python3, sudo and openssh)
 
 ```shell
-/opt/aplatform64/bin/ap64.sh -n -p bootstrap_ansible_managed_nodes -s "${APLATFORM64_SITE}"
+# Set bootstrap connection credentials. This is required for the initial connection only
+export AP64_NODE_USER='sysadmin'
+export AP64_NODE_PASSWORD='**change_me**'
+# Register the host
+/opt/ap64/ap64 -k -x 'host1.domain1'
 ```
 
-The host is now ready for Ansible. Promote the hostname by removing it from the `[bootstrap_ansible_managed_nodes_distro]` group and adding it to:
+#### Create Site
 
-- File: `inventories/site/ansible_service.ini`
-- Host Group: `ansible_managed_nodes`
-
-### Run automation scripts
-
-Use any of the predefined playbooks and customize the default end-state definitions for the group or create per host definitions.
-
-For example, to configure workstations and notebooks for office work:
-
-1. Add the target hostname to the inventory: `inventories/site/office_nodes.ini`
-2. Review default end-state configuration: `inventories/site/group_vars/office_nodes/*`
-3. Run the playgook:
+Use to create new environments. Each environment is an isolated set of inventories, playbooks and configurations
 
 ```shell
-ansible-playbook \
-  -i "inventories/${APLATFORM64_SITE}/office_nodes.ini" \
-  "playbooks/${APLATFORM64_SITE}/manage_office_nodes.yml"
+# Example: create site 'prod'
+/opt/ap64/ap64 -c -s 'prod'
+
+# List available sites
+/opt/ap64/ap64 -t
 ```
 
-Additional playbooks and roles can be added to further customize the platform.
-
-In addition to the standard ansible CLI commands, A:Platform64 provides the [bin/ap64.sh](https://aplatform64.readthedocs.io/en/latest/bin/ap64/) CLI that can be used for:
-
-- List/Run playbooks
-- List/Create sites
-- Upgrade collections
-- Update sites configurations
-
-## Development
-
-### Environment
-
-Use the following instructions for preparing the development environment:
-
-- Prepare dev tools:
-  - Install GIT
-  - Install Git Flow
-  - Install Python, PIP, Virtual Environment Wrapper
-- Clone GIT repositories
+#### Run A:Platform64 Playbook
 
 ```shell
-# Create the main repository
-cd <YOUR_PROJECTS_PATH>
-git clone https://github.com/serdigital64/aplatform64
-cd aplatform64
-# Create module repositories as git submodules
-git submodule init
-# Update modules
-git submodule update
-# Enable main branch on submodules
-git submodule foreach "git checkout main"; git submodule foreach "git checkout develop"
-# (Optional) Initialize git flow. Production branch:main, use defaults for the remaining branches
-git submodule foreach "git flow init"
+# List available playbooks
+/opt/ap64/ap64 -l
+
+# Run example playbook on localhost
+/opt/ap64/ap64 -n 'hello_world'
 ```
 
-- Adjust environment variables to reflect your configuration:
+#### Upgrade A:Platform64 Collections
+
+Use to upgrade collections from Ansible Galaxy
 
 ```shell
-# Copy environment definition files from templates:
-cp dot.local .local
-cp dot.secrets .secrets
-# Review and update content for both files
+# Download and upgrade latest collections
+/opt/ap64/ap64 -u
+
+# Update site configuration
+/opt/ap64/ap64 -r
 ```
-
-- Create Python Virtual Environment Wrapper workspace
-
-```shell
-source .local
-source .env
-source "$DEVAP_VEW_LOADER"
-mkvirtualenv aplatform64
-```
-
-- Install Python dev modules
-
-```shell
-pip3 install --upgrade -r requirements-aplatform64.txt
-```
-
-- The environment is now ready. From now use the following script to load environment variables and set the virtual Python environment:
-
-```shell
-source bin/devap-set
-```
-
-- Additional scripts are provided to support testing and package building:
-  - `bin/devap-build`: build and publish Ansible Collection packages
-  - `bin/devap-test`: test Ansible Roles using Molecule
-
-### Repositories
-
-- Project GIT repository
-  - Main: [https://github.com/serdigital64/aplatform64](https://github.com/serdigital64/aplatform64)
-  - Submodules: [https://github.com/aplatform64](https://github.com/aplatform64)
-- Project Ansible Galaxy repository: [https://galaxy.ansible.com/serdigital64](https://galaxy.ansible.com/serdigital64)
-- Project Documentation: [https://aplatform64.readthedocs.io](https://aplatform64.readthedocs.io)
 
 ## Contributing
 
 Help on implementing new features and maintaining the code base is welcomed.
 
-Please see the [guidelines](contributing/CONTRIBUTING.md) for further details and the [code of conduct](contributing/CODE_OF_CONDUCT.md).
+- [Guidelines](<[CONTRIBUTING.md](https://aplatform64.readthedocs.io/en/latest/contributing/CONTRIBUTING/)>)
+- [Contributor Covenant Code of Conduct](<[CODE_OF_CONDUCT.md](https://aplatform64.readthedocs.io/en/latest/contributing/CODE_OF_CONDUCT/)>)
 
 ## Author
 

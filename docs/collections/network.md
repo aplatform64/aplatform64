@@ -8,9 +8,10 @@ This collection is part of the [A:Platform64](https://github.com/serdigital64/ap
 
 ## Content
 
-| role                                                                    | purpose                     |
-| ----------------------------------------------------------------------- | --------------------------- |
-| [net_bind](https://aplatform64.readthedocs.io/en/latest/roles/net_bind) | Manage provisioning of Bind |
+| role                                                                      | purpose                          |
+| ------------------------------------------------------------------------- | -------------------------------- |
+| [net_bind](https://aplatform64.readthedocs.io/en/latest/roles/net_bind)   | Manage provisioning of Bind      |
+| [net_istio](https://aplatform64.readthedocs.io/en/latest/roles/net_istio) | Manage provisioning of Istio CLI |
 
 ## Deployment
 
