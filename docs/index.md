@@ -92,7 +92,6 @@ Each playbook will integrate the roles needed to implement the service along wit
 
 | Playbook                                                                                                           | Description                                                                |
 | ------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------- |
-| [bootstrap_aplatform64_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/bootstrap_aplatform64_nodes/) | Bootstrap Ansible Managed nodes                                            |
 | [manage_aplatform64_servers](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_aplatform64_servers/)   | Manage Ansible Control node                                                |
 | [manage_aplatform64_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_aplatform64_nodes/)       | Manage Ansible Managed nodes                                               |
 | [manage_cloud_control_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_cloud_control_nodes/)   | Provision public cloud management tools                                    |
