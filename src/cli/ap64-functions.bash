@@ -58,7 +58,7 @@ function ap64_bootstrap() {
   bl64_msg_show_task 'configure A:Platform64'
   if [[ ! -f "${root}/bin/site/ansible_control.env" ]]; then
     bl64_ans_run_ansible_playbook \
-      --extra-vars "auto_aplatform64_bootstrap='localhost'" \
+      --extra-vars "manage_aplatform64_servers_bootstrap='localhost'" \
       --extra-vars "auto_aplatform64_paths_control_root='${root}'" \
       --extra-vars "auto_aplatform64_paths_control_var='${var}'" \
       --extra-vars "auto_aplatform64_owners_control_user='${user}'" \
@@ -136,6 +136,29 @@ function ap64_list_plays() {
 
 }
 
+function ap64_add() {
+  bl64_dbg_app_show_function "$@"
+  local site="$1"
+  local node="$2"
+
+  bl64_check_export 'AP64_NODE_USER' &&
+    bl64_check_export 'AP64_NODE_PASSWORD' &&
+    ap64_load_site "$site" &&
+    bl64_ans_setup ||
+    return $?
+
+  [[ "$node" == 'all' ]] &&
+    bl64_msg_show_error 'invalid host name (all). Please use the -x Host parameter to specify a valid one' &&
+    return 1
+
+  bl64_ans_run_ansible_playbook \
+    -i "${AP64_INVENTORY}/aplatform64_service.ini" \
+    --extra-vars "auto_aplatform64_bootstrap_node_fqdn='${node}'" \
+    --extra-vars "auto_aplatform64_bootstrap_node_user='${AP64_NODE_USER}'" \
+    --extra-vars "auto_aplatform64_bootstrap_node_password='${AP64_NODE_PASSWORD}'" \
+    "${ANSIBLE_PLAYBOOK_DIR}/manage_aplatform64_nodes.yml"
+}
+
 function ap64_refresh() {
   bl64_dbg_app_show_function "$@"
   local site="$1"
@@ -164,7 +187,7 @@ function ap64_create() {
   bl64_ans_setup &&
     bl64_ans_run_ansible_playbook \
       -i "${AP64_INVENTORY}/aplatform64_service.ini" \
-      --extra-vars "auto_ansible_control_site='${site}'" \
+      --extra-vars "auto_aplatform64_site='${site}'" \
       "${ANSIBLE_PLAYBOOK_DIR}/manage_aplatform64_servers.yml"
 
 }
@@ -224,24 +247,24 @@ function ap64_remove() {
   targets="${targets} ${AP64_ROOT}/docs/${site}"
   targets="${targets} ${AP64_ROOT}/inventories/${site}"
   targets="${targets} ${AP64_ROOT}/files/${site}"
-  targets="${targets} ${AP64_ROOT}/etc_cfg/${site}"
+  targets="${targets} ${AP64_ROOT}/etc/cfg/${site}"
   targets="${targets} ${AP64_ROOT}/playbooks/${site}"
   targets="${targets} ${AP64_ROOT}/tests/${site}"
-  targets="${targets} ${AP64_ROOT}/etc_keys/${site}"
+  targets="${targets} ${AP64_ROOT}/etc/keys/${site}"
   targets="${targets} ${AP64_ROOT}/vars/${site}"
   targets="${targets} ${AP64_ROOT}/templates/${site}"
   targets="${targets} ${AP64_ROOT}/roles/${site}"
-  targets="${targets} ${AP64_ROOT}/etc_groups/${site}"
+  targets="${targets} ${AP64_ROOT}/etc/groups/${site}"
   targets="${targets} ${AP64_VAR}/logs/${site}"
   targets="${targets} ${AP64_VAR}/tmp/${site}"
   targets="${targets} ${AP64_VAR}/cache/${site}"
   targets="${targets} ${AP64_VAR}/persistence/${site}"
-  targets="${targets} ${AP64_VAR}/var_groups/${site}"
+  targets="${targets} ${AP64_VAR}/var/groups/${site}"
 
   for path in $targets; do
     if [[ -d "$path" ]]; then
       bl64_dbg_app_show_info "remove site component ($path)"
-      bl64_os_rm_full "$path"
+      bl64_fs_rm_full "$path"
     fi
   done
 
@@ -317,7 +340,7 @@ function ap64_check_requirements() {
 
 function ap64_help() {
   bl64_msg_show_usage \
-    '<-i|-j|-c|-o|-r|-u|-l|-n|-t> [-s Site] [-x Host] [-p Playbook] [-e Collection|-f Package] [-b Root] [-d Var] [-g User] [-h]' \
+    '<-i|-j|-c|-o|-r|-u|-l|-n|-t|-k> [-s Site] [-x Host] [-p Playbook] [-e Collection|-f Package] [-b Root] [-d Var] [-g User] [-h]' \
     'A:Platform64 command line interface' '
   -i           : Install A:Platform64
   -j           : Bootstrap A:Platform64
@@ -328,8 +351,8 @@ function ap64_help() {
   -l           : List available playbooks
   -n           : Run playbook
   -t           : List sites
+  -k           : Add node
     ' '
-  -j           : Bootstrap A:Platform64
   -h           : Show usage info
     ' '
   -b Root      : APlatform64 root path. Default: /opt/ap64

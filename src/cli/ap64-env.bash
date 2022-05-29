@@ -12,3 +12,7 @@ readonly AP64_CLI_ROOT='.ap64-root'
 declare AP64_ROOT=''
 declare AP64_VAR=''
 declare AP64_INVENTORY=''
+
+# A:Platform64 node bootstrap SSH credentials
+export AP64_NODE_USER
+export AP64_NODE_PASSWORD

@@ -16,7 +16,7 @@ declare ap64_host='all'
 declare ap64_playbook=''
 
 (($# == 0)) && ap64_help && exit 1
-while getopts ':ilcrjuontf:e:b:d:g:s:p:x:h' Option; do
+while getopts ':ilckrjuontf:e:b:d:g:s:p:x:h' Option; do
   case "$Option" in
   i)
     ap64_command='ap64_install'
@@ -54,6 +54,10 @@ while getopts ':ilcrjuontf:e:b:d:g:s:p:x:h' Option; do
     ap64_command='ap64_upgrade'
     ap64_command_tag='upgrade collections'
     ;;
+  k)
+    ap64_command='ap64_add'
+    ap64_command_tag='add node'
+    ;;
   b) ap64_path_root="$OPTARG" ;;
   d) ap64_path_var="$OPTARG" ;;
   g) ap64_user="$OPTARG" ;;
@@ -83,6 +87,7 @@ case "$ap64_command" in
 'ap64_create') "$ap64_command" "$ap64_site" ;;
 'ap64_remove') "$ap64_command" "$ap64_site" ;;
 'ap64_run') "$ap64_command" "$ap64_site" "$ap64_host" "$ap64_playbook" ;;
+'ap64_add') "$ap64_command" "$ap64_site" "$ap64_host" ;;
 *) bl64_check_show_undefined "$ap64_command" ;;
 esac
 ap64_status=$?
