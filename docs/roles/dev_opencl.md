@@ -71,7 +71,7 @@ dev_opencl_application:
 
 ### OS Compatibility
 
-- CentOS8
+The operating system compatibility list is defined in the variable: `dev_opencl_platforms`
 
 ### Dependencies
 

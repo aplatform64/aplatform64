@@ -98,16 +98,7 @@ sec_firewall_os_rules:
 
 ### OS Compatibility
 
-- CentOS8
-- RedHat8
-- AlmaLinux8
-- OracleLinux8
-- Fedora33
-- Fedora35
-- Ubuntu20
-- Ubuntu21
-- Debian10
-- Debian11
+The operating system compatibility list is defined in the variable: `sec_firewall_os_platforms`
 
 ### Dependencies
 

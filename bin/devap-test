@@ -176,12 +176,13 @@ function devap_test_role_list() {
 }
 
 function devap_test_check() {
+
+  [[ -z "$devap_test_command" ]] && devap_test_help && return 1
+
   bl64_check_export 'DEVAP_COLLECTIONS' &&
     bl64_check_export 'DEVAP_CMD_MOLECULE' &&
-    bl64_check_export 'DEVAP_VEW_LOADER' &&
     bl64_check_directory "$DEVAP_COLLECTIONS" &&
-    bl64_check_command "$DEVAP_CMD_MOLECULE" &&
-    bl64_check_file "$DEVAP_VEW_LOADER"
+    bl64_check_command "$DEVAP_CMD_MOLECULE"
 }
 
 function devap_test_help() {
@@ -259,26 +260,8 @@ while getopts ':rvgldqc:e:i:n:xh' devap_test_option; do
   *) devap_test_help && exit 1 ;;
   esac
 done
-[[ -z "$devap_test_command" ]] && devap_test_help && exit 1
 devap_test_check || exit 1
 cd "$DEVAP_ROOT" || exit 1
-
-# Activate the Python virtual environment
-if [[ -z "$VIRTUALENVWRAPPER_ENV_BIN_DIR" ]]; then
-  bl64_msg_show_task "load Python virtual environment wrapper ($DEVAP_VEW_LOADER)"
-  # shellcheck disable=SC1090
-  source "$DEVAP_VEW_LOADER"
-fi
-
-if [[ -z "$VIRTUAL_ENV" ]]; then
-  bl64_msg_show_task "set Python virtual environment to: $DEVAP_VEW_WORKSPACE"
-  workon "$DEVAP_VEW_WORKSPACE"
-fi
-
-if [[ -z "$VIRTUAL_ENV" ]]; then
-  bl64_msg_show_error 'unable to initialize the Python virtual environment for Ansible'
-  exit 1
-fi
 
 bl64_msg_show_batch_start "$devap_test_command_tag"
 case "$devap_test_command" in

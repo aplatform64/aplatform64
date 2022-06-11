@@ -8,6 +8,7 @@
       vars:
         infra_helm:
           resolve_prereq: true
+          prepare: true
           deploy: true
       ansible.builtin.include_role:
         name: "serdigital64.infrastructure.infra_helm"
