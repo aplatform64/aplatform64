@@ -74,6 +74,7 @@ function devap_build_refresh() {
       bl64_fs_cp_file "${DEVAP_DOCS}/contributing/CODE_OF_CONDUCT.md" "$DEVAP_COLLECTIONS/${collection}/CODE_OF_CONDUCT.md" || return 1
 
     bl64_msg_show_task "refresh tool configurations (master -> ${collection})" &&
+      bl64_fs_cp_file "${DEVAP_MOLECULE_MAIN}" "$DEVAP_COLLECTIONS/${collection}" &&
       bl64_fs_cp_file "${DEVAP_ANSIBLE_LINT}" "$DEVAP_COLLECTIONS/${collection}" &&
       bl64_fs_cp_file "${YAMLLINT_CONFIG_FILE}" "$DEVAP_COLLECTIONS/${collection}" || return 1
 
@@ -156,8 +157,7 @@ function devap_build_check() {
 
   bl64_check_directory "$DEVAP_BUILD_DEV" &&
     bl64_check_directory "$DEVAP_BUILD_PROD" &&
-    bl64_check_directory "$DEVAP_COLLECTIONS" &&
-    bl64_check_file "$DEVAP_VEW_LOADER"
+    bl64_check_directory "$DEVAP_COLLECTIONS"
 }
 
 function devap_build_help() {
@@ -218,22 +218,6 @@ done
 devap_build_check || exit 1
 cd "$DEVAP_ROOT" || exit 1
 
-# Activate the Python virtual environment
-if [[ -z "$VIRTUALENVWRAPPER_ENV_BIN_DIR" ]]; then
-  bl64_msg_show_task "load Python virtual environment wrapper ($DEVAP_VEW_LOADER)"
-  # shellcheck disable=SC1090
-  source "$DEVAP_VEW_LOADER"
-fi
-
-if [[ -z "$VIRTUAL_ENV" ]]; then
-  bl64_msg_show_task "set Python virtual environment to: $DEVAP_VEW_WORKSPACE"
-  workon "$DEVAP_VEW_WORKSPACE"
-fi
-
-if [[ -z "$VIRTUAL_ENV" ]]; then
-  bl64_msg_show_error 'unable to initialize the Python virtual environment for Ansible'
-  exit 1
-fi
 bl64_ans_setup "$DEVAP_CMD_ANSIBLE" || exit $?
 
 bl64_msg_show_batch_start "$devap_build_command_tag"

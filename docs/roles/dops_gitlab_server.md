@@ -92,10 +92,7 @@ dops_gitlab_server_server:
 
 ### OS Compatibility
 
-- CentOS8
-- RedHat8
-- AlmaLinux8
-- OracleLinux8
+The operating system compatibility list is defined in the variable: `dops_gitlab_server_platforms`
 
 ### Dependencies
 

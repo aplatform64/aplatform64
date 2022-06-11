@@ -15,13 +15,9 @@ export DEVAP_ROOT
 DEVAP_PYTHON_SYSTEM='/usr/bin/python3.9'
 export DEVAP_PYTHON_SYSTEM
 
-# Virtual Environment Wrapper / Loader
-DEVAP_VEW_LOADER="$HOME/.local/bin/virtualenvwrapper.sh"
-export DEVAP_VEW_LOADER
-
-# Virtual Environment Wrapper / Home
-DEVAP_VEW_HOME="$HOME/.virtualenvs"
-export DEVAP_VEW_HOME
+# Python / VENV / APlatform64
+DEVAP_PYTHON_VENV="${HOME}/.venv/aplatform64"
+export DEVAP_PYTHON_VENV
 
 # DevAP64-Build / Kernel settings
 DEVAP_SYSCTL_MAX_USER_INSTANCES='1024'

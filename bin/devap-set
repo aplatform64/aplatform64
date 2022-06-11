@@ -25,9 +25,6 @@ fi
 # shellcheck source=SCRIPTDIR/../.env
 . ./.env
 
-# Load Python Virtual Environment Wrapper functions
-# shellcheck disable=SC1090
-. "$DEVAP_VEW_LOADER"
-
 # Activate Python Virtual Environment
-workon "$DEVAP_VEW_WORKSPACE"
+# shellcheck disable=SC1091
+. "$DEVAP_PYTHON_VENV/bin/activate"

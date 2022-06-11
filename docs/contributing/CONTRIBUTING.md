@@ -5,7 +5,7 @@
 - Prepare dev tools:
   - Install GIT
   - Install Git Flow
-  - Install Python, PIP, Virtual Environment Wrapper
+  - Install Python
 - Clone GIT repositories
 
 ```shell
@@ -32,13 +32,13 @@ cp dot.secrets .secrets
 # Review and update content for both files
 ```
 
-- Create Python Virtual Environment Wrapper workspace
+- Create Python Virtual Environment
 
 ```shell
 source .local
 source .env
-source "$DEVAP_VEW_LOADER"
-mkvirtualenv aplatform64
+python3 -m venv "$DEVAP_PYTHON_VENV"
+source ./bin/devap-set
 ```
 
 - Install Python dev modules

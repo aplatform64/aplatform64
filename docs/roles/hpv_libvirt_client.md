@@ -41,8 +41,8 @@ hpv_libvirt_client:
   deploy:
 ```
 
-| Parameter                        | Required? | Type    | Default | Purpose / Value                             |
-| -------------------------------- | --------- | ------- | ------- | ------------------------------------------- |
+| Parameter                         | Required? | Type    | Default | Purpose / Value                             |
+| --------------------------------- | --------- | ------- | ------- | ------------------------------------------- |
 | hpv_libvirt_client.resolve_prereq | no        | boolean | `false` | Enable automatic resolution of prequisites  |
 | hpv_libvirt_client.deploy         | no        | boolean | `false` | Enable installation of application packages |
 
@@ -59,8 +59,8 @@ hpv_libvirt_client_application:
   installed:
 ```
 
-| Parameter                               | Required? | Type       | Default     | Purpose / Value                    |
-| --------------------------------------- | --------- | ---------- | ----------- | ---------------------------------- |
+| Parameter                                | Required? | Type       | Default     | Purpose / Value                    |
+| ---------------------------------------- | --------- | ---------- | ----------- | ---------------------------------- |
 | hpv_libvirt_client_application           | no        | dictionary |             | Set application package end state  |
 | hpv_libvirt_client_application.name      | no        | string     | `"libvirt"` | Select application package name    |
 | hpv_libvirt_client_application.type      | no        | string     | `"distro"`  | Select application package type    |
