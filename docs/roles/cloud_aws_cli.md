@@ -9,7 +9,6 @@ Supported features in the current version:
 - Resolve prerequisites:
   - Install OS tools
 - Deploy application. Packages are defined in the variable `cloud_aws_cli_profiles`.
-- Create directory structure for configuration files
 
 The **cloud_aws_cli** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [cloud](https://aplatform64.readthedocs.io/en/latest/collections/cloud) Ansible-Collection.
 
@@ -41,14 +40,12 @@ ansible-playbook "${ANSIBLE_COLLECTIONS_PATHS}/ansible_collections/serdigital64/
 ```yaml
 cloud_aws_cli:
   resolve_prereq:
-  prepare:
   deploy:
 ```
 
 | Parameter                    | Required? | Type    | Default | Purpose / Value                             |
 | ---------------------------- | --------- | ------- | ------- | ------------------------------------------- |
 | cloud_aws_cli.resolve_prereq | no        | boolean | `false` | Enable automatic resolution of prequisites  |
-| cloud_aws_cli.prepare        | no        | boolean | `false` | Enable environment preparation              |
 | cloud_aws_cli.deploy         | no        | boolean | `false` | Enable installation of application packages |
 
 ### End State
@@ -62,13 +59,6 @@ cloud_aws_cli_application:
   type:
   version:
   installed:
-cloud_aws_cli_paths:
-  etc:
-cloud_aws_cli_users:
-  cloudadm:
-    name:
-    group:
-    home:
 ```
 
 | Parameter                           | Required?   | Type       | Default    | Purpose / Value                    |
@@ -78,26 +68,12 @@ cloud_aws_cli_users:
 | cloud_aws_cli_application.type      | yes(deploy) | string     | `"binary"` | Select application package type    |
 | cloud_aws_cli_application.version   | yes(deploy) | string     | `"latest"` | Select application package version |
 | cloud_aws_cli_application.installed | yes(deploy) | boolean    | `true`     | Set application package end state  |
-| cloud_aws_cli_paths                 | no          | dictionary |            | Set paths                          |
-| cloud_aws_cli_paths.etc             | no          | string     |            | Set configuration repository       |
-| cloud_aws_cli_users                 | no          | dictionary |            | Define users                       |
-| cloud_aws_cli_users.cloudadm        | no          | dictionary |            | Define configuration owner         |
-| cloud_aws_cli_users.cloudadm.name   | no          | string     |            | Set login name                     |
-| cloud_aws_cli_users.cloudadm.group  | no          | string     |            | Set group name                     |
-| cloud_aws_cli_users.cloudadm.home   | no          | string     |            | Set home directory                 |
 
 ## Deployment
 
 ### OS Compatibility
 
-- CentOS8
-- OracleLinux8
-- Ubuntu20
-- Ubuntu21
-- Fedora33
-- Fedora35
-- Debian10
-- Debian11
+The operating system compatibility list is defined in the variable: `cloud_aws_cli_platforms`
 
 ### Dependencies
 

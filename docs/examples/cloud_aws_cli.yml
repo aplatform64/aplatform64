@@ -4,11 +4,10 @@
   gather_facts: true
 
   tasks:
-    - name: "Example: Install AWS CLI from the AWS site"
+    - name: "Example: Install AWS CLI"
       vars:
         cloud_aws_cli:
           resolve_prereq: true
-          prepare: true
           deploy: true
       ansible.builtin.include_role:
         name: "serdigital64.cloud.cloud_aws_cli"

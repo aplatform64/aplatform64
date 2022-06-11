@@ -11,7 +11,6 @@ This collection is part of the [A:Platform64](https://github.com/serdigital64/ap
 | role                                                                                      | purpose                                                                    |
 | ----------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
 | [cloud_aws_cli](https://aplatform64.readthedocs.io/en/latest/roles/cloud_aws_cli)         | Manage provisioning of AWS CLI                                             |
-| [cloud_aws_realm](https://aplatform64.readthedocs.io/en/latest/roles/cloud_aws_realm)     | Integrate AWS Accounts, IAM and Organizations into a single managed entity |
 | [cloud_azure_cli](https://aplatform64.readthedocs.io/en/latest/roles/cloud_azure_cli)     | Manage provisioning of Azure CLI                                           |
 | [cloud_foundry_cli](https://aplatform64.readthedocs.io/en/latest/roles/cloud_foundry_cli) | Manage provisioning of Cloud Foundry CLI                                   |
 | [cloud_google_cli](https://aplatform64.readthedocs.io/en/latest/roles/cloud_google_cli)   | Manage provisioning of Google Cloud CLI                                    |

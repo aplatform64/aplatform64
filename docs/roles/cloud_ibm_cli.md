@@ -41,8 +41,8 @@ cloud_ibm_cli:
   deploy:
 ```
 
-| Parameter                | Required? | Type    | Default | Purpose / Value                             |
-| ------------------------ | --------- | ------- | ------- | ------------------------------------------- |
+| Parameter                    | Required? | Type    | Default | Purpose / Value                             |
+| ---------------------------- | --------- | ------- | ------- | ------------------------------------------- |
 | cloud_ibm_cli.resolve_prereq | no        | boolean | `false` | Enable automatic resolution of prequisites  |
 | cloud_ibm_cli.deploy         | no        | boolean | `false` | Enable installation of application packages |
 
@@ -59,8 +59,8 @@ cloud_ibm_cli_application:
   installed:
 ```
 
-| Parameter                       | Required? | Type       | Default    | Purpose / Value                    |
-| ------------------------------- | --------- | ---------- | ---------- | ---------------------------------- |
+| Parameter                           | Required? | Type       | Default    | Purpose / Value                    |
+| ----------------------------------- | --------- | ---------- | ---------- | ---------------------------------- |
 | cloud_ibm_cli_application           | no        | dictionary |            | Set application package end state  |
 | cloud_ibm_cli_application.name      | no        | string     | `"ibmcli"` | Select application package name    |
 | cloud_ibm_cli_application.type      | no        | string     | `"binary"` | Select application package type    |
@@ -71,14 +71,7 @@ cloud_ibm_cli_application:
 
 ### OS Compatibility
 
-- CentOS8
-- OracleLinux8
-- Ubuntu20
-- Ubuntu21
-- Fedora33
-- Fedora35
-- Debian10
-- Debian11
+The operating system compatibility list is defined in the variable: `cloud_ibm_cli_platforms`
 
 ### Dependencies
 
