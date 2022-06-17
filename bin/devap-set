@@ -1,30 +1,39 @@
-#!/usr/bin/env bash
-#######################################
+#!/bin/sh
 #
 # Set development environment variables
 #
 # * Source this script from the project's root directory
-# * Template Version: v1.0.1
+# * Template Version: v1.1.0
 #
 
-# Check calling location
-test -f ./.local
+test -f ./.env
 if test $? -ne 0; then
   echo "Error: source this file from the project's root directory" && return 1
 fi
 
-# Load local variables
-# shellcheck source=SCRIPTDIR/../.local
-. ./.local
+# shellcheck disable=SC2154
+if test -f ./.local; then
+  echo 'Load local environment variables'
+  # shellcheck source=SCRIPTDIR/../.local
+  . ./.local || return 1
+elif test -n "$GITHUB_WORKSPACE"; then
+  echo 'Load GitHub environment variables'
+  # shellcheck disable=SC2155
+  export DEVAP_ROOT="$GITHUB_WORKSPACE"
+fi
 
-# Load secrets
-# shellcheck source=SCRIPTDIR/../.secrets
-. ./.secrets
+if test -f ./.secrets; then
+  echo 'Load local secrets'
+  # shellcheck source=SCRIPTDIR/../.secrets
+  . ./.secrets || return 1
+fi
 
-# Load global variables
+echo 'Load project environment variables'
 # shellcheck source=SCRIPTDIR/../.env
-. ./.env
+. ./.env || return 1
 
-# Activate Python Virtual Environment
 # shellcheck disable=SC1091
-. "$DEVAP_PYTHON_VENV/bin/activate"
+if test -f "$DEVAP_PYTHON_VENV/bin/activate"; then
+  echo 'Load Python VEnv'
+  . "${DEVAP_PYTHON_VENV}/bin/activate"
+fi
