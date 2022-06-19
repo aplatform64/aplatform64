@@ -1,30 +1,32 @@
-function ap64_install() {
+function ap64_site_install() {
   bl64_dbg_app_show_function "$@"
   local root="$1"
   local var="$2"
   local user="$3"
   local cli="${root}/${AP64_CLI}"
 
-  bl64_msg_show_task 'prepare environment'
+  bl64_msg_show_task 'prepare installation environment'
   if [[ ! -d "$root" && ! -d "${var}/home" ]]; then
-    bl64_dbg_app_show_info 'create base paths' &&
+    bl64_msg_show_task "create base paths (${root}, ${var})" &&
       bl64_fs_create_dir \
         '0755' "$BL64_LIB_DEFAULT" "$BL64_LIB_DEFAULT" \
         "${root}" "${var}" &&
-      bl64_dbg_app_show_info 'create environment owner' &&
+      bl64_msg_show_task "create installation owner (${user})" &&
       bl64_iam_user_add "$user" "${var}/home" &&
       bl64_rbac_add_root "$user" &&
-      bl64_dbg_app_show_info "promote A:Platform64 CLI (${BL64_SCRIPT_PATH}/${AP64_CLI} -> ${cli})" &&
+      bl64_msg_show_task "normalize path ownership (${var})" &&
+      bl64_fs_set_permissions "$var" "$BL64_LIB_DEFAULT" "$user" &&
+      bl64_msg_show_task "promote A:Platform64 CLI (${BL64_SCRIPT_PATH}/${AP64_CLI} -> ${cli})" &&
       bl64_fs_copy_files \
         '0755' "$user" "$BL64_LIB_DEFAULT" \
         "${root}" \
         "${BL64_SCRIPT_PATH}/${AP64_CLI}" ||
       return $?
   else
-    bl64_dbg_app_show_info 'environment already prepared'
+    bl64_msg_show_info 'environment already prepared'
   fi
 
-  bl64_dbg_app_show_info "run bootstrap as ${user} using sudo"
+  bl64_msg_show_task "run bootstrap as ${user} using sudo"
   bl64_rbac_run_command "$user" "$cli" \
     -j \
     -b "$root" \
@@ -32,7 +34,7 @@ function ap64_install() {
     -g "$user"
 }
 
-function ap64_bootstrap() {
+function ap64_site_bootstrap() {
   bl64_dbg_app_show_function "$@"
   local root="$1"
   local var="$2"
@@ -41,7 +43,7 @@ function ap64_bootstrap() {
   local playbook='serdigital64/automation/roles/auto_aplatform64/files/playbooks/manage_aplatform64_servers.yml'
 
   bl64_msg_show_task 'install Ansible Python modules'
-  bl64_py_setup &&
+  bl64_py_setup "${var}/${AP64_VENV}" &&
     bl64_py_pip_usr_prepare &&
     bl64_py_pip_usr_install "$modules" &&
     bl64_ans_setup ||
@@ -72,7 +74,7 @@ function ap64_bootstrap() {
   return 0
 }
 
-function ap64_upgrade() {
+function ap64_site_upgrade() {
   bl64_dbg_app_show_function "$@"
   local collections="$1"
   local package="$2"
@@ -96,7 +98,7 @@ function ap64_upgrade() {
   fi
 }
 
-function ap64_list_sites() {
+function ap64_sites_list() {
   bl64_dbg_app_show_function "$@"
   local site="$1"
 
@@ -106,7 +108,7 @@ function ap64_list_sites() {
     bl64_msg_show_text "Available sites: $(echo *)"
 }
 
-function ap64_list_plays() {
+function ap64_play_list() {
   bl64_dbg_app_show_function "$@"
   local site="$1"
   local playbook="$2"
@@ -136,7 +138,7 @@ function ap64_list_plays() {
 
 }
 
-function ap64_add() {
+function ap64_node_add() {
   bl64_dbg_app_show_function "$@"
   local site="$1"
   local node="$2"
@@ -159,7 +161,7 @@ function ap64_add() {
     "${ANSIBLE_PLAYBOOK_DIR}/manage_aplatform64_nodes.yml"
 }
 
-function ap64_refresh() {
+function ap64_site_refresh() {
   bl64_dbg_app_show_function "$@"
   local site="$1"
 
@@ -173,7 +175,7 @@ function ap64_refresh() {
 
 }
 
-function ap64_create() {
+function ap64_site_create() {
   bl64_dbg_app_show_function "$@"
   local site="$1"
   local source=''
@@ -192,7 +194,7 @@ function ap64_create() {
 
 }
 
-function ap64_run() {
+function ap64_play_run() {
   bl64_dbg_app_show_function "$@"
   local site="$1"
   local host="$2"
@@ -235,7 +237,7 @@ function ap64_run() {
       "$playbook_path"
 }
 
-function ap64_remove() {
+function ap64_site_remove() {
   bl64_dbg_app_show_function "$@"
   local site="$1"
   local targets=''
@@ -304,7 +306,7 @@ function ap64_switch_user() {
   shift
   shift
 
-  if [[ "$command" == 'ap64_install' ]]; then
+  if [[ "$command" == 'ap64_site_install' ]]; then
     if [[ "$UID" != '0' ]]; then
       bl64_dbg_app_show_info 're-entry installation as root using sudo'
       bl64_rbac_run_command 'root' "${BL64_SCRIPT_PATH}/${AP64_CLI}" "$@"

@@ -19,43 +19,43 @@ declare ap64_playbook=''
 while getopts ':ilckrjuontf:e:b:d:g:s:p:x:h' Option; do
   case "$Option" in
   i)
-    ap64_command='ap64_install'
+    ap64_command='ap64_site_install'
     ap64_command_tag='install aplatform64'
     ;;
   j)
-    ap64_command='ap64_bootstrap'
+    ap64_command='ap64_site_bootstrap'
     ap64_command_tag='bootstrap aplatform64'
     ;;
   n)
-    ap64_command='ap64_run'
+    ap64_command='ap64_play_run'
     ap64_command_tag='run playbook'
     ;;
   o)
-    ap64_command='ap64_remove'
+    ap64_command='ap64_site_remove'
     ap64_command_tag='remove site'
     ;;
   t)
-    ap64_command='ap64_list_sites'
+    ap64_command='ap64_sites_list'
     ap64_command_tag='list sites'
     ;;
   l)
-    ap64_command='ap64_list_plays'
+    ap64_command='ap64_play_list'
     ap64_command_tag='list playbooks'
     ;;
   c)
-    ap64_command='ap64_create'
+    ap64_command='ap64_site_create'
     ap64_command_tag='create site'
     ;;
   r)
-    ap64_command='ap64_refresh'
+    ap64_command='ap64_site_refresh'
     ap64_command_tag='refresh site'
     ;;
   u)
-    ap64_command='ap64_upgrade'
+    ap64_command='ap64_site_upgrade'
     ap64_command_tag='upgrade collections'
     ;;
   k)
-    ap64_command='ap64_add'
+    ap64_command='ap64_node_add'
     ap64_command_tag='add node'
     ;;
   b) ap64_path_root="$OPTARG" ;;
@@ -78,16 +78,16 @@ ap64_switch_user "$ap64_command" "$ap64_user" "$ap64_path_root" "$@" &&
 
 bl64_msg_show_batch_start "$ap64_command_tag"
 case "$ap64_command" in
-'ap64_install') "$ap64_command" "$ap64_path_root" "$ap64_path_var" "$ap64_user" ;;
-'ap64_bootstrap') "$ap64_command" "$ap64_path_root" "$ap64_path_var" "$ap64_user" ;;
-'ap64_upgrade') "$ap64_command" "$ap64_collection" "$ap64_package" ;;
-'ap64_list_sites') "$ap64_command" "$ap64_site" ;;
-'ap64_list_plays') "$ap64_command" "$ap64_site" "$ap64_playbook" ;;
-'ap64_refresh') "$ap64_command" "$ap64_site" ;;
-'ap64_create') "$ap64_command" "$ap64_site" ;;
-'ap64_remove') "$ap64_command" "$ap64_site" ;;
-'ap64_run') "$ap64_command" "$ap64_site" "$ap64_host" "$ap64_playbook" ;;
-'ap64_add') "$ap64_command" "$ap64_site" "$ap64_host" ;;
+'ap64_site_install') "$ap64_command" "$ap64_path_root" "$ap64_path_var" "$ap64_user" ;;
+'ap64_site_bootstrap') "$ap64_command" "$ap64_path_root" "$ap64_path_var" "$ap64_user" ;;
+'ap64_site_upgrade') "$ap64_command" "$ap64_collection" "$ap64_package" ;;
+'ap64_sites_list') "$ap64_command" "$ap64_site" ;;
+'ap64_play_list') "$ap64_command" "$ap64_site" "$ap64_playbook" ;;
+'ap64_site_refresh') "$ap64_command" "$ap64_site" ;;
+'ap64_site_create') "$ap64_command" "$ap64_site" ;;
+'ap64_site_remove') "$ap64_command" "$ap64_site" ;;
+'ap64_play_run') "$ap64_command" "$ap64_site" "$ap64_host" "$ap64_playbook" ;;
+'ap64_node_add') "$ap64_command" "$ap64_site" "$ap64_host" ;;
 *) bl64_check_show_undefined "$ap64_command" ;;
 esac
 ap64_status=$?

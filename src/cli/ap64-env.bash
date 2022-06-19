@@ -8,6 +8,9 @@ readonly AP64_CLI='ap64'
 # Install mark. Mapped to: auto_ansible_control_base['files']['cli_root']
 readonly AP64_CLI_ROOT='.ap64-root'
 
+# Python VEnv name
+readonly AP64_VENV='venv'
+
 # A:Platform64 paths
 declare AP64_ROOT=''
 declare AP64_VAR=''
