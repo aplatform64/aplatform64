@@ -71,9 +71,10 @@ while getopts ':ilckrjuontf:e:b:d:g:s:p:x:h' Option; do
   esac
 done
 
-ap64_switch_user "$ap64_command" "$ap64_user" "$ap64_path_root" "$@" &&
-  ap64_check_requirements &&
-  ap64_setup_globals ||
+ap64_check_requirements &&
+  ap64_setup_globals || exit 1
+
+ap64_switch_user "$ap64_command" "$ap64_user" "$ap64_path_root" "$@" ||
   exit 1
 
 bl64_msg_show_batch_start "$ap64_command_tag"
