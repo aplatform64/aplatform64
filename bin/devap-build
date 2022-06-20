@@ -155,9 +155,15 @@ function devap_get_collections() {
 function devap_build_check() {
   [[ -z "$devap_build_command" ]] && devap_build_help && return 1
 
-  bl64_check_directory "$DEVAP_BUILD_DEV" &&
-    bl64_check_directory "$DEVAP_BUILD_PROD" &&
-    bl64_check_directory "$DEVAP_COLLECTIONS"
+  bl64_fs_create_dir \
+    "$BL64_LIB_DEFAULT" \
+    "$BL64_LIB_DEFAULT" \
+    "$BL64_LIB_DEFAULT" \
+    "$DEVAP_BUILD_DEV" \
+    "$DEVAP_BUILD_PROD" \
+    "$DEVAP_COLLECTIONS" &&
+    bl64_ans_setup "$DEVAP_PYTHON_VENV_BIN"
+
 }
 
 function devap_build_help() {
@@ -215,10 +221,9 @@ while getopts ':ritpuc:h' devap_build_option; do
   *) devap_build_help && exit 1 ;;
   esac
 done
-devap_build_check || exit 1
-cd "$DEVAP_ROOT" || exit 1
-
-bl64_ans_setup "$DEVAP_PYTHON_VENV_BIN" || exit $?
+devap_build_check &&
+  cd "$DEVAP_ROOT" ||
+  exit 1
 
 bl64_msg_show_batch_start "$devap_build_command_tag"
 case "$devap_build_command" in
