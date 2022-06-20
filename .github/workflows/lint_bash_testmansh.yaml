@@ -23,4 +23,4 @@ jobs:
         run: "./bin/devap-build -i"
 
       - name: "Run linter"
-        run: "bash testmansh -t -c build/testmansh"
+        run: "bash testmansh -t -c build/ap64"
