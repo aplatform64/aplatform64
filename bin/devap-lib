@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+#
+# Update dev-time external tools
+#
+# * Use to download or install external tools, libraries, etc
+# * Tools and libs should go to lib/
+# * Do not include operations that requires privileged access (i.e. sudo)
+# * Template Version: v1.0.0
+#
+
+# shellcheck source=SCRIPTDIR/devap-set
+source ./bin/devap-set || exit 1
+
+echo 'Download bash library: BashLib64'
+cd "$DEVAP_LIB" &&
+  curl -O https://raw.githubusercontent.com/serdigital64/bashlib64/main/bashlib64.bash || exit 1

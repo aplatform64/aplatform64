@@ -1,0 +1,26 @@
+name: "Lint / Bash / TestManSH"
+
+on:
+  push:
+    branches:
+      - "develop"
+
+jobs:
+  lint_bash_testmansh:
+    runs-on: "ubuntu-latest"
+    steps:
+
+      - name: "Check out repository code"
+        uses: "actions/checkout@main"
+
+      - name: "Download testmansh"
+        run: "curl -O https://raw.githubusercontent.com/serdigital64/testmansh/main/testmansh"
+
+      - name: "Prepare build environment"
+        run: "./bin/devap-lib"
+
+      - name: "Build app"
+        run: "./bin/devap-build -i"
+
+      - name: "Run linter"
+        run: "bash testmansh -t -c build/testmansh"
