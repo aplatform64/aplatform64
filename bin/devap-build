@@ -114,6 +114,7 @@ function devap_build_cli() {
   printf 'readonly AP64_COLLECTIONS="%s"\n' "$target" >"$target_file"
 
   bl64_msg_show_task "build CLI (${DEVAP_BUILD_CLI})"
+  # shellcheck disable=SC2154
   bl64_fs_merge_files \
     '0755' \
     "$BL64_LIB_DEFAULT" \
@@ -161,9 +162,11 @@ function devap_build_check() {
     "$BL64_LIB_DEFAULT" \
     "$DEVAP_BUILD_DEV" \
     "$DEVAP_BUILD_PROD" \
-    "$DEVAP_COLLECTIONS" &&
-    bl64_ans_setup "$DEVAP_PYTHON_VENV_BIN"
+    "$DEVAP_COLLECTIONS" || return $?
 
+  if [[ "$devap_build_command" != 'devap_build_cli' ]]; then
+    bl64_ans_setup "$DEVAP_PYTHON_VENV_BIN" || return $?
+  fi
 }
 
 function devap_build_help() {

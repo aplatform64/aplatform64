@@ -93,6 +93,7 @@ function devap_test_role_test() {
       "$DEVAP_CMD_MOLECULE" 'reset' --scenario-name "$scenario"
     fi
     bl64_msg_show_task "run test: $scenario"
+    # shellcheck disable=SC2086
     "$DEVAP_CMD_MOLECULE" $debug 'test' --scenario-name "$scenario" || return 1
   done
 }
@@ -137,6 +138,7 @@ function devap_test_role_converge() {
   fi
 
   bl64_msg_show_task 'run test'
+  # shellcheck disable=SC2086
   "$DEVAP_CMD_MOLECULE" $debug 'converge' --scenario-name "$target"
 }
 
