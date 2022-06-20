@@ -156,6 +156,7 @@ function devap_get_collections() {
 function devap_build_check() {
   [[ -z "$devap_build_command" ]] && devap_build_help && return 1
 
+  BL64_LIB_VERBOSE="$BL64_MSG_VERBOSE_LIB"
   bl64_fs_create_dir \
     "$BL64_LIB_DEFAULT" \
     "$BL64_LIB_DEFAULT" \
