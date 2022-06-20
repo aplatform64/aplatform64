@@ -805,6 +805,7 @@ declare _BL64_XSV_TXT_SOURCE_NOT_FOUND='source file not found'
 #   0: setup ok
 #   >0: setup failed
 #######################################
+# shellcheck disable=SC2120
 function bl64_ans_setup() {
   bl64_dbg_lib_show_function "$@"
   local ansible_bin="${1:-${BL64_LIB_DEFAULT}}"
@@ -2854,6 +2855,7 @@ function bl64_dbg_app_show_vars() {
 # Returns:
 #   0: always ok
 #######################################
+# shellcheck disable=SC2120
 function bl64_dbg_lib_show_function() {
   bl64_dbg_lib_task_enabled || return 0
 
@@ -2872,6 +2874,7 @@ function bl64_dbg_lib_show_function() {
 # Returns:
 #   0: always ok
 #######################################
+# shellcheck disable=SC2120
 function bl64_dbg_app_show_function() {
   bl64_dbg_app_task_enabled || return 0
 
@@ -4190,6 +4193,7 @@ function bl64_fmt_separator_line() {
 #   0: setup ok
 #   >0: setup failed
 #######################################
+# shellcheck disable=SC2120
 function bl64_gcp_setup() {
   bl64_dbg_lib_show_function "$@"
   local gcloud_bin="${1:-${BL64_LIB_DEFAULT}}"
@@ -5994,6 +5998,7 @@ function bl64_pkg_run_brew() {
 #   0: setup ok
 #   >0: setup failed
 #######################################
+# shellcheck disable=SC2120
 function bl64_py_setup() {
   bl64_dbg_lib_show_function "$@"
   local venv_path="${1:-${BL64_LIB_DEFAULT}}"
@@ -6363,7 +6368,7 @@ function bl64_py_run_pip() {
     -m "$BL64_PY_SET_MODULE_PIP" \
     $debug \
     $cache \
-    "$@"
+    "$*"
 }
 
 #######################################
@@ -7782,6 +7787,13 @@ export AP64_NODE_PASSWORD
 
 # Set verbosity level
 export BL64_LIB_VERBOSE="$BL64_MSG_VERBOSE_LIB"
+
+#
+# Loaded from site.env after the site is installed
+#
+
+export ANSIBLE_PLAYBOOK_DIR
+export ANSIBLE_INVENTORY
 readonly AP64_COLLECTIONS=" serdigital64.application serdigital64.automation serdigital64.backup serdigital64.cloud serdigital64.container serdigital64.database serdigital64.development serdigital64.devops serdigital64.hardware serdigital64.hypervisor serdigital64.infrastructure serdigital64.monitor serdigital64.network serdigital64.security serdigital64.storage serdigital64.system serdigital64.web"
 function ap64_site_install() {
   bl64_dbg_app_show_function "$@"
@@ -7836,6 +7848,7 @@ function ap64_site_bootstrap() {
     return $?
 
   bl64_msg_show_task 'install A:Platform64 Ansible collections'
+  # shellcheck disable=SC2086
   if [[ ! -f "${BL64_ANS_PATH_USR_COLLECTIONS}/${playbook}" ]]; then
     bl64_ans_collections_install $AP64_COLLECTIONS ||
       return $?
@@ -8020,6 +8033,7 @@ function ap64_play_run() {
   fi
 
   bl64_dbg_app_show_info 'run playbook'
+  # shellcheck disable=SC2086
   bl64_ans_run_ansible_playbook \
     $host \
     -i "$inventory" \
@@ -8135,7 +8149,7 @@ function ap64_setup_globals() {
 }
 
 function ap64_check_requirements() {
-  bl64_dbg_app_show_function "$@"
+  bl64_dbg_app_show_function
 
   [[ -z "$ap64_command" ]] && ap64_help && return 1
 

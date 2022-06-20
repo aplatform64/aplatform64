@@ -25,3 +25,10 @@ export AP64_NODE_PASSWORD
 
 # Set verbosity level
 export BL64_LIB_VERBOSE="$BL64_MSG_VERBOSE_LIB"
+
+#
+# Loaded from site.env after the site is installed
+#
+
+export ANSIBLE_PLAYBOOK_DIR
+export ANSIBLE_INVENTORY

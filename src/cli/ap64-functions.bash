@@ -51,6 +51,7 @@ function ap64_site_bootstrap() {
     return $?
 
   bl64_msg_show_task 'install A:Platform64 Ansible collections'
+  # shellcheck disable=SC2086
   if [[ ! -f "${BL64_ANS_PATH_USR_COLLECTIONS}/${playbook}" ]]; then
     bl64_ans_collections_install $AP64_COLLECTIONS ||
       return $?
@@ -235,6 +236,7 @@ function ap64_play_run() {
   fi
 
   bl64_dbg_app_show_info 'run playbook'
+  # shellcheck disable=SC2086
   bl64_ans_run_ansible_playbook \
     $host \
     -i "$inventory" \
@@ -350,7 +352,7 @@ function ap64_setup_globals() {
 }
 
 function ap64_check_requirements() {
-  bl64_dbg_app_show_function "$@"
+  bl64_dbg_app_show_function
 
   [[ -z "$ap64_command" ]] && ap64_help && return 1
 
