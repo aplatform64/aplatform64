@@ -19,16 +19,11 @@ declare AP64_PATH_VENV=''
 declare AP64_PATH_VENV_CACHE=''
 declare AP64_PATH_VENV_TMP=''
 
+# A:Platform64 files
+declare AP64_FILE_ANSIBLE_CONTROL='ansible_control.env'
+declare AP64_FILE_ANSIBLE_INVENTORY='aplatform64_service.ini'
+declare AP64_FILE_CATALOG='catalog.csv'
+
 # A:Platform64 node bootstrap SSH credentials
 export AP64_NODE_USER
 export AP64_NODE_PASSWORD
-
-# Set verbosity level
-export BL64_LIB_VERBOSE="$BL64_MSG_VERBOSE_LIB"
-
-#
-# Loaded from site.env after the site is installed
-#
-
-export ANSIBLE_PLAYBOOK_DIR
-export ANSIBLE_INVENTORY
