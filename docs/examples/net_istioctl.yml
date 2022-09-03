@@ -6,9 +6,9 @@
   tasks:
     - name: "Example: Install IstioCtl"
       vars:
-        net_istio:
+        net_istioctl:
           resolve_prereq: true
           deploy: true
       ansible.builtin.include_role:
-        name: "serdigital64.network.net_istio"
+        name: "serdigital64.network.net_istioctl"
 ...
