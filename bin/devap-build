@@ -5,7 +5,6 @@
 # Author: serdigital64 (https://github.com/serdigital64)
 # License: GPL-3.0-or-later (https://www.gnu.org/licenses/gpl-3.0.txt)
 # Repository: https://github.com/serdigital64/aplatform64
-# Version: 1.4.1
 #######################################
 
 # shellcheck source=SCRIPTDIR/devap-set
@@ -153,27 +152,34 @@ function devap_get_collections() {
   echo *
 }
 
-function devap_build_check() {
-  [[ -z "$devap_build_command" ]] && devap_build_help && return 1
+function devap_build_initialize() {
+  local debug="$1"
+  local verbose="$2"
+  local command="$3"
 
-  BL64_LIB_VERBOSE="$BL64_MSG_VERBOSE_LIB"
+  [[ -z "$command" ]] && devap_build_help && return 1
+  bl64_dbg_set_level "$debug" &&
+    bl64_msg_set_level "$verbose" ||
+    return $?
+
   bl64_fs_create_dir \
     "$BL64_LIB_DEFAULT" \
     "$BL64_LIB_DEFAULT" \
     "$BL64_LIB_DEFAULT" \
+    "$DEVAP_VAR_ANSIBLE" \
     "$DEVAP_BUILD_DEV" \
     "$DEVAP_BUILD_PROD" \
     "$DEVAP_COLLECTIONS" || return $?
 
-  if [[ "$devap_build_command" != 'devap_build_cli' ]]; then
-    bl64_ans_setup "$DEVAP_PYTHON_VENV_BIN" || return $?
+  if [[ "$command" != 'devap_build_cli' ]]; then
+    bl64_ans_setup "$DEVAP_PYTHON_VENV_BIN" "$ANSIBLE_CONFIG" || return $?
   fi
 }
 
 function devap_build_help() {
 
   bl64_msg_show_usage \
-    '<-r|-i|-t|-p|-uu> [-c collection] [-h]' \
+    '<-r|-i|-t|-p|-uu> [-c collection] [-V Verbose] [-D Debug] [-h]' \
     'Build ansible galaxy packages' \
     '
   -r           : refresh dynamic content
@@ -183,6 +189,8 @@ function devap_build_help() {
   -u           : publish production packages (needs Galaxy token set in DEVAP_SECRET_GALAXY_TOKEN)
     ' '' '
   -c collection: limit actions to the specified collection.
+  -V Verbose   : Set verbosity level. Format: one of BL64_MSG_VERBOSE_*
+  -D Debug     : Enable debugging mode. Format: one of BL64_DBG_TARGET_*
     '
 
 }
@@ -192,13 +200,15 @@ function devap_build_help() {
 #
 
 declare devap_build_status=1
+declare devap_build_debug="$BL64_DBG_TARGET_NONE"
+declare devap_build_verbose="$BL64_MSG_VERBOSE_ALL"
 declare devap_build_command=''
 declare devap_build_command_tag=''
 declare devap_build_option=''
 declare devap_build_collection=''
 
 (($# == 0)) && devap_build_help && exit 1
-while getopts ':ritpuc:h' devap_build_option; do
+while getopts ':ritpuc:V:D:h' devap_build_option; do
   case "$devap_build_option" in
   r)
     devap_build_command='devap_build_refresh'
@@ -221,11 +231,13 @@ while getopts ':ritpuc:h' devap_build_option; do
     devap_build_command_tag='publishing packages'
     ;;
   c) devap_build_collection="$OPTARG" ;;
+  V) devap_build_verbose="$OPTARG" ;;
+  D) devap_build_debug="$OPTARG" ;;
   h) devap_build_help && exit ;;
   *) devap_build_help && exit 1 ;;
   esac
 done
-devap_build_check &&
+devap_build_initialize "$devap_build_debug" "$devap_build_verbose" "$devap_build_command" &&
   cd "$DEVAP_ROOT" ||
   exit 1
 
@@ -233,7 +245,7 @@ bl64_msg_show_batch_start "$devap_build_command_tag"
 case "$devap_build_command" in
 'devap_build_test' | 'devap_build_prod' | 'devap_build_publish' | 'devap_build_refresh') "$devap_build_command" "$devap_build_collection" ;;
 'devap_build_cli') "$devap_build_command" ;;
-*) bl64_check_show_undefined "$devap_build_command" ;;
+*) bl64_check_alert_parameter_invalid "$devap_build_command" ;;
 esac
 devap_build_status=$?
 
