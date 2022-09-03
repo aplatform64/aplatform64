@@ -4,17 +4,11 @@
   gather_facts: true
 
   tasks:
-    - name: "Example: Install OpenJDK v17"
+    - name: "Example: Install OpenJDK"
       vars:
         dev_java:
           resolve_prereq: true
           deploy: true
-        dev_java_application:
-          openjdk_jdk_v1_17:
-            name: "openjdk_jdk_v1_17"
-            type: "distro"
-            version: "latest"
-            installed: true
       ansible.builtin.include_role:
         name: "serdigital64.development.dev_java"
 ...

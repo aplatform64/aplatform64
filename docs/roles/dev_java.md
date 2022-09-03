@@ -8,11 +8,7 @@ Supported features in the current version:
 
 - Deploy language. Packages are defined in the variable `dev_java_profiles`.
 
-Supported JAVA versions:
-
-- OpenJDK v8
-- OpenJDK v11
-- OpenJDK v17
+Supported JAVA versions: distro native OpenJDK
 
 The **dev_java** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [development](https://aplatform64.readthedocs.io/en/latest/collections/development) Ansible-Collection.
 
@@ -59,41 +55,19 @@ dev_java:
 
 ```yaml
 dev_java_application:
-  openjdk_jdk_v1_8:
-    name:
-    type:
-    version:
-    installed:
-  openjdk_jdk_v1_11:
-    name:
-    type:
-    version:
-    installed:
-  openjdk_jdk_v1_17:
-    name:
-    type:
-    version:
-    installed:
+  name:
+  type:
+  version:
+  installed:
 ```
 
-| Parameter                                        | Required? | Type       | Default               | Purpose / Value                    |
-| ------------------------------------------------ | --------- | ---------- | --------------------- | ---------------------------------- |
-| dev_java_application                             | no        | dictionary |                       | Set application package end state  |
-| dev_java_application.openjdk_jdk_v1_8            | no        | dictionary |                       | Set application package end state  |
-| dev_java_application.openjdk_jdk_v1_8.name       | no        | string     | `"openjdk_jdk_v1_8"`  | Select application package name    |
-| dev_java_application.openjdk_jdk_v1_8.type       | no        | string     | `"distro"`            | Select application package type    |
-| dev_java_application.openjdk_jdk_v1_8.version    | no        | string     | `"latest"`            | Select application package version |
-| dev_java_application.openjdk_jdk_v1_8.installed  | no        | boolean    | `false`               | Set application package end state  |
-| dev_java_application.openjdk_jdk_v1_11           | no        | dictionary |                       | Set application package end state  |
-| dev_java_application.openjdk_jdk_v1_11.name      | no        | string     | `"openjdk_jdk_v1_11"` | Select application package name    |
-| dev_java_application.openjdk_jdk_v1_11.type      | no        | string     | `"distro"`            | Select application package type    |
-| dev_java_application.openjdk_jdk_v1_11.version   | no        | string     | `"latest"`            | Select application package version |
-| dev_java_application.openjdk_jdk_v1_11.installed | no        | boolean    | `false`               | Set application package end state  |
-| dev_java_application.openjdk_jdk_v1_17           | no        | dictionary |                       | Set application package end state  |
-| dev_java_application.openjdk_jdk_v1_17.name      | no        | string     | `"openjdk_jdk_v1_17"` | Select application package name    |
-| dev_java_application.openjdk_jdk_v1_17.type      | no        | string     | `"distro"`            | Select application package type    |
-| dev_java_application.openjdk_jdk_v1_17.version   | no        | string     | `"latest"`            | Select application package version |
-| dev_java_application.openjdk_jdk_v1_17.installed | no        | boolean    | `true`                | Set application package end state  |
+| Parameter                      | Required? | Type       | Default         | Purpose / Value                    |
+| ------------------------------ | --------- | ---------- | --------------- | ---------------------------------- |
+| dev_java_application           | no        | dictionary |                 | Set application package end state  |
+| dev_java_application.name      | no        | string     | `"openjdk_jdk"` | Select application package name    |
+| dev_java_application.type      | no        | string     | `"distro"`      | Select application package type    |
+| dev_java_application.version   | no        | string     | `"latest"`      | Select application package version |
+| dev_java_application.installed | no        | boolean    | `false`         | Set application package end state  |
 
 ## Deployment
 
