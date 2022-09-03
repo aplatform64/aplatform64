@@ -71,8 +71,6 @@ nav:
     - license: "contributing/COPYING"
     - changelog: "contributing/CHANGELOG.md"
   - Playbooks:
-    - manage_aplatform64_servers: "playbooks/manage_aplatform64_servers.md"
-    - manage_aplatform64_nodes: "playbooks/manage_aplatform64_nodes.md"
     - manage_cloud_control_nodes: "playbooks/manage_cloud_control_nodes.md"
     - manage_dev_nodes: "playbooks/manage_dev_nodes.md"
     - manage_doc_sites: "playbooks/manage_doc_sites.md"

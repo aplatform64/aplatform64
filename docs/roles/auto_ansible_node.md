@@ -8,6 +8,7 @@ Supported features in the current version:
 
 - Create managed node user.
 - Grant root privilege to managed node user.
+- Provision OpenSSH Key for remote access from managed node.
 
 Notice that first time usage requires a bootstrap process where the role is run using temporary access credentials to perform the initial setup.
 
@@ -41,11 +42,13 @@ ansible-playbook "${ANSIBLE_COLLECTIONS_PATHS}/ansible_collections/serdigital64/
 ```yaml
 auto_ansible_node:
   prepare:
+  provision:
 ```
 
-| Parameter | Required? | Type    | Default | Purpose / Value          |
-| --------- | --------- | ------- | ------- | ------------------------ |
-| prepare   | no        | boolean | false   | Enable preparation tasks |
+| Parameter | Required? | Type    | Default | Purpose / Value           |
+| --------- | --------- | ------- | ------- | ------------------------- |
+| prepare   | no        | boolean | false   | Enable preparation tasks  |
+| provision | no        | boolean | false   | Enable provisioning tasks |
 
 ### End State
 
@@ -59,16 +62,18 @@ auto_ansible_node_owners:
   node:
     user:
     group:
+auto_ansible_node_key_file:
 ```
 
-| Parameter                              | Required?    | Type       | Default                  | Purpose / Value                  |
-| -------------------------------------- | ------------ | ---------- | ------------------------ | -------------------------------- |
-| auto_ansible_node_paths                | yes(prepare) | dictionary |                          | Set paths                        |
-| auto_ansible_node_paths.var            | yes          | string     | `"/var/opt/amnode"`      | Runtime data repository          |
-| auto_ansible_node_owners               | yes(prepare) | dictionary |                          | Define users                     |
-| auto_ansible_node_owners.node          | yes          | dictionary |                          | Define directory structure owner |
-| auto_ansible_node_owners.node.user     | yes          | string     | `"amnode"`               | Set login name                   |
-| auto_ansible_node_owners.node.group    | yes          | string     | `"amnode"`               | Set group name                   |
+| Parameter                           | Required?      | Type       | Default             | Purpose / Value                  |
+| ----------------------------------- | -------------- | ---------- | ------------------- | -------------------------------- |
+| auto_ansible_node_paths             | yes(prepare)   | dictionary |                     | Set paths                        |
+| auto_ansible_node_paths.var         | yes            | string     | `"/var/opt/amnode"` | Runtime data repository          |
+| auto_ansible_node_owners            | yes(prepare)   | dictionary |                     | Define users                     |
+| auto_ansible_node_owners.node       | yes            | dictionary |                     | Define directory structure owner |
+| auto_ansible_node_owners.node.user  | yes            | string     | `"amnode"`          | Set login name                   |
+| auto_ansible_node_owners.node.group | yes            | string     | `"amnode"`          | Set group name                   |
+| auto_ansible_node_key_file          | yes(provision) | string     |                     | Path to the OpenSSH key file     |
 
 ## Deployment
 
@@ -78,7 +83,9 @@ The operating system compatibility list is defined in the variable: `auto_ansibl
 
 ### Dependencies
 
-- Ansible Collections: None
+- Ansible Collections:
+  - ansible.posix
+    - authorized_key
 
 ### Prerequisites
 

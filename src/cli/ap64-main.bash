@@ -3,6 +3,8 @@
 #
 
 declare -i ap64_status=0
+declare ap64_debug="$BL64_DBG_TARGET_NONE"
+declare ap64_verbose="$BL64_MSG_VERBOSE_ALL"
 declare ap64_command=''
 declare ap64_command_tag=''
 
@@ -16,7 +18,7 @@ declare ap64_host='all'
 declare ap64_playbook=''
 
 (($# == 0)) && ap64_help && exit 1
-while getopts ':ilckrjuontf:e:b:d:g:s:p:x:h' Option; do
+while getopts ':ilckrjuontf:e:b:d:g:s:p:x:V:D:h' Option; do
   case "$Option" in
   i)
     ap64_command='ap64_site_install'
@@ -66,13 +68,13 @@ while getopts ':ilckrjuontf:e:b:d:g:s:p:x:h' Option; do
   p) ap64_playbook="$OPTARG" ;;
   e) ap64_collection="$OPTARG" ;;
   f) ap64_package="$OPTARG" ;;
+  V) ap64_verbose="$OPTARG" ;;
+  D) ap64_debug="$OPTARG" ;;
   h) ap64_help && exit ;;
   *) ap64_help && exit 1 ;;
   esac
 done
-
-ap64_check_requirements &&
-  ap64_setup_globals || exit 1
+ap64_check_initialize "$ap64_debug" "$ap64_verbose" "$ap64_command" || exit 1
 
 ap64_switch_user "$ap64_command" "$ap64_user" "$ap64_path_root" "$@" ||
   exit 1

@@ -7,20 +7,26 @@ function ap64_site_install() {
 
   bl64_msg_show_task 'prepare installation environment'
   if [[ ! -d "$root" && ! -d "${var}/home" ]]; then
-    bl64_msg_show_task "create base paths (${root}, ${var})" &&
-      bl64_fs_create_dir \
-        '0755' "$BL64_LIB_DEFAULT" "$BL64_LIB_DEFAULT" \
-        "${root}" "${var}" &&
-      bl64_msg_show_task "create installation owner (${user})" &&
-      bl64_iam_user_add "$user" "${var}/home" &&
-      bl64_rbac_add_root "$user" &&
-      bl64_msg_show_task "normalize path ownership (${var})" &&
-      bl64_fs_set_permissions "$var" "$BL64_LIB_DEFAULT" "$user" &&
-      bl64_msg_show_task "promote A:Platform64 CLI (${BL64_SCRIPT_PATH}/${AP64_CLI} -> ${cli})" &&
-      bl64_fs_copy_files \
-        '0755' "$user" "$BL64_LIB_DEFAULT" \
-        "${root}" \
-        "${BL64_SCRIPT_PATH}/${AP64_CLI}" ||
+    bl64_msg_show_task "create base paths (${root}, ${var})"
+    bl64_fs_create_dir \
+      '0755' "$BL64_LIB_DEFAULT" "$BL64_LIB_DEFAULT" \
+      "${root}" "${var}" ||
+      return $?
+
+    bl64_msg_show_task "create installation owner (${user})"
+    bl64_iam_user_add "$user" "${var}/home" &&
+      bl64_rbac_add_root "$user" ||
+      return $?
+
+    bl64_msg_show_task "normalize path ownership (${var})"
+    bl64_fs_set_permissions "$var" "$BL64_LIB_DEFAULT" "$user" ||
+      return $?
+
+    bl64_msg_show_task "promote A:Platform64 CLI (${BL64_SCRIPT_PATH}/${AP64_CLI} -> ${cli})"
+    bl64_fs_copy_files \
+      '0755' "$user" "$BL64_LIB_DEFAULT" \
+      "${root}" \
+      "${BL64_SCRIPT_PATH}/${AP64_CLI}" ||
       return $?
   else
     bl64_msg_show_info 'environment already prepared'
@@ -47,7 +53,7 @@ function ap64_site_bootstrap() {
     bl64_py_setup "$AP64_PATH_VENV" &&
     bl64_py_pip_usr_prepare &&
     bl64_py_pip_usr_install "$modules" &&
-    bl64_ans_setup ||
+    bl64_ans_setup "$BL64_LIB_DEFAULT" "$BL64_LIB_DEFAULT" "$BL64_LIB_VAR_OFF" ||
     return $?
 
   bl64_msg_show_task 'install A:Platform64 Ansible collections'
@@ -60,8 +66,7 @@ function ap64_site_bootstrap() {
   fi
 
   bl64_msg_show_task 'configure A:Platform64'
-  if [[ ! -f "${root}/bin/site/ansible_control.env" ]]; then
-    BL64_LIB_VERBOSE="$BL64_MSG_VERBOSE_APP"
+  if [[ ! -f "${root}/bin/site/${AP64_FILE_ANSIBLE_CONTROL}" ]]; then
     bl64_ans_run_ansible_playbook \
       --extra-vars "manage_aplatform64_servers_bootstrap='localhost'" \
       --extra-vars "auto_aplatform64_paths_control_root='${root}'" \
@@ -120,7 +125,7 @@ function ap64_play_list() {
   local catalog=''
 
   ap64_load_site "$site" || return $?
-  catalog="${ANSIBLE_PLAYBOOK_DIR}/catalog.csv"
+  catalog="${ANSIBLE_PLAYBOOK_DIR}/${AP64_FILE_CATALOG}"
   bl64_check_file "$catalog" || return $?
 
   bl64_txt_run_awk \
@@ -157,11 +162,20 @@ function ap64_node_add() {
     bl64_msg_show_error 'invalid host name (all). Please use the -x Host parameter to specify a valid one' &&
     return 1
 
+  bl64_dbg_app_custom_1_enabled && ANSIBLE_CONFIG="$ANSIBLE_CONFIG_DEBUG"
   bl64_ans_run_ansible_playbook \
-    -i "${AP64_PATH_INVENTORY}/aplatform64_service.ini" \
+    -i "${AP64_PATH_INVENTORY}/${AP64_FILE_ANSIBLE_INVENTORY}" \
+    --extra-vars "manage_aplatform64_nodes_phase='1'" \
     --extra-vars "auto_aplatform64_bootstrap_node_fqdn='${node}'" \
+    "${ANSIBLE_PLAYBOOK_DIR}/manage_aplatform64_nodes.yml" ||
+    return $?
+
+  bl64_ans_run_ansible_playbook \
+    -i "${AP64_PATH_INVENTORY}/${AP64_FILE_ANSIBLE_INVENTORY}" \
+    --extra-vars "manage_aplatform64_nodes_phase='2'" \
     --extra-vars "auto_aplatform64_bootstrap_node_user='${AP64_NODE_USER}'" \
     --extra-vars "auto_aplatform64_bootstrap_node_password='${AP64_NODE_PASSWORD}'" \
+    --limit "$node" \
     "${ANSIBLE_PLAYBOOK_DIR}/manage_aplatform64_nodes.yml"
 }
 
@@ -173,8 +187,9 @@ function ap64_site_refresh() {
     ap64_setup_ansible_cli ||
     return $?
 
+  bl64_dbg_app_custom_1_enabled && ANSIBLE_CONFIG="$ANSIBLE_CONFIG_DEBUG"
   bl64_ans_run_ansible_playbook \
-    -i "${AP64_PATH_INVENTORY}/aplatform64_service.ini" \
+    -i "${AP64_PATH_INVENTORY}/${AP64_FILE_ANSIBLE_INVENTORY}" \
     "${ANSIBLE_PLAYBOOK_DIR}/manage_aplatform64_servers.yml"
 
 }
@@ -188,12 +203,13 @@ function ap64_site_create() {
     ap64_setup_ansible_cli ||
     return $?
 
-  source="${AP64_PATH_ROOT}/bin/${site}/ansible_control.env"
+  source="${AP64_PATH_ROOT}/bin/${site}/${AP64_FILE_ANSIBLE_CONTROL}"
   [[ -f "$source" ]] &&
     bl64_msg_show_error 'site is already created' && return 1
 
+  bl64_dbg_app_custom_1_enabled && ANSIBLE_CONFIG="$ANSIBLE_CONFIG_DEBUG"
   bl64_ans_run_ansible_playbook \
-    -i "${AP64_PATH_INVENTORY}/aplatform64_service.ini" \
+    -i "${AP64_PATH_INVENTORY}/${AP64_FILE_ANSIBLE_INVENTORY}" \
     --extra-vars "auto_aplatform64_site='${site}'" \
     "${ANSIBLE_PLAYBOOK_DIR}/manage_aplatform64_servers.yml"
 
@@ -217,11 +233,14 @@ function ap64_play_run() {
   # shellcheck disable=SC2207
   record=($(bl64_xsv_search_records \
     "$playbook" \
-    "${ANSIBLE_PLAYBOOK_DIR}/catalog.csv" \
+    "${ANSIBLE_PLAYBOOK_DIR}/${AP64_FILE_CATALOG}" \
     '1' \
     '1:2' \
     "$BL64_XSV_FS_COLON" \
-    "$BL64_XSV_FS_TAB"))
+    "$BL64_XSV_FS_TAB")) &&
+    [[ -n ${record[0]} && -n ${record[1]} ]] ||
+    return $?
+
   playbook_path="${ANSIBLE_PLAYBOOK_DIR}/${record[0]}.yml"
   inventory="${AP64_PATH_INVENTORY}/${record[1]}.ini"
 
@@ -236,6 +255,7 @@ function ap64_play_run() {
   fi
 
   bl64_dbg_app_show_info 'run playbook'
+  bl64_dbg_app_custom_1_enabled && ANSIBLE_CONFIG="$ANSIBLE_CONFIG_DEBUG"
   # shellcheck disable=SC2086
   bl64_ans_run_ansible_playbook \
     $host \
@@ -291,7 +311,7 @@ function ap64_load_site() {
     bl64_check_directory "$AP64_PATH_ROOT" 'invalid installation. Verify that A:Platform64 was correctly installed and retry' ||
     return $?
 
-  source="${AP64_PATH_ROOT}/bin/${site}/ansible_control.env" &&
+  source="${AP64_PATH_ROOT}/bin/${site}/${AP64_FILE_ANSIBLE_CONTROL}" &&
     bl64_check_file "$source" 'site definition not found. Create the site and try again' ||
     return $?
 
@@ -339,29 +359,33 @@ function ap64_setup_ansible_cli() {
 
   bl64_py_venv_check "$AP64_PATH_VENV" &&
     bl64_py_setup "$AP64_PATH_VENV" &&
-    bl64_ans_setup
+    bl64_ans_setup "$BL64_LIB_DEFAULT" "$BL64_LIB_DEFAULT" "$BL64_LIB_VAR_OFF"
 }
 
-function ap64_setup_globals() {
+function ap64_check_initialize() {
   bl64_dbg_app_show_function
+  local debug="$1"
+  local verbose="$2"
+  local command="$3"
+
+  [[ -z "$command" ]] && ap64_help && return 1
+  bl64_dbg_set_level "$debug" &&
+    bl64_msg_set_level "$verbose" ||
+    return $?
+
   AP64_PATH_VAR="$(bl64_fmt_dirname "$HOME")"
   AP64_PATH_VENV="${AP64_PATH_VAR}/${AP64_VENV}"
   AP64_PATH_VENV_CACHE="${AP64_PATH_VAR}/pip_cache"
   AP64_PATH_VENV_TMP="${AP64_PATH_VAR}/pip_tmp"
+
   bl64_dbg_app_show_vars 'AP64_PATH_VENV' 'AP64_PATH_VENV_CACHE' 'AP64_PATH_VENV_TMP'
-}
-
-function ap64_check_requirements() {
-  bl64_dbg_app_show_function
-
-  [[ -z "$ap64_command" ]] && ap64_help && return 1
 
   return 0
 }
 
 function ap64_help() {
   bl64_msg_show_usage \
-    '<-i|-j|-c|-o|-r|-u|-l|-n|-t|-k> [-s Site] [-x Host] [-p Playbook] [-e Collection|-f Package] [-b Root] [-d Var] [-g User] [-h]' \
+    '<-i|-j|-c|-o|-r|-u|-l|-n|-t|-k> [-s Site] [-x Host] [-p Playbook] [-e Collection|-f Package] [-b Root] [-d Var] [-g User] [-V Verbose] [-D Debug] [-h]' \
     'A:Platform64 command line interface' '
   -i           : Install A:Platform64
   -j           : Bootstrap A:Platform64
@@ -384,6 +408,8 @@ function ap64_help() {
   -p Playbook  : Name of the playbook to run
   -e Collection: Collection name for the upgrade option (-u). Default: all
   -f Package   : Collection package file (-u). Default: none
+  -V Verbose   : Set verbosity level. Format: one of BL64_MSG_VERBOSE_*
+  -D Debug     : Enable debugging mode. Format: one of BL64_DBG_TARGET_*
   '
 
   return 0

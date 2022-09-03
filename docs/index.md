@@ -236,7 +236,7 @@ Use to create new environments. Each environment is an isolated set of inventori
 /opt/ap64/ap64 -l
 
 # Run example playbook on localhost
-/opt/ap64/ap64 -n 'hello_world'
+/opt/ap64/ap64 -n -p 'hello_world'
 ```
 
 #### Upgrade A:Platform64 Collections
