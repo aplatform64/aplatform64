@@ -47,7 +47,7 @@ function ap64_site_bootstrap() {
     bl64_py_setup "$AP64_PATH_VENV" &&
     bl64_py_pip_usr_prepare &&
     bl64_py_pip_usr_install "$modules" &&
-    bl64_ans_setup ||
+    bl64_ans_setup  "$BL64_LIB_DEFAULT" "$BL64_LIB_DEFAULT" "$BL64_LIB_VAR_OFF" ||
     return $?
 
   bl64_msg_show_task 'install A:Platform64 Ansible collections'
@@ -339,29 +339,33 @@ function ap64_setup_ansible_cli() {
 
   bl64_py_venv_check "$AP64_PATH_VENV" &&
     bl64_py_setup "$AP64_PATH_VENV" &&
-    bl64_ans_setup
+    bl64_ans_setup  "$BL64_LIB_DEFAULT" "$BL64_LIB_DEFAULT" "$BL64_LIB_VAR_OFF"
 }
 
-function ap64_setup_globals() {
+function ap64_check_initialize() {
   bl64_dbg_app_show_function
+  local debug="$1"
+  local verbose="$2"
+  local command="$3"
+
+  [[ -z "$command" ]] && ap64_help && return 1
+  bl64_dbg_set_level "$debug" &&
+    bl64_msg_set_level "$verbose" ||
+    return $?
+
   AP64_PATH_VAR="$(bl64_fmt_dirname "$HOME")"
   AP64_PATH_VENV="${AP64_PATH_VAR}/${AP64_VENV}"
   AP64_PATH_VENV_CACHE="${AP64_PATH_VAR}/pip_cache"
   AP64_PATH_VENV_TMP="${AP64_PATH_VAR}/pip_tmp"
+
   bl64_dbg_app_show_vars 'AP64_PATH_VENV' 'AP64_PATH_VENV_CACHE' 'AP64_PATH_VENV_TMP'
-}
-
-function ap64_check_requirements() {
-  bl64_dbg_app_show_function
-
-  [[ -z "$ap64_command" ]] && ap64_help && return 1
 
   return 0
 }
 
 function ap64_help() {
   bl64_msg_show_usage \
-    '<-i|-j|-c|-o|-r|-u|-l|-n|-t|-k> [-s Site] [-x Host] [-p Playbook] [-e Collection|-f Package] [-b Root] [-d Var] [-g User] [-h]' \
+    '<-i|-j|-c|-o|-r|-u|-l|-n|-t|-k> [-s Site] [-x Host] [-p Playbook] [-e Collection|-f Package] [-b Root] [-d Var] [-g User] [-V Verbose] [-D Debug] [-h]' \
     'A:Platform64 command line interface' '
   -i           : Install A:Platform64
   -j           : Bootstrap A:Platform64
@@ -384,6 +388,8 @@ function ap64_help() {
   -p Playbook  : Name of the playbook to run
   -e Collection: Collection name for the upgrade option (-u). Default: all
   -f Package   : Collection package file (-u). Default: none
+  -V Verbose   : Set verbosity level. Format: one of BL64_MSG_VERBOSE_*
+  -D Debug     : Enable debugging mode. Format: one of BL64_DBG_TARGET_*
   '
 
   return 0
