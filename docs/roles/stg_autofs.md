@@ -123,6 +123,8 @@ The operating system compatibility list is defined in the variable: `stg_autofs_
   - serdigital64.system
     - sys_package
     - sys_repository
+  - serdigital64.storage
+    - stg_nfs_client
 
 ### Prerequisites
 
