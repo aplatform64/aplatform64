@@ -15,10 +15,6 @@ export DEVAP_ROOT
 DEVAP_PYTHON_SYSTEM='/usr/bin/python3.9'
 export DEVAP_PYTHON_SYSTEM
 
-# Python / VENV / APlatform64
-DEVAP_PYTHON_VENV="${HOME}/.venv/aplatform64"
-export DEVAP_PYTHON_VENV
-
 # DevAP64-Build / Kernel settings
 DEVAP_SYSCTL_MAX_USER_INSTANCES='1024'
 export DEVAP_SYSCTL_MAX_USER_INSTANCES
