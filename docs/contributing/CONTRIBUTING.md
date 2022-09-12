@@ -13,6 +13,8 @@
 cd <YOUR_PROJECTS_PATH>
 git clone https://github.com/serdigital64/aplatform64
 cd aplatform64
+# Init git flow
+git flow init
 # Create module repositories as git submodules
 git submodule init
 # Update modules
