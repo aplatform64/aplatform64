@@ -3,7 +3,6 @@
 # Build ansible galaxy packages
 #
 # Author: serdigital64 (https://github.com/serdigital64)
-# License: GPL-3.0-or-later (https://www.gnu.org/licenses/gpl-3.0.txt)
 # Repository: https://github.com/serdigital64/aplatform64
 #######################################
 
@@ -66,21 +65,27 @@ function devap_build_refresh() {
 
   [[ -z "$target" ]] && target="$(devap_get_collections)"
 
-  # Syncrhonize collection vs master
+  bl64_msg_show_task "synchronize root documents"
+  bl64_fs_cp_file "${DEVAP_DOCS}/contributing/CHANGELOG.md" "$DEVAP_ROOT" &&
+    bl64_fs_cp_file "${DEVAP_DOCS}/contributing/LICENSE" "$DEVAP_ROOT" &&
+    bl64_fs_cp_file "${DEVAP_DOCS}/contributing/CODE_OF_CONDUCT.md" "$DEVAP_ROOT" &&
+    bl64_fs_cp_file "${DEVAP_DOCS}/contributing/CONTRIBUTING.md" "$DEVAP_ROOT" || return $?
+
+  bl64_msg_show_task "synchronize collections"
   for collection in $target; do
-    bl64_msg_show_task "refresh license (master -> ${collection})" &&
-      bl64_fs_cp_file "${DEVAP_DOCS}/contributing/COPYING" "$DEVAP_COLLECTIONS/${collection}/COPYING" &&
-      bl64_fs_cp_file "${DEVAP_DOCS}/contributing/CODE_OF_CONDUCT.md" "$DEVAP_COLLECTIONS/${collection}/CODE_OF_CONDUCT.md" || return 1
+    bl64_msg_show_task "refresh license (master -> ${collection})"
+    bl64_fs_cp_file "${DEVAP_DOCS}/contributing/LICENSE" "$DEVAP_COLLECTIONS/${collection}/LICENSE" &&
+      bl64_fs_cp_file "${DEVAP_DOCS}/contributing/CODE_OF_CONDUCT.md" "$DEVAP_COLLECTIONS/${collection}/CODE_OF_CONDUCT.md" || return $?
 
-    bl64_msg_show_task "refresh tool configurations (master -> ${collection})" &&
-      bl64_fs_cp_file "${DEVAP_MOLECULE_MAIN}" "$DEVAP_COLLECTIONS/${collection}" &&
+    bl64_msg_show_task "refresh tool configurations (master -> ${collection})"
+    bl64_fs_cp_file "${DEVAP_MOLECULE_MAIN}" "$DEVAP_COLLECTIONS/${collection}" &&
       bl64_fs_cp_file "${DEVAP_ANSIBLE_LINT}" "$DEVAP_COLLECTIONS/${collection}" &&
-      bl64_fs_cp_file "${YAMLLINT_CONFIG_FILE}" "$DEVAP_COLLECTIONS/${collection}" || return 1
+      bl64_fs_cp_file "${YAMLLINT_CONFIG_FILE}" "$DEVAP_COLLECTIONS/${collection}" || return $?
 
-    bl64_msg_show_task "sync role doc (${collection} -> master)" &&
-      bl64_fs_cp_file "$DEVAP_COLLECTIONS/${collection}/README.md" "${DEVAP_DOCS}/collections/${collection}.md" || return 1
+    bl64_msg_show_task "sync role doc (${collection} -> master)"
+    bl64_fs_cp_file "$DEVAP_COLLECTIONS/${collection}/README.md" "${DEVAP_DOCS}/collections/${collection}.md" || return $?
 
-    # shellcheck disable=SC2164
+    bl64_msg_show_task "synchronize roles"
     for role in $(
       cd "$DEVAP_COLLECTIONS/${collection}/roles"
       echo *
@@ -89,11 +94,11 @@ function devap_build_refresh() {
       [[ -f "$DEVAP_COLLECTIONS/${collection}/playbooks/${role}.yml" ]] &&
         bl64_fs_cp_file "$DEVAP_COLLECTIONS/${collection}/playbooks/${role}.yml" "${DEVAP_DOCS}/examples/${role}.yml"
 
-      bl64_msg_show_task "refresh license (master -> ${role})" &&
-        bl64_fs_cp_file "${DEVAP_DOCS}/contributing/COPYING" "$DEVAP_COLLECTIONS/${collection}/roles/${role}/COPYING" &&
+      bl64_msg_show_task "refresh license (master -> ${role})"
+      bl64_fs_cp_file "${DEVAP_DOCS}/contributing/LICENSE" "$DEVAP_COLLECTIONS/${collection}/roles/${role}/LICENSE" &&
         bl64_fs_cp_file "${DEVAP_DOCS}/contributing/CODE_OF_CONDUCT.md" "$DEVAP_COLLECTIONS/${collection}/roles/${role}/CODE_OF_CONDUCT.md" &&
         bl64_msg_show_task "sync docs (${role} -> master)" &&
-        bl64_fs_cp_file "$DEVAP_COLLECTIONS/${collection}/roles/${role}/README.md" "${DEVAP_DOCS}/roles/${role}.md" || return 1
+        bl64_fs_cp_file "$DEVAP_COLLECTIONS/${collection}/roles/${role}/README.md" "${DEVAP_DOCS}/roles/${role}.md" || return $?
 
     done
 
