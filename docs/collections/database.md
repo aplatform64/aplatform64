@@ -47,4 +47,4 @@ Please see the [guidelines](https://aplatform64.readthedocs.io/en/latest/contrib
 
 ## License
 
-[GPL-3.0-or-later](https://www.gnu.org/licenses/gpl-3.0.txt)
+[Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0.txt)
