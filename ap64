@@ -7,7 +7,7 @@
 # Project Documentation: [https://aplatform64.readthedocs.io](https://aplatform64.readthedocs.io)
 #
 # Author: [SerDigital64](https://serdigital64.github.io/)
-# License: [GPL-3.0-or-later](https://www.gnu.org/licenses/gpl-3.0.txt)
+# License: [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0.txt)
 #######################################
 
 #
