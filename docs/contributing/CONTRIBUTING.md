@@ -6,6 +6,12 @@
   - Install GIT
   - Install Git Flow
   - Install Python
+- Download BashLib64
+
+```shell
+./bin/devap-lib
+```
+
 - Clone GIT repositories
 
 ```shell
@@ -13,6 +19,8 @@
 cd <YOUR_PROJECTS_PATH>
 git clone https://github.com/serdigital64/aplatform64
 cd aplatform64
+# Init git flow
+git flow init
 # Create module repositories as git submodules
 git submodule init
 # Update modules
@@ -50,10 +58,8 @@ pip3 install --upgrade -r requirements-aplatform64.txt
 - The environment is now ready. From now use the following script to load environment variables and set the virtual Python environment:
 
 ```shell
-source bin/devap-set
+source ./bin/devap-set
 ```
-
-- Download the latest version of [BashLib64](https://github.com/serdigital64/bashlib64) to: `lib/`
 
 ## Update source code
 

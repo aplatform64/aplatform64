@@ -6,7 +6,7 @@ site_author: "SerDigital64"
 site_url: "https://aplatform64.readthedocs.io"
 repo_url: "https://github.com/serdigital64/aplatform64"
 
-copyright: "GPL-3.0-or-later"
+copyright: "Apache-2.0"
 docs_dir: "docs/"
 site_dir: "build/site/"
 strict: false
@@ -68,7 +68,7 @@ nav:
   - Contributing:
     - guidelines: "contributing/CONTRIBUTING.md"
     - conduct: "contributing/CODE_OF_CONDUCT.md"
-    - license: "contributing/COPYING"
+    - license: "contributing/LICENSE"
     - changelog: "contributing/CHANGELOG.md"
   - Playbooks:
     - manage_cloud_control_nodes: "playbooks/manage_cloud_control_nodes.md"
