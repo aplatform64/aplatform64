@@ -6,7 +6,7 @@ site_author: "SerDigital64"
 site_url: "https://aplatform64.readthedocs.io"
 repo_url: "https://github.com/serdigital64/aplatform64"
 
-copyright: "GPL-3.0-or-later"
+copyright: "Apache-2.0"
 docs_dir: "docs/"
 site_dir: "build/site/"
 strict: false
