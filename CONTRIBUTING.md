@@ -132,7 +132,6 @@ Use the following code templates from the project [CodeSkel64](https://github.co
 
 - [Collections](https://github.com/serdigital64/codeskel64/tree/main/src/catalog/Ansible/skeletons/collection-aplatform64)
 - [Roles](https://github.com/serdigital64/codeskel64/tree/main/src/catalog/Ansible/skeletons/role-aplatform64-full)
-- [Tests](https://github.com/serdigital64/codeskel64/tree/main/src/catalog/Ansible/skeletons/molecule-aplatform64)
 
 ## Versioning Strategy
 
@@ -158,12 +157,6 @@ Use the following code templates from the project [CodeSkel64](https://github.co
 
 ```shell
 bin/devap-build -t
-```
-
-- Run molecule tests:
-
-```shell
-./bin/devap-test
 ```
 
 ## Documentation
