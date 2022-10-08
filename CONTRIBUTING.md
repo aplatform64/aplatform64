@@ -133,6 +133,21 @@ Use the following code templates from the project [CodeSkel64](https://github.co
 - [Collections](https://github.com/serdigital64/codeskel64/tree/main/src/catalog/Ansible/skeletons/collection-aplatform64)
 - [Roles](https://github.com/serdigital64/codeskel64/tree/main/src/catalog/Ansible/skeletons/role-aplatform64-full)
 
+### Operating System Compatibility
+
+- Roles that are sensitive to the underlying operating system version must add version compatibility check
+- Code must be prepared to minimize OS specific dependencies
+- OS specific dependencies must be encapsulated by either using OS ID keys in yaml dictionary or in stand-alone files
+- Typical places where OS compatibility is found:
+  - `ROLEID/tasks/ROLEID_initialize.yml`
+    - `- name: "ROLEID / Initialize / Check Platform compatibility"`
+    - `- name: "ROLEID / Initialize / Set Platform specific variables"`
+  - `ROLEID/var/main.yml`
+    - `ROLEID_platforms:`
+    - `ROLEID_os_family`
+  - `ROLEID/var/platform-OSNAME.yml`
+  - `auto_aplatform64/templates/roles/*`
+
 ## Versioning Strategy
 
 - [Semantic Versioning 2](https://semver.org/)
