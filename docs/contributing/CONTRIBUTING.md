@@ -139,13 +139,14 @@ Use the following code templates from the project [CodeSkel64](https://github.co
 - Code must be prepared to minimize OS specific dependencies
 - OS specific dependencies must be encapsulated by either using OS ID keys in yaml dictionary or in stand-alone files
 - Typical places where OS compatibility is found:
-  - `tasks/ROLEID_initialize.yml`
+  - `ROLEID/tasks/ROLEID_initialize.yml`
     - `- name: "ROLEID / Initialize / Check Platform compatibility"`
     - `- name: "ROLEID / Initialize / Set Platform specific variables"`
-  - `var/main.yml`
+  - `ROLEID/var/main.yml`
     - `ROLEID_platforms:`
     - `ROLEID_os_family`
-  - `var/platform-OSNAME.yml`
+  - `ROLEID/var/platform-OSNAME.yml`
+  - `auto_aplatform64/templates/roles/*`
 
 ## Versioning Strategy
 

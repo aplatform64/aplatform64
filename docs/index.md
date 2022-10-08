@@ -122,6 +122,7 @@ Each playbook will integrate the roles needed to implement the service along wit
 - Fedora35
 - MacOSX12
 - OracleLinux8
+- OracleLinux9
 - RedHat8
 - RockyLinux8
 - Ubuntu20

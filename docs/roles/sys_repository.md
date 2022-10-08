@@ -24,6 +24,7 @@ Features available in the current version:
   - brew
 - Prepare repository for usage
   - distro: update cache
+- Install package manager specific helpers (declared in the variable `sys_repository_packages.tools`)
 
 Supported repositories types as defined in the variable `sys_repository_flavours`:
 
