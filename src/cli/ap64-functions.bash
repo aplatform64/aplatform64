@@ -237,9 +237,10 @@ function ap64_play_run() {
     '1' \
     '1:2' \
     "$BL64_XSV_FS_COLON" \
-    "$BL64_XSV_FS_TAB")) &&
-    [[ -n ${record[0]} && -n ${record[1]} ]] ||
-    return $?
+    "$BL64_XSV_FS_TAB")) || return $?
+
+  (( ${#record} <= 2 )) && bl64_msg_show_error 'unable to find requested playbook name' && return 1
+  [[ -z ${record[0]} || -z ${record[1]} ]] && bl64_msg_show_error 'unable to find playbook definition' && return 1
 
   playbook_path="${ANSIBLE_PLAYBOOK_DIR}/${record[0]}.yml"
   inventory="${AP64_PATH_INVENTORY}/${record[1]}.ini"

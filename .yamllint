@@ -1,8 +1,7 @@
 ---
 extends: default
 
-ignore: |
-  molecule/
+ignore:
 
 yaml-files:
   - "*.yml"
