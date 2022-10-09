@@ -18,7 +18,6 @@ kinds:
   - meta: "**/meta/main.yml"
 
 exclude_paths:
-  - "molecule/"
 
 # YAML Linting done by Molecular
 skip_list:

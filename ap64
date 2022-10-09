@@ -19,7 +19,7 @@
 #
 # Author: serdigital64 (https://github.com/serdigital64)
 # Repository: https://github.com/serdigital64/bashlib64
-# Version: 7.1.0
+# Version: 7.2.0
 #
 # Copyright 2022 SerDigital64@gmail.com
 #
@@ -590,7 +590,7 @@ export BL64_MDB_REPLICA_TIMEOUT=''
 #######################################
 # BashLib64 / Module / Globals / Display messages
 #
-# Version: 2.2.0
+# Version: 2.3.0
 #######################################
 
 export BL64_MSG_MODULE="$BL64_LIB_VAR_OFF"
@@ -618,6 +618,7 @@ export BL64_MSG_VERBOSE_ALL='ALL'
 export BL64_MSG_TYPE_ERROR='ERROR'
 export BL64_MSG_TYPE_WARNING='WARNING'
 export BL64_MSG_TYPE_INFO='INFO'
+export BL64_MSG_TYPE_INPUT='INPUT'
 export BL64_MSG_TYPE_TASK='TASK'
 export BL64_MSG_TYPE_LIBTASK='LIBTASK'
 export BL64_MSG_TYPE_BATCH='BATCH'
@@ -654,6 +655,7 @@ export BL64_MSG_FORMAT="${BL64_MSG_FORMAT:-$BL64_MSG_FORMAT_FULL}"
 export BL64_MSG_THEME_ASCII_STD_ERROR='(!)'
 export BL64_MSG_THEME_ASCII_STD_WARNING='(*)'
 export BL64_MSG_THEME_ASCII_STD_INFO='(I)'
+export BL64_MSG_THEME_ASCII_STD_INPUT='(?)'
 export BL64_MSG_THEME_ASCII_STD_TASK='(-)'
 export BL64_MSG_THEME_ASCII_STD_LIBTASK='(-)'
 export BL64_MSG_THEME_ASCII_STD_BATCH='(@)'
@@ -666,6 +668,7 @@ export BL64_MSG_THEME_ASCII_STD_FMTTIME=''
 export BL64_MSG_THEME_ANSI_STD_ERROR='5;37;41'
 export BL64_MSG_THEME_ANSI_STD_WARNING='5;37;43'
 export BL64_MSG_THEME_ANSI_STD_INFO='36'
+export BL64_MSG_THEME_ANSI_STD_INPUT='5;30;47'
 export BL64_MSG_THEME_ANSI_STD_TASK='1;37'
 export BL64_MSG_THEME_ANSI_STD_LIBTASK='37'
 export BL64_MSG_THEME_ANSI_STD_BATCH='30;1;47'
@@ -732,6 +735,7 @@ export _BL64_MSG_TXT_FLAGS='Flags'
 export _BL64_MSG_TXT_PARAMETERS='Parameters'
 export _BL64_MSG_TXT_ERROR='Error'
 export _BL64_MSG_TXT_INFO='Info'
+export _BL64_MSG_TXT_INPUT='Input'
 export _BL64_MSG_TXT_TASK='Task'
 export _BL64_MSG_TXT_WARNING='Warning'
 export _BL64_MSG_TXT_BATCH='Process'
@@ -838,7 +842,7 @@ export _BL64_PKG_TXT_REPOSITORY_ADD='add remote package repository'
 #######################################
 # BashLib64 / Module / Globals / Interact with system-wide Python
 #
-# Version: 1.11.0
+# Version: 1.11.1
 #######################################
 
 # Optional module. Not enabled by default
@@ -875,6 +879,7 @@ export BL64_PY_DEF_MODULE_PIP=''
 
 export _BL64_PY_TXT_PIP_PREPARE_PIP='upgrade pip module'
 export _BL64_PY_TXT_PIP_PREPARE_SETUP='install and upgrade setuptools modules'
+export _BL64_PY_TXT_PIP_CLEANUP_PIP='cleanup pip cache'
 export _BL64_PY_TXT_PIP_INSTALL='install modules'
 export _BL64_PY_TXT_VENV_MISSING='requested python virtual environment is missing'
 export _BL64_PY_TXT_VENV_INVALID='requested python virtual environment is invalid (no pyvenv.cfg found)'
@@ -1002,6 +1007,20 @@ export BL64_TXT_SET_GREP_ERE="$BL64_LIB_UNAVAILABLE"
 export BL64_TXT_SET_GREP_INVERT="$BL64_LIB_UNAVAILABLE"
 export BL64_TXT_SET_GREP_NO_CASE="$BL64_LIB_UNAVAILABLE"
 export BL64_TXT_SET_GREP_SHOW_FILE_ONLY="$BL64_LIB_UNAVAILABLE"
+
+#######################################
+# BashLib64 / Module / Globals / User Interface
+#
+# Version: 1.0.0
+#######################################
+
+export BL64_UI_MODULE="$BL64_LIB_VAR_OFF"
+
+export BL64_UI_READ_TIMEOUT='60'
+
+export _BL64_UI_TXT_CONFIRMATION_QUESTION='Please confirm the operation by writting the message'
+export _BL64_UI_TXT_CONFIRMATION_MESSAGE='confirm-operation'
+export _BL64_UI_TXT_CONFIRMATION_ERROR='provided confirmation message is not what is expected'
 
 #######################################
 # BashLib64 / Module / Globals / Manage Version Control System
@@ -2205,7 +2224,7 @@ function bl64_bsh_set_version() {
 #######################################
 # BashLib64 / Module / Functions / Interact with Bash shell
 #
-# Version: 1.1.0
+# Version: 1.1.1
 #######################################
 
 #######################################
@@ -2326,7 +2345,7 @@ function bl64_bsh_script_set_identity() {
 #######################################
 function bl64_bsh_env_export_variable() {
   bl64_dbg_lib_show_function "$@"
-  local variable="${1:-${BL64_LIB_DEFAULT}}"
+  local variable="${1:-${BL64_LIB_VAR_NULL}}"
   local value="${2:-}"
 
   bl64_check_parameter 'variable' ||
@@ -2339,7 +2358,7 @@ function bl64_bsh_env_export_variable() {
 #######################################
 # BashLib64 / Module / Functions / Check for conditions and report status
 #
-# Version: 2.0.0
+# Version: 2.0.1
 #######################################
 
 #######################################
@@ -2755,7 +2774,8 @@ function bl64_check_overwrite() {
 # Raise error: invalid parameter
 #
 # * Use to raise an error when the calling function has verified that the parameter is not valid
-# * This is a generic enough message to capture most validation use cases
+# * This is a generic enough message to capture most validation use cases when there is no specific bl64_check_*
+# * Can be used as the default value (*) for the bash command "case" to capture invalid options
 #
 # Arguments:
 #   $1: parameter name
@@ -2909,7 +2929,7 @@ function bl64_check_user() {
 #######################################
 function bl64_check_status() {
   bl64_dbg_lib_show_function "$@"
-  local -i status="${1:-}"
+  local status="${1:-}"
   local message="${2:-${_BL64_CHECK_TXT_STATUS_ERROR}}"
 
   bl64_check_parameter 'status' || return $?
@@ -2917,7 +2937,7 @@ function bl64_check_status() {
   if [[ "$status" != '0' ]]; then
     bl64_msg_show_error "${message} (status: ${status} ${_BL64_CHECK_TXT_I} ${_BL64_CHECK_TXT_FUNCTION}: ${FUNCNAME[1]:-NONE}@${BASH_LINENO[1]:-NONE})"
     # shellcheck disable=SC2086
-    return $status
+    return "$status"
   else
     return 0
   fi
@@ -4337,7 +4357,7 @@ function bl64_fs_set_alias() {
 #######################################
 # BashLib64 / Module / Functions / Manage local filesystem
 #
-# Version: 2.3.0
+# Version: 2.3.1
 #######################################
 
 #######################################
@@ -4854,7 +4874,8 @@ function bl64_fs_cleanup_caches() {
 #   0: always ok
 #######################################
 function bl64_fs_cleanup_full() {
-  bl64_dbg_lib_show_function "$@"
+  bl64_dbg_lib_show_function
+
   bl64_pkg_cleanup
   bl64_fs_cleanup_tmps
   bl64_fs_cleanup_logs
@@ -6271,7 +6292,7 @@ function bl64_k8s_set_options() {
 #######################################
 # BashLib64 / Module / Functions / Interact with Kubernetes
 #
-# Version: 1.1.0
+# Version: 1.1.1
 #######################################
 
 #######################################
@@ -6291,11 +6312,11 @@ function bl64_k8s_set_options() {
 #######################################
 function bl64_k8s_label_set() {
   bl64_dbg_lib_show_function "$@"
-  local kubeconfig="${1:-${BL64_LIB_DEFAULT}}"
-  local resource="${2:-${BL64_LIB_DEFAULT}}"
-  local name="${3:-${BL64_LIB_DEFAULT}}"
-  local key="${4:-${BL64_LIB_DEFAULT}}"
-  local value="${5:-${BL64_LIB_DEFAULT}}"
+  local kubeconfig="${1:-${BL64_LIB_VAR_NULL}}"
+  local resource="${2:-${BL64_LIB_VAR_NULL}}"
+  local name="${3:-${BL64_LIB_VAR_NULL}}"
+  local key="${4:-${BL64_LIB_VAR_NULL}}"
+  local value="${5:-${BL64_LIB_VAR_NULL}}"
 
   bl64_check_parameter 'resource' &&
     bl64_check_parameter 'name' &&
@@ -6326,8 +6347,8 @@ function bl64_k8s_label_set() {
 #######################################
 function bl64_k8s_namespace_create() {
   bl64_dbg_lib_show_function "$@"
-  local kubeconfig="${1:-${BL64_LIB_DEFAULT}}"
-  local namespace="${2:-${BL64_LIB_DEFAULT}}"
+  local kubeconfig="${1:-${BL64_LIB_VAR_NULL}}"
+  local namespace="${2:-${BL64_LIB_VAR_NULL}}"
 
   bl64_check_parameter 'namespace' ||
     return $?
@@ -6350,9 +6371,9 @@ function bl64_k8s_namespace_create() {
 #######################################
 function bl64_k8s_resource_update() {
   bl64_dbg_lib_show_function "$@"
-  local kubeconfig="${1:-${BL64_LIB_DEFAULT}}"
-  local namespace="${2:-${BL64_LIB_DEFAULT}}"
-  local definition="${3:-${BL64_LIB_DEFAULT}}"
+  local kubeconfig="${1:-${BL64_LIB_VAR_NULL}}"
+  local namespace="${2:-${BL64_LIB_VAR_NULL}}"
+  local definition="${3:-${BL64_LIB_VAR_NULL}}"
 
   bl64_check_parameter 'namespace' &&
     bl64_check_parameter 'definition' &&
@@ -7272,7 +7293,7 @@ function bl64_msg_set_output() {
 #######################################
 # BashLib64 / Module / Functions / Display messages
 #
-# Version: 3.1.0
+# Version: 3.2.0
 #######################################
 
 #######################################
@@ -7304,6 +7325,7 @@ function _bl64_msg_show() {
 }
 
 function _bl64_msg_show_ansi() {
+
   local attribute="${1:-}"
   local type="${2:-}"
   local message="${3:-}"
@@ -7311,36 +7333,38 @@ function _bl64_msg_show_ansi() {
   local style_fmttime="${BL64_MSG_THEME}_FMTTIME"
   local style_fmthost="${BL64_MSG_THEME}_FMTHOST"
   local style_fmtcaller="${BL64_MSG_THEME}_FMTCALLER"
+  local linefeed='\n'
 
   [[ -n "$attribute" && -n "$type" && -n "$message" ]] || return $BL64_LIB_ERROR_PARAMETER_MISSING
   style="${BL64_MSG_THEME}_${attribute}"
+  [[ "$attribute" == "$BL64_MSG_TYPE_INPUT" ]] && linefeed=''
 
   case "$BL64_MSG_FORMAT" in
   "$BL64_MSG_FORMAT_PLAIN")
-    printf "%b: %s\n" \
+    printf "%b: %s${linefeed}" \
       "\e[${!style}m${type}\e[${BL64_MSG_ANSI_CHAR_NORMAL}m" \
       "$message"
     ;;
   "$BL64_MSG_FORMAT_HOST")
-    printf "[%b] %b: %s\n" \
+    printf "[%b] %b: %s${linefeed}" \
       "\e[${!style_fmthost}m${HOSTNAME}\e[${BL64_MSG_ANSI_CHAR_NORMAL}m" \
       "\e[${!style}m${type}\e[${BL64_MSG_ANSI_CHAR_NORMAL}m" \
       "$message"
     ;;
   "$BL64_MSG_FORMAT_TIME")
-    printf "[%b] %b: %s\n" \
+    printf "[%b] %b: %s${linefeed}" \
       "\e[${!style_fmttime}m$(printf '%(%d/%b/%Y-%H:%M:%S-UTC%z)T' '-1')\e[${BL64_MSG_ANSI_CHAR_NORMAL}m" \
       "\e[${!style}m${type}\e[${BL64_MSG_ANSI_CHAR_NORMAL}m" \
       "$message"
     ;;
   "$BL64_MSG_FORMAT_CALLER")
-    printf "[%b] %b: %s\n" \
+    printf "[%b] %b: %s${linefeed}" \
       "\e[${!style_fmtcaller}m${BL64_SCRIPT_ID}\e[${BL64_MSG_ANSI_CHAR_NORMAL}m" \
       "\e[${!style}m${type}\e[${BL64_MSG_ANSI_CHAR_NORMAL}m" \
       "$message"
     ;;
   "$BL64_MSG_FORMAT_FULL")
-    printf "[%b] %b:%b | %b: %s\n" \
+    printf "[%b] %b:%b | %b: %s${linefeed}" \
       "\e[${!style_fmttime}m$(printf '%(%d/%b/%Y-%H:%M:%S-UTC%z)T' '-1')\e[${BL64_MSG_ANSI_CHAR_NORMAL}m" \
       "\e[${!style_fmthost}m${HOSTNAME}\e[${BL64_MSG_ANSI_CHAR_NORMAL}m" \
       "\e[${!style_fmtcaller}m${BL64_SCRIPT_ID}\e[${BL64_MSG_ANSI_CHAR_NORMAL}m" \
@@ -7359,36 +7383,38 @@ function _bl64_msg_show_ascii() {
   local style_fmttime="${BL64_MSG_THEME}_FMTTIME"
   local style_fmthost="${BL64_MSG_THEME}_FMTHOST"
   local style_fmtcaller="${BL64_MSG_THEME}_FMTCALLER"
+  local linefeed='\n'
 
   [[ -n "$attribute" && -n "$type" && -n "$message" ]] || return $BL64_LIB_ERROR_PARAMETER_MISSING
   style="${BL64_MSG_THEME}_${attribute}"
+  [[ "$attribute" == "$BL64_MSG_TYPE_INPUT" ]] && linefeed=''
 
   case "$BL64_MSG_FORMAT" in
   "$BL64_MSG_FORMAT_PLAIN")
-    printf "%s: %s\n" \
+    printf "%s: %s${linefeed}" \
       "${!style} $type" \
       "$message"
     ;;
   "$BL64_MSG_FORMAT_HOST")
-    printf "[%s] %s: %s\n" \
+    printf "[%s] %s: %s${linefeed}" \
       "${HOSTNAME}" \
       "${!style} $type" \
       "$message"
     ;;
   "$BL64_MSG_FORMAT_TIME")
-    printf "[%(%d/%b/%Y-%H:%M:%S-UTC%z)T] %s: %s\n" \
+    printf "[%(%d/%b/%Y-%H:%M:%S-UTC%z)T] %s: %s${linefeed}" \
       '-1' \
       "${!style} $type" \
       "$message"
     ;;
   "$BL64_MSG_FORMAT_CALLER")
-    printf "[%s] %s: %s\n" \
+    printf "[%s] %s: %s${linefeed}" \
       "$BL64_SCRIPT_ID" \
       "${!style} $type" \
       "$message"
     ;;
   "$BL64_MSG_FORMAT_FULL")
-    printf "[%(%d/%b/%Y-%H:%M:%S-UTC%z)T] %s:%s | %s: %s\n" \
+    printf "[%(%d/%b/%Y-%H:%M:%S-UTC%z)T] %s:%s | %s: %s${linefeed}" \
       '-1' \
       "$HOSTNAME" \
       "$BL64_SCRIPT_ID" \
@@ -7416,11 +7442,13 @@ function _bl64_msg_show_ascii() {
 #   >0: printf error
 #######################################
 function bl64_msg_show_usage() {
-  local usage="${1:-${BL64_LIB_DEFAULT}}"
+  local usage="${1:-${BL64_LIB_VAR_NULL}}"
   local description="${2:-${BL64_LIB_DEFAULT}}"
   local commands="${3:-${BL64_LIB_DEFAULT}}"
   local flags="${4:-${BL64_LIB_DEFAULT}}"
   local parameters="${5:-${BL64_LIB_DEFAULT}}"
+
+  bl64_check_parameter 'usage' || return $?
 
   printf '\n%s: %s %s\n\n' "$_BL64_MSG_TXT_USAGE" "$BL64_SCRIPT_ID" "$usage"
 
@@ -7611,6 +7639,26 @@ function bl64_msg_show_batch_finish() {
   else
     _bl64_msg_show "$BL64_MSG_TYPE_BATCHERR" "$_BL64_MSG_TXT_BATCH" "[${message}] ${_BL64_MSG_TXT_BATCH_FINISH_ERROR}: exit-status-${status}"
   fi
+}
+
+#######################################
+# Display user input message
+#
+# * Used exclusively by the io module to show messages for user input from stdin
+#
+# Arguments:
+#   $1: message
+# Outputs:
+#   STDOUT: message
+#   STDERR: None
+# Returns:
+#   0: successfull execution
+#   >0: printf error
+#######################################
+function bl64_msg_show_input() {
+  local message="$1"
+
+  _bl64_msg_show "$BL64_MSG_TYPE_INPUT" "$_BL64_MSG_TXT_INPUT" "$message"
 }
 
 #######################################
@@ -8121,7 +8169,7 @@ function bl64_pkg_set_paths() {
 #######################################
 # BashLib64 / Module / Functions / Manage native OS packages
 #
-# Version: 2.2.0
+# Version: 2.2.1
 #######################################
 
 #######################################
@@ -8140,7 +8188,7 @@ function bl64_pkg_set_paths() {
 #   STDOUT: package manager stderr
 #   STDERR: package manager stderr
 # Returns:
-#   package manager exist status
+#   package manager exit status
 #######################################
 function bl64_pkg_repository_add() {
   bl64_dbg_lib_show_function "$@"
@@ -8205,7 +8253,7 @@ gpgkey=%s\n' \
 #   STDOUT: package manager stderr
 #   STDERR: package manager stderr
 # Returns:
-#   n: package manager exist status
+#   n: package manager exit status
 #######################################
 function bl64_pkg_repository_refresh() {
   bl64_dbg_lib_show_function
@@ -8255,6 +8303,8 @@ function bl64_pkg_repository_refresh() {
 function bl64_pkg_deploy() {
   bl64_dbg_lib_show_function "$@"
 
+  bl64_check_parameters_none $# || return $?
+
   bl64_pkg_prepare &&
     bl64_pkg_install "$@" &&
     bl64_pkg_upgrade &&
@@ -8272,7 +8322,7 @@ function bl64_pkg_deploy() {
 #   STDOUT: package manager stderr
 #   STDERR: package manager stderr
 # Returns:
-#   n: package manager exist status
+#   n: package manager exit status
 #######################################
 function bl64_pkg_prepare() {
   bl64_dbg_lib_show_function
@@ -8295,10 +8345,12 @@ function bl64_pkg_prepare() {
 #   STDOUT: package manager stderr
 #   STDERR: package manager stderr
 # Returns:
-#   n: package manager exist status
+#   n: package manager exit status
 #######################################
 function bl64_pkg_install() {
   bl64_dbg_lib_show_function "$@"
+
+  bl64_check_parameters_none $# || return $?
 
   bl64_msg_show_lib_task "$_BL64_PKG_TXT_INSTALL (${*})"
   # shellcheck disable=SC2086
@@ -8342,7 +8394,7 @@ function bl64_pkg_install() {
 #   STDOUT: package manager stderr
 #   STDERR: package manager stderr
 # Returns:
-#   n: package manager exist status
+#   n: package manager exit status
 #######################################
 # shellcheck disable=SC2120
 function bl64_pkg_upgrade() {
@@ -8390,7 +8442,7 @@ function bl64_pkg_upgrade() {
 #   STDOUT: package manager stderr
 #   STDERR: package manager stderr
 # Returns:
-#   n: package manager exist status
+#   n: package manager exit status
 #######################################
 function bl64_pkg_cleanup() {
   bl64_dbg_lib_show_function
@@ -8819,7 +8871,7 @@ function bl64_py_set_definitions() {
 #######################################
 # BashLib64 / Module / Functions / Interact with system-wide Python
 #
-# Version: 1.10.0
+# Version: 1.11.0
 #######################################
 
 #######################################
@@ -8918,7 +8970,7 @@ function bl64_py_pip_get_version() {
 #   STDOUT: package manager stderr
 #   STDERR: package manager stderr
 # Returns:
-#   n: package manager exist status
+#   n: package manager exit status
 #######################################
 function bl64_py_pip_usr_prepare() {
   bl64_dbg_lib_show_function
@@ -8957,12 +9009,15 @@ function bl64_py_pip_usr_prepare() {
 #   STDOUT: package manager stderr
 #   STDERR: package manager stderr
 # Returns:
-#   n: package manager exist status
+#   n: package manager exit status
 #######################################
 function bl64_py_pip_usr_install() {
   bl64_dbg_lib_show_function "$@"
   local flag_user="$BL64_PY_SET_PIP_USER"
 
+  bl64_check_parameters_none $# || return $?
+
+  # If venv is in use no need to flag usr install
   [[ -n "$VIRTUAL_ENV" ]] && flag_user=' '
 
   bl64_msg_show_lib_task "$_BL64_PY_TXT_PIP_INSTALL ($*)"
@@ -8973,6 +9028,59 @@ function bl64_py_pip_usr_install() {
     $BL64_PY_SET_PIP_NO_WARN_SCRIPT \
     $flag_user \
     "$@"
+}
+
+#######################################
+# Deploy PIP packages
+#
+# * Before installation: prepares the package manager environment and cache
+# * After installation: removes cache and temporary files
+#
+# Arguments:
+#   package list, separated by spaces (expanded with $@)
+# Outputs:
+#   STDOUT: process output
+#   STDERR: process stderr
+# Returns:
+#   n: process exist status
+#######################################
+function bl64_py_pip_usr_deploy() {
+  bl64_dbg_lib_show_function "$@"
+
+  bl64_check_parameters_none $# || return $?
+
+  bl64_py_pip_usr_prepare &&
+    bl64_py_pip_usr_install "$@" ||
+    return $?
+
+  bl64_py_pip_usr_cleanup
+  return 0
+}
+
+#######################################
+# Clean up pip install environment
+#
+# * Empty cache
+# * Ignore errors and warnings
+# * Best effort
+#
+# Arguments:
+#   None
+# Outputs:
+#   STDOUT: package manager stderr
+#   STDERR: package manager stderr
+# Returns:
+#   0: always ok
+#######################################
+function bl64_py_pip_usr_cleanup() {
+  bl64_dbg_lib_show_function
+
+  bl64_msg_show_lib_task "$_BL64_PY_TXT_PIP_CLEANUP_PIP"
+  bl64_py_run_pip \
+    'cache' \
+    'purge'
+
+  return 0
 }
 
 #######################################
@@ -9148,7 +9256,7 @@ function bl64_rbac_set_alias() {
 #######################################
 # BashLib64 / Module / Functions / Manage role based access service
 #
-# Version: 1.10.0
+# Version: 1.10.1
 #######################################
 
 #######################################
@@ -9260,7 +9368,7 @@ function bl64_rbac_check_sudoers() {
 #######################################
 function bl64_rbac_run_command() {
   bl64_dbg_lib_show_function "$@"
-  local user="${1:-${BL64_LIB_DEFAULT}}"
+  local user="${1:-${BL64_LIB_VAR_NULL}}"
   local target=''
 
   bl64_check_parameter 'user' &&
@@ -9300,8 +9408,8 @@ function bl64_rbac_run_command() {
 #######################################
 function bl64_rbac_run_bash_function() {
   bl64_dbg_lib_show_function "$@"
-  local library="${1:-${BL64_LIB_DEFAULT}}"
-  local user="${2:-${BL64_LIB_DEFAULT}}"
+  local library="${1:-${BL64_LIB_VAR_NULL}}"
+  local user="${2:-${BL64_LIB_VAR_NULL}}"
   local target=''
 
   bl64_check_parameter 'library' &&
@@ -10536,6 +10644,70 @@ function bl64_txt_run_cut() {
 }
 
 #######################################
+# BashLib64 / Module / Setup / User Interface
+#
+# Version: 1.0.0
+#######################################
+
+#######################################
+# Setup the bashlib64 module
+#
+# * Warning: bootstrap function
+#
+# Arguments:
+#   None
+# Outputs:
+#   STDOUT: None
+#   STDERR: None
+# Returns:
+#   0: setup ok
+#   >0: setup failed
+#######################################
+function bl64_ui_setup() {
+  bl64_dbg_lib_show_function
+
+  BL64_UI_MODULE="$BL64_LIB_VAR_ON"
+
+}
+
+#######################################
+# BashLib64 / Module / Functions / User Interface
+#
+# Version: 1.0.0
+#######################################
+
+#######################################
+# Ask for confirmation
+#
+# * Use to confirm dangerous operations
+#
+# Arguments:
+#   $1: confirmation question
+#   $2: confirmation value that needs to be match
+# Outputs:
+#   STDOUT: user interaction
+#   STDERR: command stderr
+# Returns:
+#   0: confirmed
+#   >0: not confirmed
+#######################################
+function bl64_ui_ask_confirmation() {
+  local question="${1:-${_BL64_UI_TXT_CONFIRMATION_QUESTION}}"
+  local confirmation="${2:-${_BL64_UI_TXT_CONFIRMATION_MESSAGE}}"
+  local input=''
+
+  bl64_msg_show_input "${question} [${confirmation}]: "
+  read -r -t "$BL64_UI_READ_TIMEOUT" input
+
+  if [[ "$input" != "$confirmation" ]]; then
+    bl64_msg_show_error "$_BL64_UI_TXT_CONFIRMATION_ERROR"
+    return $BL64_LIB_ERROR_PARAMETER_INVALID
+  fi
+
+  return 0
+}
+
+#######################################
 # BashLib64 / Module / Setup / Manage Version Control System
 #
 # Version: 2.0.0
@@ -10901,7 +11073,7 @@ function bl64_xsv_search_records() {
 #######################################
 # BashLib64 / Module / Functions / Setup script run-time environment
 #
-# Version: 3.0.0
+# Version: 3.1.0
 #######################################
 
 #
@@ -10970,6 +11142,7 @@ bl64_dbg_setup &&
   bl64_iam_setup &&
   bl64_pkg_setup &&
   bl64_rbac_setup &&
+  bl64_ui_setup &&
   bl64_vcs_setup &&
   bl64_rxtx_setup ||
   return $?
@@ -11271,9 +11444,10 @@ function ap64_play_run() {
     '1' \
     '1:2' \
     "$BL64_XSV_FS_COLON" \
-    "$BL64_XSV_FS_TAB")) &&
-    [[ -n ${record[0]} && -n ${record[1]} ]] ||
-    return $?
+    "$BL64_XSV_FS_TAB")) || return $?
+
+  (( ${#record} <= 2 )) && bl64_msg_show_error 'unable to find requested playbook name' && return 1
+  [[ -z ${record[0]} || -z ${record[1]} ]] && bl64_msg_show_error 'unable to find playbook definition' && return 1
 
   playbook_path="${ANSIBLE_PLAYBOOK_DIR}/${record[0]}.yml"
   inventory="${AP64_PATH_INVENTORY}/${record[1]}.ini"

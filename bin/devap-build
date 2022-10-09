@@ -78,8 +78,7 @@ function devap_build_refresh() {
       bl64_fs_cp_file "${DEVAP_DOCS}/contributing/CODE_OF_CONDUCT.md" "$DEVAP_COLLECTIONS/${collection}/CODE_OF_CONDUCT.md" || return $?
 
     bl64_msg_show_task "refresh tool configurations (master -> ${collection})"
-    bl64_fs_cp_file "${DEVAP_MOLECULE_MAIN}" "$DEVAP_COLLECTIONS/${collection}" &&
-      bl64_fs_cp_file "${DEVAP_ANSIBLE_LINT}" "$DEVAP_COLLECTIONS/${collection}" &&
+    bl64_fs_cp_file "${DEVAP_ANSIBLE_LINT}" "$DEVAP_COLLECTIONS/${collection}" &&
       bl64_fs_cp_file "${YAMLLINT_CONFIG_FILE}" "$DEVAP_COLLECTIONS/${collection}" || return $?
 
     bl64_msg_show_task "sync role doc (${collection} -> master)"

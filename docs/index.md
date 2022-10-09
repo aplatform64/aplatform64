@@ -122,6 +122,7 @@ Each playbook will integrate the roles needed to implement the service along wit
 - Fedora35
 - MacOSX12
 - OracleLinux8
+- OracleLinux9
 - RedHat8
 - RockyLinux8
 - Ubuntu20
@@ -255,8 +256,8 @@ Use to upgrade collections from Ansible Galaxy
 
 Help on implementing new features and maintaining the code base is welcomed.
 
-- [Guidelines](<[CONTRIBUTING.md](https://aplatform64.readthedocs.io/en/latest/contributing/CONTRIBUTING/)>)
-- [Contributor Covenant Code of Conduct](<[CODE_OF_CONDUCT.md](https://aplatform64.readthedocs.io/en/latest/contributing/CODE_OF_CONDUCT/)>)
+- [Contributing](https://aplatform64.readthedocs.io/en/latest/contributing/CONTRIBUTING/)
+- [Contributor Covenant Code of Conduct](https://aplatform64.readthedocs.io/en/latest/contributing/CODE_OF_CONDUCT/)
 
 ## Author
 

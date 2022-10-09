@@ -80,6 +80,7 @@ nav:
     - manage_hpc_nodes: "playbooks/manage_hpc_nodes.md"
     - manage_jenkins_controllers: "playbooks/manage_jenkins_controllers.md"
     - manage_jenkins_workers: "playbooks/manage_jenkins_workers.md"
+    - manage_libvirt_servers: "playbooks/manage_libvirt_servers.md"
     - manage_linux_workstations: "playbooks/manage_linux_workstations.md"
     - manage_linux_servers: "playbooks/manage_linux_servers.md"
     - manage_office_nodes: "playbooks/manage_office_nodes.md"
