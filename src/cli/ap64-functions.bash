@@ -19,7 +19,7 @@ function ap64_site_install() {
       return $?
 
     bl64_msg_show_task "normalize path ownership (${var})"
-    bl64_fs_set_permissions "$var" "$BL64_LIB_DEFAULT" "$user" ||
+    bl64_fs_set_permissions "$BL64_LIB_DEFAULT" "$user" "$BL64_LIB_DEFAULT" "$var" ||
       return $?
 
     bl64_msg_show_task "promote A:Platform64 CLI (${BL64_SCRIPT_PATH}/${AP64_CLI} -> ${cli})"
