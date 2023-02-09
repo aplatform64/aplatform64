@@ -53,7 +53,7 @@ function ap64_site_bootstrap() {
     bl64_py_setup "$AP64_PATH_VENV" &&
     bl64_py_pip_usr_prepare &&
     bl64_py_pip_usr_install "$modules" &&
-    bl64_ans_setup "$BL64_LIB_DEFAULT" "$BL64_LIB_DEFAULT" "$BL64_LIB_VAR_OFF" ||
+    bl64_ans_setup "$BL64_LIB_DEFAULT" "$BL64_LIB_DEFAULT" "$BL64_VAR_OFF" ||
     return $?
 
   bl64_msg_show_task 'install A:Platform64 Ansible collections'
@@ -360,7 +360,7 @@ function ap64_setup_ansible_cli() {
 
   bl64_py_venv_check "$AP64_PATH_VENV" &&
     bl64_py_setup "$AP64_PATH_VENV" &&
-    bl64_ans_setup "$BL64_LIB_DEFAULT" "$BL64_LIB_DEFAULT" "$BL64_LIB_VAR_OFF"
+    bl64_ans_setup "$BL64_LIB_DEFAULT" "$BL64_LIB_DEFAULT" "$BL64_VAR_OFF"
 }
 
 function ap64_check_initialize() {

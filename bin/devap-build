@@ -122,7 +122,7 @@ function devap_build_cli() {
     '0755' \
     "$BL64_LIB_DEFAULT" \
     "$BL64_LIB_DEFAULT" \
-    "$BL64_LIB_VAR_ON" \
+    "$BL64_VAR_ON" \
     "$DEVAP_BUILD_CLI" \
     "${DEVAP_SRC}/cli/ap64-header.bash" \
     "$DEVAP_BASHLIB64" \
