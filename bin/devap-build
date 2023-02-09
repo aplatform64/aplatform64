@@ -120,8 +120,8 @@ function devap_build_cli() {
   # shellcheck disable=SC2154
   bl64_fs_merge_files \
     '0755' \
-    "$BL64_LIB_DEFAULT" \
-    "$BL64_LIB_DEFAULT" \
+    "$BL64_VAR_DEFAULT" \
+    "$BL64_VAR_DEFAULT" \
     "$BL64_VAR_ON" \
     "$DEVAP_BUILD_CLI" \
     "${DEVAP_SRC}/cli/ap64-header.bash" \
@@ -167,9 +167,9 @@ function devap_build_initialize() {
     return $?
 
   bl64_fs_create_dir \
-    "$BL64_LIB_DEFAULT" \
-    "$BL64_LIB_DEFAULT" \
-    "$BL64_LIB_DEFAULT" \
+    "$BL64_VAR_DEFAULT" \
+    "$BL64_VAR_DEFAULT" \
+    "$BL64_VAR_DEFAULT" \
     "$DEVAP_VAR_ANSIBLE" \
     "$DEVAP_BUILD_DEV" \
     "$DEVAP_BUILD_PROD" \
