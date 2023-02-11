@@ -9,7 +9,7 @@ on:
       - "main"
 
 jobs:
-  lint_bash_testmansh:
+  lint-bash-testmansh:
     runs-on: "ubuntu-latest"
     steps:
 

@@ -9,7 +9,7 @@ on:
       - "main"
 
 jobs:
-  test_batscore_alpine_3:
+  test-batscore-alpine-3:
     runs-on: "ubuntu-latest"
     steps:
 
@@ -24,5 +24,5 @@ jobs:
 
       - name: "Run tests"
         shell: 'script -q -e -c "bash {0}"'
-        run: "./lib/testmansh -b -o -e alpine-3-bash-test:latest"
+        run: "./lib/testmansh -b -o -e bash-test/alpine-3-bash-test:latest"
 ...
