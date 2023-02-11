@@ -3,7 +3,7 @@
 # Set development environment variables
 #
 # * Source this script from the project's root directory
-# * Template Version: v1.1.0
+# * Template Version: v1.2.0
 #
 
 test -f ./.env
@@ -20,6 +20,10 @@ elif test -n "$GITHUB_WORKSPACE"; then
   echo 'Load GitHub environment variables'
   # shellcheck disable=SC2155
   export DEVAP_ROOT="$GITHUB_WORKSPACE"
+fi
+
+if test -z "$DEVAP_ROOT"; then
+  echo "Error: unable to identify current repository location. Check that the variable DEVCS_ROOT is correctly set" && return 1
 fi
 
 if test -f ./.secrets; then

@@ -1,20 +1,15 @@
 #!/usr/bin/env bash
-#######################################
+#
 # Build ansible galaxy packages
 #
-# Author: serdigital64 (https://github.com/serdigital64)
-# Repository: https://github.com/serdigital64/aplatform64
-#######################################
 
 # shellcheck source=SCRIPTDIR/devap-set
-source './bin/devap-set' || {
-  echo 'unable to load dev env'
-  exit 1
-}
+source './bin/devap-set' || exit 1
 
 # shellcheck source-path=SCRIPTDIR/../lib disable=SC2154
 source "$DEVAP_BASHLIB64" || exit 1
 
+# shellcheck disable=SC2317
 function devap_build_publish() {
   local target="$1"
   local collection=''
@@ -33,6 +28,7 @@ function devap_build_publish() {
   done
 }
 
+# shellcheck disable=SC2317
 function devap_build_test() {
   local target="$1"
   local collection=''
@@ -58,6 +54,7 @@ function devap_build_test() {
   done
 }
 
+# shellcheck disable=SC2317
 function devap_build_refresh() {
   local target="$1"
   local collection=''
@@ -106,6 +103,7 @@ function devap_build_refresh() {
   return 0
 }
 
+# shellcheck disable=SC2317
 function devap_build_cli() {
   local target=''
   local name=''
@@ -132,6 +130,7 @@ function devap_build_cli() {
     "${DEVAP_SRC}/cli/ap64-main.bash"
 }
 
+# shellcheck disable=SC2317
 function devap_build_prod() {
   local target="$1"
   local collection=''
