@@ -6,11 +6,6 @@
   - Install GIT
   - Install Git Flow
   - Install Python
-- Download BashLib64
-
-```shell
-./bin/devap-lib
-```
 
 - Clone GIT repositories
 
@@ -31,14 +26,16 @@ git submodule foreach "git checkout main"; git submodule foreach "git checkout d
 git submodule foreach "git flow init"
 ```
 
-- Adjust environment variables to reflect your configuration:
+- Adjust environment variables to match your configuration:
 
-```shell
-# Copy environment definition files from templates:
-cp dot.local .local
-cp dot.secrets .secrets
-# Review and update content for both files
-```
+  - Copy environment definition files from templates:
+
+  ```shell
+  cp dot.local .local
+  cp dot.secrets .secrets
+  ```
+
+  - Review and update content for both files to match your environment
 
 - Create Python Virtual Environment
 
