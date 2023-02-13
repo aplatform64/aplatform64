@@ -1,4 +1,5 @@
 ---
+# Template: 1.1.0
 name: "Test / Bash / TestManSH"
 
 on:
@@ -24,5 +25,5 @@ jobs:
 
       - name: "Run tests"
         shell: 'script -q -e -c "bash {0}"'
-        run: "./lib/testmansh -b -o -e bash-test/alpine-3-bash-test:latest"
+        run: "./lib/testmansh -b -o -e bash-test/oraclelinux-9-bash-test:latest"
 ...
