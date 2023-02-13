@@ -9,7 +9,7 @@ declare ap64_command=''
 declare ap64_command_tag=''
 
 declare ap64_collection='all'
-declare ap64_package="$BL64_LIB_DEFAULT"
+declare ap64_package="$BL64_VAR_DEFAULT"
 declare ap64_path_root='/opt/ap64'
 declare ap64_path_var='/var/opt/ap64'
 declare ap64_user='ap64'
