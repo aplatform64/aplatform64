@@ -9,7 +9,7 @@ function ap64_site_install() {
   if [[ ! -d "$root" && ! -d "${var}/home" ]]; then
     bl64_msg_show_task "create base paths (${root}, ${var})"
     bl64_fs_create_dir \
-      '0755' "$BL64_LIB_DEFAULT" "$BL64_LIB_DEFAULT" \
+      '0755' "$BL64_VAR_DEFAULT" "$BL64_VAR_DEFAULT" \
       "${root}" "${var}" ||
       return $?
 
@@ -19,12 +19,12 @@ function ap64_site_install() {
       return $?
 
     bl64_msg_show_task "normalize path ownership (${var})"
-    bl64_fs_set_permissions "$var" "$BL64_LIB_DEFAULT" "$user" ||
+    bl64_fs_set_permissions "$BL64_VAR_DEFAULT" "$user" "$BL64_VAR_DEFAULT" "$var" ||
       return $?
 
     bl64_msg_show_task "promote A:Platform64 CLI (${BL64_SCRIPT_PATH}/${AP64_CLI} -> ${cli})"
     bl64_fs_copy_files \
-      '0755' "$user" "$BL64_LIB_DEFAULT" \
+      '0755' "$user" "$BL64_VAR_DEFAULT" \
       "${root}" \
       "${BL64_SCRIPT_PATH}/${AP64_CLI}" ||
       return $?
@@ -53,7 +53,7 @@ function ap64_site_bootstrap() {
     bl64_py_setup "$AP64_PATH_VENV" &&
     bl64_py_pip_usr_prepare &&
     bl64_py_pip_usr_install "$modules" &&
-    bl64_ans_setup "$BL64_LIB_DEFAULT" "$BL64_LIB_DEFAULT" "$BL64_LIB_VAR_OFF" ||
+    bl64_ans_setup "$BL64_VAR_DEFAULT" "$BL64_VAR_DEFAULT" "$BL64_VAR_OFF" ||
     return $?
 
   bl64_msg_show_task 'install A:Platform64 Ansible collections'
@@ -90,7 +90,7 @@ function ap64_site_upgrade() {
 
   ap64_setup_ansible_cli || return $?
 
-  if [[ "$package" == "$BL64_LIB_DEFAULT" ]]; then
+  if [[ "$package" == "$BL64_VAR_DEFAULT" ]]; then
     if [[ "$collections" == 'all' ]]; then
       collections="$AP64_COLLECTIONS"
     fi
@@ -125,6 +125,7 @@ function ap64_play_list() {
   local catalog=''
 
   ap64_load_site "$site" || return $?
+  # shellcheck disable=SC2154
   catalog="${ANSIBLE_PLAYBOOK_DIR}/${AP64_FILE_CATALOG}"
   bl64_check_file "$catalog" || return $?
 
@@ -162,6 +163,7 @@ function ap64_node_add() {
     bl64_msg_show_error 'invalid host name (all). Please use the -x Host parameter to specify a valid one' &&
     return 1
 
+  # shellcheck disable=SC2154
   bl64_dbg_app_custom_1_enabled && ANSIBLE_CONFIG="$ANSIBLE_CONFIG_DEBUG"
   bl64_ans_run_ansible_playbook \
     -i "${AP64_PATH_INVENTORY}/${AP64_FILE_ANSIBLE_INVENTORY}" \
@@ -320,6 +322,7 @@ function ap64_load_site() {
   # shellcheck disable=SC1090
   . "$source"
 
+  # shellcheck disable=SC2154
   AP64_PATH_INVENTORY="$(bl64_fmt_dirname "$ANSIBLE_INVENTORY")"
 
 }
@@ -360,7 +363,7 @@ function ap64_setup_ansible_cli() {
 
   bl64_py_venv_check "$AP64_PATH_VENV" &&
     bl64_py_setup "$AP64_PATH_VENV" &&
-    bl64_ans_setup "$BL64_LIB_DEFAULT" "$BL64_LIB_DEFAULT" "$BL64_LIB_VAR_OFF"
+    bl64_ans_setup "$BL64_VAR_DEFAULT" "$BL64_VAR_DEFAULT" "$BL64_VAR_OFF"
 }
 
 function ap64_check_initialize() {

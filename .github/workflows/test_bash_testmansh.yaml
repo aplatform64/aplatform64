@@ -1,20 +1,21 @@
+---
+# Template: 1.1.0
 name: "Test / Bash / TestManSH"
 
 on:
   push:
     branches:
+      - "feature/*"
       - "develop"
+      - "main"
 
 jobs:
-  test_batscore_alpine_3:
+  test-batscore-alpine-3:
     runs-on: "ubuntu-latest"
     steps:
 
       - name: "Check out repository code"
         uses: "actions/checkout@main"
-
-      - name: "Download testmansh"
-        run: "curl -O https://raw.githubusercontent.com/serdigital64/testmansh/main/testmansh"
 
       - name: "Prepare build environment"
         run: "./bin/devap-lib"
@@ -24,4 +25,5 @@ jobs:
 
       - name: "Run tests"
         shell: 'script -q -e -c "bash {0}"'
-        run: "bash testmansh -b -o -e alpine-3-bash-test:latest"
+        run: "./lib/testmansh -b -o -e bash-test/oraclelinux-9-bash-test:latest"
+...

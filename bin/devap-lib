@@ -14,3 +14,8 @@ source ./bin/devap-set || exit 1
 echo 'Download bash library: BashLib64'
 cd "$DEVAP_LIB" &&
   curl -O https://raw.githubusercontent.com/serdigital64/bashlib64/main/bashlib64.bash || exit 1
+
+echo 'Download tools: TestManSH'
+cd "$DEVAP_LIB" &&
+  curl -O https://raw.githubusercontent.com/serdigital64/testmansh/main/testmansh && chmod 755 testmansh ||
+  exit $?
