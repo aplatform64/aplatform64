@@ -125,6 +125,7 @@ function ap64_play_list() {
   local catalog=''
 
   ap64_load_site "$site" || return $?
+  # shellcheck disable=SC2154
   catalog="${ANSIBLE_PLAYBOOK_DIR}/${AP64_FILE_CATALOG}"
   bl64_check_file "$catalog" || return $?
 
@@ -162,6 +163,7 @@ function ap64_node_add() {
     bl64_msg_show_error 'invalid host name (all). Please use the -x Host parameter to specify a valid one' &&
     return 1
 
+  # shellcheck disable=SC2154
   bl64_dbg_app_custom_1_enabled && ANSIBLE_CONFIG="$ANSIBLE_CONFIG_DEBUG"
   bl64_ans_run_ansible_playbook \
     -i "${AP64_PATH_INVENTORY}/${AP64_FILE_ANSIBLE_INVENTORY}" \
@@ -320,6 +322,7 @@ function ap64_load_site() {
   # shellcheck disable=SC1090
   . "$source"
 
+  # shellcheck disable=SC2154
   AP64_PATH_INVENTORY="$(bl64_fmt_dirname "$ANSIBLE_INVENTORY")"
 
 }
