@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+#
+# Assemble modular script
+#
+# * Use to build script from multiple sources (modular)
+# * Template Version: v1.0.1
+#
+
+# shellcheck source=SCRIPTDIR/dev-set
+source ./bin/dev-set || exit 1
+# shellcheck source=SCRIPTDIR/../lib/bashlib64.bash
+source "$DEVAP_CICD_BASHLIB64" || exit 1
+
+# shellcheck disable=SC2154
+bl64_msg_show_text "Build app (${DEVAP_BUILD_NAME})"
+bl64_fs_merge_files \
+  '0755' \
+  "$BL64_VAR_DEFAULT" \
+  "$BL64_VAR_DEFAULT" \
+  "$BL64_VAR_ON" \
+  "$DEVAP_BUILD_FULL_PATH" \
+  "${DEVAP_SRC}/cli/header.bash" \
+  "$DEVAP_CICD_BASHLIB64" \
+  "${DEVAP_SRC}/cli/env.bash" \
+  "${DEVAP_SRC}/cli/functions.bash" \
+  "${DEVAP_SRC}/cli/main.bash"

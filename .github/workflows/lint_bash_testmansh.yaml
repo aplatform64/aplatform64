@@ -1,5 +1,5 @@
 ---
-# Template: 1.1.0
+# Template Version: 2.0.0
 name: "Lint / Bash / TestManSH"
 
 on:
@@ -18,11 +18,9 @@ jobs:
         uses: "actions/checkout@main"
 
       - name: "Prepare build environment"
-        run: "./bin/devap-lib"
-
-      - name: "Build app"
-        run: "./bin/devap-build -i"
+        run: "./bin/dev-lib"
 
       - name: "Run Bash linter"
-        run: "./lib/testmansh -t -c build/ap64"
+        shell: 'script -q -e -c "bash {0}"'
+        run: "./bin/dev-lint"
 ...

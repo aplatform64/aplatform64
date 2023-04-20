@@ -1,0 +1,22 @@
+#!/bin/sh
+#
+# Project development environment / Local variables
+#
+# * this file should be excluded from GIT
+# * source before .env
+#
+
+# Project base location. Adjust to your local GIT repo
+DEVAP_ROOT="${HOME}/gitfork/aplatform64"
+export DEVAP_ROOT
+
+# Python / OS provided python
+DEVAP_PYTHON_SYSTEM='/usr/bin/python3.9'
+export DEVAP_PYTHON_SYSTEM
+
+# DevAP64-Build / Kernel settings
+DEVAP_SYSCTL_MAX_USER_INSTANCES='1024'
+export DEVAP_SYSCTL_MAX_USER_INSTANCES
+
+PATH="${HOME}/.local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+export PATH
