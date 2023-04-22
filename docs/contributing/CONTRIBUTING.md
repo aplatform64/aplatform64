@@ -9,7 +9,7 @@
 - Download BashLib64
 
 ```shell
-./bin/devap-lib
+./bin/dev-lib
 ```
 
 - Clone GIT repositories
@@ -46,7 +46,7 @@ cp dot.secrets .secrets
 source .local
 source .env
 python3 -m venv "$DEVAP_PYTHON_VENV"
-source ./bin/devap-set
+source ./bin/dev-set
 ```
 
 - Install Python dev modules
@@ -58,7 +58,7 @@ pip3 install --upgrade -r requirements-aplatform64.txt
 - The environment is now ready. From now use the following script to load environment variables and set the virtual Python environment:
 
 ```shell
-source ./bin/devap-set
+source ./bin/dev-set
 ```
 
 ## Update source code
@@ -171,7 +171,7 @@ Use the following code templates from the project [CodeSkel64](https://github.co
 - Build Collection packages:
 
 ```shell
-bin/devap-build -t
+bin/dev-build -t
 ```
 
 ## Documentation

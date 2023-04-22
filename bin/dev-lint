@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+#
+# Lint shell source code
+#
+# * Use to lint shell source code
+# * Check is done using shellcheck
+# * TestManSH is used to manage linting environment
+# * Template Version: v1.0.0
+#
+
+# shellcheck source=SCRIPTDIR/dev-set
+source ./bin/dev-set || exit 1
+
+# DeleteMe # Build and Lint distributable. Remove if not needed
+"$DEVAP_CICD_BUILD" &&
+  "$DEVAP_CICD_TESTMANSH" -t -o -c "${DEVAP_NAME_BUILD}/${DEVAP_BUILD_NAME}"
+
+# DeleteMe # Lint source. Remove if not needed
+# "$DEVAP_CICD_TESTMANSH" -t -o -c "$DEVAP_NAME_SRC"
