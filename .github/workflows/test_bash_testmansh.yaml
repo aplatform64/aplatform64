@@ -1,5 +1,5 @@
 ---
-# Template: 1.1.0
+# Template Version: 2.0.0
 name: "Test / Bash / TestManSH"
 
 on:
@@ -10,7 +10,7 @@ on:
       - "main"
 
 jobs:
-  test-batscore-alpine-3:
+  test-batscore:
     runs-on: "ubuntu-latest"
     steps:
 
@@ -18,12 +18,9 @@ jobs:
         uses: "actions/checkout@main"
 
       - name: "Prepare build environment"
-        run: "./bin/devap-lib"
-
-      - name: "Build app"
-        run: "./bin/devap-build -i"
+        run: "./bin/dev-lib"
 
       - name: "Run tests"
         shell: 'script -q -e -c "bash {0}"'
-        run: "./lib/testmansh -b -o -e bash-test/oraclelinux-9-bash-test:latest"
+        run: "./bin/dev-test"
 ...
