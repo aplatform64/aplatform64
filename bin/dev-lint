@@ -12,8 +12,5 @@
 source ./bin/dev-set || exit 1
 
 # DeleteMe # Build and Lint distributable. Remove if not needed
-"$DEVAP_CICD_BUILD" &&
+"$DEVAP_CICD_BUILD" -i &&
   "$DEVAP_CICD_TESTMANSH" -t -o -c "${DEVAP_NAME_BUILD}/${DEVAP_BUILD_NAME}"
-
-# DeleteMe # Lint source. Remove if not needed
-# "$DEVAP_CICD_TESTMANSH" -t -o -c "$DEVAP_NAME_SRC"

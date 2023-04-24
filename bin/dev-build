@@ -4,7 +4,7 @@
 #
 
 # shellcheck source=SCRIPTDIR/devap-set
-source './bin/devap-set' || exit 1
+source './bin/dev-set' || exit 1
 
 # shellcheck source-path=SCRIPTDIR/../lib disable=SC2154
 source "$DEVAP_CICD_BASHLIB64" || exit 1
