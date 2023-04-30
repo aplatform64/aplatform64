@@ -13580,6 +13580,7 @@ declare AP64_FILE_CATALOG='catalog.csv'
 # A:Platform64 node bootstrap SSH credentials
 export AP64_NODE_USER
 export AP64_NODE_PASSWORD
+readonly AP64_COLLECTIONS=" serdigital64.application serdigital64.automation serdigital64.backup serdigital64.cloud serdigital64.container serdigital64.database serdigital64.development serdigital64.devops serdigital64.hardware serdigital64.hypervisor serdigital64.infrastructure serdigital64.monitor serdigital64.network serdigital64.security serdigital64.storage serdigital64.system serdigital64.web"
 function ap64_site_install() {
   bl64_dbg_app_show_function "$@"
   local root="$1"
