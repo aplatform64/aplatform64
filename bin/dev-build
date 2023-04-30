@@ -4,10 +4,10 @@
 #
 
 # shellcheck source=SCRIPTDIR/devap-set
-source './bin/devap-set' || exit 1
+source './bin/dev-set' || exit 1
 
 # shellcheck source-path=SCRIPTDIR/../lib disable=SC2154
-source "$DEVAP_BASHLIB64" || exit 1
+source "$DEVAP_CICD_BASHLIB64" || exit 1
 
 # shellcheck disable=SC2317
 function devap_build_publish() {
@@ -114,20 +114,20 @@ function devap_build_cli() {
   done
   printf 'readonly AP64_COLLECTIONS="%s"\n' "$target" >"$target_file"
 
-  bl64_msg_show_task "build CLI (${DEVAP_BUILD_CLI})"
+  bl64_msg_show_task "build CLI (${DEVAP_BUILD_FULL_PATH})"
   # shellcheck disable=SC2154
   bl64_fs_merge_files \
     '0755' \
     "$BL64_VAR_DEFAULT" \
     "$BL64_VAR_DEFAULT" \
     "$BL64_VAR_ON" \
-    "$DEVAP_BUILD_CLI" \
-    "${DEVAP_SRC}/cli/ap64-header.bash" \
-    "$DEVAP_BASHLIB64" \
-    "${DEVAP_SRC}/cli/ap64-env.bash" \
+    "$DEVAP_BUILD_FULL_PATH" \
+    "${DEVAP_SRC}/cli/header.bash" \
+    "$DEVAP_CICD_BASHLIB64" \
+    "${DEVAP_SRC}/cli/env.bash" \
     "$target_file" \
-    "${DEVAP_SRC}/cli/ap64-functions.bash" \
-    "${DEVAP_SRC}/cli/ap64-main.bash"
+    "${DEVAP_SRC}/cli/functions.bash" \
+    "${DEVAP_SRC}/cli/main.bash"
 }
 
 # shellcheck disable=SC2317
@@ -151,8 +151,8 @@ function devap_build_prod() {
 }
 
 function devap_get_collections() {
-  cd "$DEVAP_COLLECTIONS" || return 1
-  echo *
+  cd "$DEVAP_COLLECTIONS" &&
+    echo *
 }
 
 function devap_build_initialize() {

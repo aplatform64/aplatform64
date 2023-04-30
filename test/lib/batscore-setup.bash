@@ -18,3 +18,4 @@ set +o 'nounset'
 
 # (Optional) Add shared settings. Available to all test-cases using this setup routine
 export DEVAP_TESTMANSH_TARGET="${TESTMANSH_PROJECT_BUILD}/ap64"
+

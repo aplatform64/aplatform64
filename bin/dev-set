@@ -3,81 +3,86 @@
 # Set development environment variables
 #
 # * Source this script from the project's root directory
-# * Template Version: v2.0.0
+# * Template Version: v3.0.0
 #
 
 #
 # Functions
 #
 
+function dev_set_error() {
+  local msg="$1"
+  echo "Error: ${msg}"
+  return 0
+}
+
+function dev_set_message() {
+  local msg="$1"
+  [[ "$_DEV_SET_VERBOSE" == 'verbose' ]] && echo "$msg"
+  return 0
+}
+
 function dev_set_load_local() {
   local dot_local='.local'
   local dot_secrets='.secrets'
 
-  echo "Load local environment variables ($(pwd)/${dot_local})"
+  dev_set_message "Load local environment variables ($(pwd)/${dot_local})"
   # shellcheck source=SCRIPTDIR/../.local
   source "$dot_local" ||
     {
-      echo "Error: unable to source file"
+      dev_set_error "unable to source file (${dot_local})"
       return 1
     }
   dot_secrets="${DEVAP_ROOT}/${dot_secrets}"
   if [[ -f "$dot_secrets" ]]; then
-    echo "Load local secrets (${dot_secrets})"
+    dev_set_message "Load local secrets (${dot_secrets})"
     # shellcheck source=SCRIPTDIR/../.secrets
     source "${dot_secrets}" ||
       {
-        echo "Error: unable to source file"
+        dev_set_error "unable to source file (${dot_secrets})"
         return 1
       }
   fi
 }
 
 function dev_set_load_github() {
-  echo "GitHub detected, setting project root (${GITHUB_WORKSPACE})"
+  dev_set_message "GitHub detected, setting project root (${GITHUB_WORKSPACE})"
   # shellcheck disable=SC2155
   export DEVAP_ROOT="$GITHUB_WORKSPACE"
 }
 
 function dev_set_load_testmansh() {
-  echo "Testmansh container detected, setting project root (${TESTMANSH_PROJECT_ROOT})"
+  dev_set_message "Testmansh container detected, setting project root (${TESTMANSH_PROJECT_ROOT})"
   export DEVAP_ROOT="$TESTMANSH_PROJECT_ROOT"
 }
 
 function dev_set_load_exported() {
-  echo 'Read DEVAP_ROOT variable from exported shell environment'
+  dev_set_message 'Read DEVAP_ROOT variable from exported shell environment'
 }
 
 function dev_set_check_root() {
   if [[ -z "$DEVAP_ROOT" ]]; then
-    echo "Error: unable to identify current repository location. Check that the variable DEVAP_ROOT is correctly set" &&
+    dev_set_error 'unable to identify current repository location. Check that the variable DEVAP_ROOT is correctly set' &&
       return 1
   fi
 }
 
 function dev_set_load_env() {
   local dot_env="${DEVAP_ROOT}/.env"
-  echo "Load project environment variables (${dot_env})"
+  dev_set_message "Load project environment variables (${dot_env})"
   # shellcheck source=SCRIPTDIR/../.env
   source "$dot_env" ||
     {
-      echo "Error: unable to read environment variables"
+      dev_set_error "unable to read environment variables (${dot_env})"
       return 1
     }
-}
-
-function dev_set_load_python() {
-  local python_activate="$DEVAP_PYTHON_VENV/bin/activate"
-  # shellcheck disable=SC1091
-  if [[ -f "$python_activate" ]]; then
-    echo "Load Python VEnv (${python_activate})"
-    source "$python_activate"
-  fi
 }
 
 #
 # Main
 #
+
+declare _DEV_SET_VERBOSE="${1:-no}"
 
 # shellcheck disable=SC2154
 if [[ -f ./.local ]]; then
@@ -90,9 +95,8 @@ else
   dev_set_load_exported
 fi
 
+# shellcheck disable=SC2015
 dev_set_check_root &&
   dev_set_load_env &&
-  dev_set_load_python ||
-  return $?
-
-echo 'Dev environment variables loading completed OK'
+  dev_set_message 'Dev environment variables loading completed OK' ||
+  { dev_set_error 'Failed to load Dev environment variables'; return 1; }

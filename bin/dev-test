@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+#
+# Run test-cases
+#
+# * Test cases are done using bats-core
+# * TestManSH is used to manage test environment
+# * Tests are located in the default path "test/batscore"
+# * Template Version: v1.0.0
+#
+
+# shellcheck source=SCRIPTDIR/dev-set
+source ./bin/dev-set || exit 1
+
+# DeleteMe # Build and test distributable. Remove if not needed
+"$DEVAP_CICD_BUILD" -i &&
+  "$DEVAP_CICD_TESTMANSH" -b -o -e "$DEVAP_TEST_CONTAINER"
