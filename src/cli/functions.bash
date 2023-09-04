@@ -366,7 +366,7 @@ function ap64_setup_ansible_cli() {
     bl64_ans_setup "$BL64_VAR_DEFAULT" "$BL64_VAR_DEFAULT" "$BL64_VAR_OFF"
 }
 
-function ap64_check_initialize() {
+function ap64_initialize() {
   bl64_dbg_app_show_function
   local command="$1"
 
