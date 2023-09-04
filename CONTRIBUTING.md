@@ -33,7 +33,7 @@ cp dot.secrets .secrets
 ```shell
 source .local
 source .env
-python3 -m venv "$DEVAP_PYTHON_VENV"
+python3 -m venv "$DEV_PYTHON_VENV"
 source ./bin/dev-set
 ```
 
@@ -150,9 +150,9 @@ Use the following code templates from the project [CodeSkel64](https://github.co
 
 ## Linting
 
-- Global Ansible Lint definition: `$DEVAP_ROOT/.ansible-lint`
-- Global YAML Lint definition: `$DEVAP_ROOT/.yamllint`
-- Global ShellCheck Lint definition: `$DEVAP_ROOT/.shellcheckrc`
+- Global Ansible Lint definition: `$DEV_ROOT/.ansible-lint`
+- Global YAML Lint definition: `$DEV_ROOT/.yamllint`
+- Global ShellCheck Lint definition: `$DEV_ROOT/.shellcheckrc`
 
 ## Test source code
 

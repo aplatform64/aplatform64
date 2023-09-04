@@ -1,10 +1,31 @@
 #!/usr/bin/env bash
-#
+#######################################
 # Set development environment variables
 #
 # * Source this script from the project's root directory
-# * Template Version: v3.0.0
+# * Template Version: 7.0.0
 #
+#######################################
+# Copyright [2023] [serdigital64@gmail.com]
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#######################################
+
+#
+# Globals
+#
+
+export DEV_SET_VERBOSE="${DEV_SET_VERBOSE:-verbose}"
 
 #
 # Functions
@@ -12,13 +33,13 @@
 
 function dev_set_error() {
   local msg="$1"
-  echo "Error: ${msg}"
+  echo "dev-set:Error: ${msg}"
   return 0
 }
 
 function dev_set_message() {
   local msg="$1"
-  [[ "$_DEV_SET_VERBOSE" == 'verbose' ]] && echo "$msg"
+  [[ "$DEV_SET_VERBOSE" == 'verbose' ]] && echo "dev-set: ${msg}"
   return 0
 }
 
@@ -33,7 +54,7 @@ function dev_set_load_local() {
       dev_set_error "unable to source file (${dot_local})"
       return 1
     }
-  dot_secrets="${DEVAP_ROOT}/${dot_secrets}"
+  dot_secrets="${DEV_ROOT}/${dot_secrets}"
   if [[ -f "$dot_secrets" ]]; then
     dev_set_message "Load local secrets (${dot_secrets})"
     # shellcheck source=SCRIPTDIR/../.secrets
@@ -45,30 +66,49 @@ function dev_set_load_local() {
   fi
 }
 
+function dev_set_load_gitlab() {
+  dev_set_message "GitLab detected, setting project root (${CI_PROJECT_DIR})"
+  # shellcheck disable=SC2155
+  export DEV_ROOT="$CI_PROJECT_DIR"
+}
+
 function dev_set_load_github() {
+  local dot_local='.local-github'
+
   dev_set_message "GitHub detected, setting project root (${GITHUB_WORKSPACE})"
   # shellcheck disable=SC2155
-  export DEVAP_ROOT="$GITHUB_WORKSPACE"
+  export DEV_ROOT="$GITHUB_WORKSPACE"
+
+  dot_local="${DEV_ROOT}/${dot_local}"
+  if [[ -f "$dot_local" ]]; then
+    dev_set_message "Load local github automatic environment variables (${dot_local})"
+    # shellcheck source=SCRIPTDIR/../.local-github
+    source "${dot_local}" ||
+      {
+        dev_set_error "unable to source file (${dot_local})"
+        return 1
+      }
+  fi
 }
 
 function dev_set_load_testmansh() {
   dev_set_message "Testmansh container detected, setting project root (${TESTMANSH_PROJECT_ROOT})"
-  export DEVAP_ROOT="$TESTMANSH_PROJECT_ROOT"
+  export DEV_ROOT="$TESTMANSH_PROJECT_ROOT"
 }
 
 function dev_set_load_exported() {
-  dev_set_message 'Read DEVAP_ROOT variable from exported shell environment'
+  dev_set_message 'Read DEV_ROOT variable from exported shell environment'
 }
 
 function dev_set_check_root() {
-  if [[ -z "$DEVAP_ROOT" ]]; then
-    dev_set_error 'unable to identify current repository location. Check that the variable DEVAP_ROOT is correctly set' &&
+  if [[ -z "$DEV_ROOT" ]]; then
+    dev_set_error 'unable to identify current repository location. Check that the variable DEV_ROOT is correctly set' &&
       return 1
   fi
 }
 
 function dev_set_load_env() {
-  local dot_env="${DEVAP_ROOT}/.env"
+  local dot_env="${DEV_ROOT}/.env"
   dev_set_message "Load project environment variables (${dot_env})"
   # shellcheck source=SCRIPTDIR/../.env
   source "$dot_env" ||
@@ -82,13 +122,13 @@ function dev_set_load_env() {
 # Main
 #
 
-declare _DEV_SET_VERBOSE="${1:-no}"
-
 # shellcheck disable=SC2154
 if [[ -f ./.local ]]; then
   dev_set_load_local
 elif [[ -n "$GITHUB_WORKSPACE" ]]; then
   dev_set_load_github
+elif [[ -n "$GITLAB_CI" ]]; then
+  dev_set_load_gitlab
 elif [[ -n "$TESTMANSH_PROJECT_ROOT" ]]; then
   dev_set_load_testmansh
 else

@@ -8,16 +8,16 @@
 #
 
 # Project base location. Adjust to your local GIT repo
-DEVAP_ROOT="${HOME}/github/aplatform64"
-export DEVAP_ROOT
+DEV_ROOT="$(pwd)"
+export DEV_ROOT
 
 # Python / OS provided python
-DEVAP_PYTHON_SYSTEM='/usr/bin/python3.9'
-export DEVAP_PYTHON_SYSTEM
+DEV_PYTHON_SYSTEM='/usr/bin/python3.9'
+export DEV_PYTHON_SYSTEM
 
 # DevAP64-Build / Kernel settings
-DEVAP_SYSCTL_MAX_USER_INSTANCES='1024'
-export DEVAP_SYSCTL_MAX_USER_INSTANCES
+DEV_SYSCTL_MAX_USER_INSTANCES='1024'
+export DEV_SYSCTL_MAX_USER_INSTANCES
 
 PATH="${HOME}/.local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 export PATH
