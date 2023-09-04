@@ -116,18 +116,13 @@ Each playbook will integrate the roles needed to implement the service along wit
 
 - AlmaLinux8
 - CentOS8
-- Debian10
-- Debian11
-- Fedora33
-- Fedora35
+- Debian10, Debian11
+- Fedora33, Fedora35
 - MacOSX12
-- OracleLinux8
-- OracleLinux9
+- OracleLinux8, OracleLinux9
 - RedHat8
 - RockyLinux8
-- Ubuntu20
-- Ubuntu21
-- Ubuntu22
+- Ubuntu20, Ubuntu21, Ubuntu22
 
 Notice that roles have their own compatibility matrix. Refer to the respective documentation for further details.
 
