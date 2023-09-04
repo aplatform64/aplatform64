@@ -74,6 +74,8 @@ while getopts ':ilckrjuontf:e:b:d:g:s:p:x:V:D:h' Option; do
   *) ap64_help && exit 1 ;;
   esac
 done
+bl64_dbg_set_level "$ap64_debug" && bl64_msg_set_level "$ap64_verbose" || exit $?
+ap64_initialize "$ap64_command" || exit $?
 ap64_check_initialize "$ap64_debug" "$ap64_verbose" "$ap64_command" || exit 1
 
 ap64_switch_user "$ap64_command" "$ap64_user" "$ap64_path_root" "$@" ||

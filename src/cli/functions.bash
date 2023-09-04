@@ -368,14 +368,10 @@ function ap64_setup_ansible_cli() {
 
 function ap64_check_initialize() {
   bl64_dbg_app_show_function
-  local debug="$1"
-  local verbose="$2"
-  local command="$3"
+  local command="$1"
 
-  [[ -z "$command" ]] && ap64_help && return 1
-  bl64_dbg_set_level "$debug" &&
-    bl64_msg_set_level "$verbose" ||
-    return $?
+  bl64_check_parameter 'command' ||
+    { ap64_help && return 1; }
 
   AP64_PATH_VAR="$(bl64_fmt_dirname "$HOME")"
   AP64_PATH_VENV="${AP64_PATH_VAR}/${AP64_VENV}"
