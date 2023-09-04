@@ -17,5 +17,4 @@ set +o 'nounset'
 # Do not set/unset: 'keyword', 'noexec'
 
 # (Optional) Add shared settings. Available to all test-cases using this setup routine
-export DEVAP_TESTMANSH_TARGET="${TESTMANSH_PROJECT_BUILD}/ap64"
-
+export DEV_TESTMANSH_TARGET="${TESTMANSH_PROJECT_BUILD}/ap64"
