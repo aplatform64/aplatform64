@@ -11,6 +11,5 @@
 # shellcheck source=SCRIPTDIR/dev-set
 source ./bin/dev-set || exit 1
 
-# DeleteMe # Build and test distributable. Remove if not needed
 "$DEV_CICD_BUILD" &&
   "$DEV_CICD_TESTMANSH" -b -o -e "$DEV_TEST_CONTAINER"
