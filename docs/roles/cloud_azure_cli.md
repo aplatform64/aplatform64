@@ -8,7 +8,7 @@ Supported features in the current version:
 
 - Deploy application. Packages are defined in the variable `cloud_azure_cli_profiles`.
 
-The **cloud_azure_cli** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [cloud](https://aplatform64.readthedocs.io/en/latest/collections/cloud) Ansible-Collection.
+The **cloud_azure_cli** Ansible-Role is part of the [A:Platform64](https://github.com/aplatform64/aplatform64) project and is available in the [cloud](https://aplatform64.readthedocs.io/en/latest/collections/cloud) Ansible-Collection.
 
 ## Usage
 

@@ -12,7 +12,7 @@ Supported features in the current version:
 
 Notice that first time usage requires a bootstrap process where the role is run using temporary access credentials to perform the initial setup.
 
-The **auto_ansible_node** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [automation](https://aplatform64.readthedocs.io/en/latest/collections/automation) Ansible-Collection.
+The **auto_ansible_node** Ansible-Role is part of the [A:Platform64](https://github.com/aplatform64/aplatform64) project and is available in the [automation](https://aplatform64.readthedocs.io/en/latest/collections/automation) Ansible-Collection.
 
 ## Usage
 

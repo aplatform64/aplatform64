@@ -8,7 +8,7 @@ Supported features in the current version:
 
 - Deploy application. Packages are defined in the variable `cnt_podman_profiles`.
 
-The **cnt_podman** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [container](https://aplatform64.readthedocs.io/en/latest/collections/container) Ansible-Collection.
+The **cnt_podman** Ansible-Role is part of the [A:Platform64](https://github.com/aplatform64/aplatform64) project and is available in the [container](https://aplatform64.readthedocs.io/en/latest/collections/container) Ansible-Collection.
 
 ## Usage
 

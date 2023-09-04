@@ -10,7 +10,7 @@ Supported features in the current version:
 
 Supported JAVA versions: distro native OpenJDK
 
-The **dev_java** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [development](https://aplatform64.readthedocs.io/en/latest/collections/development) Ansible-Collection.
+The **dev_java** Ansible-Role is part of the [A:Platform64](https://github.com/aplatform64/aplatform64) project and is available in the [development](https://aplatform64.readthedocs.io/en/latest/collections/development) Ansible-Collection.
 
 ## Usage
 

@@ -13,7 +13,7 @@ Supported features in the current version:
 - Provision application components:
   - Add/Remove shares from the NFS exports list
 
-The **stg_nfs_server** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [storage](https://aplatform64.readthedocs.io/en/latest/collections/storage) Ansible-Collection.
+The **stg_nfs_server** Ansible-Role is part of the [A:Platform64](https://github.com/aplatform64/aplatform64) project and is available in the [storage](https://aplatform64.readthedocs.io/en/latest/collections/storage) Ansible-Collection.
 
 ## Usage
 

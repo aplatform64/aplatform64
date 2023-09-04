@@ -4,7 +4,7 @@
 
 Ansible Roles for automating cloud tools provisioning.
 
-This collection is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project for automated infrastructure-as-code management.
+This collection is part of the [A:Platform64](https://github.com/aplatform64/aplatform64) project for automated infrastructure-as-code management.
 
 ## Content
 

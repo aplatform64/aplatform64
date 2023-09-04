@@ -11,7 +11,7 @@ Supported features in the current version:
 - Configure OS level firewall rules. Rules are defined in the varible `dops_gitlab_server_firewall_rules`.
 - Configure server options. Options are defined in the variable `dops_gitlab_server_server`.
 
-The **dops_gitlab_server** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [devops](https://aplatform64.readthedocs.io/en/latest/collections/devops) Ansible-Collection.
+The **dops_gitlab_server** Ansible-Role is part of the [A:Platform64](https://github.com/aplatform64/aplatform64) project and is available in the [devops](https://aplatform64.readthedocs.io/en/latest/collections/devops) Ansible-Collection.
 
 ## Usage
 

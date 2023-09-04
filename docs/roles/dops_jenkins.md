@@ -14,7 +14,7 @@ Supported features in the current version:
   - Install daemonize tool
 - Add OS level firewall rules
 
-The **dops_jenkins** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [devops](https://aplatform64.readthedocs.io/en/latest/collections/devops) Ansible-Collection.
+The **dops_jenkins** Ansible-Role is part of the [A:Platform64](https://github.com/aplatform64/aplatform64) project and is available in the [devops](https://aplatform64.readthedocs.io/en/latest/collections/devops) Ansible-Collection.
 
 ## Usage
 

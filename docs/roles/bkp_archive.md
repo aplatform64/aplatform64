@@ -18,7 +18,7 @@ Archive formats:
 - tar
 - compressed tar
 
-The **bkp_archive** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [backup](https://aplatform64.readthedocs.io/en/latest/collections/backup) Ansible-Collection.
+The **bkp_archive** Ansible-Role is part of the [A:Platform64](https://github.com/aplatform64/aplatform64) project and is available in the [backup](https://aplatform64.readthedocs.io/en/latest/collections/backup) Ansible-Collection.
 
 ## Usage
 

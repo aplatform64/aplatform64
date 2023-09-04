@@ -8,7 +8,7 @@ Supported features in the current version:
 
 - Deploy application. Packages are defined in the variable `db_postgresql_client_profiles`.
 
-The **db_postgresql_client** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [database](https://aplatform64.readthedocs.io/en/latest/collections/database) Ansible-Collection.
+The **db_postgresql_client** Ansible-Role is part of the [A:Platform64](https://github.com/aplatform64/aplatform64) project and is available in the [database](https://aplatform64.readthedocs.io/en/latest/collections/database) Ansible-Collection.
 
 ## Usage
 

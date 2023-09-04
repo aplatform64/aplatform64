@@ -39,7 +39,7 @@ Supported repositories types as defined in the variable `sys_repository_flavours
 | snap    | Repository for SNAP packages    |
 | yum     | Repository for RPM packages     |
 
-The **sys_repository** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [system](https://aplatform64.readthedocs.io/en/latest/collections/system) Ansible-Collection.
+The **sys_repository** Ansible-Role is part of the [A:Platform64](https://github.com/aplatform64/aplatform64) project and is available in the [system](https://aplatform64.readthedocs.io/en/latest/collections/system) Ansible-Collection.
 
 ## Usage
 

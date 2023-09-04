@@ -8,7 +8,7 @@ Supported features in the current version:
 
 - Deploy application. Packages are defined in the variable `app_spotify_profiles`.
 
-The **app_spotify** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [application](../collections/applicaspotify Ansible-Collection.
+The **app_spotify** Ansible-Role is part of the [A:Platform64](https://github.com/aplatform64/aplatform64) project and is available in the [application](../collections/applicaspotify Ansible-Collection.
 
 ## Usage
 

@@ -12,7 +12,7 @@ Supported features in the current version:
 
 The role defines in the variable `app_vscode_catalog` a curated list of extensions groupd by category. The recommended extension file will be created using group names from the catalog.
 
-The **app_vscode** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [application](https://aplatform64.readthedocs.io/en/latest/collections/application) Ansible-Collection.
+The **app_vscode** Ansible-Role is part of the [A:Platform64](https://github.com/aplatform64/aplatform64) project and is available in the [application](https://aplatform64.readthedocs.io/en/latest/collections/application) Ansible-Collection.
 
 ## Usage
 

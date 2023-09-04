@@ -8,7 +8,7 @@ Supported features in the current version:
 
 - Deploy application. Packages are defined in the variable `app_pinta_profiles`.
 
-The **app_pinta** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [application](https://aplatform64.readthedocs.io/en/latest/collections/application) Ansible-Collection.
+The **app_pinta** Ansible-Role is part of the [A:Platform64](https://github.com/aplatform64/aplatform64) project and is available in the [application](https://aplatform64.readthedocs.io/en/latest/collections/application) Ansible-Collection.
 
 ## Usage
 

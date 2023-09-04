@@ -9,7 +9,7 @@ Supported features in the current version:
 - Prepare environment for application deployment.
 - Deploy application. Packages are defined in the variable `net_istioctl_profiles`.
 
-The **net_istioctl** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [network](https://aplatform64.readthedocs.io/en/latest/collections/network) Ansible-Collection.
+The **net_istioctl** Ansible-Role is part of the [A:Platform64](https://github.com/aplatform64/aplatform64) project and is available in the [network](https://aplatform64.readthedocs.io/en/latest/collections/network) Ansible-Collection.
 
 ## Usage
 

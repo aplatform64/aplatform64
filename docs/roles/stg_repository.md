@@ -17,7 +17,7 @@ Supported features in the current version:
     - Set ownership
     - Set access permissions
 
-The **stg_repository** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [storage](https://aplatform64.readthedocs.io/en/latest/collections/storage) Ansible-Collection.
+The **stg_repository** Ansible-Role is part of the [A:Platform64](https://github.com/aplatform64/aplatform64) project and is available in the [storage](https://aplatform64.readthedocs.io/en/latest/collections/storage) Ansible-Collection.
 
 ## Usage
 

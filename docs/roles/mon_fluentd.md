@@ -8,7 +8,7 @@ Supported features in the current version:
 
 - Deploy application. Packages are defined in the variable `mon_fluentd_profiles`.
 
-The **mon_fluentd** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [monitor](https://aplatform64.readthedocs.io/en/latest/collections/monitor) Ansible-Collection.
+The **mon_fluentd** Ansible-Role is part of the [A:Platform64](https://github.com/aplatform64/aplatform64) project and is available in the [monitor](https://aplatform64.readthedocs.io/en/latest/collections/monitor) Ansible-Collection.
 
 ## Usage
 

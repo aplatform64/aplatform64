@@ -17,7 +17,7 @@
 ```shell
 # Create the main repository
 cd <YOUR_PROJECTS_PATH>
-git clone https://github.com/serdigital64/aplatform64
+git clone https://github.com/aplatform64/aplatform64
 cd aplatform64
 # Init git flow
 git flow init
@@ -232,7 +232,7 @@ bin/dev-build -t
 ## Repositories
 
 - Project GIT repository
-  - Main: [https://github.com/serdigital64/aplatform64](https://github.com/serdigital64/aplatform64)
+  - Main: [https://github.com/aplatform64/aplatform64](https://github.com/aplatform64/aplatform64)
   - Submodules: [https://github.com/aplatform64](https://github.com/aplatform64)
 - Project Ansible Galaxy repository: [https://galaxy.ansible.com/serdigital64](https://galaxy.ansible.com/serdigital64)
 - Project Documentation: [https://aplatform64.readthedocs.io](https://aplatform64.readthedocs.io)

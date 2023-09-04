@@ -15,7 +15,7 @@ Supported features in the current version:
 - Register Ansible Managed Nodes`s OpenSSH server keys in known_hosts file.
 - Create shell environment script for setting Ansible variables.
 
-The **auto_ansible_control** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [application](https://aplatform64.readthedocs.io/en/latest/collections/automation) Ansible-Collection.
+The **auto_ansible_control** Ansible-Role is part of the [A:Platform64](https://github.com/aplatform64/aplatform64) project and is available in the [application](https://aplatform64.readthedocs.io/en/latest/collections/automation) Ansible-Collection.
 
 ## Directory structure
 

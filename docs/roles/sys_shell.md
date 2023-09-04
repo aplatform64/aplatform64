@@ -22,7 +22,7 @@ Supported shells (defined in the variable `sys_shell_flavour`):
 | bash | Born Again Shell |
 | ksh  | Korn Shell       |
 
-The **sys_shell** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [system](https://aplatform64.readthedocs.io/en/latest/collections/system) Ansible-Collection.
+The **sys_shell** Ansible-Role is part of the [A:Platform64](https://github.com/aplatform64/aplatform64) project and is available in the [system](https://aplatform64.readthedocs.io/en/latest/collections/system) Ansible-Collection.
 
 ## Usage
 
