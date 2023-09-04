@@ -149,7 +149,7 @@ Notice that roles have their own compatibility matrix. Refer to the respective d
 - Download the installation script:
 
 ```shell
-curl -O https://raw.githubusercontent.com/serdigital64/aplatform64/main/ap64
+curl -O https://raw.githubusercontent.com/aplatform64/aplatform64/main/ap64
 chmod 0755 ap64
 ```
 

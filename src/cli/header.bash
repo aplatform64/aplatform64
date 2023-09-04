@@ -2,7 +2,7 @@
 #######################################
 # Command line interface for A:Platform64
 #
-# Project GIT repository: [https://github.com/serdigital64/aplatform64](https://github.com/serdigital64/aplatform64)
+# Project GIT repository: [https://github.com/aplatform64/aplatform64](https://github.com/aplatform64/aplatform64)
 # Project Ansible Galaxy repository: [https://galaxy.ansible.com/serdigital64](https://galaxy.ansible.com/serdigital64)
 # Project Documentation: [https://aplatform64.readthedocs.io](https://aplatform64.readthedocs.io)
 #
