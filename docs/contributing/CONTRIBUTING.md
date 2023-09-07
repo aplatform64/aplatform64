@@ -4,7 +4,6 @@
 
 - Prepare dev tools:
   - Install GIT
-  - Install Git Flow
   - Install Python
 - Download BashLib64
 
@@ -18,17 +17,6 @@
 # Create the main repository
 cd <YOUR_PROJECTS_PATH>
 git clone https://github.com/aplatform64/aplatform64
-cd aplatform64
-# Init git flow
-git flow init
-# Create module repositories as git submodules
-git submodule init
-# Update modules
-git submodule update
-# Enable main branch on submodules
-git submodule foreach "git checkout main"; git submodule foreach "git checkout develop"
-# (Optional) Initialize git flow. Production branch:main, use defaults for the remaining branches
-git submodule foreach "git flow init"
 ```
 
 - Adjust environment variables to reflect your configuration:
