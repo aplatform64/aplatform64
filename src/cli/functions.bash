@@ -313,7 +313,7 @@ function ap64_site_remove() {
       bl64_dbg_app_show_info "remove site component ($path)"
       bl64_fs_rm_full "$path"
     else
-      bl64_msg_warning "site component not found (${path})"
+      bl64_msg_show_warning "site component not found (${path})"
     fi
   done
 
