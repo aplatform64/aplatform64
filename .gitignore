@@ -31,3 +31,5 @@ lib/*
 #
 
 .git-secrets
+
+collections/

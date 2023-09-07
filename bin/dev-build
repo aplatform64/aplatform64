@@ -10,14 +10,14 @@ source './bin/dev-set' || exit 1
 source "$DEV_CICD_BASHLIB64" || exit 1
 
 # shellcheck disable=SC2317
-function devap_build_publish() {
+function dev_build_publish() {
   local target="$1"
   local collection=''
   local publish_wait=2
 
   cd "$DEV_BUILD_PROD" || return 1
 
-  [[ -z "$target" ]] && target="$(devap_get_collections)"
+  [[ -z "$target" ]] && target="$DEV_APLATFORM64_COLLECTIONS"
 
   for collection in $target; do
     bl64_msg_show_task 'publish collection package'
@@ -29,13 +29,13 @@ function devap_build_publish() {
 }
 
 # shellcheck disable=SC2317
-function devap_build_test() {
+function dev_build_test() {
   local target="$1"
   local collection=''
 
   cd "$DEV_BUILD_DEV" || return 1
 
-  [[ -z "$target" ]] && target="$(devap_get_collections)"
+  [[ -z "$target" ]] && target="$DEV_APLATFORM64_COLLECTIONS"
 
   for collection in $target; do
     bl64_msg_show_phase "build collection (${collection})"
@@ -56,12 +56,12 @@ function devap_build_test() {
 }
 
 # shellcheck disable=SC2317
-function devap_build_refresh() {
+function dev_build_refresh() {
   local target="$1"
   local collection=''
   local role=''
 
-  [[ -z "$target" ]] && target="$(devap_get_collections)"
+  [[ -z "$target" ]] && target="$DEV_APLATFORM64_COLLECTIONS"
 
   bl64_msg_show_phase "synchronize root documents (${DEV_DOCS} -> ${DEV_ROOT}"
   bl64_fs_cp_file "${DEV_DOCS}/contributing/CHANGELOG.md" "$DEV_ROOT" &&
@@ -105,12 +105,12 @@ function devap_build_refresh() {
 }
 
 # shellcheck disable=SC2317
-function devap_build_cli() {
+function dev_build_cli() {
   local target=''
   local name=''
   local target_file="$DEV_TMP/devap-build-collections.sh"
 
-  for name in $(devap_get_collections); do
+  for name in $DEV_APLATFORM64_COLLECTIONS; do
     target="${target} ${DEV_NAMESPACE}.${name}"
   done
   printf 'readonly AP64_COLLECTIONS="%s"\n' "$target" >"$target_file"
@@ -132,13 +132,13 @@ function devap_build_cli() {
 }
 
 # shellcheck disable=SC2317
-function devap_build_prod() {
+function dev_build_prod() {
   local target="$1"
   local collection=''
 
   cd "$DEV_BUILD_PROD" || return 1
 
-  [[ -z "$target" ]] && target="$(devap_get_collections)"
+  [[ -z "$target" ]] && target="$DEV_APLATFORM64_COLLECTIONS"
 
   for collection in $target; do
     bl64_msg_show_phase "build collection (${collection})"
@@ -152,18 +152,12 @@ function devap_build_prod() {
   done
 }
 
-function devap_get_collections() {
-  # shellcheck disable=SC2317
-  cd "$DEV_COLLECTIONS" &&
-    echo *
-}
-
-function devap_build_initialize() {
+function dev_build_initialize() {
   local debug="$1"
   local verbose="$2"
   local command="$3"
 
-  [[ -z "$command" ]] && devap_build_help && return 1
+  [[ -z "$command" ]] && dev_build_help && return 1
   bl64_dbg_set_level "$debug" &&
     bl64_msg_set_level "$verbose" ||
     return $?
@@ -177,12 +171,12 @@ function devap_build_initialize() {
     "$DEV_BUILD_PROD" \
     "$DEV_COLLECTIONS" || return $?
 
-  if [[ "$command" != 'devap_build_cli' && "$command" != 'devap_build_refresh' ]]; then
+  if [[ "$command" != 'dev_build_cli' && "$command" != 'dev_build_refresh' ]]; then
     bl64_ans_setup "$DEV_PYTHON_VENV_BIN" "$ANSIBLE_CONFIG" || return $?
   fi
 }
 
-function devap_build_help() {
+function dev_build_help() {
 
   bl64_msg_show_usage \
     '<-r|-i|-t|-p|-uu> [-c collection] [-V Verbose] [-D Debug] [-h]' \
@@ -205,55 +199,55 @@ function devap_build_help() {
 # Main
 #
 
-declare devap_build_status=1
-declare devap_build_debug="$BL64_DBG_TARGET_NONE"
-declare devap_build_verbose="$BL64_MSG_VERBOSE_ALL"
-declare devap_build_command=''
-declare devap_build_command_tag=''
-declare devap_build_option=''
-declare devap_build_collection=''
+declare dev_build_status=1
+declare dev_build_debug="$BL64_DBG_TARGET_NONE"
+declare dev_build_verbose="$BL64_MSG_VERBOSE_ALL"
+declare dev_build_command=''
+declare dev_build_command_tag=''
+declare dev_build_option=''
+declare dev_build_collection=''
 
-(($# == 0)) && devap_build_help && exit 1
-while getopts ':ritpuc:V:D:h' devap_build_option; do
-  case "$devap_build_option" in
+(($# == 0)) && dev_build_help && exit 1
+while getopts ':ritpuc:V:D:h' dev_build_option; do
+  case "$dev_build_option" in
   r)
-    devap_build_command='devap_build_refresh'
-    devap_build_command_tag='refresh collection doc'
+    dev_build_command='dev_build_refresh'
+    dev_build_command_tag='refresh collection doc'
     ;;
   i)
-    devap_build_command='devap_build_cli'
-    devap_build_command_tag='build CLI'
+    dev_build_command='dev_build_cli'
+    dev_build_command_tag='build CLI'
     ;;
   t)
-    devap_build_command='devap_build_test'
-    devap_build_command_tag='testing package build'
+    dev_build_command='dev_build_test'
+    dev_build_command_tag='testing package build'
     ;;
   p)
-    devap_build_command='devap_build_prod'
-    devap_build_command_tag='production package build'
+    dev_build_command='dev_build_prod'
+    dev_build_command_tag='production package build'
     ;;
   u)
-    devap_build_command='devap_build_publish'
-    devap_build_command_tag='publishing packages'
+    dev_build_command='dev_build_publish'
+    dev_build_command_tag='publishing packages'
     ;;
-  c) devap_build_collection="$OPTARG" ;;
-  V) devap_build_verbose="$OPTARG" ;;
-  D) devap_build_debug="$OPTARG" ;;
-  h) devap_build_help && exit ;;
-  *) devap_build_help && exit 1 ;;
+  c) dev_build_collection="$OPTARG" ;;
+  V) dev_build_verbose="$OPTARG" ;;
+  D) dev_build_debug="$OPTARG" ;;
+  h) dev_build_help && exit ;;
+  *) dev_build_help && exit 1 ;;
   esac
 done
-devap_build_initialize "$devap_build_debug" "$devap_build_verbose" "$devap_build_command" &&
+dev_build_initialize "$dev_build_debug" "$dev_build_verbose" "$dev_build_command" &&
   cd "$DEV_ROOT" ||
   exit 1
 
-bl64_msg_show_batch_start "$devap_build_command_tag"
-case "$devap_build_command" in
-'devap_build_test' | 'devap_build_prod' | 'devap_build_publish' | 'devap_build_refresh') "$devap_build_command" "$devap_build_collection" ;;
-'devap_build_cli') "$devap_build_command" ;;
-*) bl64_check_alert_parameter_invalid "$devap_build_command" ;;
+bl64_msg_show_batch_start "$dev_build_command_tag"
+case "$dev_build_command" in
+'dev_build_test' | 'dev_build_prod' | 'dev_build_publish' | 'dev_build_refresh') "$dev_build_command" "$dev_build_collection" ;;
+'dev_build_cli') "$dev_build_command" ;;
+*) bl64_check_alert_parameter_invalid "$dev_build_command" ;;
 esac
-devap_build_status=$?
+dev_build_status=$?
 
-bl64_msg_show_batch_finish $devap_build_status "$devap_build_command_tag"
-exit $devap_build_status
+bl64_msg_show_batch_finish $dev_build_status "$dev_build_command_tag"
+exit $dev_build_status
