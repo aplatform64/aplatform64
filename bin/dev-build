@@ -38,6 +38,7 @@ function devap_build_test() {
   [[ -z "$target" ]] && target="$(devap_get_collections)"
 
   for collection in $target; do
+    bl64_msg_show_phase "build collection (${collection})"
     bl64_msg_show_task 'remove old collection package'
     # shellcheck disable=SC2086
     bl64_fs_rm_file $DEV_NAMESPACE-${collection}-*.tar.gz
@@ -47,7 +48,7 @@ function devap_build_test() {
       collection build "${DEV_COLLECTIONS}/${collection}" || return $?
   done
 
-  bl64_msg_show_task 'remove version tag from package file names'
+  bl64_msg_show_phase 'remove version tag from package file names'
   # shellcheck disable=SC2231
   for collection in $DEV_NAMESPACE-*-*.tar.gz; do
     bl64_fs_run_mv "$collection" "${collection%-*}.tar.gz"
@@ -62,14 +63,14 @@ function devap_build_refresh() {
 
   [[ -z "$target" ]] && target="$(devap_get_collections)"
 
-  bl64_msg_show_task "synchronize root documents (${DEV_DOCS} -> ${DEV_ROOT}"
+  bl64_msg_show_phase "synchronize root documents (${DEV_DOCS} -> ${DEV_ROOT}"
   bl64_fs_cp_file "${DEV_DOCS}/contributing/CHANGELOG.md" "$DEV_ROOT" &&
     bl64_fs_cp_file "${DEV_DOCS}/contributing/LICENSE" "$DEV_ROOT" &&
     bl64_fs_cp_file "${DEV_DOCS}/contributing/CODE_OF_CONDUCT.md" "$DEV_ROOT" &&
     bl64_fs_cp_file "${DEV_DOCS}/contributing/CONTRIBUTING.md" "$DEV_ROOT" || return $?
 
-  bl64_msg_show_task "synchronize collections (${DEV_DOCS} -> ${DEV_COLLECTIONS}/COLLECTION)"
   for collection in $target; do
+    bl64_msg_show_phase "synchronize collection (${collection})"
     bl64_msg_show_task "refresh license (master -> ${collection})"
     bl64_fs_cp_file "${DEV_DOCS}/contributing/LICENSE" "$DEV_COLLECTIONS/${collection}/LICENSE" &&
       bl64_fs_cp_file "${DEV_DOCS}/contributing/CODE_OF_CONDUCT.md" "$DEV_COLLECTIONS/${collection}/CODE_OF_CONDUCT.md" || return $?
@@ -140,6 +141,7 @@ function devap_build_prod() {
   [[ -z "$target" ]] && target="$(devap_get_collections)"
 
   for collection in $target; do
+    bl64_msg_show_phase "build collection (${collection})"
     bl64_msg_show_task 'remove old collection package'
     # shellcheck disable=SC2086
     bl64_fs_rm_file ${DEV_NAMESPACE}-${collection}-*.tar.gz
@@ -151,6 +153,7 @@ function devap_build_prod() {
 }
 
 function devap_get_collections() {
+  # shellcheck disable=SC2317
   cd "$DEV_COLLECTIONS" &&
     echo *
 }
