@@ -145,7 +145,6 @@ function ap64_play_list() {
       print ""
     }
     ' "${catalog}"
-
 }
 
 function ap64_node_add() {
@@ -193,7 +192,6 @@ function ap64_site_refresh() {
   bl64_ans_run_ansible_playbook \
     -i "${AP64_PATH_INVENTORY}/${AP64_FILE_ANSIBLE_INVENTORY}" \
     "${ANSIBLE_PLAYBOOK_DIR}/manage_aplatform64_servers.yml"
-
 }
 
 function ap64_site_create() {
@@ -214,7 +212,6 @@ function ap64_site_create() {
     -i "${AP64_PATH_INVENTORY}/${AP64_FILE_ANSIBLE_INVENTORY}" \
     --extra-vars "auto_aplatform64_site='${site}'" \
     "${ANSIBLE_PLAYBOOK_DIR}/manage_aplatform64_servers.yml"
-
 }
 
 function ap64_play_run() {
@@ -320,11 +317,12 @@ function ap64_load_site() {
 
   bl64_msg_show_task "load site definition for the site: ${site}"
   # shellcheck disable=SC1090
-  . "$source"
+  . "$source" ||
+    { bl64_msg_show_error 'unable to load site definition'; return 1; }
 
   # shellcheck disable=SC2154
   AP64_PATH_INVENTORY="$(bl64_fmt_dirname "$ANSIBLE_INVENTORY")"
-
+  return 0
 }
 
 function ap64_switch_user() {
@@ -338,7 +336,7 @@ function ap64_switch_user() {
 
   if [[ "$command" == 'ap64_site_install' ]]; then
     if [[ "$UID" != '0' ]]; then
-      bl64_dbg_app_show_info 're-entry installation as root using sudo'
+      bl64_msg_show_info 're-running ap64 script as root to continue installation process'
       bl64_rbac_run_command 'root' "${BL64_SCRIPT_PATH}/${AP64_CLI}" "$@"
       exit $?
     else
@@ -347,7 +345,7 @@ function ap64_switch_user() {
   else
     if [[ "$(bl64_iam_user_get_current)" != "$user" ]]; then
       bl64_check_user "$user" 'dedicated user for A:Platform64 not found. Please verify the installation and retry' || return $?
-      bl64_dbg_app_show_info "re-entry CLI as ${user} using sudo"
+      bl64_msg_show_info "re-running ap64 script as the site owner (${user}) to continue requested operation"
       bl64_rbac_run_command "$user" "${path}/${AP64_CLI}" "$@"
       exit $?
     else
@@ -379,7 +377,6 @@ function ap64_initialize() {
   AP64_PATH_VENV_TMP="${AP64_PATH_VAR}/pip_tmp"
 
   bl64_dbg_app_show_vars 'AP64_PATH_VENV' 'AP64_PATH_VENV_CACHE' 'AP64_PATH_VENV_TMP'
-
   return 0
 }
 
