@@ -62,13 +62,13 @@ function devap_build_refresh() {
 
   [[ -z "$target" ]] && target="$(devap_get_collections)"
 
-  bl64_msg_show_task "synchronize root documents"
+  bl64_msg_show_task "synchronize root documents (${DEV_DOCS} -> ${DEV_ROOT}"
   bl64_fs_cp_file "${DEV_DOCS}/contributing/CHANGELOG.md" "$DEV_ROOT" &&
     bl64_fs_cp_file "${DEV_DOCS}/contributing/LICENSE" "$DEV_ROOT" &&
     bl64_fs_cp_file "${DEV_DOCS}/contributing/CODE_OF_CONDUCT.md" "$DEV_ROOT" &&
     bl64_fs_cp_file "${DEV_DOCS}/contributing/CONTRIBUTING.md" "$DEV_ROOT" || return $?
 
-  bl64_msg_show_task "synchronize collections"
+  bl64_msg_show_task "synchronize collections (${DEV_DOCS} -> ${DEV_COLLECTIONS}/COLLECTION)"
   for collection in $target; do
     bl64_msg_show_task "refresh license (master -> ${collection})"
     bl64_fs_cp_file "${DEV_DOCS}/contributing/LICENSE" "$DEV_COLLECTIONS/${collection}/LICENSE" &&
@@ -174,7 +174,7 @@ function devap_build_initialize() {
     "$DEV_BUILD_PROD" \
     "$DEV_COLLECTIONS" || return $?
 
-  if [[ "$command" != 'devap_build_cli' ]]; then
+  if [[ "$command" != 'devap_build_cli' && "$command" != 'devap_build_refresh' ]]; then
     bl64_ans_setup "$DEV_PYTHON_VENV_BIN" "$ANSIBLE_CONFIG" || return $?
   fi
 }
