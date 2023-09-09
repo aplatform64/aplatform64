@@ -2,21 +2,18 @@
 
 ## Prepare Development Environment
 
-- Prepare dev tools:
-  - Install GIT
-  - Install Python
-- Download BashLib64
+- Prepare your local environment with recommended tools:
+  - GIT
+  - Docker
+  - DevContainer compatible IDE (e.g.: VSCode)
 
-```shell
-./bin/dev-lib
-```
-
-- Clone GIT repositories
+- Clone GIT repository
 
 ```shell
 # Create the main repository
 cd <YOUR_PROJECTS_PATH>
 git clone https://github.com/aplatform64/aplatform64
+# Clone additional collection repositories as needed under <YOUR_PROJECTS_PATH>/collections/serdigital64
 ```
 
 - Adjust environment variables to reflect your configuration:
@@ -28,22 +25,7 @@ cp dot.secrets .secrets
 # Review and update content for both files
 ```
 
-- Create Python Virtual Environment
-
-```shell
-source .local
-source .env
-python3 -m venv "$DEV_PYTHON_VENV"
-source ./bin/dev-set
-```
-
-- Install Python dev modules
-
-```shell
-pip3 install --upgrade -r requirements-aplatform64.txt
-```
-
-- The environment is now ready. From now use the following script to load environment variables and set the virtual Python environment:
+- The environment is now ready. From now use the following script to load environment variables:
 
 ```shell
 source ./bin/dev-set
@@ -53,8 +35,9 @@ source ./bin/dev-set
 
 - CLI:
   - Add/Edit source code in: `src/cli`
-- Collections
+- Ansible Collections
   - Work on the collection repository using it's own development branch
+- Buildin and test: use included devcontainer: `ubuntu-22.04-dev-ansible`
 
 ## Design principles
 
