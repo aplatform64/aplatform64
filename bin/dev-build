@@ -172,7 +172,7 @@ function dev_build_initialize() {
     "$DEV_COLLECTIONS" || return $?
 
   if [[ "$command" != 'dev_build_cli' && "$command" != 'dev_build_refresh' ]]; then
-    bl64_ans_setup "$DEV_PYTHON_VENV_BIN" "$ANSIBLE_CONFIG" || return $?
+    bl64_ans_setup "$BL64_VAR_DEFAULT" "$ANSIBLE_CONFIG" || return $?
   fi
 }
 
