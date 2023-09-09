@@ -11,6 +11,5 @@
 # shellcheck source=SCRIPTDIR/dev-set
 source ./bin/dev-set || exit 1
 
-# DeleteMe # Build and Lint distributable. Remove if not needed
 "$DEV_CICD_BUILD" -i &&
   "$DEV_CICD_TESTMANSH" -t -o -c "${DEV_NAME_BUILD}/${DEV_BUILD_NAME}"

@@ -1,13 +1,14 @@
 function ap64_site_info() {
   bl64_dbg_app_show_function
 
-  bl64_msg_show_info "A:Platform64 Site     : ${AP64_SITE_CURRENT}"
-  bl64_msg_show_info "Ansible Playbooks     : ${ANSIBLE_PLAYBOOK_DIR}"
-  bl64_msg_show_info "Ansible Configuration : ${ANSIBLE_CONFIG}"
-  bl64_msg_show_info "Ansible SSH Keys      : ${ANSIBLE_PRIVATE_KEY_FILE}"
-  bl64_msg_show_info "Ansible Logs          : ${ANSIBLE_LOG_PATH}"
-  bl64_msg_show_info "Ansible Inventory     : ${ANSIBLE_INVENTORY}"
-  return 0
+  # shellcheck disable=SC2154
+  bl64_msg_show_info "A:Platform64 Site     : ${AP64_SITE_CURRENT}" &&
+    bl64_msg_show_info "Ansible Playbooks     : ${ANSIBLE_PLAYBOOK_DIR}" &&
+    bl64_msg_show_info "Ansible Configuration : ${ANSIBLE_CONFIG}" &&
+    bl64_msg_show_info "Ansible SSH Keys      : ${ANSIBLE_PRIVATE_KEY_FILE}" &&
+    bl64_msg_show_info "Ansible Logs          : ${ANSIBLE_LOG_PATH}" &&
+    bl64_msg_show_info "Ansible Inventory     : ${ANSIBLE_INVENTORY}" &&
+    return 0
 }
 
 function ap64_site_install() {
@@ -381,7 +382,6 @@ function ap64_cli_user_switch() {
     else
       bl64_dbg_app_show_info "already running as ${user}, continue normal execution"
     fi
-    AP64_CLI_USER="$user"
   fi
 
   return 0

@@ -15,9 +15,6 @@ readonly AP64_CLI_ROOT='.ap64-root'
 # Python VEnv name
 readonly AP64_VENV='venv'
 
-# Run-As use for the CLI
-declare AP64_CLI_USER=''
-
 #
 # A:Platform64
 #
