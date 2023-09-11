@@ -1,13 +1,16 @@
 ---
-# Template Version: 2.0.0
+# Template: 2.2.0
 name: "Lint / Bash / TestManSH"
 
 on:
+  pull_request:
+    branches:
+      - "main"
   push:
     branches:
-      - "feature/*"
-      - "develop"
-      - "main"
+      - "feature/**"
+    paths:
+      - "src/**"
 
 jobs:
   lint-bash-testmansh:

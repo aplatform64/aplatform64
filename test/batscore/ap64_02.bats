@@ -3,6 +3,6 @@ setup() {
 }
 
 @test "ap64: install (-i)" {
-  run "$DEVAP_TESTMANSH_TARGET" -i
+  run "$DEV_TESTMANSH_TARGET" -i
   assert_success
 }

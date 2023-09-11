@@ -8,7 +8,7 @@ Supported features in the current version:
 
 - Deploy application. Packages are defined in the variable `infra_terragrunt_profiles`.
 
-The **infra_terragrunt** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [infrastructure](https://aplatform64.readthedocs.io/en/latest/collections/infrastructure) Ansible-Collection.
+The **infra_terragrunt** Ansible-Role is part of the [A:Platform64](https://github.com/aplatform64/aplatform64) project and is available in the [infrastructure](https://aplatform64.readthedocs.io/en/latest/collections/infrastructure) Ansible-Collection.
 
 ## Usage
 

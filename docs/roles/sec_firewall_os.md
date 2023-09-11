@@ -11,7 +11,7 @@ Supported features in the current version:
 - Provision Firewall rules:
   - firewalld
 
-The **sec_firewall_os** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [security](https://aplatform64.readthedocs.io/en/latest/collections/security) Ansible-Collection.
+The **sec_firewall_os** Ansible-Role is part of the [A:Platform64](https://github.com/aplatform64/aplatform64) project and is available in the [security](https://aplatform64.readthedocs.io/en/latest/collections/security) Ansible-Collection.
 
 ## Usage
 

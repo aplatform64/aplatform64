@@ -10,7 +10,7 @@ Supported features in the current version:
 - Configure application:
   - Deploy default user configuration
 
-The **app_keepassxc** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [application](https://aplatform64.readthedocs.io/en/latest/collections/application) Ansible-Collection.
+The **app_keepassxc** Ansible-Role is part of the [A:Platform64](https://github.com/aplatform64/aplatform64) project and is available in the [application](https://aplatform64.readthedocs.io/en/latest/collections/application) Ansible-Collection.
 
 ## Usage
 

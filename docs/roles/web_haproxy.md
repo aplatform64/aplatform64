@@ -8,7 +8,7 @@ Supported features in the current version:
 
 - Deploy application. Packages are defined in the variable `web_haproxy_profiles`.
 
-The **web_haproxy** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [web](https://aplatform64.readthedocs.io/en/latest/collections/web) Ansible-Collection.
+The **web_haproxy** Ansible-Role is part of the [A:Platform64](https://github.com/aplatform64/aplatform64) project and is available in the [web](https://aplatform64.readthedocs.io/en/latest/collections/web) Ansible-Collection.
 
 ## Usage
 

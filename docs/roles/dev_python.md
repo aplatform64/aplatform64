@@ -26,7 +26,7 @@ Supported features in the current version:
   - Virtual environment (venv)
   - Python Modules
 
-The **dev_python** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [development](https://aplatform64.readthedocs.io/en/latest/collections/development) Ansible-Collection.
+The **dev_python** Ansible-Role is part of the [A:Platform64](https://github.com/aplatform64/aplatform64) project and is available in the [development](https://aplatform64.readthedocs.io/en/latest/collections/development) Ansible-Collection.
 
 ## Usage
 

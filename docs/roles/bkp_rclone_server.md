@@ -8,7 +8,7 @@ Supported features in the current version:
 
 - Deploy application. Packages are defined in the variable `bkp_rclone_server_profiles`.
 
-The **bkp_rclone_server** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [backup](https://aplatform64.readthedocs.io/en/latest/collections/backup) Ansible-Collection.
+The **bkp_rclone_server** Ansible-Role is part of the [A:Platform64](https://github.com/aplatform64/aplatform64) project and is available in the [backup](https://aplatform64.readthedocs.io/en/latest/collections/backup) Ansible-Collection.
 
 ## Usage
 

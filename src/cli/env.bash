@@ -2,6 +2,10 @@
 ###[ embedded-bashlib64-end ]#####################
 #
 
+#
+# CLI
+#
+
 # Shell script name
 readonly AP64_CLI='ap64'
 
@@ -11,7 +15,11 @@ readonly AP64_CLI_ROOT='.ap64-root'
 # Python VEnv name
 readonly AP64_VENV='venv'
 
-# A:Platform64 paths
+#
+# A:Platform64
+#
+
+# paths
 declare AP64_PATH_ROOT=''
 declare AP64_PATH_VAR=''
 declare AP64_PATH_INVENTORY=''
@@ -19,11 +27,14 @@ declare AP64_PATH_VENV=''
 declare AP64_PATH_VENV_CACHE=''
 declare AP64_PATH_VENV_TMP=''
 
-# A:Platform64 files
+# file names
 declare AP64_FILE_ANSIBLE_CONTROL='ansible_control.env'
 declare AP64_FILE_ANSIBLE_INVENTORY='aplatform64_service.ini'
 declare AP64_FILE_CATALOG='catalog.csv'
 
-# A:Platform64 node bootstrap SSH credentials
+# node bootstrap SSH credentials
 export AP64_NODE_USER
 export AP64_NODE_PASSWORD
+
+# current site
+declare AP64_SITE_CURRENT=''

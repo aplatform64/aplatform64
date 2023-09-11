@@ -1,0 +1,11 @@
+{
+	"name": "oraclelinux-9-ansible-test",
+	"image": "ghcr.io/automation64/ansible-test/oraclelinux-9-ansible-test:latest",
+	"features": {},
+	"forwardPorts": [],
+	"customizations": {
+		"vscode": {
+			"extensions": []
+		}
+	}
+}

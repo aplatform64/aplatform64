@@ -14,7 +14,7 @@ Supported features in the current version:
     - nemo
   - Deploy to system-wide DConf as local db
 
-The **sys_gui_cinnamon** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [system](https://aplatform64.readthedocs.io/en/latest/collections/system) Ansible-Collection.
+The **sys_gui_cinnamon** Ansible-Role is part of the [A:Platform64](https://github.com/aplatform64/aplatform64) project and is available in the [system](https://aplatform64.readthedocs.io/en/latest/collections/system) Ansible-Collection.
 
 ## Usage
 

@@ -37,7 +37,7 @@ while getopts ':ilckrjuontf:e:b:d:g:s:p:x:V:D:h' Option; do
     ap64_command_tag='remove site'
     ;;
   t)
-    ap64_command='ap64_sites_list'
+    ap64_command='ap64_site_list'
     ap64_command_tag='list sites'
     ;;
   l)
@@ -74,9 +74,10 @@ while getopts ':ilckrjuontf:e:b:d:g:s:p:x:V:D:h' Option; do
   *) ap64_help && exit 1 ;;
   esac
 done
-ap64_check_initialize "$ap64_debug" "$ap64_verbose" "$ap64_command" || exit 1
+bl64_dbg_set_level "$ap64_debug" && bl64_msg_set_level "$ap64_verbose" || exit $?
+ap64_initialize "$ap64_command" || exit $?
 
-ap64_switch_user "$ap64_command" "$ap64_user" "$ap64_path_root" "$@" ||
+ap64_cli_user_switch "$ap64_command" "$ap64_user" "$ap64_path_root" "$@" ||
   exit 1
 
 bl64_msg_show_batch_start "$ap64_command_tag"
@@ -84,7 +85,7 @@ case "$ap64_command" in
 'ap64_site_install') "$ap64_command" "$ap64_path_root" "$ap64_path_var" "$ap64_user" ;;
 'ap64_site_bootstrap') "$ap64_command" "$ap64_path_root" "$ap64_path_var" "$ap64_user" ;;
 'ap64_site_upgrade') "$ap64_command" "$ap64_collection" "$ap64_package" ;;
-'ap64_sites_list') "$ap64_command" "$ap64_site" ;;
+'ap64_site_list') "$ap64_command" ;;
 'ap64_play_list') "$ap64_command" "$ap64_site" "$ap64_playbook" ;;
 'ap64_site_refresh') "$ap64_command" "$ap64_site" ;;
 'ap64_site_create') "$ap64_command" "$ap64_site" ;;

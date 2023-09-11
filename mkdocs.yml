@@ -4,7 +4,7 @@ site_description: "A:Platform64 is an automated infrastructure-as-code managemen
 site_author: "SerDigital64"
 
 site_url: "https://aplatform64.readthedocs.io"
-repo_url: "https://github.com/serdigital64/aplatform64"
+repo_url: "https://github.com/aplatform64/aplatform64"
 
 copyright: "Apache-2.0"
 docs_dir: "docs/"

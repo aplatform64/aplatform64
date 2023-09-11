@@ -1,13 +1,17 @@
 ---
-# Template Version: 2.0.0
+# Template: 2.2.0
 name: "Test / Bash / TestManSH"
 
 on:
+  pull_request:
+    branches:
+      - "main"
   push:
     branches:
-      - "feature/*"
-      - "develop"
-      - "main"
+      - "feature/**"
+    paths:
+      - "src/**"
+      - "test/**"
 
 jobs:
   test-batscore:

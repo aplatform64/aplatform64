@@ -35,7 +35,7 @@ Package specific actions:
 
 In order to allow homogeneous package profile definitions use the variable `sys_package_profiles.T.V.supported` to flag packages that are not available in the target platform. This will skip the package deploy without generating execution errors.
 
-The **sys_package** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [system](https://aplatform64.readthedocs.io/en/latest/collections/system) Ansible-Collection.
+The **sys_package** Ansible-Role is part of the [A:Platform64](https://github.com/aplatform64/aplatform64) project and is available in the [system](https://aplatform64.readthedocs.io/en/latest/collections/system) Ansible-Collection.
 
 ## Usage
 

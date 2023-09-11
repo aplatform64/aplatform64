@@ -8,7 +8,7 @@ Supported features in the current version:
 
 - Deploy application. Packages are defined in the variable `hpv_libvirt_client_profiles`.
 
-The **hpv_libvirt_client** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [hypervisor](https://aplatform64.readthedocs.io/en/latest/collections/hypervisor) Ansible-Collection.
+The **hpv_libvirt_client** Ansible-Role is part of the [A:Platform64](https://github.com/aplatform64/aplatform64) project and is available in the [hypervisor](https://aplatform64.readthedocs.io/en/latest/collections/hypervisor) Ansible-Collection.
 
 ## Usage
 

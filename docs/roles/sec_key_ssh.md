@@ -10,7 +10,7 @@ Supported features in the current version:
 - Install public key from file or string to remote user@host
 - Register remote host as known
 
-The **sec_key_ssh** Ansible-Role is part of the [A:Platform64](https://github.com/serdigital64/aplatform64) project and is available in the [security](https://aplatform64.readthedocs.io/en/latest/collections/security) Ansible-Collection.
+The **sec_key_ssh** Ansible-Role is part of the [A:Platform64](https://github.com/aplatform64/aplatform64) project and is available in the [security](https://aplatform64.readthedocs.io/en/latest/collections/security) Ansible-Collection.
 
 ## Usage
 

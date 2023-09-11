@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+#
+# Lint yaml code
+#
+
+#
+# Imports
+#
+
+# shellcheck source=SCRIPTDIR/dev-set
+source ./bin/dev-set || exit 1
+
+# shellcheck source-path=SCRIPTDIR/../lib
+source "$DEV_CICD_BASHLIB64" || exit 1
+
+#
+# Globals
+#
+
+YAMLLINT_CONFIG_FILE="$DEV_YAML_LINT"
+export YAMLLINT_CONFIG_FILE
+
+#
+# Functions
+#
+
+function dev_lint_yaml() {
+  local collection=''
+  for collection in $DEV_APLATFORM64_COLLECTIONS; do
+    bl64_msg_show_phase "lint collection (${collection})"
+    "$DEV_CMD_YAMLLINT" "${DEV_COLLECTIONS}/${collection}" || return $?
+  done
+}
+#
+# Main
+#
+
+declare -i status=0
+
+bl64_msg_show_batch_start 'yaml-lint'
+dev_lint_yaml
+status=$?
+bl64_msg_show_batch_finish $status 'yaml-lint'
+exit $status

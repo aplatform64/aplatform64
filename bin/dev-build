@@ -7,94 +7,95 @@
 source './bin/dev-set' || exit 1
 
 # shellcheck source-path=SCRIPTDIR/../lib disable=SC2154
-source "$DEVAP_CICD_BASHLIB64" || exit 1
+source "$DEV_CICD_BASHLIB64" || exit 1
 
 # shellcheck disable=SC2317
-function devap_build_publish() {
+function dev_build_publish() {
   local target="$1"
   local collection=''
   local publish_wait=2
 
-  cd "$DEVAP_BUILD_PROD" || return 1
+  cd "$DEV_BUILD_PROD" || return 1
 
-  [[ -z "$target" ]] && target="$(devap_get_collections)"
+  [[ -z "$target" ]] && target="$DEV_APLATFORM64_COLLECTIONS"
 
   for collection in $target; do
     bl64_msg_show_task 'publish collection package'
     # shellcheck disable=SC2086
     bl64_ans_run_ansible_galaxy \
-      collection publish --token "$DEVAP_SECRET_GALAXY_TOKEN" $DEVAP_NAMESPACE-${collection}-*.tar.gz
+      collection publish --token "$DEV_SECRET_GALAXY_TOKEN" $DEV_NAMESPACE-${collection}-*.tar.gz
     sleep $publish_wait
   done
 }
 
 # shellcheck disable=SC2317
-function devap_build_test() {
+function dev_build_test() {
   local target="$1"
   local collection=''
 
-  cd "$DEVAP_BUILD_DEV" || return 1
+  cd "$DEV_BUILD_DEV" || return 1
 
-  [[ -z "$target" ]] && target="$(devap_get_collections)"
+  [[ -z "$target" ]] && target="$DEV_APLATFORM64_COLLECTIONS"
 
   for collection in $target; do
+    bl64_msg_show_phase "build collection (${collection})"
     bl64_msg_show_task 'remove old collection package'
     # shellcheck disable=SC2086
-    bl64_fs_rm_file $DEVAP_NAMESPACE-${collection}-*.tar.gz
+    bl64_fs_rm_file $DEV_NAMESPACE-${collection}-*.tar.gz
 
     bl64_msg_show_task 'generate new collection package'
     bl64_ans_run_ansible_galaxy \
-      collection build "${DEVAP_COLLECTIONS}/${collection}" || return $?
+      collection build "${DEV_COLLECTIONS}/${collection}" || return $?
   done
 
-  bl64_msg_show_task 'remove version tag from package file names'
+  bl64_msg_show_phase 'remove version tag from package file names'
   # shellcheck disable=SC2231
-  for collection in $DEVAP_NAMESPACE-*-*.tar.gz; do
+  for collection in $DEV_NAMESPACE-*-*.tar.gz; do
     bl64_fs_run_mv "$collection" "${collection%-*}.tar.gz"
   done
 }
 
 # shellcheck disable=SC2317
-function devap_build_refresh() {
+function dev_build_refresh() {
   local target="$1"
   local collection=''
   local role=''
 
-  [[ -z "$target" ]] && target="$(devap_get_collections)"
+  [[ -z "$target" ]] && target="$DEV_APLATFORM64_COLLECTIONS"
 
-  bl64_msg_show_task "synchronize root documents"
-  bl64_fs_cp_file "${DEVAP_DOCS}/contributing/CHANGELOG.md" "$DEVAP_ROOT" &&
-    bl64_fs_cp_file "${DEVAP_DOCS}/contributing/LICENSE" "$DEVAP_ROOT" &&
-    bl64_fs_cp_file "${DEVAP_DOCS}/contributing/CODE_OF_CONDUCT.md" "$DEVAP_ROOT" &&
-    bl64_fs_cp_file "${DEVAP_DOCS}/contributing/CONTRIBUTING.md" "$DEVAP_ROOT" || return $?
+  bl64_msg_show_phase "synchronize root documents (${DEV_DOCS} -> ${DEV_ROOT}"
+  bl64_fs_cp_file "${DEV_DOCS}/contributing/CHANGELOG.md" "$DEV_ROOT" &&
+    bl64_fs_cp_file "${DEV_DOCS}/contributing/LICENSE" "$DEV_ROOT" &&
+    bl64_fs_cp_file "${DEV_DOCS}/contributing/CODE_OF_CONDUCT.md" "$DEV_ROOT" &&
+    bl64_fs_cp_file "${DEV_DOCS}/contributing/CONTRIBUTING.md" "$DEV_ROOT" || return $?
 
-  bl64_msg_show_task "synchronize collections"
   for collection in $target; do
+    bl64_msg_show_phase "synchronize collection (${collection})"
     bl64_msg_show_task "refresh license (master -> ${collection})"
-    bl64_fs_cp_file "${DEVAP_DOCS}/contributing/LICENSE" "$DEVAP_COLLECTIONS/${collection}/LICENSE" &&
-      bl64_fs_cp_file "${DEVAP_DOCS}/contributing/CODE_OF_CONDUCT.md" "$DEVAP_COLLECTIONS/${collection}/CODE_OF_CONDUCT.md" || return $?
+    bl64_fs_cp_file "${DEV_DOCS}/contributing/LICENSE" "$DEV_COLLECTIONS/${collection}/LICENSE" &&
+      bl64_fs_cp_file "${DEV_DOCS}/contributing/CODE_OF_CONDUCT.md" "$DEV_COLLECTIONS/${collection}/CODE_OF_CONDUCT.md" || return $?
 
     bl64_msg_show_task "refresh tool configurations (master -> ${collection})"
-    bl64_fs_cp_file "${DEVAP_ANSIBLE_LINT}" "$DEVAP_COLLECTIONS/${collection}" &&
-      bl64_fs_cp_file "${YAMLLINT_CONFIG_FILE}" "$DEVAP_COLLECTIONS/${collection}" || return $?
+    bl64_fs_cp_file "${DEV_ANSIBLE_LINT}" "$DEV_COLLECTIONS/${collection}" &&
+      bl64_fs_cp_file "${DEV_YAML_LINT}" "$DEV_COLLECTIONS/${collection}" || return $?
 
     bl64_msg_show_task "sync role doc (${collection} -> master)"
-    bl64_fs_cp_file "$DEVAP_COLLECTIONS/${collection}/README.md" "${DEVAP_DOCS}/collections/${collection}.md" || return $?
+    bl64_fs_cp_file "$DEV_COLLECTIONS/${collection}/README.md" "${DEV_DOCS}/collections/${collection}.md" || return $?
 
     bl64_msg_show_task "synchronize roles"
     for role in $(
-      cd "$DEVAP_COLLECTIONS/${collection}/roles"
+      cd "$DEV_COLLECTIONS/${collection}/roles"
       echo *
     ); do
       bl64_msg_show_task "sync examples (${role} -> master)"
-      [[ -f "$DEVAP_COLLECTIONS/${collection}/playbooks/${role}.yml" ]] &&
-        bl64_fs_cp_file "$DEVAP_COLLECTIONS/${collection}/playbooks/${role}.yml" "${DEVAP_DOCS}/examples/${role}.yml"
+      [[ -f "$DEV_COLLECTIONS/${collection}/playbooks/${role}.yml" ]] &&
+        bl64_fs_cp_file "$DEV_COLLECTIONS/${collection}/playbooks/${role}.yml" "${DEV_DOCS}/examples/${role}.yml"
 
       bl64_msg_show_task "refresh license (master -> ${role})"
-      bl64_fs_cp_file "${DEVAP_DOCS}/contributing/LICENSE" "$DEVAP_COLLECTIONS/${collection}/roles/${role}/LICENSE" &&
-        bl64_fs_cp_file "${DEVAP_DOCS}/contributing/CODE_OF_CONDUCT.md" "$DEVAP_COLLECTIONS/${collection}/roles/${role}/CODE_OF_CONDUCT.md" &&
+      bl64_fs_cp_file "${DEV_DOCS}/contributing/LICENSE" "$DEV_COLLECTIONS/${collection}/roles/${role}/LICENSE" &&
+        bl64_fs_cp_file "${DEV_DOCS}/contributing/CODE_OF_CONDUCT.md" "$DEV_COLLECTIONS/${collection}/roles/${role}/CODE_OF_CONDUCT.md" &&
         bl64_msg_show_task "sync docs (${role} -> master)" &&
-        bl64_fs_cp_file "$DEVAP_COLLECTIONS/${collection}/roles/${role}/README.md" "${DEVAP_DOCS}/roles/${role}.md" || return $?
+        bl64_fs_cp_file "$DEV_COLLECTIONS/${collection}/roles/${role}/README.md" "${DEV_DOCS}/roles/${role}.md" || return $?
 
     done
 
@@ -104,63 +105,59 @@ function devap_build_refresh() {
 }
 
 # shellcheck disable=SC2317
-function devap_build_cli() {
+function dev_build_cli() {
   local target=''
   local name=''
-  local target_file="$DEVAP_TMP/devap-build-collections.sh"
+  local target_file="$DEV_TMP/devap-build-collections.sh"
 
-  for name in $(devap_get_collections); do
-    target="${target} ${DEVAP_NAMESPACE}.${name}"
+  for name in $DEV_APLATFORM64_COLLECTIONS; do
+    target="${target} ${DEV_NAMESPACE}.${name}"
   done
   printf 'readonly AP64_COLLECTIONS="%s"\n' "$target" >"$target_file"
 
-  bl64_msg_show_task "build CLI (${DEVAP_BUILD_FULL_PATH})"
+  bl64_msg_show_task "build CLI (${DEV_BUILD_FULL_PATH})"
   # shellcheck disable=SC2154
   bl64_fs_merge_files \
     '0755' \
     "$BL64_VAR_DEFAULT" \
     "$BL64_VAR_DEFAULT" \
     "$BL64_VAR_ON" \
-    "$DEVAP_BUILD_FULL_PATH" \
-    "${DEVAP_SRC}/cli/header.bash" \
-    "$DEVAP_CICD_BASHLIB64" \
-    "${DEVAP_SRC}/cli/env.bash" \
+    "$DEV_BUILD_FULL_PATH" \
+    "${DEV_SRC}/cli/header.bash" \
+    "$DEV_CICD_BASHLIB64" \
+    "${DEV_SRC}/cli/env.bash" \
     "$target_file" \
-    "${DEVAP_SRC}/cli/functions.bash" \
-    "${DEVAP_SRC}/cli/main.bash"
+    "${DEV_SRC}/cli/functions.bash" \
+    "${DEV_SRC}/cli/main.bash"
 }
 
 # shellcheck disable=SC2317
-function devap_build_prod() {
+function dev_build_prod() {
   local target="$1"
   local collection=''
 
-  cd "$DEVAP_BUILD_PROD" || return 1
+  cd "$DEV_BUILD_PROD" || return 1
 
-  [[ -z "$target" ]] && target="$(devap_get_collections)"
+  [[ -z "$target" ]] && target="$DEV_APLATFORM64_COLLECTIONS"
 
   for collection in $target; do
+    bl64_msg_show_phase "build collection (${collection})"
     bl64_msg_show_task 'remove old collection package'
     # shellcheck disable=SC2086
-    bl64_fs_rm_file ${DEVAP_NAMESPACE}-${collection}-*.tar.gz
+    bl64_fs_rm_file ${DEV_NAMESPACE}-${collection}-*.tar.gz
 
     bl64_msg_show_task 'generate new collection package'
     bl64_ans_run_ansible_galaxy \
-      collection build "$DEVAP_COLLECTIONS/$collection" || return $?
+      collection build "$DEV_COLLECTIONS/$collection" || return $?
   done
 }
 
-function devap_get_collections() {
-  cd "$DEVAP_COLLECTIONS" &&
-    echo *
-}
-
-function devap_build_initialize() {
+function dev_build_initialize() {
   local debug="$1"
   local verbose="$2"
   local command="$3"
 
-  [[ -z "$command" ]] && devap_build_help && return 1
+  [[ -z "$command" ]] && dev_build_help && return 1
   bl64_dbg_set_level "$debug" &&
     bl64_msg_set_level "$verbose" ||
     return $?
@@ -169,17 +166,17 @@ function devap_build_initialize() {
     "$BL64_VAR_DEFAULT" \
     "$BL64_VAR_DEFAULT" \
     "$BL64_VAR_DEFAULT" \
-    "$DEVAP_VAR_ANSIBLE" \
-    "$DEVAP_BUILD_DEV" \
-    "$DEVAP_BUILD_PROD" \
-    "$DEVAP_COLLECTIONS" || return $?
+    "$DEV_VAR_ANSIBLE" \
+    "$DEV_BUILD_DEV" \
+    "$DEV_BUILD_PROD" \
+    "$DEV_COLLECTIONS" || return $?
 
-  if [[ "$command" != 'devap_build_cli' ]]; then
-    bl64_ans_setup "$DEVAP_PYTHON_VENV_BIN" "$ANSIBLE_CONFIG" || return $?
+  if [[ "$command" != 'dev_build_cli' && "$command" != 'dev_build_refresh' ]]; then
+    bl64_ans_setup "$BL64_VAR_DEFAULT" "$ANSIBLE_CONFIG" || return $?
   fi
 }
 
-function devap_build_help() {
+function dev_build_help() {
 
   bl64_msg_show_usage \
     '<-r|-i|-t|-p|-uu> [-c collection] [-V Verbose] [-D Debug] [-h]' \
@@ -189,7 +186,7 @@ function devap_build_help() {
   -i           : build CLI
   -t           : build testing packages
   -p           : build production packages
-  -u           : publish production packages (needs Galaxy token set in DEVAP_SECRET_GALAXY_TOKEN)
+  -u           : publish production packages (needs Galaxy token set in DEV_SECRET_GALAXY_TOKEN)
     ' '' '
   -c collection: limit actions to the specified collection.
   -V Verbose   : Set verbosity level. Format: one of BL64_MSG_VERBOSE_*
@@ -202,55 +199,55 @@ function devap_build_help() {
 # Main
 #
 
-declare devap_build_status=1
-declare devap_build_debug="$BL64_DBG_TARGET_NONE"
-declare devap_build_verbose="$BL64_MSG_VERBOSE_ALL"
-declare devap_build_command=''
-declare devap_build_command_tag=''
-declare devap_build_option=''
-declare devap_build_collection=''
+declare dev_build_status=1
+declare dev_build_debug="$BL64_DBG_TARGET_NONE"
+declare dev_build_verbose="$BL64_MSG_VERBOSE_ALL"
+declare dev_build_command=''
+declare dev_build_command_tag=''
+declare dev_build_option=''
+declare dev_build_collection=''
 
-(($# == 0)) && devap_build_help && exit 1
-while getopts ':ritpuc:V:D:h' devap_build_option; do
-  case "$devap_build_option" in
+(($# == 0)) && dev_build_help && exit 1
+while getopts ':ritpuc:V:D:h' dev_build_option; do
+  case "$dev_build_option" in
   r)
-    devap_build_command='devap_build_refresh'
-    devap_build_command_tag='refresh collection doc'
+    dev_build_command='dev_build_refresh'
+    dev_build_command_tag='refresh collection doc'
     ;;
   i)
-    devap_build_command='devap_build_cli'
-    devap_build_command_tag='build CLI'
+    dev_build_command='dev_build_cli'
+    dev_build_command_tag='build CLI'
     ;;
   t)
-    devap_build_command='devap_build_test'
-    devap_build_command_tag='testing package build'
+    dev_build_command='dev_build_test'
+    dev_build_command_tag='testing package build'
     ;;
   p)
-    devap_build_command='devap_build_prod'
-    devap_build_command_tag='production package build'
+    dev_build_command='dev_build_prod'
+    dev_build_command_tag='production package build'
     ;;
   u)
-    devap_build_command='devap_build_publish'
-    devap_build_command_tag='publishing packages'
+    dev_build_command='dev_build_publish'
+    dev_build_command_tag='publishing packages'
     ;;
-  c) devap_build_collection="$OPTARG" ;;
-  V) devap_build_verbose="$OPTARG" ;;
-  D) devap_build_debug="$OPTARG" ;;
-  h) devap_build_help && exit ;;
-  *) devap_build_help && exit 1 ;;
+  c) dev_build_collection="$OPTARG" ;;
+  V) dev_build_verbose="$OPTARG" ;;
+  D) dev_build_debug="$OPTARG" ;;
+  h) dev_build_help && exit ;;
+  *) dev_build_help && exit 1 ;;
   esac
 done
-devap_build_initialize "$devap_build_debug" "$devap_build_verbose" "$devap_build_command" &&
-  cd "$DEVAP_ROOT" ||
+dev_build_initialize "$dev_build_debug" "$dev_build_verbose" "$dev_build_command" &&
+  cd "$DEV_ROOT" ||
   exit 1
 
-bl64_msg_show_batch_start "$devap_build_command_tag"
-case "$devap_build_command" in
-'devap_build_test' | 'devap_build_prod' | 'devap_build_publish' | 'devap_build_refresh') "$devap_build_command" "$devap_build_collection" ;;
-'devap_build_cli') "$devap_build_command" ;;
-*) bl64_check_alert_parameter_invalid "$devap_build_command" ;;
+bl64_msg_show_batch_start "$dev_build_command_tag"
+case "$dev_build_command" in
+'dev_build_test' | 'dev_build_prod' | 'dev_build_publish' | 'dev_build_refresh') "$dev_build_command" "$dev_build_collection" ;;
+'dev_build_cli') "$dev_build_command" ;;
+*) bl64_check_alert_parameter_invalid "$dev_build_command" ;;
 esac
-devap_build_status=$?
+dev_build_status=$?
 
-bl64_msg_show_batch_finish $devap_build_status "$devap_build_command_tag"
-exit $devap_build_status
+bl64_msg_show_batch_finish $dev_build_status "$dev_build_command_tag"
+exit $dev_build_status

@@ -1,7 +1,7 @@
 ---
 parseable: true
-quiet: false
-verbosity: 1
+quiet: true
+verbosity: 0
 loop_var_prefix: "{role}___"
 var_naming_pattern: "^[a-z_][a-z0-9_]*$"
 use_default_rules: true
@@ -17,7 +17,7 @@ kinds:
   - vars: "**/vars/*.yml"
   - meta: "**/meta/main.yml"
 
-exclude_paths:
+exclude_paths: []
 
 # YAML Linting done by Molecular
 skip_list:

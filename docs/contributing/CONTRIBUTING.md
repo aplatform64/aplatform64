@@ -2,33 +2,18 @@
 
 ## Prepare Development Environment
 
-- Prepare dev tools:
-  - Install GIT
-  - Install Git Flow
-  - Install Python
-- Download BashLib64
+- Prepare your local environment with recommended tools:
+  - GIT
+  - Docker
+  - DevContainer compatible IDE (e.g.: VSCode)
 
-```shell
-./bin/dev-lib
-```
-
-- Clone GIT repositories
+- Clone GIT repository
 
 ```shell
 # Create the main repository
 cd <YOUR_PROJECTS_PATH>
-git clone https://github.com/serdigital64/aplatform64
-cd aplatform64
-# Init git flow
-git flow init
-# Create module repositories as git submodules
-git submodule init
-# Update modules
-git submodule update
-# Enable main branch on submodules
-git submodule foreach "git checkout main"; git submodule foreach "git checkout develop"
-# (Optional) Initialize git flow. Production branch:main, use defaults for the remaining branches
-git submodule foreach "git flow init"
+git clone https://github.com/aplatform64/aplatform64
+# Clone additional collection repositories as needed under <YOUR_PROJECTS_PATH>/collections/serdigital64
 ```
 
 - Adjust environment variables to reflect your configuration:
@@ -40,22 +25,7 @@ cp dot.secrets .secrets
 # Review and update content for both files
 ```
 
-- Create Python Virtual Environment
-
-```shell
-source .local
-source .env
-python3 -m venv "$DEVAP_PYTHON_VENV"
-source ./bin/dev-set
-```
-
-- Install Python dev modules
-
-```shell
-pip3 install --upgrade -r requirements-aplatform64.txt
-```
-
-- The environment is now ready. From now use the following script to load environment variables and set the virtual Python environment:
+- The environment is now ready. From now use the following script to load environment variables:
 
 ```shell
 source ./bin/dev-set
@@ -65,8 +35,9 @@ source ./bin/dev-set
 
 - CLI:
   - Add/Edit source code in: `src/cli`
-- Collections
+- Ansible Collections
   - Work on the collection repository using it's own development branch
+- Buildin and test: use included devcontainer: `ubuntu-22.04-dev-ansible`
 
 ## Design principles
 
@@ -162,9 +133,9 @@ Use the following code templates from the project [CodeSkel64](https://github.co
 
 ## Linting
 
-- Global Ansible Lint definition: `$DEVAP_ROOT/.ansible-lint`
-- Global YAML Lint definition: `$DEVAP_ROOT/.yamllint`
-- Global ShellCheck Lint definition: `$DEVAP_ROOT/.shellcheckrc`
+- Global Ansible Lint definition: `$DEV_ROOT/.ansible-lint`
+- Global YAML Lint definition: `$DEV_ROOT/.yamllint`
+- Global ShellCheck Lint definition: `$DEV_ROOT/.shellcheckrc`
 
 ## Test source code
 
@@ -232,7 +203,7 @@ bin/dev-build -t
 ## Repositories
 
 - Project GIT repository
-  - Main: [https://github.com/serdigital64/aplatform64](https://github.com/serdigital64/aplatform64)
+  - Main: [https://github.com/aplatform64/aplatform64](https://github.com/aplatform64/aplatform64)
   - Submodules: [https://github.com/aplatform64](https://github.com/aplatform64)
 - Project Ansible Galaxy repository: [https://galaxy.ansible.com/serdigital64](https://galaxy.ansible.com/serdigital64)
 - Project Documentation: [https://aplatform64.readthedocs.io](https://aplatform64.readthedocs.io)
