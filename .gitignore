@@ -32,4 +32,4 @@ lib/*
 
 .git-secrets
 
-collections/serdigital64
+collections/serdigital64/*
