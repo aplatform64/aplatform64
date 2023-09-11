@@ -17,7 +17,7 @@ source "$DEV_CICD_BASHLIB64" || exit 1
 # Globals
 #
 
-YAMLLINT_CONFIG_FILE="${DEV_ROOT}/.yamllint"
+YAMLLINT_CONFIG_FILE="$DEV_YAML_LINT"
 export YAMLLINT_CONFIG_FILE
 
 #

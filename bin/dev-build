@@ -77,7 +77,7 @@ function dev_build_refresh() {
 
     bl64_msg_show_task "refresh tool configurations (master -> ${collection})"
     bl64_fs_cp_file "${DEV_ANSIBLE_LINT}" "$DEV_COLLECTIONS/${collection}" &&
-      bl64_fs_cp_file "${YAMLLINT_CONFIG_FILE}" "$DEV_COLLECTIONS/${collection}" || return $?
+      bl64_fs_cp_file "${DEV_YAML_LINT}" "$DEV_COLLECTIONS/${collection}" || return $?
 
     bl64_msg_show_task "sync role doc (${collection} -> master)"
     bl64_fs_cp_file "$DEV_COLLECTIONS/${collection}/README.md" "${DEV_DOCS}/collections/${collection}.md" || return $?
