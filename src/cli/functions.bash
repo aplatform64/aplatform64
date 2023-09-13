@@ -402,6 +402,17 @@ function ap64_initialize() {
   bl64_check_parameter 'command' ||
     { ap64_help && return 1; }
 
+  bl64_os_check_version \
+    "${BL64_OS_ALM}-8" \
+    "${BL64_OS_CNT}-8" \
+    "${BL64_OS_DEB}-10" "${BL64_OS_DEB}-11" \
+    "${BL64_OS_FD}-33" "${BL64_OS_FD}-35" \
+    "${BL64_OS_OL}-8" \
+    "${BL64_OS_RHEL}-8" \
+    "${BL64_OS_RCK}-8" \
+    "${BL64_OS_UB}-20" "${BL64_OS_UB}-21" "${BL64_OS_UB}-22" ||
+    return $?
+
   AP64_PATH_VAR="$(bl64_fmt_dirname "$HOME")"
   AP64_PATH_VENV="${AP64_PATH_VAR}/${AP64_VENV}"
   AP64_PATH_VENV_CACHE="${AP64_PATH_VAR}/pip_cache"
