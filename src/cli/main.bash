@@ -82,7 +82,7 @@ ap64_cli_user_switch "$ap64_command" "$ap64_user" "$ap64_path_root" "$@" ||
 
 bl64_msg_show_batch_start "$ap64_command_tag"
 case "$ap64_command" in
-'ap64_site_install') "$ap64_command" "$ap64_path_root" "$ap64_path_var" "$ap64_user" ;;
+'ap64_site_install') "$ap64_command" "$ap64_path_root" "$ap64_path_var" "$ap64_user" "$ap64_debug" ;;
 'ap64_site_bootstrap') "$ap64_command" "$ap64_path_root" "$ap64_path_var" "$ap64_user" ;;
 'ap64_site_upgrade') "$ap64_command" "$ap64_collection" "$ap64_package" ;;
 'ap64_site_list') "$ap64_command" ;;

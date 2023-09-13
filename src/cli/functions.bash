@@ -16,6 +16,7 @@ function ap64_site_install() {
   local root="$1"
   local var="$2"
   local user="$3"
+  local debug="$4"
   local cli="${root}/${AP64_CLI}"
 
   bl64_msg_show_phase 'prepare installation environment'
@@ -47,6 +48,7 @@ function ap64_site_install() {
 
   bl64_rbac_run_command "$user" "$cli" \
     -j \
+    -D "$debug" \
     -b "$root" \
     -d "$var" \
     -g "$user" ||
