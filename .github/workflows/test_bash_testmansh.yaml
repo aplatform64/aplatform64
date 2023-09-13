@@ -10,11 +10,11 @@ on:
     branches:
       - "feature/**"
     paths:
-      - "src/**"
-      - "test/**"
+      - "src/cli/**"
+      - "test/batscore/cli/**"
 
 jobs:
-  test-batscore:
+  test-rhel:
     runs-on: "ubuntu-latest"
     steps:
 
@@ -26,5 +26,61 @@ jobs:
 
       - name: "Run tests"
         shell: 'script -q -e -c "bash {0}"'
-        run: "./bin/dev-test"
+        run: "./bin/dev-test rhel"
+
+  test-centos:
+    runs-on: "ubuntu-latest"
+    steps:
+
+      - name: "Check out repository code"
+        uses: "actions/checkout@main"
+
+      - name: "Prepare build environment"
+        run: "./bin/dev-lib"
+
+      - name: "Run tests"
+        shell: 'script -q -e -c "bash {0}"'
+        run: "./bin/dev-test centos"
+
+  test-ubuntu:
+    runs-on: "ubuntu-latest"
+    steps:
+
+      - name: "Check out repository code"
+        uses: "actions/checkout@main"
+
+      - name: "Prepare build environment"
+        run: "./bin/dev-lib"
+
+      - name: "Run tests"
+        shell: 'script -q -e -c "bash {0}"'
+        run: "./bin/dev-test ubuntu"
+
+  test-debian:
+    runs-on: "ubuntu-latest"
+    steps:
+
+      - name: "Check out repository code"
+        uses: "actions/checkout@main"
+
+      - name: "Prepare build environment"
+        run: "./bin/dev-lib"
+
+      - name: "Run tests"
+        shell: 'script -q -e -c "bash {0}"'
+        run: "./bin/dev-test debian"
+
+  test-fedora:
+    runs-on: "ubuntu-latest"
+    steps:
+
+      - name: "Check out repository code"
+        uses: "actions/checkout@main"
+
+      - name: "Prepare build environment"
+        run: "./bin/dev-lib"
+
+      - name: "Run tests"
+        shell: 'script -q -e -c "bash {0}"'
+        run: "./bin/dev-test fedora"
 ...
