@@ -1,6 +1,5 @@
 function ap64_site_info() {
   bl64_dbg_app_show_function
-
   # shellcheck disable=SC2154
   bl64_msg_show_info "A:Platform64 Site     : ${AP64_SITE_CURRENT}" &&
     bl64_msg_show_info "Ansible Playbooks     : ${ANSIBLE_PLAYBOOK_DIR}" &&
@@ -16,6 +15,8 @@ function ap64_site_install() {
   local root="$1"
   local var="$2"
   local user="$3"
+  local debug="$4"
+  local ansible_version="$5"
   local cli="${root}/${AP64_CLI}"
 
   bl64_msg_show_phase 'prepare installation environment'
@@ -42,13 +43,15 @@ function ap64_site_install() {
       "${BL64_SCRIPT_PATH}/${AP64_CLI}" ||
       return $?
   else
-    bl64_msg_show_info 'environment already prepared'
+    bl64_msg_show_warning 'existing installation of A:Platform64 detected. No further preparation needed.'
   fi
 
   bl64_rbac_run_command "$user" "$cli" \
     -j \
+    -D "$debug" \
     -b "$root" \
     -d "$var" \
+    -v "$ansible_version" \
     -g "$user" ||
     return $?
 
@@ -60,14 +63,34 @@ function ap64_site_bootstrap() {
   local root="$1"
   local var="$2"
   local user="$3"
-  local modules='ansible'
+  local ansible_version="$4"
+  local modules=''
+  local legacy='2.11'
   local playbook='serdigital64/automation/roles/auto_aplatform64/files/playbooks/manage_aplatform64_servers.yml'
 
   bl64_msg_show_phase 'install Ansible Python modules'
+  if [[ "$ansible_version" == 'latest' ]]; then
+    if bl64_os_match "${BL64_OS_OL}-8" "${BL64_OS_CNT}-8" "${BL64_OS_DEB}-10" "${BL64_OS_RHEL}-8" "${BL64_OS_RCK}-8" "${BL64_OS_ALM}-8" "${BL64_OS_UB}-20"; then
+      bl64_msg_show_warning "unable to use latest version of ansible-core due to imcompatibility with current OS. Downgrading to legacy version (${legacy})"
+      modules="ansible-core==${legacy}.*"
+    else
+      modules='ansible-core'
+    fi
+  elif [[ "$ansible_version" == '2.13' || "$ansible_version" == '2.14' || "$ansible_version" == '2.15' ]]; then
+    if bl64_os_match "${BL64_OS_OL}-8" "${BL64_OS_CNT}-8" "${BL64_OS_DEB}-10" "${BL64_OS_RHEL}-8" "${BL64_OS_RCK}-8" "${BL64_OS_ALM}-8" "${BL64_OS_UB}-20"; then
+      bl64_msg_show_warning "unable to use requested version of ansible-core due to imcompatibility with current OS. Downgrading to legacy version (${ansible_version} -> ${legacy})"
+      modules="ansible-core==${legacy}.*"
+    else
+      modules="ansible-core==${ansible_version}.*"
+    fi
+  else
+      modules="ansible-core==${ansible_version}.*"
+  fi
+  # shellcheck disable=SC2086
   bl64_fs_set_ephemeral "$AP64_PATH_VENV_TMP" "$AP64_PATH_VENV_CACHE" &&
     bl64_py_setup "$AP64_PATH_VENV" &&
     bl64_py_pip_usr_prepare &&
-    bl64_py_pip_usr_install "$modules" &&
+    bl64_py_pip_usr_install $modules &&
     bl64_ans_setup "$BL64_VAR_DEFAULT" "$BL64_VAR_DEFAULT" "$BL64_VAR_OFF" ||
     return $?
 
@@ -402,6 +425,17 @@ function ap64_initialize() {
   bl64_check_parameter 'command' ||
     { ap64_help && return 1; }
 
+  bl64_os_check_version \
+    "${BL64_OS_ALM}-8" \
+    "${BL64_OS_CNT}-8" \
+    "${BL64_OS_DEB}-10" "${BL64_OS_DEB}-11" \
+    "${BL64_OS_FD}-33" "${BL64_OS_FD}-35" \
+    "${BL64_OS_OL}-8" "${BL64_OS_OL}-9" \
+    "${BL64_OS_RHEL}-8" \
+    "${BL64_OS_RCK}-8" \
+    "${BL64_OS_UB}-20" "${BL64_OS_UB}-21" "${BL64_OS_UB}-22" ||
+    return $?
+
   AP64_PATH_VAR="$(bl64_fmt_dirname "$HOME")"
   AP64_PATH_VENV="${AP64_PATH_VAR}/${AP64_VENV}"
   AP64_PATH_VENV_CACHE="${AP64_PATH_VAR}/pip_cache"
@@ -413,7 +447,7 @@ function ap64_initialize() {
 
 function ap64_help() {
   bl64_msg_show_usage \
-    '<-i|-j|-c|-o|-r|-u|-l|-n|-t|-k> [-s Site] [-x Host] [-p Playbook] [-e Collection|-f Package] [-b Root] [-d Var] [-g User] [-V Verbose] [-D Debug] [-h]' \
+    '<-i|-j|-c|-o|-r|-u|-l|-n|-t|-k> [-s Site] [-x Host] [-p Playbook] [-e Collection|-f Package] [-b Root] [-d Var] [-v Version] [-g User] [-V Verbose] [-D Debug] [-h]' \
     'A:Platform64 command line interface' '
   -i           : Install A:Platform64
   -j           : Bootstrap A:Platform64 (internal use only)
@@ -431,6 +465,7 @@ function ap64_help() {
   -b Root      : APlatform64 root path. Default: /opt/ap64
   -d Var       : APlatform64 var path. Default: /var/opt/ap64
   -g User      : APlatform64 user name. Default: ap64
+  -v Version   : Ansible Core version for the controller node. Default: 2.13. Format: Major.Minor
   -s Site      : Target Site. Defaul: site
   -x Host      : Target host for playbook run. Default: all
   -p Playbook  : Name of the playbook to run

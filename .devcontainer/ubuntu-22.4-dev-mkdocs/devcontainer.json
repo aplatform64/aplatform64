@@ -1,0 +1,11 @@
+{
+	"name": "ubuntu-22.4-dev-mkdocs",
+	"image": "ghcr.io/automation64/dev/ubuntu-22.4-dev-mkdocs:latest",
+	"features": {},
+	"forwardPorts": [],
+	"customizations": {
+		"vscode": {
+			"extensions": []
+		}
+	}
+}

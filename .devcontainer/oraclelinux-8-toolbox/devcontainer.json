@@ -1,0 +1,11 @@
+{
+	"name": "oraclelinux-8-toolbox",
+	"image": "ghcr.io/automation64/toolbox/oraclelinux-8-toolbox:latest",
+	"features": {},
+	"forwardPorts": [],
+	"customizations": {
+		"vscode": {
+			"extensions": []
+		}
+	}
+}

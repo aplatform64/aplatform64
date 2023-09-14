@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+#
+# Run CLI test-cases
+#
+
+#
+# Imports
+#
+
+# shellcheck source=SCRIPTDIR/dev-set
+source ./bin/dev-set || exit 1
+
+# shellcheck source-path=SCRIPTDIR/../lib disable=SC2154
+source "$DEV_CICD_BASHLIB64" || exit 1
+
+#
+# Main
+#
+
+declare -u target="${1:-RHEL}"
+declare container_var=''
+declare container_list=''
+
+bl64_msg_show_phase 'Build CLI'
+"$DEV_CICD_BUILD" -i || exit $?
+
+bl64_msg_show_phase 'Test CLI'
+container_var="DEV_TEST_CONTAINER_CLI_${target}"
+bl64_check_export "$container_var" || exit $?
+eval container_list="\$$container_var"
+
+"$DEV_CICD_TESTMANSH" -b -o -e "$container_list" -c 'cli'

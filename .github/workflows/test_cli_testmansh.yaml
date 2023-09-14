@@ -1,0 +1,87 @@
+---
+# Template: 2.2.0
+name: "Test / CLI / TestManSH"
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - "main"
+  push:
+    branches:
+      - "feature/**"
+    paths:
+      - "src/cli/**"
+      - "test/batscore/cli/**"
+
+jobs:
+  test-rhel:
+    runs-on: "ubuntu-latest"
+    steps:
+
+      - name: "Check out repository code"
+        uses: "actions/checkout@main"
+
+      - name: "Prepare build environment"
+        run: "./bin/dev-lib"
+
+      - name: "Run tests"
+        shell: 'script -q -e -c "bash {0}"'
+        run: "./bin/dev-test-cli rhel"
+
+  test-centos:
+    runs-on: "ubuntu-latest"
+    steps:
+
+      - name: "Check out repository code"
+        uses: "actions/checkout@main"
+
+      - name: "Prepare build environment"
+        run: "./bin/dev-lib"
+
+      - name: "Run tests"
+        shell: 'script -q -e -c "bash {0}"'
+        run: "./bin/dev-test-cli centos"
+
+  test-ubuntu:
+    runs-on: "ubuntu-latest"
+    steps:
+
+      - name: "Check out repository code"
+        uses: "actions/checkout@main"
+
+      - name: "Prepare build environment"
+        run: "./bin/dev-lib"
+
+      - name: "Run tests"
+        shell: 'script -q -e -c "bash {0}"'
+        run: "./bin/dev-test-cli ubuntu"
+
+  test-debian:
+    runs-on: "ubuntu-latest"
+    steps:
+
+      - name: "Check out repository code"
+        uses: "actions/checkout@main"
+
+      - name: "Prepare build environment"
+        run: "./bin/dev-lib"
+
+      - name: "Run tests"
+        shell: 'script -q -e -c "bash {0}"'
+        run: "./bin/dev-test-cli debian"
+
+  test-fedora:
+    runs-on: "ubuntu-latest"
+    steps:
+
+      - name: "Check out repository code"
+        uses: "actions/checkout@main"
+
+      - name: "Prepare build environment"
+        run: "./bin/dev-lib"
+
+      - name: "Run tests"
+        shell: 'script -q -e -c "bash {0}"'
+        run: "./bin/dev-test-cli fedora"
+...

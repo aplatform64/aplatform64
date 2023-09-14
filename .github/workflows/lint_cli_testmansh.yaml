@@ -1,6 +1,6 @@
 ---
 # Template: 2.2.0
-name: "Lint / Bash / TestManSH"
+name: "Lint / CLI / TestManSH"
 
 on:
   pull_request:
@@ -10,7 +10,7 @@ on:
     branches:
       - "feature/**"
     paths:
-      - "src/**"
+      - "src/cli/**"
 
 jobs:
   lint-bash-testmansh:
@@ -25,5 +25,5 @@ jobs:
 
       - name: "Run Bash linter"
         shell: 'script -q -e -c "bash {0}"'
-        run: "./bin/dev-lint"
+        run: "./bin/dev-lint-cli"
 ...
