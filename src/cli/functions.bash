@@ -420,7 +420,7 @@ function ap64_initialize() {
 
   bl64_os_check_version \
     "${BL64_OS_ALM}-8" \
-    "${BL64_OS_CNT}-8" \
+    "${BL64_OS_CNT}-8" "${BL64_OS_CNT}-9" \
     "${BL64_OS_DEB}-10" "${BL64_OS_DEB}-11" \
     "${BL64_OS_FD}-33" "${BL64_OS_FD}-35" \
     "${BL64_OS_OL}-8" \
@@ -457,8 +457,8 @@ function ap64_help() {
     ' '
   -b Root      : APlatform64 root path. Default: /opt/ap64
   -d Var       : APlatform64 var path. Default: /var/opt/ap64
-  -v Version   : Target Ansible Core version. Default: latest
   -g User      : APlatform64 user name. Default: ap64
+  -v Version   : Ansible Core version for the controller node. Default: 2.13
   -s Site      : Target Site. Defaul: site
   -x Host      : Target host for playbook run. Default: all
   -p Playbook  : Name of the playbook to run

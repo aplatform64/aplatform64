@@ -15,7 +15,7 @@ declare ap64_path_var='/var/opt/ap64'
 declare ap64_playbook=''
 declare ap64_site='site'
 declare ap64_user='ap64'
-declare ap64_version='latest'
+declare ap64_version='2.13'
 
 (($# == 0)) && ap64_help && exit 1
 while getopts ':ilckrjuontf:e:b:d:g:s:p:x:v:V:D:h' Option; do
