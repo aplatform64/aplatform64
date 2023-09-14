@@ -69,12 +69,17 @@ function ap64_site_bootstrap() {
   local playbook='serdigital64/automation/roles/auto_aplatform64/files/playbooks/manage_aplatform64_servers.yml'
 
   bl64_msg_show_phase 'install Ansible Python modules'
-  if [[ "$version" == 'latest' || "$version" == '2.13' || "$version" == '2.14' || "$version" == '2.15' ]]; then
+  if [[ "$version" == 'latest' ]]; then
     if bl64_os_match "${BL64_OS_OL}-8" "${BL64_OS_CNT}-8" "${BL64_OS_DEB}-10" "${BL64_OS_RHEL}-8" "${BL64_OS_RCK}-8" "${BL64_OS_ALM}-8" "${BL64_OS_UB}-20"; then
       bl64_msg_show_warning "unable to use latest version of ansible-core due to imcompatibility with current OS. Downgrading to legacy version (${legacy})"
       modules="ansible-core==${legacy}.*"
     else
       modules='ansible-core'
+    fi
+  elif [[ "$version" == '2.13' || "$version" == '2.14' || "$version" == '2.15' ]]; then
+    if bl64_os_match "${BL64_OS_OL}-8" "${BL64_OS_CNT}-8" "${BL64_OS_DEB}-10" "${BL64_OS_RHEL}-8" "${BL64_OS_RCK}-8" "${BL64_OS_ALM}-8" "${BL64_OS_UB}-20"; then
+      bl64_msg_show_warning "unable to use requested version of ansible-core due to imcompatibility with current OS. Downgrading to legacy version (${version} -> ${legacy})"
+      modules="ansible-core==${legacy}.*"
     fi
   else
       modules="ansible-core==${version}.*"
@@ -420,10 +425,10 @@ function ap64_initialize() {
 
   bl64_os_check_version \
     "${BL64_OS_ALM}-8" \
-    "${BL64_OS_CNT}-8" "${BL64_OS_CNT}-9" \
+    "${BL64_OS_CNT}-8" \
     "${BL64_OS_DEB}-10" "${BL64_OS_DEB}-11" \
     "${BL64_OS_FD}-33" "${BL64_OS_FD}-35" \
-    "${BL64_OS_OL}-8" \
+    "${BL64_OS_OL}-8" "${BL64_OS_OL}-9" \
     "${BL64_OS_RHEL}-8" \
     "${BL64_OS_RCK}-8" \
     "${BL64_OS_UB}-20" "${BL64_OS_UB}-21" "${BL64_OS_UB}-22" ||
