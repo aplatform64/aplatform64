@@ -78,11 +78,13 @@ function ap64_site_bootstrap() {
     fi
   elif [[ "$ansible_version" == '2.13' || "$ansible_version" == '2.14' || "$ansible_version" == '2.15' ]]; then
     if bl64_os_match "${BL64_OS_OL}-8" "${BL64_OS_CNT}-8" "${BL64_OS_DEB}-10" "${BL64_OS_RHEL}-8" "${BL64_OS_RCK}-8" "${BL64_OS_ALM}-8" "${BL64_OS_UB}-20"; then
-      bl64_msg_show_warning "unable to use requested version of ansible-core due to imcompatibility with current OS. Downgrading to legacy version (${version} -> ${legacy})"
+      bl64_msg_show_warning "unable to use requested version of ansible-core due to imcompatibility with current OS. Downgrading to legacy version (${ansible_version} -> ${legacy})"
       modules="ansible-core==${legacy}.*"
+    else
+      modules="ansible-core==${ansible_version}.*"
     fi
   else
-      modules="ansible-core==${version}.*"
+      modules="ansible-core==${ansible_version}.*"
   fi
   # shellcheck disable=SC2086
   bl64_fs_set_ephemeral "$AP64_PATH_VENV_TMP" "$AP64_PATH_VENV_CACHE" &&
