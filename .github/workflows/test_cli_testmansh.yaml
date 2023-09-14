@@ -1,6 +1,6 @@
 ---
 # Template: 2.2.0
-name: "Test / Bash / TestManSH"
+name: "Test / CLI / TestManSH"
 
 on:
   workflow_dispatch:
@@ -27,7 +27,7 @@ jobs:
 
       - name: "Run tests"
         shell: 'script -q -e -c "bash {0}"'
-        run: "./bin/dev-test rhel"
+        run: "./bin/dev-test-cli rhel"
 
   test-centos:
     runs-on: "ubuntu-latest"
@@ -41,7 +41,7 @@ jobs:
 
       - name: "Run tests"
         shell: 'script -q -e -c "bash {0}"'
-        run: "./bin/dev-test centos"
+        run: "./bin/dev-test-cli centos"
 
   test-ubuntu:
     runs-on: "ubuntu-latest"
@@ -55,7 +55,7 @@ jobs:
 
       - name: "Run tests"
         shell: 'script -q -e -c "bash {0}"'
-        run: "./bin/dev-test ubuntu"
+        run: "./bin/dev-test-cli ubuntu"
 
   test-debian:
     runs-on: "ubuntu-latest"
@@ -69,7 +69,7 @@ jobs:
 
       - name: "Run tests"
         shell: 'script -q -e -c "bash {0}"'
-        run: "./bin/dev-test debian"
+        run: "./bin/dev-test-cli debian"
 
   test-fedora:
     runs-on: "ubuntu-latest"
@@ -83,5 +83,5 @@ jobs:
 
       - name: "Run tests"
         shell: 'script -q -e -c "bash {0}"'
-        run: "./bin/dev-test fedora"
+        run: "./bin/dev-test-cli fedora"
 ...
