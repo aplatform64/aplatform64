@@ -69,7 +69,7 @@ function ap64_site_bootstrap() {
   local playbook='serdigital64/automation/roles/auto_aplatform64/files/playbooks/manage_aplatform64_servers.yml'
 
   bl64_msg_show_phase 'install Ansible Python modules'
-  if [[ "$version" == 'latest' ]]; then
+  if [[ "$version" == 'latest' || "$version" == '2.13' || "$version" == '2.14' || "$version" == '2.15' ]]; then
     if bl64_os_match "${BL64_OS_OL}-8" "${BL64_OS_CNT}-8" "${BL64_OS_DEB}-10" "${BL64_OS_RHEL}-8" "${BL64_OS_RCK}-8" "${BL64_OS_ALM}-8" "${BL64_OS_UB}-20"; then
       bl64_msg_show_warning "unable to use latest version of ansible-core due to imcompatibility with current OS. Downgrading to legacy version (${legacy})"
       modules="ansible-core==${legacy}.*"
@@ -458,7 +458,7 @@ function ap64_help() {
   -b Root      : APlatform64 root path. Default: /opt/ap64
   -d Var       : APlatform64 var path. Default: /var/opt/ap64
   -g User      : APlatform64 user name. Default: ap64
-  -v Version   : Ansible Core version for the controller node. Default: 2.13
+  -v Version   : Ansible Core version for the controller node. Default: 2.13. Format: Major.Minor
   -s Site      : Target Site. Defaul: site
   -x Host      : Target host for playbook run. Default: all
   -p Playbook  : Name of the playbook to run
