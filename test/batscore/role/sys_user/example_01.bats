@@ -1,9 +1,9 @@
 setup() {
   . "$TESTMANSH_TEST_BATSCORE_SETUP"
-  sudo -i -u ansible-2.13 ansible-galaxy collection install --upgrade serdigital64.system
+  export _TEST_ANSIBLE_COLLECTION='system'
 }
 
-@test "ap64: no args" {
-  run sudo -i -u ansible-2.13 ansible-playbook /opt/ansible-2.13/.ansible/collections/ansible_collections/serdigital64/system/playbooks/sys_user.yml
+@test "sys_user: run example" {
+  run "${HOME}/${_TEST_ANSIBLE_BIN}/ansible-playbook" ${HOME}/${_TEST_ANSIBLE_COLLECTIONS_PATH}/${_TEST_ANSIBLE_COLLECTION}/playbooks/sys_user.yml
   assert_success
 }
