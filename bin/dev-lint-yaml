@@ -25,20 +25,24 @@ export YAMLLINT_CONFIG_FILE
 #
 
 function dev_lint_yaml() {
-  local collection=''
-  for collection in $DEV_APLATFORM64_COLLECTIONS; do
-    bl64_msg_show_phase "lint collection (${collection})"
-    "$DEV_CMD_YAMLLINT" "${DEV_COLLECTIONS}/${collection}" || return $?
-  done
+  local collection="$1"
+  bl64_msg_show_phase "lint collection (${collection})"
+  "$DEV_CMD_YAMLLINT" "${DEV_COLLECTIONS}/${collection}"
 }
 #
 # Main
 #
 
+declare collection="${1:-}"
 declare -i status=0
 
+bl64_check_parameter 'collection' &&
+  bl64_check_directory "${DEV_COLLECTIONS}/${collection}" ||
+  exit $?
+
 bl64_msg_show_batch_start 'yaml-lint'
-dev_lint_yaml
+dev_lint_yaml "$collection"
 status=$?
 bl64_msg_show_batch_finish $status 'yaml-lint'
+
 exit $status

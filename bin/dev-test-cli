@@ -29,4 +29,4 @@ container_var="DEV_TEST_CONTAINER_CLI_${target}"
 bl64_check_export "$container_var" || exit $?
 eval container_list="\$$container_var"
 
-"$DEV_CICD_TESTMANSH" -b -o -e "$container_list" -c 'cli'
+"$DEV_CICD_TESTMANSH" -b -o -e "$container_list" -c "${DEV_NAME_TEST}/batscore/cli"

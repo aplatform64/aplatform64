@@ -18,18 +18,15 @@ source "$DEV_CICD_BASHLIB64" || exit 1
 #
 
 declare -u target="${1:-RHEL}"
-declare role="$2"
+declare role="${2:-}"
 declare container_var=''
 declare container_list=''
 
 bl64_check_parameter 'role' || exit $?
-
-bl64_msg_show_phase 'Build CLI'
-"$DEV_CICD_BUILD" -i || exit $?
 
 bl64_msg_show_phase "Test Ansible Role (${role})"
 container_var="DEV_TEST_CONTAINER_ROLE_${target}"
 bl64_check_export "$container_var" || exit $?
 eval container_list="\$$container_var"
 
-"$DEV_CICD_TESTMANSH" -b -o -e "$container_list" -c "role/${role}"
+"$DEV_CICD_TESTMANSH" -b -o -e "$container_list" -c "${DEV_NAME_TEST}/batscore/role/${role}"
