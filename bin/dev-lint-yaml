@@ -37,6 +37,10 @@ declare collection="${1:-}"
 declare -i status=0
 
 bl64_check_parameter 'collection' &&
+  bl64_check_export 'DEV_YAML_LINT' &&
+  bl64_check_export 'DEV_COLLECTIONS' &&
+  bl64_check_export 'DEV_CMD_YAMLLINT' &&
+  bl64_check_command "$DEV_CMD_YAMLLINT" &&
   bl64_check_directory "${DEV_COLLECTIONS}/${collection}" ||
   exit $?
 

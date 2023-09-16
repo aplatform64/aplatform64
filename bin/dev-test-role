@@ -22,7 +22,9 @@ declare role="${2:-}"
 declare container_var=''
 declare container_list=''
 
-bl64_check_parameter 'role' || exit $?
+bl64_check_parameter 'role' &&
+  bl64_check_export 'DEV_NAME_TEST' ||
+  exit $?
 
 bl64_msg_show_phase "Test Ansible Role (${role})"
 container_var="DEV_TEST_CONTAINER_ROLE_${target}"

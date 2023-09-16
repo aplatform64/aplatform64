@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+#
+# Create / Update collection repositories
+#
+
+#
+# Imports
+#
+
+# shellcheck source=SCRIPTDIR/dev-set
+source ./bin/dev-set || exit 1
+
+# shellcheck source-path=SCRIPTDIR/../lib disable=SC2154
+source "$DEV_CICD_BASHLIB64" || exit 1
+
+#
+# Main
+#
+
+declare repo=''
+
+bl64_check_export 'DEV_APLATFORM64_COLLECTIONS' &&
+  bl64_check_export 'DEV_COLLECTIONS' ||
+  exit $?
+
+bl64_msg_show_task 'Create Ansible namespace directory'
+bl64_fs_create_dir "$BL64_VAR_DEFAULT" "$BL64_VAR_DEFAULT" "$BL64_VAR_DEFAULT" "$DEV_COLLECTIONS" &&
+  cd "$DEV_COLLECTIONS" ||
+  exit $?
+
+bl64_msg_show_phase 'Clone/Update collection repositories'
+for repo in $DEV_APLATFORM64_COLLECTIONS; do
+  if [[ -d "$repo" ]]; then
+    bl64_msg_show_task "Update collection (${repo})"
+    cd "$repo" &&
+      bl64_vcs_run_git checkout main &&
+      bl64_vcs_run_git pull upstream main &&
+      cd ..
+  else
+    bl64_msg_show_task "Clone collection (${repo})"
+  fi
+done

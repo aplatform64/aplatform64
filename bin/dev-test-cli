@@ -21,6 +21,9 @@ declare -u target="${1:-RHEL}"
 declare container_var=''
 declare container_list=''
 
+bl64_check_export 'DEV_NAME_TEST' ||
+  return $?
+
 bl64_msg_show_phase 'Build CLI'
 "$DEV_CICD_BUILD" -i || exit $?
 

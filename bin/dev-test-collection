@@ -17,7 +17,9 @@ source "$DEV_CICD_BASHLIB64" || exit 1
 # Main
 #
 
-bl64_check_export 'DEV_TEST_CONTAINER_ANSIBLE' || exit $?
+bl64_check_export 'DEV_TEST_CONTAINER_ANSIBLE' &&
+  bl64_check_export 'DEV_NAME_TEST' ||
+  exit $?
 
 bl64_msg_show_phase 'Test Ansible Collections'
 "$DEV_CICD_TESTMANSH" -b -o -e "$DEV_TEST_CONTAINER_ANSIBLE" -c "${DEV_NAME_TEST}/batscore/collection"

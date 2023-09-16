@@ -25,7 +25,7 @@ function dev_lint_ansible() {
   local collection="$1"
   local role=''
 
-  cd ${DEV_COLLECTIONS}/${collection}/roles || return $?
+  cd "${DEV_COLLECTIONS}/${collection}/roles" || return $?
   for role in *; do
     bl64_msg_show_phase "lint role (${collection}/${role})"
     "$DEV_CMD_ANSIBLELINT" \
@@ -43,6 +43,10 @@ declare collection="${1:-}"
 declare -i status=0
 
 bl64_check_parameter 'collection' &&
+  bl64_check_export 'DEV_COLLECTIONS' &&
+  bl64_check_export 'DEV_CMD_ANSIBLELINT' &&
+  bl64_check_export 'DEV_ANSIBLE_LINT' &&
+  bl64_check_command "$DEV_CMD_ANSIBLELINT" &&
   bl64_check_directory "${DEV_COLLECTIONS}/${collection}" ||
   exit $?
 
