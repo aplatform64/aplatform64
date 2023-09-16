@@ -19,8 +19,9 @@ source "$DEV_CICD_BASHLIB64" || exit 1
 
 declare repo=''
 
-bl64_check_export 'DEV_APLATFORM64_COLLECTIONS' &&
+bl64_check_export 'DEV_ANSIBLE_COLLECTIONS' &&
   bl64_check_export 'DEV_SRC_COLLECTIONS' ||
+  bl64_check_export 'DEV_REPO_UPSTREAM_COLLECTIONS' &&
   exit $?
 
 bl64_msg_show_task 'Create Ansible namespace directory'
@@ -29,14 +30,17 @@ bl64_fs_create_dir "$BL64_VAR_DEFAULT" "$BL64_VAR_DEFAULT" "$BL64_VAR_DEFAULT" "
   exit $?
 
 bl64_msg_show_phase 'Clone/Update collection repositories'
-for repo in $DEV_APLATFORM64_COLLECTIONS; do
+for repo in $DEV_ANSIBLE_COLLECTIONS; do
   if [[ -d "$repo" ]]; then
     bl64_msg_show_task "Update collection (${repo})"
     cd "$repo" &&
       bl64_vcs_run_git checkout main &&
       bl64_vcs_run_git pull upstream main &&
-      cd ..
+      cd .. ||
+      exit $?
   else
     bl64_msg_show_task "Clone collection (${repo})"
+    bl64_vcs_run_git clone "${DEV_REPO_UPSTREAM_COLLECTIONS}/${repo}" ||
+      exit $?
   fi
 done

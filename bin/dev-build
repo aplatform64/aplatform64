@@ -25,13 +25,13 @@ function dev_build_publish() {
 
   cd "$DEV_BUILD_PROD" || return 1
 
-  [[ -z "$target" ]] && target="$DEV_APLATFORM64_COLLECTIONS"
+  [[ -z "$target" ]] && target="$DEV_ANSIBLE_COLLECTIONS"
 
   for collection in $target; do
     bl64_msg_show_task 'publish collection package'
     # shellcheck disable=SC2086
     bl64_ans_run_ansible_galaxy \
-      collection publish --token "$DEV_SECRET_GALAXY_TOKEN" $DEV_NAMESPACE-${collection}-*.tar.gz
+      collection publish --token "$DEV_SECRET_GALAXY_TOKEN" $DEV_ANSIBLE_NAMESPACE-${collection}-*.tar.gz
     sleep $publish_wait
   done
 }
@@ -43,13 +43,13 @@ function dev_build_test() {
 
   cd "$DEV_BUILD_DEV" || return 1
 
-  [[ -z "$target" ]] && target="$DEV_APLATFORM64_COLLECTIONS"
+  [[ -z "$target" ]] && target="$DEV_ANSIBLE_COLLECTIONS"
 
   for collection in $target; do
     bl64_msg_show_phase "build collection (${collection})"
     bl64_msg_show_task 'remove old collection package'
     # shellcheck disable=SC2086
-    bl64_fs_rm_file $DEV_NAMESPACE-${collection}-*.tar.gz
+    bl64_fs_rm_file $DEV_ANSIBLE_NAMESPACE-${collection}-*.tar.gz
 
     bl64_msg_show_task 'generate new collection package'
     bl64_ans_run_ansible_galaxy \
@@ -58,7 +58,7 @@ function dev_build_test() {
 
   bl64_msg_show_phase 'remove version tag from package file names'
   # shellcheck disable=SC2231
-  for collection in $DEV_NAMESPACE-*-*.tar.gz; do
+  for collection in $DEV_ANSIBLE_NAMESPACE-*-*.tar.gz; do
     bl64_fs_run_mv "$collection" "${collection%-*}.tar.gz"
   done
 }
@@ -69,7 +69,7 @@ function dev_build_refresh() {
   local collection=''
   local role=''
 
-  [[ -z "$target" ]] && target="$DEV_APLATFORM64_COLLECTIONS"
+  [[ -z "$target" ]] && target="$DEV_ANSIBLE_COLLECTIONS"
 
   bl64_msg_show_phase "synchronize root documents (${DEV_DOCS} -> ${DEV_ROOT}"
   bl64_fs_cp_file "${DEV_DOCS}/contributing/CHANGELOG.md" "$DEV_ROOT" &&
@@ -118,8 +118,8 @@ function dev_build_cli() {
   local name=''
   local target_file="$DEV_TMP/devap-build-collections.sh"
 
-  for name in $DEV_APLATFORM64_COLLECTIONS; do
-    target="${target} ${DEV_NAMESPACE}.${name}"
+  for name in $DEV_ANSIBLE_COLLECTIONS; do
+    target="${target} ${DEV_ANSIBLE_NAMESPACE}.${name}"
   done
   printf 'readonly AP64_COLLECTIONS="%s"\n' "$target" >"$target_file"
 
@@ -146,13 +146,13 @@ function dev_build_prod() {
 
   cd "$DEV_BUILD_PROD" || return 1
 
-  [[ -z "$target" ]] && target="$DEV_APLATFORM64_COLLECTIONS"
+  [[ -z "$target" ]] && target="$DEV_ANSIBLE_COLLECTIONS"
 
   for collection in $target; do
     bl64_msg_show_phase "build collection (${collection})"
     bl64_msg_show_task 'remove old collection package'
     # shellcheck disable=SC2086
-    bl64_fs_rm_file ${DEV_NAMESPACE}-${collection}-*.tar.gz
+    bl64_fs_rm_file ${DEV_ANSIBLE_NAMESPACE}-${collection}-*.tar.gz
 
     bl64_msg_show_task 'generate new collection package'
     bl64_ans_run_ansible_galaxy \
@@ -170,7 +170,7 @@ function dev_build_initialize() {
     bl64_msg_set_level "$verbose" ||
     return $?
 
-  bl64_check_export 'DEV_APLATFORM64_COLLECTIONS' &&
+  bl64_check_export 'DEV_ANSIBLE_COLLECTIONS' &&
     bl64_check_export 'DEV_BUILD_DEV' &&
     bl64_check_export 'DEV_BUILD_DEV' &&
     bl64_check_export 'DEV_BUILD_FULL_PATH' &&
@@ -179,7 +179,7 @@ function dev_build_initialize() {
     bl64_check_export 'DEV_CFG_YAML_LINT' &&
     bl64_check_export 'DEV_CICD_BASHLIB64' &&
     bl64_check_export 'DEV_DOCS' &&
-    bl64_check_export 'DEV_NAMESPACE' &&
+    bl64_check_export 'DEV_ANSIBLE_NAMESPACE' &&
     bl64_check_export 'DEV_SECRET_GALAXY_TOKEN' &&
     bl64_check_export 'DEV_SRC_COLLECTIONS' &&
     bl64_check_export 'DEV_TMP' ||

@@ -10,7 +10,3 @@
 # Project base location. Adjust to your local GIT repo
 DEV_ROOT="$(pwd)"
 export DEV_ROOT
-
-# DevAP64-Build / Kernel settings
-DEV_SYSCTL_MAX_USER_INSTANCES='1024'
-export DEV_SYSCTL_MAX_USER_INSTANCES
