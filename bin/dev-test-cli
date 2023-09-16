@@ -21,6 +21,9 @@ declare -u target="${1:-RHEL}"
 declare container_var=''
 declare container_list=''
 
+bl64_check_export 'DEV_NAME_TEST' ||
+  return $?
+
 bl64_msg_show_phase 'Build CLI'
 "$DEV_CICD_BUILD" -i || exit $?
 
@@ -29,4 +32,4 @@ container_var="DEV_TEST_CONTAINER_CLI_${target}"
 bl64_check_export "$container_var" || exit $?
 eval container_list="\$$container_var"
 
-"$DEV_CICD_TESTMANSH" -b -o -e "$container_list" -c 'cli'
+"$DEV_CICD_TESTMANSH" -b -o -e "$container_list" -c "${DEV_NAME_TEST}/batscore/cli"
