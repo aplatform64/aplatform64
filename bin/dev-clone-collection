@@ -20,12 +20,12 @@ source "$DEV_CICD_BASHLIB64" || exit 1
 declare repo=''
 
 bl64_check_export 'DEV_APLATFORM64_COLLECTIONS' &&
-  bl64_check_export 'DEV_COLLECTIONS' ||
+  bl64_check_export 'DEV_SRC_COLLECTIONS' ||
   exit $?
 
 bl64_msg_show_task 'Create Ansible namespace directory'
-bl64_fs_create_dir "$BL64_VAR_DEFAULT" "$BL64_VAR_DEFAULT" "$BL64_VAR_DEFAULT" "$DEV_COLLECTIONS" &&
-  cd "$DEV_COLLECTIONS" ||
+bl64_fs_create_dir "$BL64_VAR_DEFAULT" "$BL64_VAR_DEFAULT" "$BL64_VAR_DEFAULT" "$DEV_SRC_COLLECTIONS" &&
+  cd "$DEV_SRC_COLLECTIONS" ||
   exit $?
 
 bl64_msg_show_phase 'Clone/Update collection repositories'

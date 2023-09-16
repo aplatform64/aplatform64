@@ -17,7 +17,7 @@ source "$DEV_CICD_BASHLIB64" || exit 1
 # Globals
 #
 
-YAMLLINT_CONFIG_FILE="$DEV_YAML_LINT"
+YAMLLINT_CONFIG_FILE="$DEV_CFG_YAML_LINT"
 export YAMLLINT_CONFIG_FILE
 
 #
@@ -27,7 +27,7 @@ export YAMLLINT_CONFIG_FILE
 function dev_lint_yaml() {
   local collection="$1"
   bl64_msg_show_phase "lint collection (${collection})"
-  "$DEV_CMD_YAMLLINT" "${DEV_COLLECTIONS}/${collection}"
+  "$DEV_CMD_YAMLLINT" "${DEV_SRC_COLLECTIONS}/${collection}"
 }
 #
 # Main
@@ -37,11 +37,11 @@ declare collection="${1:-}"
 declare -i status=0
 
 bl64_check_parameter 'collection' &&
-  bl64_check_export 'DEV_YAML_LINT' &&
-  bl64_check_export 'DEV_COLLECTIONS' &&
+  bl64_check_export 'DEV_CFG_YAML_LINT' &&
+  bl64_check_export 'DEV_SRC_COLLECTIONS' &&
   bl64_check_export 'DEV_CMD_YAMLLINT' &&
   bl64_check_command "$DEV_CMD_YAMLLINT" &&
-  bl64_check_directory "${DEV_COLLECTIONS}/${collection}" ||
+  bl64_check_directory "${DEV_SRC_COLLECTIONS}/${collection}" ||
   exit $?
 
 bl64_msg_show_batch_start 'yaml-lint'
