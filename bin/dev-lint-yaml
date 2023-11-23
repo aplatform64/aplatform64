@@ -34,6 +34,8 @@ function dev_lint_yaml() {
 
 declare collection="${1:-}"
 
+[[ -n "$DEV_CICD_DEBUG" ]] && bl64_dbg_all_enable
+
 bl64_check_parameter 'collection' &&
   bl64_check_export 'DEV_CFG_YAML_LINT' &&
   bl64_check_export 'DEV_SRC_COLLECTIONS' &&
