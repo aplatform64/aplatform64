@@ -251,8 +251,8 @@ Use to upgrade collections from Ansible Galaxy
 
 Help on implementing new features and maintaining the code base is welcomed.
 
-- [Contributing](https://aplatform64.readthedocs.io/en/latest/contributing/CONTRIBUTING/)
-- [Contributor Covenant Code of Conduct](https://aplatform64.readthedocs.io/en/latest/contributing/CODE_OF_CONDUCT/)
+- [Contributing](https://aplatform64.readthedocs.io/en/latest/CONTRIBUTING/)
+- [Contributor Covenant Code of Conduct](https://aplatform64.readthedocs.io/en/latest/CODE_OF_CONDUCT/)
 
 ## Author
 
