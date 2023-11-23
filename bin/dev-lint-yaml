@@ -9,16 +9,14 @@
 
 # shellcheck source=SCRIPTDIR/dev-set
 source ./bin/dev-set || exit 1
-
-# shellcheck source-path=SCRIPTDIR/../lib
-source "$DEV_CICD_BASHLIB64" || exit 1
+# shellcheck source-path=SCRIPTDIR/../lib/bl64
+source "${DEV_CICD_BASHLIB64}/bashlib64-core.bash" || exit 1
 
 #
 # Globals
 #
 
-YAMLLINT_CONFIG_FILE="$DEV_CFG_YAML_LINT"
-export YAMLLINT_CONFIG_FILE
+export YAMLLINT_CONFIG_FILE="$DEV_CFG_YAML_LINT"
 
 #
 # Functions
@@ -29,12 +27,12 @@ function dev_lint_yaml() {
   bl64_msg_show_phase "lint collection (${collection})"
   "$DEV_CMD_YAMLLINT" "${DEV_SRC_COLLECTIONS}/${collection}"
 }
+
 #
 # Main
 #
 
 declare collection="${1:-}"
-declare -i status=0
 
 bl64_check_parameter 'collection' &&
   bl64_check_export 'DEV_CFG_YAML_LINT' &&
@@ -46,7 +44,4 @@ bl64_check_parameter 'collection' &&
 
 bl64_msg_show_batch_start 'yaml-lint'
 dev_lint_yaml "$collection"
-status=$?
-bl64_msg_show_batch_finish $status 'yaml-lint'
-
-exit $status
+bl64_msg_show_batch_finish $? 'yaml-lint'
