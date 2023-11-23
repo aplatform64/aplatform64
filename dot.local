@@ -1,12 +1,22 @@
 # ** ACTION REQUIRED: this is a template file. Copy to .local and remove this line **
 #!/bin/sh
 #
+#
 # Project development environment / Local variables
 #
-# * this file should be excluded from GIT
-# * source before .env
+# * This file should be excluded from GIT
+# * Source before .env
+# * Template version: 1.1.0
 #
 
 # Project base location. Adjust to your local GIT repo
 DEV_ROOT="$(pwd)"
-export DEV_ROOT
+export DEVAP_ROOT
+
+# CICD / Debug flag for 'bin/' scripts
+DEV_CICD_DEBUG=''
+export DEV_CICD_DEBUG
+
+# Ansible-Lint / Command
+DEV_CMD_ANSIBLELINT="/usr/local/bin/ansible-lint"
+export DEV_CMD_ANSIBLELINT
