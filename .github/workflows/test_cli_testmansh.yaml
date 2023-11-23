@@ -1,6 +1,6 @@
 ---
-# Template: 2.2.0
-name: "Test / CLI / TestManSH"
+# Template: 3.0.0
+name: "Test / Bash"
 
 on:
   workflow_dispatch:
@@ -17,6 +17,16 @@ on:
 jobs:
   test-rhel:
     runs-on: "ubuntu-latest"
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          - "rhel"
+          - "centos"
+          - "ubuntu"
+          - "debian"
+          - "fedora"
+
     steps:
 
       - name: "Check out repository code"
@@ -27,61 +37,5 @@ jobs:
 
       - name: "Run tests"
         shell: 'script -q -e -c "bash {0}"'
-        run: "./bin/dev-test-cli rhel"
-
-  test-centos:
-    runs-on: "ubuntu-latest"
-    steps:
-
-      - name: "Check out repository code"
-        uses: "actions/checkout@main"
-
-      - name: "Prepare build environment"
-        run: "./bin/dev-lib"
-
-      - name: "Run tests"
-        shell: 'script -q -e -c "bash {0}"'
-        run: "./bin/dev-test-cli centos"
-
-  test-ubuntu:
-    runs-on: "ubuntu-latest"
-    steps:
-
-      - name: "Check out repository code"
-        uses: "actions/checkout@main"
-
-      - name: "Prepare build environment"
-        run: "./bin/dev-lib"
-
-      - name: "Run tests"
-        shell: 'script -q -e -c "bash {0}"'
-        run: "./bin/dev-test-cli ubuntu"
-
-  test-debian:
-    runs-on: "ubuntu-latest"
-    steps:
-
-      - name: "Check out repository code"
-        uses: "actions/checkout@main"
-
-      - name: "Prepare build environment"
-        run: "./bin/dev-lib"
-
-      - name: "Run tests"
-        shell: 'script -q -e -c "bash {0}"'
-        run: "./bin/dev-test-cli debian"
-
-  test-fedora:
-    runs-on: "ubuntu-latest"
-    steps:
-
-      - name: "Check out repository code"
-        uses: "actions/checkout@main"
-
-      - name: "Prepare build environment"
-        run: "./bin/dev-lib"
-
-      - name: "Run tests"
-        shell: 'script -q -e -c "bash {0}"'
-        run: "./bin/dev-test-cli fedora"
+        run: "./bin/dev-test-cli ${{matrix.target}}"
 ...

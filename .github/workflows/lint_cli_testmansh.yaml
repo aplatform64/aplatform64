@@ -1,6 +1,6 @@
 ---
-# Template: 2.2.0
-name: "Lint / CLI / TestManSH"
+# Template: 4.0.0
+name: "Lint / Bash"
 
 on:
   pull_request:
@@ -21,9 +21,9 @@ jobs:
         uses: "actions/checkout@main"
 
       - name: "Prepare build environment"
-        run: "./bin/dev-lib"
+        run: "./bin/dev-lib-installer64 && ./bin/dev-lib-bashlib64 && ./bin/dev-lib-testmansh"
 
       - name: "Run Bash linter"
         shell: 'script -q -e -c "bash {0}"'
-        run: "./bin/dev-lint-cli"
+        run: "./bin/dev-lint-bash"
 ...

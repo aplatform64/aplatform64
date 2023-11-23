@@ -10,7 +10,7 @@
 # shellcheck source=SCRIPTDIR/dev-set
 source ./bin/dev-set || exit 1
 # shellcheck source-path=SCRIPTDIR/../lib/bl64
-source "${DEV_CICD_BASHLIB64}/bashlib64-core.bash" || exit 1
+source "${DEV_CICD_BASHLIB64}/bashlib64.bash" || exit 1
 
 #
 # Functions
@@ -131,7 +131,7 @@ function dev_build_cli() {
     "$BL64_VAR_ON" \
     "$DEV_BUILD_FULL_PATH" \
     "${DEV_SRC}/cli/header.bash" \
-    "$DEV_CICD_BASHLIB64" \
+    "${DEV_CICD_BASHLIB64}/bashlib64.bash" \
     "${DEV_SRC}/cli/env.bash" \
     "$target_file" \
     "${DEV_SRC}/cli/functions.bash" \
