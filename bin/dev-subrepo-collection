@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 #
-# Create / Update collection repositories
+# Create / Update GIT sub-repositories
+#
+# * Use when GIT submodule is not possible or needed
+# * Sub-repositories are regular GIT repositories created inside another one
+# * Ensure the target path is also in .gitignore
+# * Template Version: v1.0.0
 #
 
 #
