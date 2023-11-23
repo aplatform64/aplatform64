@@ -7,11 +7,10 @@
 # Imports
 #
 
-# shellcheck source=SCRIPTDIR/devap-set
-source './bin/dev-set' || exit 1
-
-# shellcheck source-path=SCRIPTDIR/../lib disable=SC2154
-source "$DEV_CICD_BASHLIB64" || exit 1
+# shellcheck source=SCRIPTDIR/dev-set
+source ./bin/dev-set || exit 1
+# shellcheck source-path=SCRIPTDIR/../lib/bl64
+source "${DEV_CICD_BASHLIB64}/bashlib64-core.bash" || exit 1
 
 #
 # Functions
@@ -222,7 +221,6 @@ function dev_build_help() {
 # Main
 #
 
-declare dev_build_status=1
 declare dev_build_debug="$BL64_DBG_TARGET_NONE"
 declare dev_build_verbose="$BL64_MSG_VERBOSE_ALL"
 declare dev_build_command=''
@@ -254,7 +252,4 @@ case "$dev_build_command" in
 'dev_build_cli') "$dev_build_command" ;;
 *) bl64_check_alert_parameter_invalid "$dev_build_command" ;;
 esac
-dev_build_status=$?
-
-bl64_msg_show_batch_finish $dev_build_status "$dev_build_command"
-exit $dev_build_status
+bl64_msg_show_batch_finish $? "$dev_build_command"
