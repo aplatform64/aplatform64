@@ -204,6 +204,6 @@ bin/dev-build -t
 
 - Project GIT repository
   - Main: [https://github.com/aplatform64/aplatform64](https://github.com/aplatform64/aplatform64)
-  - Submodules: [https://github.com/orgs/aplatform64/repositories](https://github.com/orgs/aplatform64/repositories)
+  - Submodules: [https://github.com/aplatform64](https://github.com/aplatform64)
 - Project Ansible Galaxy repository: [https://galaxy.ansible.com/serdigital64](https://galaxy.ansible.com/serdigital64)
 - Project Documentation: [https://aplatform64.readthedocs.io](https://aplatform64.readthedocs.io)
