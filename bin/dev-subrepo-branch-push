@@ -43,15 +43,16 @@ for dev_subrepo_repository_name in $DEV_CICD_SUBREPO_LIST; do
   bl64_msg_show_task "Push branch (${dev_subrepo_repository_name}/${dev_subrepo_branch_name})"
   cd "$dev_subrepo_repository_name"
   if [[ -n "$(bl64_vcs_run_git status --porcelain)" ]]; then
-    bl64_msg_show_subtask 'stage changes' &&
-    bl64_vcs_run_git` add --verbose . &&
-    bl64_msg_show_subtask 'commit changes' &&
-    bl64_vcs_run_git commit --verbose -m "$dev_subrepo_commit_message" &&
-    bl64_msg_show_subtask 'push changes' &&
-    bl64_vcs_run_git push --verbose "${DEV_CICD_SUBREPO_ORIGIN_NAME}" "${dev_subrepo_branch_name}" &&
+    bl64_msg_show_subtask 'stage changes'
+    bl64_vcs_run_git add --verbose . &&
+      bl64_msg_show_subtask 'commit changes' &&
+      bl64_vcs_run_git commit --verbose -m "$dev_subrepo_commit_message" ||
+      exit $?
+  fi
+  bl64_msg_show_subtask 'push changes'
+  bl64_vcs_run_git push --verbose "${DEV_CICD_SUBREPO_ORIGIN_NAME}" "${dev_subrepo_branch_name}" &&
     sleep "$dev_subrepo_wait" ||
     exit $?
-  fi
   cd ..
 done
 bl64_msg_show_batch_finish $? 'subrepo-branch-push'
