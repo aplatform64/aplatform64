@@ -24,6 +24,7 @@ source "${DEV_CICD_BASHLIB64}/bashlib64.bash" || exit 1
 declare dev_subrepo_branch_name="${1:-feature/update}"
 declare dev_subrepo_commit_message="${2:-}"
 declare dev_subrepo_repository_name=''
+declare dev_subrepo_wait='2'
 
 [[ -n "$DEV_CICD_DEBUG" ]] && bl64_dbg_all_enable
 
@@ -40,11 +41,18 @@ cd "$DEV_CICD_SUBREPO_ROOT" || exit $?
 for dev_subrepo_repository_name in $DEV_CICD_SUBREPO_LIST; do
   bl64_check_directory "$dev_subrepo_repository_name" || exit $?
   bl64_msg_show_task "Push branch (${dev_subrepo_repository_name}/${dev_subrepo_branch_name})"
-  cd "$dev_subrepo_repository_name" &&
-    bl64_vcs_run_git add . &&
-    bl64_vcs_run_git commit -m "$dev_subrepo_commit_message" &&
-    bl64_vcs_run_git push "${DEV_CICD_SUBREPO_ORIGIN_NAME}" "${dev_subrepo_branch_name}" &&
-    cd .. ||
+  cd "$dev_subrepo_repository_name"
+  if [[ -n "$(bl64_vcs_run_git status --porcelain)" ]]; then
+    bl64_msg_show_subtask 'stage changes'
+    bl64_vcs_run_git add --verbose . &&
+      bl64_msg_show_subtask 'commit changes' &&
+      bl64_vcs_run_git commit --verbose -m "$dev_subrepo_commit_message" ||
+      exit $?
+  fi
+  bl64_msg_show_subtask 'push changes'
+  bl64_vcs_run_git push --verbose "${DEV_CICD_SUBREPO_ORIGIN_NAME}" "${dev_subrepo_branch_name}" &&
+    sleep "$dev_subrepo_wait" ||
     exit $?
+  cd ..
 done
 bl64_msg_show_batch_finish $? 'subrepo-branch-push'
