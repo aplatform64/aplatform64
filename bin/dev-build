@@ -64,14 +64,13 @@ function dev_build_test() {
 
 # shellcheck disable=SC2317
 function dev_build_refresh() {
-  local target="$1"
+  local target="${1:-$DEV_ANSIBLE_COLLECTIONS}"
   local collection=''
   local role=''
 
-  [[ -z "$target" ]] && target="$DEV_ANSIBLE_COLLECTIONS"
-
   for collection in $target; do
     bl64_msg_show_phase "synchronize collection assets (${collection})"
+
     bl64_msg_show_task "refresh license (root -> ${collection})"
     bl64_fs_cp_file "${DEV_ROOT}/LICENSE" "$DEV_SRC_COLLECTIONS/${collection}/LICENSE" &&
       bl64_fs_cp_file "${DEV_ROOT}/CODE_OF_CONDUCT.md" "$DEV_SRC_COLLECTIONS/${collection}/CODE_OF_CONDUCT.md" || return $?
@@ -80,7 +79,7 @@ function dev_build_refresh() {
     bl64_fs_cp_file "${DEV_CFG_ANSIBLE_LINT}" "$DEV_SRC_COLLECTIONS/${collection}" &&
       bl64_fs_cp_file "${DEV_CICD_LINT_YAML_CFG}" "$DEV_SRC_COLLECTIONS/${collection}" || return $?
 
-    bl64_msg_show_task "sync role doc (${collection} -> root)"
+    bl64_msg_show_task "sync collection doc (${collection} -> root)"
     bl64_fs_cp_file "$DEV_SRC_COLLECTIONS/${collection}/README.md" "${DEV_DOCS}/collections/${collection}.md" || return $?
 
     for role in $(
@@ -88,18 +87,18 @@ function dev_build_refresh() {
       echo *
     ); do
       bl64_msg_show_phase "synchronize role assets (${role})"
+
       bl64_msg_show_task "sync examples (${role} -> root)"
       [[ -f "$DEV_SRC_COLLECTIONS/${collection}/playbooks/${role}.yml" ]] &&
         bl64_fs_cp_file "$DEV_SRC_COLLECTIONS/${collection}/playbooks/${role}.yml" "${DEV_DOCS}/examples/${role}.yml"
 
       bl64_msg_show_task "refresh license (root -> ${role})"
       bl64_fs_cp_file "${DEV_ROOT}/LICENSE" "$DEV_SRC_COLLECTIONS/${collection}/roles/${role}/LICENSE" &&
-        bl64_fs_cp_file "${DEV_ROOT}/CODE_OF_CONDUCT.md" "$DEV_SRC_COLLECTIONS/${collection}/roles/${role}/CODE_OF_CONDUCT.md" &&
-        bl64_msg_show_task "sync docs (${role} -> root)" &&
-        bl64_fs_cp_file "$DEV_SRC_COLLECTIONS/${collection}/roles/${role}/README.md" "${DEV_DOCS}/roles/${role}.md" || return $?
+        bl64_fs_cp_file "${DEV_ROOT}/CODE_OF_CONDUCT.md" "$DEV_SRC_COLLECTIONS/${collection}/roles/${role}/CODE_OF_CONDUCT.md" || return $?
 
+      bl64_msg_show_task "sync docs (${role} -> root)"
+      bl64_fs_cp_file "$DEV_SRC_COLLECTIONS/${collection}/roles/${role}/README.md" "${DEV_DOCS}/roles/${role}.md" || return $?
     done
-
   done
 
   return 0
