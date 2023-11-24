@@ -67,6 +67,7 @@ function dev_build_refresh() {
   local target="${1:-$DEV_AP64_COLLECTIONS}"
   local collection=''
   local role=''
+  local -u version=''
 
   bl64_msg_show_phase "synchronize readthedocs-mkdocs root (${DEV_DOCS})"
   bl64_fs_cp_file "${DEV_ROOT}/CONTRIBUTING.md" "${DEV_DOCS}/CONTRIBUTING.md" &&
@@ -77,6 +78,13 @@ function dev_build_refresh() {
 
   for collection in $target; do
     bl64_msg_show_phase "synchronize collection assets (${collection})"
+
+    version="DEV_AP64_COLLECTION_VERSION_${collection}"
+    bl64_msg_show_task "sync collection version (${collection}:${!version})"
+    bl64_txt_run_sed \
+      -i \
+      -e "s/^version: .*/version: \"${!version}\"/g" \
+      "${DEV_SRC_COLLECTIONS}/${collection}/galaxy.yml" || return $?
 
     bl64_msg_show_task "refresh license (root -> ${collection})"
     bl64_fs_cp_file "${DEV_ROOT}/LICENSE" "${DEV_SRC_COLLECTIONS}/${collection}/LICENSE" &&
