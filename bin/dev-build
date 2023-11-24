@@ -128,7 +128,7 @@ function dev_build_cli() {
     "${DEV_SRC}/cli/env.bash" \
     "$target_file" \
     "${DEV_SRC}/cli/functions.bash" \
-    "${DEV_SRC}/cli/root.bash"
+    "${DEV_SRC}/cli/main.bash"
 }
 
 # shellcheck disable=SC2317
@@ -172,7 +172,6 @@ function dev_build_initialize() {
     bl64_check_export 'DEV_CICD_BASHLIB64' &&
     bl64_check_export 'DEV_DOCS' &&
     bl64_check_export 'DEV_AP64_NAMESPACE' &&
-    bl64_check_export 'DEV_SECRET_GALAXY_TOKEN' &&
     bl64_check_export 'DEV_SRC_COLLECTIONS' &&
     bl64_check_export 'DEV_TMP' ||
     return $?
@@ -189,6 +188,11 @@ function dev_build_initialize() {
   if [[ "$command" != 'dev_build_cli' && "$command" != 'dev_build_refresh' ]]; then
     bl64_ans_setup "$BL64_VAR_DEFAULT" "$DEV_CFG_ANSIBLE" || return $?
   fi
+  if [[ "$command" == 'dev_build_publish' ]]; then
+    bl64_check_export 'DEV_SECRET_GALAXY_TOKEN' ||
+      return $?
+  fi
+  return 0
 }
 
 function dev_build_help() {
