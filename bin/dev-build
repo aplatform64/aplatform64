@@ -68,36 +68,43 @@ function dev_build_refresh() {
   local collection=''
   local role=''
 
+  bl64_msg_show_phase "synchronize readthedocs-mkdocs root (${DEV_DOCS})"
+  bl64_fs_cp_file "${DEV_ROOT}/CONTRIBUTING.md" "${DEV_DOCS}/CONTRIBUTING.md" &&
+    bl64_fs_cp_file "${DEV_ROOT}/CODE_OF_CONDUCT.md" "${DEV_DOCS}/CODE_OF_CONDUCT.md" &&
+    bl64_fs_cp_file "${DEV_ROOT}/LICENSE" "${DEV_DOCS}/LICENSE.md" &&
+    bl64_fs_cp_file "${DEV_ROOT}/CHANGELOG.md" "${DEV_DOCS}/CHANGELOG.md" ||
+    return $?
+
   for collection in $target; do
     bl64_msg_show_phase "synchronize collection assets (${collection})"
 
     bl64_msg_show_task "refresh license (root -> ${collection})"
-    bl64_fs_cp_file "${DEV_ROOT}/LICENSE" "$DEV_SRC_COLLECTIONS/${collection}/LICENSE" &&
-      bl64_fs_cp_file "${DEV_ROOT}/CODE_OF_CONDUCT.md" "$DEV_SRC_COLLECTIONS/${collection}/CODE_OF_CONDUCT.md" || return $?
+    bl64_fs_cp_file "${DEV_ROOT}/LICENSE" "${DEV_SRC_COLLECTIONS}/${collection}/LICENSE" &&
+      bl64_fs_cp_file "${DEV_ROOT}/CODE_OF_CONDUCT.md" "${DEV_SRC_COLLECTIONS}/${collection}/CODE_OF_CONDUCT.md" || return $?
 
     bl64_msg_show_task "synchronize tools configurations (root -> ${collection})"
-    bl64_fs_cp_file "${DEV_CFG_ANSIBLE_LINT}" "$DEV_SRC_COLLECTIONS/${collection}" &&
-      bl64_fs_cp_file "${DEV_CICD_LINT_YAML_CFG}" "$DEV_SRC_COLLECTIONS/${collection}" || return $?
+    bl64_fs_cp_file "${DEV_CFG_ANSIBLE_LINT}" "${DEV_SRC_COLLECTIONS}/${collection}" &&
+      bl64_fs_cp_file "${DEV_CICD_LINT_YAML_CFG}" "${DEV_SRC_COLLECTIONS}/${collection}" || return $?
 
     bl64_msg_show_task "sync collection doc (${collection} -> root)"
-    bl64_fs_cp_file "$DEV_SRC_COLLECTIONS/${collection}/README.md" "${DEV_DOCS}/collections/${collection}.md" || return $?
+    bl64_fs_cp_file "${DEV_SRC_COLLECTIONS}/${collection}/README.md" "${DEV_DOCS}/collections/${collection}.md" || return $?
 
     for role in $(
-      cd "$DEV_SRC_COLLECTIONS/${collection}/roles"
+      cd "${DEV_SRC_COLLECTIONS}/${collection}/roles"
       echo *
     ); do
       bl64_msg_show_phase "synchronize role assets (${role})"
 
       bl64_msg_show_task "sync examples (${role} -> root)"
-      [[ -f "$DEV_SRC_COLLECTIONS/${collection}/playbooks/${role}.yml" ]] &&
-        bl64_fs_cp_file "$DEV_SRC_COLLECTIONS/${collection}/playbooks/${role}.yml" "${DEV_DOCS}/examples/${role}.yml"
+      [[ -f "${DEV_SRC_COLLECTIONS}/${collection}/playbooks/${role}.yml" ]] &&
+        bl64_fs_cp_file "${DEV_SRC_COLLECTIONS}/${collection}/playbooks/${role}.yml" "${DEV_DOCS}/examples/${role}.yml"
 
       bl64_msg_show_task "refresh license (root -> ${role})"
-      bl64_fs_cp_file "${DEV_ROOT}/LICENSE" "$DEV_SRC_COLLECTIONS/${collection}/roles/${role}/LICENSE" &&
-        bl64_fs_cp_file "${DEV_ROOT}/CODE_OF_CONDUCT.md" "$DEV_SRC_COLLECTIONS/${collection}/roles/${role}/CODE_OF_CONDUCT.md" || return $?
+      bl64_fs_cp_file "${DEV_ROOT}/LICENSE" "${DEV_SRC_COLLECTIONS}/${collection}/roles/${role}/LICENSE" &&
+        bl64_fs_cp_file "${DEV_ROOT}/CODE_OF_CONDUCT.md" "${DEV_SRC_COLLECTIONS}/${collection}/roles/${role}/CODE_OF_CONDUCT.md" || return $?
 
       bl64_msg_show_task "sync docs (${role} -> root)"
-      bl64_fs_cp_file "$DEV_SRC_COLLECTIONS/${collection}/roles/${role}/README.md" "${DEV_DOCS}/roles/${role}.md" || return $?
+      bl64_fs_cp_file "${DEV_SRC_COLLECTIONS}/${collection}/roles/${role}/README.md" "${DEV_DOCS}/roles/${role}.md" || return $?
     done
   done
 
@@ -148,7 +155,7 @@ function dev_build_prod() {
 
     bl64_msg_show_task 'generate new collection package'
     bl64_ans_run_ansible_galaxy \
-      collection build "$DEV_SRC_COLLECTIONS/$collection" || return $?
+      collection build "${DEV_SRC_COLLECTIONS}/$collection" || return $?
   done
 }
 
