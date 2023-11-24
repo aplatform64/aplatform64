@@ -66,10 +66,10 @@ nav:
   - Scripts:
     - ap64: "bin/ap64.md"
   - Contributing:
-    - guidelines: "contributing/CONTRIBUTING.md"
-    - conduct: "contributing/CODE_OF_CONDUCT.md"
-    - license: "contributing/LICENSE"
-    - changelog: "contributing/CHANGELOG.md"
+    - guidelines: "CONTRIBUTING.md"
+    - conduct: "CODE_OF_CONDUCT.md"
+    - license: "LICENSE"
+    - changelog: "CHANGELOG.md"
   - Playbooks:
     - manage_cloud_control_nodes: "playbooks/manage_cloud_control_nodes.md"
     - manage_dev_nodes: "playbooks/manage_dev_nodes.md"
