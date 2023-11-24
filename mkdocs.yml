@@ -68,7 +68,7 @@ nav:
   - Contributing:
     - guidelines: "CONTRIBUTING.md"
     - conduct: "CODE_OF_CONDUCT.md"
-    - license: "LICENSE"
+    - license: "LICENSE.md"
     - changelog: "CHANGELOG.md"
   - Playbooks:
     - manage_cloud_control_nodes: "playbooks/manage_cloud_control_nodes.md"

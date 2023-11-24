@@ -88,7 +88,7 @@ Dependencies in this section are automatically solved during the installation pr
 
 ### Installation Procedure
 
-The playbook is automatically deployed during the [A:Platform64 installation](/#installation) process
+The playbook is automatically deployed during the [A:Platform64 installation](../index.md#installation) process
 
 ## Contributing
 
