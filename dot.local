@@ -21,6 +21,6 @@ export DEV_CICD_DEBUG
 DEV_CMD_ANSIBLELINT="/usr/local/bin/ansible-lint"
 export DEV_CMD_ANSIBLELINT
 
-# YAML-Lint / Command
-DEV_CMD_YAMLLINT="/usr/local/bin/yamllint"
-export DEV_CMD_YAMLLINT
+# Lint / YAML / Command
+DEV_CICD_LINT_YAML_BIN="/usr/local/bin/yamllint"
+export DEV_CICD_LINT_YAML_BIN
