@@ -17,10 +17,14 @@ export DEVAP_ROOT
 DEV_CICD_DEBUG=''
 export DEV_CICD_DEBUG
 
-# Ansible-Lint / Command
-DEV_CMD_ANSIBLELINT="/usr/local/bin/ansible-lint"
-export DEV_CMD_ANSIBLELINT
-
 # Lint / YAML / Command
-DEV_CICD_LINT_YAML_BIN="/usr/local/bin/yamllint"
+DEV_CICD_LINT_YAML_BIN="/usr/bin/yamllint"
 export DEV_CICD_LINT_YAML_BIN
+
+# Lint / MkDocs / Command
+DEV_CICD_LINT_MKDOCS_BIN="${HOME}/.local/bin/mkdocs"
+export DEV_CICD_LINT_MKDOCS_BIN
+
+# Ansible-Lint / Command
+DEV_CMD_ANSIBLELINT="${HOME}/.local/bin/ansible-lint"
+export DEV_CMD_ANSIBLELINT
