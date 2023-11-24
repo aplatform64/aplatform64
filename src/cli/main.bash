@@ -2,7 +2,6 @@
 # Main
 #
 
-declare -i ap64_status=0
 declare ap64_command=''
 declare ap64_debug="$BL64_DBG_TARGET_NONE"
 declare ap64_verbose="$BL64_MSG_VERBOSE_ALL"
@@ -65,7 +64,4 @@ case "$ap64_command" in
 'ap64_site_upgrade') "$ap64_command" "$ap64_collection" "$ap64_package" ;;
 *) bl64_check_show_undefined "$ap64_command" ;;
 esac
-ap64_status=$?
-
-bl64_msg_show_batch_finish $ap64_status "$ap64_command"
-exit $ap64_status
+bl64_msg_show_batch_finish $? "$ap64_command"

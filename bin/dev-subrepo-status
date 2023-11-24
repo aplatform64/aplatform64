@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+#
+# Show GIT sub-repositories status
+#
+# * Template: 1.0.0
+#
+
+#
+# Imports
+#
+
+# shellcheck source=SCRIPTDIR/dev-set
+source ./bin/dev-set || exit 1
+# shellcheck source-path=SCRIPTDIR/../lib/bl64
+source "${DEV_CICD_BASHLIB64}/bashlib64.bash" || exit 1
+
+#
+# Main
+#
+
+declare dev_subrepo_repository_name=''
+
+[[ -n "$DEV_CICD_DEBUG" ]] && bl64_dbg_all_enable
+
+bl64_check_export 'DEV_CICD_SUBREPO_LIST' &&
+  bl64_check_export 'DEV_CICD_SUBREPO_ROOT' &&
+  bl64_check_directory "$DEV_CICD_SUBREPO_ROOT" ||
+  exit $?
+
+bl64_msg_all_enable_verbose
+bl64_msg_show_batch_start 'subrepo-status'
+cd "$DEV_CICD_SUBREPO_ROOT" || exit $?
+for dev_subrepo_repository_name in $DEV_CICD_SUBREPO_LIST; do
+  bl64_check_directory "$dev_subrepo_repository_name" || exit $?
+  bl64_msg_show_task "Show GIT repository status (${dev_subrepo_repository_name})"
+  cd "$dev_subrepo_repository_name" &&
+    bl64_vcs_run_git status --verbose --long &&
+    cd .. ||
+    exit $?
+done
+bl64_msg_show_batch_finish $? 'subrepo-status'

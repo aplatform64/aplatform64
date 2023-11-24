@@ -9,9 +9,8 @@
 
 # shellcheck source=SCRIPTDIR/dev-set
 source ./bin/dev-set || exit 1
-
-# shellcheck source-path=SCRIPTDIR/../lib disable=SC2154
-source "$DEV_CICD_BASHLIB64" || exit 1
+# shellcheck source-path=SCRIPTDIR/../lib/bl64
+source "${DEV_CICD_BASHLIB64}/bashlib64-core.bash" || exit 1
 
 #
 # Main
@@ -22,13 +21,18 @@ declare role="${2:-}"
 declare container_var=''
 declare container_list=''
 
+[[ -n "$DEV_CICD_DEBUG" ]] && bl64_dbg_all_enable
+
 bl64_check_parameter 'role' &&
   bl64_check_export 'DEV_NAME_TEST' ||
   exit $?
 
+bl64_msg_all_enable_verbose
+bl64_msg_show_batch_start 'test-role'
 bl64_msg_show_phase "Test Ansible Role (${role})"
 container_var="DEV_TEST_CONTAINER_ROLE_${target}"
 bl64_check_export "$container_var" || exit $?
 eval container_list="\$$container_var"
 
 "$DEV_CICD_TESTMANSH" -b -o -e "$container_list" -c "${DEV_NAME_TEST}/batscore/role/${role}"
+bl64_msg_show_batch_finish $? 'test-role'

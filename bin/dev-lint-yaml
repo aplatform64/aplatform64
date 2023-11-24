@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 #
-# Lint yaml code
+# Lint YAML code
+#
+# * Check is done using yamllint
+# * Template: 1.0.0
 #
 
 #
@@ -9,44 +12,32 @@
 
 # shellcheck source=SCRIPTDIR/dev-set
 source ./bin/dev-set || exit 1
-
-# shellcheck source-path=SCRIPTDIR/../lib
-source "$DEV_CICD_BASHLIB64" || exit 1
+# shellcheck source-path=SCRIPTDIR/../lib/bl64
+source "${DEV_CICD_BASHLIB64}/bashlib64-core.bash" || exit 1
 
 #
 # Globals
 #
 
-YAMLLINT_CONFIG_FILE="$DEV_CFG_YAML_LINT"
-export YAMLLINT_CONFIG_FILE
+export YAMLLINT_CONFIG_FILE="$DEV_CICD_LINT_YAML_CFG"
 
-#
-# Functions
-#
-
-function dev_lint_yaml() {
-  local collection="$1"
-  bl64_msg_show_phase "lint collection (${collection})"
-  "$DEV_CMD_YAMLLINT" "${DEV_SRC_COLLECTIONS}/${collection}"
-}
 #
 # Main
 #
 
-declare collection="${1:-}"
-declare -i status=0
+declare dev_lint_target="${1:-$DEV_CICD_LINT_YAML_TARGET}"
 
-bl64_check_parameter 'collection' &&
-  bl64_check_export 'DEV_CFG_YAML_LINT' &&
-  bl64_check_export 'DEV_SRC_COLLECTIONS' &&
-  bl64_check_export 'DEV_CMD_YAMLLINT' &&
-  bl64_check_command "$DEV_CMD_YAMLLINT" &&
-  bl64_check_directory "${DEV_SRC_COLLECTIONS}/${collection}" ||
+[[ -n "$DEV_CICD_DEBUG" ]] && bl64_dbg_all_enable
+
+bl64_check_parameter 'dev_lint_target' &&
+  bl64_check_export 'DEV_CICD_LINT_YAML_CFG' &&
+  bl64_check_export 'DEV_CICD_LINT_YAML_TARGET' &&
+  bl64_check_export 'DEV_CICD_LINT_YAML_BIN' &&
+  bl64_check_command "$DEV_CICD_LINT_YAML_BIN" &&
+  bl64_check_directory "$dev_lint_target" ||
   exit $?
 
-bl64_msg_show_batch_start 'yaml-lint'
-dev_lint_yaml "$collection"
-status=$?
-bl64_msg_show_batch_finish $status 'yaml-lint'
-
-exit $status
+bl64_msg_show_batch_start 'lint-yaml'
+bl64_msg_show_phase "Lint YAML code (${dev_lint_target})"
+"$DEV_CICD_LINT_YAML_BIN" "$dev_lint_target"
+bl64_msg_show_batch_finish $? 'lint-yaml'

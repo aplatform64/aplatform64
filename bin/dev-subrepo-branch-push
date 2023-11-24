@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+#
+# Push branch in GIT sub-repositories
+#
+# * Same branch is pushed in *all* sub-repositories
+# * All changes are commited before clossing
+# * Branch is pushed to origin but not removed from local
+# * Template: 1.0.0
+#
+
+#
+# Imports
+#
+
+# shellcheck source=SCRIPTDIR/dev-set
+source ./bin/dev-set || exit 1
+# shellcheck source-path=SCRIPTDIR/../lib/bl64
+source "${DEV_CICD_BASHLIB64}/bashlib64.bash" || exit 1
+
+#
+# Main
+#
+
+declare dev_subrepo_branch_name="${1:-feature/update}"
+declare dev_subrepo_commit_message="${2:-}"
+declare dev_subrepo_repository_name=''
+
+[[ -n "$DEV_CICD_DEBUG" ]] && bl64_dbg_all_enable
+
+bl64_check_export 'DEV_CICD_SUBREPO_ORIGIN_NAME' &&
+  bl64_check_export 'DEV_CICD_SUBREPO_BRANCH_MAIN' &&
+  bl64_check_parameter 'dev_subrepo_branch_name' &&
+  bl64_check_parameter 'dev_subrepo_commit_message' &&
+  bl64_vcs_setup ||
+  exit $?
+
+bl64_msg_all_enable_verbose
+bl64_msg_show_batch_start 'subrepo-branch-push'
+cd "$DEV_CICD_SUBREPO_ROOT" || exit $?
+for dev_subrepo_repository_name in $DEV_CICD_SUBREPO_LIST; do
+  bl64_check_directory "$dev_subrepo_repository_name" || exit $?
+  bl64_msg_show_task "Push branch (${dev_subrepo_repository_name}/${dev_subrepo_branch_name})"
+  cd "$dev_subrepo_repository_name" &&
+    bl64_vcs_run_git add . &&
+    bl64_vcs_run_git commit -m "$dev_subrepo_commit_message" &&
+    bl64_vcs_run_git push "${DEV_CICD_SUBREPO_ORIGIN_NAME}" "${dev_subrepo_branch_name}" &&
+    cd .. ||
+    exit $?
+done
+bl64_msg_show_batch_finish $? 'subrepo-branch-push'

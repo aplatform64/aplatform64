@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+#
+# Update dev-time external tool: Installer64
+#
+# * Template: 1.4.0
+#
+
+# shellcheck source=SCRIPTDIR/dev-set
+source ./bin/dev-set || exit 1
+
+echo 'Deploy installer: Installer64'
+export INST64_INSTALLER64_TARGET="$DEV_CICD_INSTALLER64_TARGET"
+cd "$DEV_LIB" &&
+  curl -LO "$DEV_CICD_INSTALLER64_URL" &&
+  chmod 755 "$DEV_CICD_INSTALLER64_BIN" &&
+  "$DEV_CICD_INSTALLER64_BIN"

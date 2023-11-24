@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+#
+# Lint MkDocs site
+#
+# * Template: 1.0.0
+#
+
+#
+# Imports
+#
+
+# shellcheck source=SCRIPTDIR/dev-set
+source ./bin/dev-set || exit 1
+# shellcheck source-path=SCRIPTDIR/../lib/bl64
+source "${DEV_CICD_BASHLIB64}/bashlib64-core.bash" || exit 1
+
+#
+# Main
+#
+
+[[ -n "$DEV_CICD_DEBUG" ]] && bl64_dbg_all_enable
+
+bl64_check_export 'DEV_CICD_LINT_MKDOCS_BIN' &&
+bl64_check_export 'DEV_CICD_LINT_MKDOCS_TARGET' &&
+  bl64_check_command "$DEV_CICD_LINT_MKDOCS_BIN" ||
+  exit $?
+
+bl64_msg_all_enable_verbose
+bl64_msg_show_batch_start 'lint-mkdocs'
+bl64_msg_show_task "Lint MkDocs Site (${DEV_CICD_LINT_MKDOCS_TARGET})"
+"$DEV_CICD_LINT_MKDOCS_BIN" \
+  build \
+  --clean \
+  --strict
+bl64_msg_show_batch_finish $? 'lint-mkdocs'
