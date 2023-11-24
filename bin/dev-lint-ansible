@@ -47,6 +47,6 @@ bl64_check_parameter 'collection' &&
   exit $?
 
 bl64_msg_all_enable_verbose
-bl64_msg_show_batch_start 'ansible-lint'
+bl64_msg_show_batch_start 'lint-ansible'
 dev_lint_ansible "$collection"
-bl64_msg_show_batch_finish $? 'ansible-lint'
+bl64_msg_show_batch_finish $? 'lint-ansible'
