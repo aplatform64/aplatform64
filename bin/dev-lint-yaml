@@ -37,7 +37,7 @@ bl64_check_parameter 'target' &&
   bl64_check_directory "$target" ||
   exit $?
 
-bl64_msg_show_batch_start 'yaml-lint'
-bl64_msg_show_phase "YAML lint target (${target})"
+bl64_msg_show_batch_start 'lint-yaml'
+bl64_msg_show_phase "Lint YAML code (${target})"
 "$DEV_CICD_LINT_YAML_BIN" "$target"
-bl64_msg_show_batch_finish $? 'yaml-lint'
+bl64_msg_show_batch_finish $? 'lint-yaml'
