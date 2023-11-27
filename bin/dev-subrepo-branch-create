@@ -37,8 +37,11 @@ for dev_subrepo_repository_name in $DEV_CICD_SUBREPO_LIST; do
   bl64_check_directory "$dev_subrepo_repository_name" || exit $?
   bl64_msg_show_task "Create branch (${dev_subrepo_repository_name}/${dev_subrepo_branch_name})"
   cd "$dev_subrepo_repository_name" &&
+    bl64_msg_show_subtask 'checkout main' &&
     bl64_vcs_run_git checkout "$DEV_CICD_SUBREPO_BRANCH_MAIN" &&
+    bl64_msg_show_subtask 'create branch' &&
     bl64_vcs_run_git checkout -b "$dev_subrepo_branch_name" &&
+    bl64_msg_show_subtask 'register branch in origin' &&
     bl64_vcs_run_git push --set-upstream "${DEV_CICD_SUBREPO_ORIGIN_NAME}" "${dev_subrepo_branch_name}" &&
     cd .. ||
     exit $?

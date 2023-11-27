@@ -2,7 +2,7 @@
 #
 # Update GIT repository
 #
-# * Template: 1.0.0
+# * Template: 1.0.1
 #
 
 #
@@ -18,12 +18,9 @@ source "${DEV_CICD_BASHLIB64}/bashlib64.bash" || exit 1
 # Main
 #
 
-declare dev_repo_branch_name="${1:-feature/update}"
-
 [[ -n "$DEV_CICD_DEBUG" ]] && bl64_dbg_all_enable
 
 bl64_check_export 'DEV_CICD_BRANCH_MAIN' &&
-  bl64_check_parameter 'dev_repo_branch_name' &&
   bl64_vcs_setup ||
   exit $?
 

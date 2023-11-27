@@ -18,6 +18,7 @@ source "${DEV_CICD_BASHLIB64}/bashlib64.bash" || exit 1
 
 # shellcheck disable=SC2317
 function dev_build_publish() {
+  bl64_dbg_app_show_function "$@"
   local target="$1"
   local collection=''
   local publish_wait=2
@@ -37,6 +38,7 @@ function dev_build_publish() {
 
 # shellcheck disable=SC2317
 function dev_build_test() {
+  bl64_dbg_app_show_function "$@"
   local target="$1"
   local collection=''
 
@@ -64,6 +66,7 @@ function dev_build_test() {
 
 # shellcheck disable=SC2317
 function dev_build_refresh() {
+  bl64_dbg_app_show_function "$@"
   local target="${1:-$DEV_AP64_COLLECTIONS}"
   local collection=''
   local role=''
@@ -121,6 +124,7 @@ function dev_build_refresh() {
 
 # shellcheck disable=SC2317
 function dev_build_cli() {
+  bl64_dbg_app_show_function
   local target=''
   local name=''
   local target_file="$DEV_TMP/devap-build-collections.sh"
@@ -148,6 +152,7 @@ function dev_build_cli() {
 
 # shellcheck disable=SC2317
 function dev_build_prod() {
+  bl64_dbg_app_show_function "$@"
   local target="$1"
   local collection=''
 

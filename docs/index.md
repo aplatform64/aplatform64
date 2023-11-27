@@ -148,7 +148,7 @@ curl -O https://raw.githubusercontent.com/aplatform64/aplatform64/main/ap64
 chmod 0755 ap64
 ```
 
-- Run installation script with the default options. Curent user must have sudo privileges.
+- Run installation script with the default options. Curent user must have root privilege with sudo.
 
 ```shell
 ./ap64 -i
@@ -164,14 +164,14 @@ chmod 0755 ap64
 ### Command Line Interface (CLI)
 
 ```shell
-Usage: ap64 <-i|-j|-c|-o|-r|-u|-l|-n|-t|-k> [-s Site] [-x Host] [-p Playbook] [-e Collection|-f Package] [-b Root] [-d Var] [-g User] [-h]
+Usage: ap64 <-i|-j|-c|-o|-r|-u|-l|-n|-t|-k> [-s Site] [-x Host] [-p Playbook] [-e Collection|-f Package] [-b Root] [-d Var] [-v Version] [-g User] [-V Verbose] [-D Debug] [-h]
 
 A:Platform64 command line interface
 
 Commands
 
   -i           : Install A:Platform64
-  -j           : Bootstrap A:Platform64
+  -j           : Bootstrap A:Platform64 (internal use only)
   -c           : Create a A:Platform64 site
   -o           : Remove a A:Platform64 site
   -r           : Refresh A:Platform64 site configuration by rerunning the setup process
@@ -179,7 +179,7 @@ Commands
   -l           : List available playbooks
   -n           : Run playbook
   -t           : List sites
-  -k           : Add node
+  -k           : Add managed node
 
 Flags
 
@@ -190,11 +190,14 @@ Parameters
   -b Root      : APlatform64 root path. Default: /opt/ap64
   -d Var       : APlatform64 var path. Default: /var/opt/ap64
   -g User      : APlatform64 user name. Default: ap64
+  -v Version   : Ansible Core version for the controller node. Default: 2.13. Format: Major.Minor
   -s Site      : Target Site. Defaul: site
   -x Host      : Target host for playbook run. Default: all
   -p Playbook  : Name of the playbook to run
   -e Collection: Collection name for the upgrade option (-u). Default: all
   -f Package   : Collection package file (-u). Default: none
+  -V Verbose   : Set verbosity level. Format: one of BL64_MSG_VERBOSE_*
+  -D Debug     : Enable debugging mode. Format: one of BL64_DBG_TARGET_*
 ```
 
 ### Common Use Cases
@@ -251,12 +254,12 @@ Use to upgrade collections from Ansible Galaxy
 
 Help on implementing new features and maintaining the code base is welcomed.
 
-- [Contributing](https://aplatform64.readthedocs.io/en/latest/CONTRIBUTING/)
-- [Contributor Covenant Code of Conduct](https://aplatform64.readthedocs.io/en/latest/CODE_OF_CONDUCT/)
+- [Contributing](https://aplatform64.readthedocs.io/en/latest/CONTRIBUTING)
+- [Contributor Covenant Code of Conduct](https://aplatform64.readthedocs.io/en/latest/CODE_OF_CONDUCT)
 
 ## Author
 
-- [SerDigital64](https://serdigital64.github.io/)
+- [SerDigital64](https://serdigital64.github.io)
 
 ## License
 

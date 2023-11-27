@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+#
+# Create and push GIT tag
+#
+# * Main branch only
+# * Template: 1.0.0
+#
+
+#
+# Imports
+#
+
+# shellcheck source=SCRIPTDIR/dev-set
+source ./bin/dev-set || exit 1
+# shellcheck source-path=SCRIPTDIR/../lib/bl64
+source "${DEV_CICD_BASHLIB64}/bashlib64.bash" || exit 1
+
+#
+# Main
+#
+
+declare new_tag="${1:-}"
+
+[[ -n "$DEV_CICD_DEBUG" ]] && bl64_dbg_all_enable
+
+bl64_check_parameter 'new_tag' &&
+  bl64_check_export 'DEV_CICD_BRANCH_MAIN' &&
+  bl64_vcs_setup ||
+  exit $?
+
+bl64_msg_all_enable_verbose
+bl64_msg_show_batch_start 'repo-tag'
+
+bl64_msg_show_task "switch to main branch (${DEV_CICD_BRANCH_MAIN})"
+bl64_vcs_run_git checkout "$DEV_CICD_BRANCH_MAIN" &&
+  bl64_msg_show_task "create tag (${new_tag})" &&
+  bl64_vcs_run_git tag "$new_tag" &&
+  bl64_msg_show_task "push tag to origin (${DEV_CICD_REPO_ORIGIN_NAME})" &&
+  bl64_vcs_run_git push "$DEV_CICD_REPO_ORIGIN_NAME" "$new_tag" &&
+  bl64_msg_show_task "push tag to upstream (${DEV_CICD_REPO_UPSTREAM_NAME})" &&
+  bl64_vcs_run_git push "$DEV_CICD_REPO_UPSTREAM_NAME" "$new_tag"
+bl64_msg_show_batch_finish $? 'repo-tag'
