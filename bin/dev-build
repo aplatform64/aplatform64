@@ -143,7 +143,14 @@ function dev_build_cli() {
     "$BL64_VAR_ON" \
     "$DEV_BUILD_FULL_PATH" \
     "${DEV_SRC}/cli/header.bash" \
-    "${DEV_CICD_BASHLIB64}/bashlib64.bash" \
+    "${DEV_CICD_BASHLIB64}/bashlib64-module-fmt.bash" \
+    "${DEV_CICD_BASHLIB64}/bashlib64-module-rnd.bash" \
+    "${DEV_CICD_BASHLIB64}/bashlib64-module-txt.bash" \
+    "${DEV_CICD_BASHLIB64}/bashlib64-module-ans.bash" \
+    "${DEV_CICD_BASHLIB64}/bashlib64-module-py.bash" \
+    "${DEV_CICD_BASHLIB64}/bashlib64-module-iam.bash" \
+    "${DEV_CICD_BASHLIB64}/bashlib64-module-fs.bash" \
+    "${DEV_CICD_BASHLIB64}/bashlib64-core.bash" \
     "${DEV_SRC}/cli/env.bash" \
     "$target_file" \
     "${DEV_SRC}/cli/functions.bash" \
