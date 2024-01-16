@@ -9,6 +9,36 @@
 ╚═╝  ╚═╝   ╚═╝     ╚══════╝╚═╝  ╚═╝   ╚═╝   ╚═╝      ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝ ╚═════╝      ╚═╝
 ```
 
+- [Project: A:Platform64](#project-aplatform64)
+  - [Overview](#overview)
+    - [Design Principles](#design-principles)
+    - [Architecture](#architecture)
+    - [Automation Scripts](#automation-scripts)
+    - [Role Structure](#role-structure)
+      - [Defaults](#defaults)
+      - [Actions](#actions)
+        - [Action: Prepare](#action-prepare)
+        - [Action: Deploy](#action-deploy)
+        - [Action: Setup](#action-setup)
+        - [Action: Control](#action-control)
+        - [Action: Provision](#action-provision)
+    - [Operating System Compatibility](#operating-system-compatibility)
+  - [Naming Convention](#naming-convention)
+  - [Deployment](#deployment)
+    - [Compatibility](#compatibility)
+    - [Prerequisites](#prerequisites)
+    - [Installation](#installation)
+  - [Usage](#usage)
+    - [Command Line Interface (CLI)](#command-line-interface-cli)
+    - [Common Use Cases](#common-use-cases)
+      - [Register managed node](#register-managed-node)
+      - [Create Site](#create-site)
+      - [Run A:Platform64 Playbook](#run-aplatform64-playbook)
+      - [Upgrade A:Platform64 Collections](#upgrade-aplatform64-collections)
+  - [Contributing](#contributing)
+  - [Author](#author)
+  - [License](#license)
+
 ## Overview
 
 **A:Platform64** is an automated infrastructure-as-code management platform based on Ansible.
@@ -108,23 +138,136 @@ Each playbook will integrate the roles needed to implement the service along wit
 | [manage_office_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_office_nodes/)               | Provision office productivity applications        |
 | [manage_test_nodes](https://aplatform64.readthedocs.io/en/latest/playbooks/manage_test_nodes/)                   | Provision software testing tools                  |
 
+### Role Structure
+
+#### Defaults
+
+- Used as an interface to expose role end-state attributes and action parameters
+
+  | Path                                   | Purpose                                                                                           |
+  | -------------------------------------- | ------------------------------------------------------------------------------------------------- |
+  | defaults/                              | Root directory where Ansible will look for defaults                                               |
+  | defaults/main/                         | Allow Ansible to use individual default definition files instead of a single main.yml entry point |
+  | defaults/main/end_state_definition.yml | Declare what are the end-state attributes that the role will set.                                 |
+  | defaults/main/action_parameters.yml    | Declare what parameters are available to define how role actions will behave.                     |
+
+- All role attributes and parameters must be declared. If the variable doesn't have a default value then it must be initialized to the empty value associated to the variable type (number, string, dictionary, list)
+- Complex variables (dictionaries, lists) must be further documented in the vars/dictionary.yml file
+- State definition attributes are permanent and are intended to represent the desired state. Non-default values must be defined as `host_variables` or `group_variables` and are the main component for implementing the _infrastructure-as-code_ strategy
+- Action parameter variables are dynamic and are reset every time the role is executed. This allows common roles to be executed several times without inheriting default settings from previous iterations.
+
+#### Actions
+
+##### Action: Prepare
+
+- Purpose: prepare the role runtime environment.
+- Common tasks:
+  - Create users.
+  - Create directory structures.
+
+##### Action: Deploy
+
+- Purpose: install application packages used by the role.
+- Common tasks:
+  - Install native operating system application packages.
+  - Install application packages distributed as single archives.
+  - Install application packages from GIT.
+  - Install application packages from Snap.
+  - Install application packages from FlatHub.
+
+##### Action: Setup
+
+- Purpose: setup configuration files used by the role.
+- Common tasks:
+  - Create configuration files
+  - Update configuration files
+
+##### Action: Control
+
+- Purpose: control the execution of services managed by the role.
+- Common tasks:
+  - Star/Stop the service.
+  - Refresh/Reload the service.
+
+##### Action: Provision
+
+- Purpose: perform provisioning tasks for content managed by the role.
+- Common tasks: tasks are dependant on the role.
+
+### Operating System Compatibility
+
+- Roles that are tied to the underlying operating system version must add version compatibility check.
+- Code must be prepared to minimize OS specific dependencies.
+- OS specific dependencies must be encapsulated by either using OS ID keys in yaml dictionary or in stand-alone files.
+- Variables for defining OS compatibility:
+  - `<COLLECTION>_<ROLE>_platforms`: OS and version list
+  - `<COLLECTION>_<ROLE>_os_family`: OS family list
+- Typical places where OS compatibility is found:
+  - `ROLEID/tasks/ROLEID_initialize.yml`
+    - `- name: "ROLEID / Initialize / Check Platform compatibility"`
+    - `- name: "ROLEID / Initialize / Set Platform specific variables"`
+  - `ROLEID/var/main.yml`
+    - `ROLEID_platforms:`
+    - `ROLEID_os_family`
+  - `ROLEID/var/platform-OSNAME.yml`
+  - `auto_aplatform64/templates/roles/*`
+- Core roles that must be updated to support new OS versions:
+  - `auto_aplatform64`
+  - `auto_ansible_control`
+  - `auto_ansible_node`
+
+## Naming Convention
+
+- Collections
+  - definition: represents a technology or service
+  - lowercase
+  - single word
+- Roles
+  - definition: represents a component of the technology managed by the collection
+  - lowercase
+  - words separate by \_
+  - combined word: collection name + role name
+  - template: collection_role
+- Tasks
+  - definition: represents a set of actions
+  - lowercase
+  - words separate by \_
+  - combined word: collection name + role name + task name + subtask name
+  - templates
+    - collection_role_task.yml
+    - collection_role_task_subtask.yml
+- Defaults
+  - main/state_definition.yml
+  - main/action_parameters.yml
+- Variables
+  - lowercase
+  - words separate by \_
+  - combined word: collection name + role name + variable name
+  - templates
+    - collection_role_variable
+    - collection_role\_\_\_temporary_variable
+
 ## Deployment
 
-### OS Compatibility
+### Compatibility
 
-**A:Platform64** is compatible with the following Linux operating systems:
+**A:Platform64** CLI and core components are tested against a set of Linux OS versions and Ansible versions to determine compatibility:
 
-- AlmaLinux8
-- CentOS8
-- Debian10, Debian11
-- Fedora33, Fedora35
-- MacOSX12
-- OracleLinux8, OracleLinux9
-- RedHat8
-- RockyLinux8
-- Ubuntu20, Ubuntu21, Ubuntu22
+- Ansible
+  - Mininum: 2.11
+  - Maximum: 2.13
+- Linux OS
+  - AlmaLinux8
+  - CentOS8
+  - Debian10, Debian11
+  - Fedora33, Fedora35
+  - MacOSX12
+  - OracleLinux8, OracleLinux9
+  - RedHat8
+  - RockyLinux8
+  - Ubuntu20, Ubuntu21, Ubuntu22
 
-Notice that roles have their own compatibility matrix. Refer to the respective documentation for further details.
+Remaining collections and roles are also tested but may have a different OS compatibility list.
 
 ### Prerequisites
 
