@@ -1,0 +1,34 @@
+---
+# Template: 4.2.0
+name: "Lint / TestManSH"
+
+env:
+  DEV_CICD_DEBUG: ""
+
+on:
+  pull_request:
+    branches:
+      - "main"
+  push:
+    branches:
+      - "feature/**"
+    paths:
+      - "src/cli/**"
+
+jobs:
+  lint-testmansh:
+    runs-on: "ubuntu-latest"
+    steps:
+
+      - name: "Check out repository code"
+        uses: "actions/checkout@main"
+
+      - name: "Prepare build environment"
+        run: "./bin/dev-lib-installer64 && ./bin/dev-lib-bashlib64 && ./bin/dev-lib-testmansh"
+
+      - name: "Build app"
+        run: "./bin/dev-build-bash"
+
+      - name: "Lint app"
+        run: "./bin/dev-lint-testmansh"
+...

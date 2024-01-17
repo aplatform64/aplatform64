@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+#######################################
+# Dev / Lib / Bashlib64 / Download
+#
+# * Version: 4.1.0
+#
+#######################################
+# Copyright [2023] [serdigital64@gmail.com]
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#######################################
+
+#
+# Imports
+#
+
+# shellcheck source=bin/dev-set
+source ./bin/dev-set || { echo 'dev-set:Error: unable to load dev environment' 2>&1 && exit 1; }
+
+#
+# Globals
+#
+
+# CICD / Debug flag for bin/ scripts. Set to YES to enable
+export DEV_CICD_DEBUG="${DEV_CICD_DEBUG:-}"
+# Lib / BashLib64 / Target
+export DEV_LIB_BASHLIB64_TARGET="${DEV_LIB_BASHLIB64_TARGET:-${DEV_PATH_LIB}/bl64}"
+# Lib / BashLib64 / Installer64 parameters
+export INST64_BASHLIB64_TARGET="$DEV_LIB_BASHLIB64_TARGET"
+
+#
+# Main
+#
+
+[[ -n "$DEV_CICD_DEBUG" ]] && set -x
+[[ ! -d "$DEV_LIB_INSTALLER64_TARGET" ]] && dev_set_error 'Installer64 not found, please run ./bin/dev-lib-installer64 and try again' && exit 1
+
+[[ -d "$DEV_LIB_BASHLIB64_TARGET" ]] && rm -Rf "$DEV_LIB_BASHLIB64_TARGET"
+"${DEV_LIB_INSTALLER64_TARGET}/install-bashlib64"
