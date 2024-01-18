@@ -29,7 +29,7 @@
 # Build / Bash / Target file name
 export DEV_BUILD_BASH_NAME="${DEV_BUILD_BASH_NAME:-}"
 # Build / Bash / Source full path
-export DEV_BUILD_BASH_SOURCE="${DEV_BUILD_BASH_SOURCE:-$DEV_PATH_SRC}"
+export DEV_BUILD_BASH_SOURCE="${DEV_BUILD_BASH_SOURCE:-${DEV_PATH_SRC}}"
 # Build / Bash / Target full path
 export DEV_BUILD_BASH_TARGET="${DEV_BUILD_BASH_TARGET:-${DEV_PATH_BUILD}/${DEV_BUILD_BASH_NAME}}"
 # Build / Bash / Libraries

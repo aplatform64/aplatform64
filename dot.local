@@ -7,8 +7,8 @@
 # * Automatically loaded by dev-set on non CICD environments
 # * For CICD environments, create variables and values based on this file
 # * Source before .env
-# * Version: 1.2.0
+# * Version: 1.2.1
 #
 
 # CICD / Debug flag for bin/ scripts
-export DEV_CICD_DEBUG=""
+export DEV_CICD_DEBUG="${DEV_CICD_DEBUG:-}"
