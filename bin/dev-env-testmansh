@@ -30,6 +30,10 @@
 export DEV_LIB_TESTMANSH_BIN="${DEV_PATH_LIB}/testmansh"
 # Lint / TestmanSH / Sources
 export DEV_LINT_TESTMANSH_SOURCE="${DEV_LINT_TESTMANSH_SOURCE:-${DEV_BASE_SRC}}"
+# Test / TestmanSH / Container
+export DEV_TEST_TESTMANSH_CONTAINER="${DEV_TEST_TESTMANSH_CONTAINER:-bash-test/alpine-3-bash-test}"
+# Test / TestmanSH / Cases
+export DEV_TEST_TESTMANSH_CASES="${DEV_TEST_TESTMANSH_CASES:-${DEV_BASE_TEST}/batscore}"
 
 #
 # Locals

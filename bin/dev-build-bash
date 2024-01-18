@@ -37,10 +37,6 @@ source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-txt.bash" &&
   source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-core.bash" || exit 1
 
 #
-# Globals
-#
-
-#
 # Functions
 #
 

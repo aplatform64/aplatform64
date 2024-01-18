@@ -53,24 +53,18 @@ function dev_lint_testmansh() {
   local target="$*"
   local current=''
 
-  if [[ -z "$target" ]]; then
-    target="$(bl64_fs_find_files "$DEV_LINT_TESTMANSH_SOURCE")" ||
-      return $?
-  fi
+  [[ -z "$target" ]] && target="$DEV_LINT_TESTMANSH_SOURCE"
   for current in $target; do
     bl64_msg_show_phase "lint target: ${current}"
-    "$DEV_LIB_TESTMANSH_BIN" -t -a -V 'NONE' -c "$current" ||
+    "$DEV_LIB_TESTMANSH_BIN" \
+      -t -a -V 'NONE' \
+      -c "$current" ||
       return $?
   done
 }
 
 function dev_lint_initialize() {
-  bl64_dbg_app_show_function "$@"
-  local sources="$*"
-  if [[ -z "$sources" ]]; then
-    bl64_check_directory "$DEV_LINT_TESTMANSH_SOURCE" ||
-      return $?
-  fi
+  bl64_dbg_app_show_function
   bl64_check_command_search_path "$DEV_LIB_TESTMANSH_BIN"
 }
 
@@ -84,6 +78,6 @@ declare dev_lint_target="${*:-}"
 
 bl64_msg_all_enable_verbose
 bl64_msg_show_batch_start 'dev-lint-testmansh'
-dev_lint_initialize "$dev_lint_target" &&
+dev_lint_initialize &&
   dev_lint_testmansh "$dev_lint_target"
 bl64_msg_show_batch_finish $? 'dev-lint-testmansh'
