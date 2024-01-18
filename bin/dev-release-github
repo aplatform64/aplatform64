@@ -1,0 +1,144 @@
+#!/usr/bin/env bash
+#######################################
+# Dev / Release / GitHub / Create application release from tag
+#
+# * Version: 1.2.0
+#
+#######################################
+# Copyright [2023] [serdigital64@gmail.com]
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#######################################
+
+#
+# Imports
+#
+
+# shellcheck source=bin/dev-set
+source ./bin/dev-set || { echo 'dev-set:Error: unable to load dev environment' 2>&1 && exit 1; }
+# shellcheck source-path=bin
+source ./bin/dev-env-git &&
+  source ./bin/dev-env-github || exit 1
+# shellcheck source=lib/bl64/bashlib64.bash
+source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-core.bash" || exit 1
+
+#
+# Globals
+#
+
+export DEV_PACK_STORE="${DEV_PACK_STORE:-}"
+# Release / GitHub / Repository Owner
+export DEV_RELEASE_GITHUB_REPO_OWNER="${DEV_RELEASE_GITHUB_REPO_OWNER:-}"
+# Release / GitHub / Repository Name
+export DEV_RELEASE_GITHUB_REPO_NAME="${DEV_RELEASE_GITHUB_REPO_NAME:-}"
+
+#
+# Functions
+#
+
+function dev_release_get_changes() {
+  bl64_dbg_app_show_function "$@"
+  local tag="$1"
+  bl64_dbg_app_show_comments 'remove prefix from tag to match semver version on changelog'
+  bl64_txt_run_awk -v tag="${tag#v}" '
+  BEGIN {
+      section = 0
+      pattern = "## \\[" tag "\\]"
+  }
+  /^$/ { next }
+  section == 0 && $0 ~ pattern {
+    section = 1
+    next
+  }
+  section == 1 && (/^## \[[0-9]+\.[0-9]\.+[0-9]+\]$/ || /^\[[0-9]+\.[0-9]\.+[0-9]+\]: /) {
+    exit
+  }
+  section == 1 {
+    print $0
+    next
+  }
+  ' "$DEV_BASE_CHANGELOG"
+}
+
+function dev_release_create() {
+  bl64_dbg_app_show_function "$@"
+  local tag="$1"
+  local notes="$2"
+
+  bl64_msg_show_task "Create GitHub Release (${tag})"
+  "$DEV_LIB_GITHUB_BIN" \
+    release create \
+    --latest \
+    --verify-tag \
+    --repo="${DEV_RELEASE_GITHUB_REPO_OWNER}/${DEV_RELEASE_GITHUB_REPO_NAME}" \
+    --target="$DEV_GIT_BRANCH_MAIN" \
+    --notes-file="$notes" \
+    --title="$tag" \
+    "$tag"
+}
+
+function dev_release_upload() {
+  bl64_dbg_app_show_function "$@"
+  local tag="$1"
+
+  [[ -z "$DEV_PACK_STORE" ]] && return 0
+  bl64_check_export 'DEV_PACK_NAME' || return $?
+
+  bl64_msg_show_task "Upload release assets (${DEV_PACK_STORE})" &&
+    "$DEV_LIB_GITHUB_BIN" \
+      release upload \
+      --repo="${DEV_RELEASE_GITHUB_REPO_OWNER}/${DEV_RELEASE_GITHUB_REPO_NAME}" \
+      "$tag" \
+      "${DEV_PACK_STORE}/${DEV_PACK_NAME}"
+}
+
+function dev_release() {
+  bl64_dbg_app_show_function "$@"
+  local tag="$1"
+  local notes=''
+  local -i status=0
+
+  notes="$(bl64_fs_create_tmpfile).md" &&
+    dev_release_get_changes "$tag" >"$notes"
+  [[ ! -s "$notes" ]] && bl64_msg_show_error 'Unable to extract changelog for the requested tag' && status=1
+
+  if ((status == 0)); then
+    dev_release_create "$tag" "$notes" &&
+      dev_release_upload "$tag"
+    status=$?
+  fi
+  bl64_fs_rm_tmpfile "$notes"
+  return $status
+}
+
+function dev_release_initialize() {
+  bl64_dbg_app_show_function
+  bl64_check_parameter 'dev_release_tag' &&
+    bl64_check_export 'DEV_RELEASE_GITHUB_REPO_OWNER' &&
+    bl64_check_export 'DEV_RELEASE_GITHUB_REPO_NAME' &&
+    bl64_check_command_search_path "$DEV_LIB_GITHUB_BIN"
+}
+
+#
+# Main
+#
+
+declare dev_release_tag="${1:-}"
+
+[[ -n "$DEV_CICD_DEBUG" ]] && bl64_dbg_all_enable
+dev_release_initialize || exit $?
+
+bl64_msg_all_enable_verbose
+bl64_msg_show_batch_start 'dev-release-github'
+dev_release "$dev_release_tag"
+bl64_msg_show_batch_finish $? 'dev-release-github'
