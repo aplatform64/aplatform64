@@ -1,0 +1,74 @@
+#!/usr/bin/env bash
+#######################################
+# Dev / Lint / YAMLLint / Lint yaml files
+#
+# * Check is done using yamllint
+# * Version: 2.1.0
+#
+#######################################
+# Copyright [2023] [serdigital64@gmail.com]
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#######################################
+
+#
+# Imports
+#
+
+# shellcheck source=bin/dev-set
+source ./bin/dev-set || { echo 'dev-set:Error: unable to load dev environment' 2>&1 && exit 1; }
+# shellcheck source-path=bin
+source ./bin/dev-env-yamllint || exit 1
+# shellcheck source=lib/bl64/bashlib64-core.bash
+source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-core.bash" || exit 1
+
+#
+# Globals
+#
+
+export YAMLLINT_CONFIG_FILE="$DEV_LIB_YAMLLINT_CFG"
+
+#
+# Functions
+#
+
+function dev_lint_yaml() {
+  bl64_dbg_app_show_function "$@"
+  local dev_lint_target="$*"
+  local dev_lint_current=''
+  for dev_lint_current in $dev_lint_target; do
+    bl64_msg_show_phase "lint YAML target (${dev_lint_current})"
+    "$DEV_LIB_YAMLLINT_BIN" \
+      --config-file "$DEV_LIB_YAMLLINT_CFG" \
+      "$dev_lint_current" ||
+      return $?
+  done
+}
+
+function dev_lint_initialize() {
+  bl64_dbg_app_show_function
+  bl64_check_command_search_path "$DEV_LIB_YAMLLINT_BIN"
+}
+
+#
+# Main
+#
+
+declare dev_lint_target="${*:-$DEV_LINT_YAMLLINT_TARGET}"
+
+[[ -n "$DEV_CICD_DEBUG" ]] && bl64_dbg_all_enable
+
+bl64_msg_show_batch_start 'dev-lint-yaml'
+dev_lint_initialize &&
+  dev_lint_yaml "$dev_lint_target"
+bl64_msg_show_batch_finish $? 'dev-lint-yaml'
