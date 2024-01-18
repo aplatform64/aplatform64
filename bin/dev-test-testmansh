@@ -5,7 +5,7 @@
 # * Test cases are done using bats-core
 # * TestManSH is used to manage test environment
 # * Tests are located in the default path "test/batscore"
-# * Version: 2.1.0
+# * Version: 2.2.0
 #
 #######################################
 # Copyright [2023] [serdigital64@gmail.com]
@@ -60,9 +60,9 @@ function dev_test_initialize() {
 #
 
 [[ -n "$DEV_CICD_DEBUG" ]] && bl64_dbg_all_enable
-dev_test_initialize || exit $?
 
 bl64_msg_all_enable_verbose
 bl64_msg_show_batch_start 'dev-test-bash'
-dev_test_bash
+dev_test_initialize &&
+  dev_test_bash
 bl64_msg_show_batch_finish $? 'dev-test-bash'

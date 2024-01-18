@@ -46,14 +46,14 @@ source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-txt.bash" &&
 
 function dev_build_bash() {
   bl64_dbg_app_show_function
-  bl64_msg_show_task "Build app (${DEV_BUILD_BASH_TARGET})"
+  bl64_msg_show_task "Build app (${DEV_BUILD_BASH_FILE})"
   # shellcheck disable=SC2086
   bl64_fs_merge_files \
     '0755' \
     "$BL64_VAR_DEFAULT" \
     "$BL64_VAR_DEFAULT" \
     "$BL64_VAR_ON" \
-    "$DEV_BUILD_BASH_TARGET" \
+    "$DEV_BUILD_BASH_FILE" \
     "${DEV_BUILD_BASH_SOURCE}/header.bash" \
     $DEV_BUILD_BASH_MODULES \
     "${DEV_BUILD_BASH_SOURCE}/env.bash" \
@@ -64,7 +64,9 @@ function dev_build_bash() {
 function dev_build_initialize() {
   bl64_dbg_app_show_function
   bl64_check_export 'DEV_BUILD_BASH_NAME' &&
-    bl64_check_directory "$DEV_BUILD_BASH_SOURCE"
+    bl64_check_directory "$DEV_BUILD_BASH_SOURCE" &&
+    bl64_fs_create_dir \
+      '0755' "$BL64_VAR_DEFAULT" "$BL64_VAR_DEFAULT" "$DEV_BUILD_BASH_TARGET"
 }
 
 #
