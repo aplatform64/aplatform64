@@ -4,7 +4,7 @@
 #
 # * Check is done using shellcheck
 # * TestManSH is used to manage linting environment
-# * Version: 6.4.0
+# * Version: 6.2.0
 #
 #######################################
 # Copyright [2023] [serdigital64@gmail.com]
