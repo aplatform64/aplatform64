@@ -8,8 +8,6 @@ repo_url: "https://github.com/aplatform64/aplatform64"
 
 copyright: "Apache-2.0"
 docs_dir: "docs/"
-site_dir: "build/site/"
-strict: false
 
 extra_css:
   - "css/pygments-tango.css"
