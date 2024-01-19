@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #######################################
-# Dev / Env / Container / Shared environment variables
+# Dev / Env / YAMLLint / Shared environment variables
 #
 # * Version: 1.0.0
 #
@@ -27,7 +27,7 @@
 #
 
 # Lint / YAML / Target
-export DEV_LINT_YAMLLINT_TARGET="${DEV_LINT_YAMLLINT_TARGET:-$DEV_PATH_SRC}"
+export DEV_LINT_YAMLLINT_TARGET="${DEV_LINT_YAMLLINT_TARGET:-${DEV_PATH_SRC}}"
 # Lib / YAML / Configuration
 export DEV_LIB_YAMLLINT_CFG="${DEV_PATH_ROOT}/.yamllint"
 

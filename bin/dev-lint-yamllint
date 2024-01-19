@@ -33,16 +33,10 @@ source ./bin/dev-env-yamllint || exit 1
 source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-core.bash" || exit 1
 
 #
-# Globals
-#
-
-export YAMLLINT_CONFIG_FILE="$DEV_LIB_YAMLLINT_CFG"
-
-#
 # Functions
 #
 
-function dev_lint_yaml() {
+function dev_lint_yamllint() {
   bl64_dbg_app_show_function "$@"
   local dev_lint_target="$*"
   local dev_lint_current=''
@@ -68,7 +62,7 @@ declare dev_lint_target="${*:-$DEV_LINT_YAMLLINT_TARGET}"
 
 [[ -n "$DEV_CICD_DEBUG" ]] && bl64_dbg_all_enable
 
-bl64_msg_show_batch_start 'dev-lint-yaml'
+bl64_msg_show_batch_start 'dev-lint-yamllint'
 dev_lint_initialize &&
-  dev_lint_yaml "$dev_lint_target"
-bl64_msg_show_batch_finish $? 'dev-lint-yaml'
+  dev_lint_yamllint "$dev_lint_target"
+bl64_msg_show_batch_finish $? 'dev-lint-yamllint'
