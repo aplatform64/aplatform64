@@ -1,0 +1,98 @@
+#!/usr/bin/env bash
+#######################################
+# Dev / Auth / Container / Registry Login
+#
+# * Version: 1.1.0
+#
+#######################################
+# Copyright [2023] [serdigital64@gmail.com]
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#######################################
+
+#
+# Imports
+#
+
+# shellcheck source=bin/dev-set
+source ./bin/dev-set || { echo 'dev-set:Error: unable to load dev environment' 2>&1 && exit 1; }
+# shellcheck source-path=bin
+source ./bin/dev-env-github &&
+  source ./bin/dev-env-container || exit 1
+# shellcheck source-path=lib/bl64
+source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-cnt.bash" &&
+  source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-core.bash" || exit 1
+
+#
+# Globals
+#
+
+# Auth / Docker / User
+export DEV_AUTH_CONTAINER_USER="${DEV_AUTH_CONTAINER_USER:-}"
+export DEV_AUTH_CONTAINER_PASSWORD="${DEV_AUTH_CONTAINER_PASSWORD:-}"
+# Auth / Docker / Registry Type
+export DEV_AUTH_CONTAINER_TYPE="${DEV_AUTH_CONTAINER_TYPE:-GITHUB}"
+
+#
+# Functions
+#
+
+function dev_auth_docker_ghtoken() {
+  bl64_dbg_app_show_function
+  bl64_msg_show_task 'Docker login with GitHub token'
+  "$DEV_LIB_GITHUB_BIN" auth token |
+    bl64_cnt_login_stdin \
+      "$DEV_AUTH_CONTAINER_USER" "$DEV_AUTH_CONTAINER_REGISTRY"
+}
+
+function dev_auth_docker_password() {
+  bl64_dbg_app_show_function
+  bl64_msg_show_task 'Docker login with user+password'
+  bl64_cnt_login \
+    "$DEV_AUTH_CONTAINER_USER" "$DEV_AUTH_CONTAINER_PASSWORD" "$DEV_AUTH_CONTAINER_REGISTRY"
+}
+
+function dev_auth_docker() {
+  bl64_dbg_app_show_function
+  case "$DEV_AUTH_CONTAINER_TYPE" in
+  'GITHUB') dev_auth_docker_ghtoken ;;
+  *) dev_auth_docker_password ;;
+  esac
+}
+
+function dev_auth_initialize() {
+  bl64_check_export 'DEV_AUTH_CONTAINER_USER' &&
+    bl64_check_export 'DEV_AUTH_CONTAINER_REGISTRY' &&
+    bl64_cnt_setup || return $?
+
+  if [[ "$DEV_AUTH_CONTAINER_TYPE" == 'GITHUB' ]]; then
+    bl64_check_command_search_path "$DEV_LIB_GITHUB_BIN" ||
+      return $?
+  else
+    bl64_check_export 'DEV_AUTH_CONTAINER_PASSWORD' ||
+      return $?
+  fi
+  return 0
+}
+
+#
+# Main
+#
+
+[[ -n "$DEV_CICD_DEBUG" ]] && bl64_dbg_all_enable
+dev_auth_initialize || exit $?
+
+bl64_msg_all_enable_verbose
+bl64_msg_show_batch_start 'dev-auth-container'
+dev_auth_docker
+bl64_msg_show_batch_finish $? 'dev-auth-container'
