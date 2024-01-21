@@ -1,0 +1,136 @@
+#!/usr/bin/env bash
+#######################################
+# Dev / Build / Custom / Sync duplicated assets
+#
+# * Required to keep duplicated assets in sync with main source:
+#   * Collections
+#   * MkDocs site
+#
+# * Version: 1.0.0
+#
+#######################################
+# Copyright [2023] [serdigital64@gmail.com]
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#######################################
+
+#
+# Imports
+#
+
+# shellcheck source=bin/dev-set
+source ./bin/dev-set || { echo 'dev-set:Error: unable to load dev environment' 2>&1 && exit 1; }
+# shellcheck source=lib/bl64/bashlib64-core.bash
+source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-core.bash" || exit 1
+
+#
+# Globals
+#
+
+#
+# Functions
+#
+
+function dev_build_custom_sync_collection() {
+  bl64_dbg_app_show_function "$@"
+  local collection="$1"
+
+  bl64_msg_show_phase "synchronize collection assets (${collection})"
+  bl64_msg_show_task "sync collection version (${collection}:${DEV_BUILD_CUSTOM_CATALOG_VERSIONS["$collection"]})"
+  bl64_txt_run_sed \
+    -i \
+    -e "s/^version: .*/version: \"${DEV_BUILD_CUSTOM_CATALOG_VERSIONS["$collection"]}\"/g" \
+    "${DEV_BUILD_CUSTOM_BASE_COLLECTIONS}/${collection}/galaxy.yml" || return $?
+
+  bl64_msg_show_task "refresh license (root -> ${collection})"
+  bl64_fs_cp_file "${DEV_PATH_ROOT}/LICENSE" "${DEV_BUILD_CUSTOM_BASE_COLLECTIONS}/${collection}/LICENSE" &&
+    bl64_fs_cp_file "${DEV_PATH_ROOT}/CODE_OF_CONDUCT.md" "${DEV_BUILD_CUSTOM_BASE_COLLECTIONS}/${collection}/CODE_OF_CONDUCT.md" || return $?
+
+  bl64_msg_show_task "synchronize tools configurations (root -> ${collection})"
+  bl64_fs_cp_file "${DEV_CFG_ANSIBLE_LINT}" "${DEV_BUILD_CUSTOM_BASE_COLLECTIONS}/${collection}" &&
+    bl64_fs_cp_file "${DEV_CICD_LINT_YAML_CFG}" "${DEV_BUILD_CUSTOM_BASE_COLLECTIONS}/${collection}" || return $?
+
+  bl64_msg_show_task "sync collection doc (${collection} -> root)"
+  bl64_fs_cp_file "${DEV_BUILD_CUSTOM_BASE_COLLECTIONS}/${collection}/README.md" "${DEV_PATH_DOCS}/collections/${collection}.md" || return $?
+}
+
+function dev_build_custom_sync_role() {
+  bl64_dbg_app_show_function "$@"
+  local collection="$1"
+  local role="$2"
+  bl64_msg_show_phase "synchronize role assets (${role})"
+
+  bl64_msg_show_task "sync examples (${role} -> root)"
+  [[ -f "${DEV_BUILD_CUSTOM_BASE_COLLECTIONS}/${collection}/playbooks/${role}.yml" ]] &&
+    bl64_fs_cp_file "${DEV_BUILD_CUSTOM_BASE_COLLECTIONS}/${collection}/playbooks/${role}.yml" "${DEV_PATH_DOCS}/examples/${role}.yml"
+
+  bl64_msg_show_task "refresh license (root -> ${role})"
+  bl64_fs_cp_file "${DEV_PATH_ROOT}/LICENSE" "${DEV_BUILD_CUSTOM_BASE_COLLECTIONS}/${collection}/roles/${role}/LICENSE" &&
+    bl64_fs_cp_file "${DEV_PATH_ROOT}/CODE_OF_CONDUCT.md" "${DEV_BUILD_CUSTOM_BASE_COLLECTIONS}/${collection}/roles/${role}/CODE_OF_CONDUCT.md" || return $?
+
+  bl64_msg_show_task "sync docs (${role} -> root)"
+  bl64_fs_cp_file "${DEV_BUILD_CUSTOM_BASE_COLLECTIONS}/${collection}/roles/${role}/README.md" "${DEV_PATH_DOCS}/roles/${role}.md" || return $?
+}
+
+function dev_build_custom_sync_mkdocs() {
+  bl64_dbg_app_show_function
+  bl64_msg_show_phase "synchronize readthedocs-mkdocs root (${DEV_PATH_DOCS})"
+  bl64_fs_cp_file "${DEV_PATH_ROOT}/CONTRIBUTING.md" "${DEV_PATH_DOCS}/CONTRIBUTING.md" &&
+    bl64_fs_cp_file "${DEV_PATH_ROOT}/CODE_OF_CONDUCT.md" "${DEV_PATH_DOCS}/CODE_OF_CONDUCT.md" &&
+    bl64_fs_cp_file "${DEV_PATH_ROOT}/LICENSE" "${DEV_PATH_DOCS}/LICENSE.md" &&
+    bl64_fs_cp_file "${DEV_PATH_ROOT}/CHANGELOG.md" "${DEV_PATH_DOCS}/CHANGELOG.md"
+}
+
+function dev_build_custom() {
+  bl64_dbg_app_show_function "$@"
+  local target="$1"
+  local collection=''
+  local role=''
+
+  dev_build_custom_sync_mkdocs ||
+    return $?
+
+  for collection in $target; do
+    dev_build_custom_sync_collection "$collection" ||
+      return $?
+    for role in $(
+      cd "${DEV_BUILD_CUSTOM_BASE_COLLECTIONS}/${collection}/roles"
+      ls
+    ); do
+      dev_build_custom_sync_role "$collection" "$role" ||
+        return $?
+    done
+  done
+}
+
+function dev_build_custom_initialize() {
+  bl64_dbg_app_show_function "$@"
+  # shellcheck disable=SC2034
+  local build_target="$*"
+  bl64_check_parameter 'build_target' &&
+  bl64_check_directory "$DEV_BUILD_CUSTOM_BASE_COLLECTIONS"
+}
+
+#
+# Main
+#
+
+declare dev_build_target="${*:-${DEV_BUILD_CUSTOM_CATALOG_COLLECTIONS}}"
+
+[[ -n "$DEV_CICD_DEBUG" ]] && bl64_dbg_all_enable
+
+bl64_msg_all_enable_verbose
+bl64_msg_show_batch_start 'dev-build-custom'
+dev_build_custom_initialize "$dev_build_target" &&
+  dev_build_custom "$dev_build_target"
+bl64_msg_show_batch_finish $? 'dev-build-custom'

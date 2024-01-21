@@ -43,12 +43,12 @@ function dev_lint_ansiblelint() {
   cd "$DEV_LINT_ANSIBLELINT_BASE_COLLECTIONS" || return $?
   for lint_current in $lint_target; do
     bl64_msg_show_phase "lint Ansible Collection (${lint_current})"
-    pushd "$lint_current" > /dev/null &&
+    pushd "$lint_current" >/dev/null &&
       "$DEV_LIB_ANSIBLELINT_BIN" \
         --offline \
         --project-dir "$(pwd)" \
         --config-file "$(pwd)/${DEV_LIB_ANSIBLELINT_CFG}" &&
-      popd > /dev/null ||
+      popd >/dev/null ||
       return $?
   done
 }
@@ -57,7 +57,7 @@ function dev_lint_initialize() {
   bl64_dbg_app_show_function "$@"
   local lint_target="$*"
   bl64_check_parameter 'lint_target' &&
-  bl64_check_command_search_path "$DEV_LIB_ANSIBLELINT_BIN"
+    bl64_check_command_search_path "$DEV_LIB_ANSIBLELINT_BIN"
 }
 
 #

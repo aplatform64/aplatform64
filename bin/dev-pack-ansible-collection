@@ -37,13 +37,6 @@ source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-txt.bash" &&
   source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-core.bash" || exit 1
 
 #
-# Globals
-#
-
-# Dev / Enable debugging? Set to YES to enable
-export DEV_CICD_DEBUG="${DEV_CICD_DEBUG:-}"
-
-#
 # Functions
 #
 
