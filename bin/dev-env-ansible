@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #######################################
-# Dev / Env / AnsibleLint / Shared environment variables
+# Dev / Env / Ansible / Shared environment variables
 #
 # * Version: 1.0.0
 #
@@ -26,21 +26,22 @@
 # * Use .env file to override values
 #
 
-# Lib / AnsibleLint / Configuration name
-export DEV_LIB_ANSIBLELINT_CFG='.ansible-lint'
-# Lint / AnsibleLint / Base path for collections
-export DEV_LINT_ANSIBLELINT_BASE_COLLECTIONS="${DEV_LINT_ANSIBLELINT_BASE_COLLECTIONS:-${DEV_PATH_SRC}}"
-# Lint / AnsibleLint / Collection Catalog
-export DEV_LINT_ANSIBLELINT_CATALOG_COLLECTIONS="${DEV_LINT_ANSIBLELINT_CATALOG_COLLECTIONS:-}"
+# Pack / Ansible / Configuration
+export DEV_PACK_ANSIBLE_CFG="${DEV_PACK_ANSIBLE_CFG:-${DEV_PATH_ROOT}/.ansible.cfg}"
+# Pack / Ansible / Base path for collections
+export DEV_PACK_ANSIBLE_BASE_COLLECTIONS="${DEV_PACK_ANSIBLE_BASE_COLLECTIONS:-${DEV_PATH_SRC}}"
+# Pack / Ansible / Collection Catalog
+export DEV_PACK_ANSIBLE_CATALOG_COLLECTIONS="${DEV_PACK_ANSIBLE_CATALOG_COLLECTIONS:-}"
+# Pack / Ansible / Ansible Galaxy Namespace
+export DEV_PACK_ANSIBLE_GALAXY_NAMESPACE="${DEV_PACK_ANSIBLE_GALAXY_NAMESPACE:-}"
+# Pack / Ansible / Destination
+export DEV_PACK_ANSIBLE_DESTINATION="${DEV_PACK_ANSIBLE_DESTINATION:-${DEV_PATH_BUILD}/pack}"
 
 #
 # Locals
 #
 # * Use .local file or CICD variables to override values
 #
-
-# Lib / AnsibleLint / Command
-export DEV_LIB_ANSIBLELINT_BIN="${DEV_LIB_ANSIBLELINT_BIN:-${HOME}/.local/bin/ansible-lint}"
 
 #
 # Secrets
