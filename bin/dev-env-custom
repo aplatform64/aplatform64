@@ -31,7 +31,8 @@ export DEV_BUILD_CUSTOM_BASE_COLLECTIONS="${DEV_BUILD_CUSTOM_BASE_COLLECTIONS:-}
 # Build / Custom / Collection Catalog
 export DEV_BUILD_CUSTOM_CATALOG_COLLECTIONS="${DEV_BUILD_CUSTOM_CATALOG_COLLECTIONS:-}"
 # Build / Custom / Collection Catalog Versions
-declare -xA DEV_BUILD_CUSTOM_CATALOG_VERSIONS
+# * Associative array must be declared and populated in .env file: DEV_BUILD_CUSTOM_CATALOG_VERSIONS[collection]='version'
+# declare -A DEV_BUILD_CUSTOM_CATALOG_VERSIONS=''
 
 #
 # Locals
