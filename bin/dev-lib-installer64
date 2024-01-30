@@ -2,7 +2,7 @@
 #######################################
 # Dev / Lib / Installer64 / Download
 #
-# * Version: 3.0.0
+# * Version: 3.1.0
 #
 #######################################
 # Copyright [2023] [serdigital64@gmail.com]
@@ -39,6 +39,8 @@ export DEV_CICD_DEBUG="${DEV_CICD_DEBUG:-}"
 export DEV_LIB_INSTALLER64_URL='https://raw.githubusercontent.com/automation64/installer64/main/src/install-installer64'
 # Lib / Installer64 / Installer64 parameters
 export INST64_INSTALLER64_TARGET="$DEV_LIB_INSTALLER64_TARGET"
+# Lib / BashLib64 / Installer64 parameters
+export INST64_BASHLIB64_TARGET="$DEV_LIB_BASHLIB64_TARGET"
 
 #
 # Main
