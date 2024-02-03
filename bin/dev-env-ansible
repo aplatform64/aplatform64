@@ -2,7 +2,7 @@
 #######################################
 # Dev / Env / Ansible / Shared environment variables
 #
-# * Version: 1.0.0
+# * Version: 1.1.0
 #
 #######################################
 # Copyright [2023] [serdigital64@gmail.com]
@@ -36,6 +36,10 @@ export DEV_PACK_ANSIBLE_CATALOG_COLLECTIONS="${DEV_PACK_ANSIBLE_CATALOG_COLLECTI
 export DEV_PACK_ANSIBLE_GALAXY_NAMESPACE="${DEV_PACK_ANSIBLE_GALAXY_NAMESPACE:-}"
 # Pack / Ansible / Destination
 export DEV_PACK_ANSIBLE_DESTINATION="${DEV_PACK_ANSIBLE_DESTINATION:-${DEV_PATH_BUILD}/pack}"
+# Lab / Ansible / Registry
+export DEV_LAB_ANSIBLE_REGISTRY="${DEV_LAB_ANSIBLE_REGISTRY:-ghcr.io/automation64}"
+# Lab / Ansible / Default image
+export DEV_LAB_ANSIBLE_IMAGE="${DEV_LAB_ANSIBLE_IMAGE:-ansible-test/rhel-8-ansible-test}"
 
 #
 # Locals
