@@ -26,6 +26,12 @@
 # * Use .env file to override values
 #
 
+# Env / Bash / Registry for lab and testing containers
+export DEV_ENV_BASH_REGISTRY="${DEV_ENV_BASH_REGISTRY:-ghcr.io/automation64}"
+# Env / Bash / Container path for project mounts
+export DEV_ENV_CONTAINER_PATH_SRC='/source'
+export DEV_ENV_CONTAINER_PATH_ROOT='/project'
+export DEV_ENV_CONTAINER_PATH_TEST='/test'
 # Build / Bash / Target file name
 export DEV_BUILD_BASH_NAME="${DEV_BUILD_BASH_NAME:-}"
 # Build / Bash / Source full path
@@ -36,10 +42,12 @@ export DEV_BUILD_BASH_TARGET="${DEV_BUILD_BASH_TARGET:-${DEV_PATH_BUILD}/${DEV_B
 export DEV_BUILD_BASH_FILE="${DEV_BUILD_BASH_FILE:-${DEV_BUILD_BASH_TARGET}/${DEV_BUILD_BASH_NAME}}"
 # Build / Bash / Libraries
 export DEV_BUILD_BASH_MODULES="${DEV_BUILD_BASH_MODULES:-/dev/null}"
-# Lab / Bash / Registry
-export DEV_LAB_BASH_REGISTRY="${DEV_LAB_BASH_REGISTRY:-ghcr.io/automation64}"
 # Lab / Bash / Default image
 export DEV_LAB_BASH_IMAGE="${DEV_LAB_BASH_IMAGE:-bash-test/alpine-3-bash-test}"
+# Test / Bash / Container where the test will run
+export DEV_TEST_BASH_CONTAINER="${DEV_TEST_BASH_CONTAINER:-bash-test/alpine-3-bash-test}"
+# Test / Bash / Path to test cases. Relative to DEV_PATH_ROOT
+export DEV_TEST_BASH_CASES="${DEV_TEST_BASH_CASES:-${DEV_BASE_TEST}/bash}"
 
 #
 # Locals

@@ -1,6 +1,6 @@
 ---
 # Template: 3.1.0
-name: "Test / Bash"
+name: "Test / TestManSH"
 
 on:
   pull_request:
@@ -14,7 +14,7 @@ on:
       - "test/batscore/cli/**"
 
 jobs:
-  test-batscore:
+  test-testmansh:
     runs-on: "ubuntu-latest"
     strategy:
       fail-fast: false
@@ -29,8 +29,8 @@ jobs:
       - name: "Check out repository code"
         uses: "actions/checkout@main"
 
-      - name: "Prepare build environment"
-        run: "./bin/dev-lib-installer64 && ./bin/dev-lib-bashlib64 && ./bin/dev-lib-testmansh"
+      - name: "Prepare dev environment"
+        run: "./bin/dev-lib-installer64 && ./bin/dev-lib-testmansh"
 
       - name: "Build app"
         run: "./bin/dev-build-bash"

@@ -2,7 +2,7 @@
 #######################################
 # Dev / Lab / Bash / Open sandbox environment
 #
-# * Version: 1.0.0
+# * Version: 1.1.0
 #
 #######################################
 # Copyright [2023] [serdigital64@gmail.com]
@@ -39,17 +39,15 @@ source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-cnt.bash" &&
 function dev_lab_open() {
   bl64_dbg_app_show_function "$@"
   local dev_lab_image="$1"
-  local dev_lab_path_source='/source'
-  local dev_lab_path_project='/project'
   local dev_lab_entrypoint='bash'
 
   bl64_msg_show_task "open sanbox environment (${dev_lab_image})"
   bl64_cnt_run_interactive \
     --entrypoint="$dev_lab_entrypoint" \
-    --workdir="$dev_lab_path_project" \
-    --mount "type=bind,source=${DEV_PATH_SRC},target=${dev_lab_path_source},readonly" \
-    --mount "type=bind,source=${DEV_PATH_ROOT},target=${dev_lab_path_project},readonly" \
-    "${DEV_LAB_BASH_REGISTRY}/${dev_lab_image}"
+    --workdir="$DEV_ENV_CONTAINER_PATH_ROOT" \
+    --mount "type=bind,source=${DEV_PATH_SRC},target=${DEV_ENV_CONTAINER_PATH_SRC},readonly" \
+    --mount "type=bind,source=${DEV_PATH_ROOT},target=${DEV_ENV_CONTAINER_PATH_ROOT},readonly" \
+    "${DEV_ENV_BASH_REGISTRY}/${dev_lab_image}"
 }
 
 function dev_lab_initialize() {

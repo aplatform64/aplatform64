@@ -1,5 +1,5 @@
 ---
-# Template: 4.2.0
+# Template: 4.3.0
 name: "Lint / TestManSH"
 
 env:
@@ -23,8 +23,8 @@ jobs:
       - name: "Check out repository code"
         uses: "actions/checkout@main"
 
-      - name: "Prepare build environment"
-        run: "./bin/dev-lib-installer64 && ./bin/dev-lib-bashlib64 && ./bin/dev-lib-testmansh"
+      - name: "Prepare dev environment"
+        run: "./bin/dev-lib-installer64 && ./bin/dev-lib-testmansh"
 
       - name: "Build app"
         run: "./bin/dev-build-bash"
