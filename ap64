@@ -53,6 +53,384 @@
 #######################################
 
 #######################################
+# BashLib64 / Module / Globals / Manage role based access service
+#######################################
+
+declare BL64_RBAC_VERSION='2.0.0'
+
+declare BL64_RBAC_MODULE='0'
+
+declare BL64_RBAC_CMD_SUDO=''
+declare BL64_RBAC_CMD_VISUDO=''
+declare BL64_RBAC_FILE_SUDOERS=''
+
+declare BL64_RBAC_ALIAS_SUDO_ENV=''
+
+declare BL64_RBAC_SET_SUDO_CHECK=''
+declare BL64_RBAC_SET_SUDO_FILE=''
+declare BL64_RBAC_SET_SUDO_QUIET=''
+
+declare _BL64_RBAC_TXT_INVALID_SUDOERS='the sudoers file is corrupt or invalid'
+declare _BL64_RBAC_TXT_ADD_ROOT='add password-less root privilege to user'
+
+#######################################
+# BashLib64 / Module / Setup / Manage role based access service
+#######################################
+
+#######################################
+# Setup the bashlib64 module
+#
+# * Warning: bootstrap function
+#
+# Arguments:
+#   None
+# Outputs:
+#   STDOUT: None
+#   STDERR: None
+# Returns:
+#   0: setup ok
+#   >0: setup failed
+#######################################
+function bl64_rbac_setup() {
+  [[ -z "$BL64_VERSION" ]] &&
+    echo 'Error: bashlib64-module-core.bash should the last module to be sourced' &&
+    return 21
+
+  bl64_lib_module_imported 'BL64_CHECK_MODULE' &&
+    bl64_lib_module_imported 'BL64_DBG_MODULE' &&
+    bl64_dbg_lib_show_function &&
+    bl64_lib_module_imported 'BL64_OS_MODULE' &&
+    bl64_lib_module_imported 'BL64_MSG_MODULE' &&
+    bl64_lib_module_imported 'BL64_FS_MODULE' &&
+    bl64_lib_module_imported 'BL64_TXT_MODULE' &&
+    bl64_lib_module_imported 'BL64_IAM_MODULE' &&
+    _bl64_rbac_set_command &&
+    _bl64_rbac_set_options &&
+    _bl64_rbac_set_alias &&
+    BL64_RBAC_MODULE="$BL64_VAR_ON"
+  bl64_check_alert_module_setup 'rbac'
+}
+
+#######################################
+# Identify and normalize commands
+#
+# * Commands are exported as variables with full path
+# * The caller function is responsible for checking that the target command is present (installed)
+# * Warning: bootstrap function
+#
+# Arguments:
+#   None
+# Outputs:
+#   STDOUT: None
+#   STDERR: None
+# Returns:
+#   0: always ok
+#######################################
+function _bl64_rbac_set_command() {
+  bl64_dbg_lib_show_function
+  case "$BL64_OS_DISTRO" in
+  ${BL64_OS_UB}-* | ${BL64_OS_DEB}-*)
+    BL64_RBAC_CMD_SUDO='/usr/bin/sudo'
+    BL64_RBAC_CMD_VISUDO='/usr/sbin/visudo'
+    BL64_RBAC_FILE_SUDOERS='/etc/sudoers'
+    ;;
+  ${BL64_OS_FD}-* | ${BL64_OS_CNT}-* | ${BL64_OS_RHEL}-* | ${BL64_OS_ALM}-* | ${BL64_OS_OL}-* | ${BL64_OS_RCK}-*)
+    BL64_RBAC_CMD_SUDO='/usr/bin/sudo'
+    BL64_RBAC_CMD_VISUDO='/usr/sbin/visudo'
+    BL64_RBAC_FILE_SUDOERS='/etc/sudoers'
+    ;;
+  ${BL64_OS_SLES}-*)
+    BL64_RBAC_CMD_SUDO='/usr/bin/sudo'
+    BL64_RBAC_CMD_VISUDO='/usr/sbin/visudo'
+    BL64_RBAC_FILE_SUDOERS='/etc/sudoers'
+    ;;
+  ${BL64_OS_ALP}-*)
+    BL64_RBAC_CMD_SUDO='/usr/bin/sudo'
+    BL64_RBAC_CMD_VISUDO='/usr/sbin/visudo'
+    BL64_RBAC_FILE_SUDOERS='/etc/sudoers'
+    ;;
+  ${BL64_OS_MCOS}-*)
+    BL64_RBAC_CMD_SUDO='/usr/bin/sudo'
+    BL64_RBAC_CMD_VISUDO='/usr/sbin/visudo'
+    BL64_RBAC_FILE_SUDOERS='/etc/sudoers'
+    ;;
+  *) bl64_check_alert_unsupported ;;
+  esac
+}
+
+#######################################
+# Create command aliases for common use cases
+#
+# * Aliases are presented as regular shell variables for easy inclusion in complex commands
+# * Use the alias without quotes, otherwise the shell will interprete spaces as part of the command
+# * Warning: bootstrap function
+#
+# Arguments:
+#   None
+# Outputs:
+#   STDOUT: None
+#   STDERR: None
+# Returns:
+#   0: always ok
+#######################################
+function _bl64_rbac_set_alias() {
+  bl64_dbg_lib_show_function
+  # shellcheck disable=SC2034
+  case "$BL64_OS_DISTRO" in
+  ${BL64_OS_UB}-* | ${BL64_OS_DEB}-*)
+    BL64_RBAC_ALIAS_SUDO_ENV="$BL64_RBAC_CMD_SUDO --preserve-env --set-home"
+    ;;
+  ${BL64_OS_FD}-* | ${BL64_OS_CNT}-* | ${BL64_OS_RHEL}-* | ${BL64_OS_ALM}-* | ${BL64_OS_OL}-* | ${BL64_OS_RCK}-*)
+    BL64_RBAC_ALIAS_SUDO_ENV="$BL64_RBAC_CMD_SUDO --preserve-env --set-home"
+    ;;
+  ${BL64_OS_SLES}-*)
+    BL64_RBAC_ALIAS_SUDO_ENV="$BL64_RBAC_CMD_SUDO --preserve-env --set-home"
+    ;;
+  ${BL64_OS_ALP}-*)
+    BL64_RBAC_ALIAS_SUDO_ENV="$BL64_RBAC_CMD_SUDO --preserve-env --set-home"
+    ;;
+  ${BL64_OS_MCOS}-*)
+    BL64_RBAC_ALIAS_SUDO_ENV="$BL64_RBAC_CMD_SUDO --preserve-env --set-home"
+    ;;
+  *) bl64_check_alert_unsupported ;;
+  esac
+}
+
+#######################################
+# Create command sets for common options
+#
+# Arguments:
+#   None
+# Outputs:
+#   STDOUT: None
+#   STDERR: None
+# Returns:
+#   0: always ok
+#######################################
+function _bl64_rbac_set_options() {
+  bl64_dbg_lib_show_function
+
+  BL64_RBAC_SET_SUDO_CHECK='--check'
+  BL64_RBAC_SET_SUDO_FILE='--file'
+  BL64_RBAC_SET_SUDO_QUIET='--quiet'
+}
+
+#######################################
+# BashLib64 / Module / Functions / Manage role based access service
+#######################################
+
+#######################################
+# Add password-less root privilege
+#
+# Arguments:
+#   $1: user name. User must already be present.
+# Outputs:
+#   STDOUT: None
+#   STDERR: execution errors
+# Returns:
+#   0: rule added
+#   >0: failed command exit status
+#######################################
+function bl64_rbac_add_root() {
+  bl64_dbg_lib_show_function "$@"
+  local user="$1"
+  local new_sudoers="${BL64_RBAC_FILE_SUDOERS}.bl64_new"
+  local old_sudoers="${BL64_RBAC_FILE_SUDOERS}.bl64_old"
+  local -i status=0
+
+  bl64_check_privilege_root &&
+    bl64_check_parameter 'user' &&
+    bl64_check_file "$BL64_RBAC_FILE_SUDOERS" &&
+    bl64_rbac_check_sudoers "$BL64_RBAC_FILE_SUDOERS" ||
+    return $?
+
+  bl64_msg_show_lib_subtask "$_BL64_RBAC_TXT_ADD_ROOT ($user)"
+  umask 0266
+
+  if [[ -s "$BL64_RBAC_FILE_SUDOERS" ]]; then
+    bl64_dbg_lib_show_info "backup original sudoers (${BL64_RBAC_FILE_SUDOERS} -> ${old_sudoers})"
+    bl64_fs_cp_file "${BL64_RBAC_FILE_SUDOERS}" "$old_sudoers"
+    status=$?
+    ((status != 0)) && bl64_msg_show_error "unable to backup sudoers file (${BL64_RBAC_FILE_SUDOERS})" && return $status
+
+    bl64_dbg_lib_show_info "create new sudoers (${new_sudoers})"
+    # shellcheck disable=SC2016
+    bl64_txt_run_awk \
+      -v ControlUsr="$user" \
+      '
+        BEGIN { Found = 0 }
+        ControlUsr " ALL=(ALL) NOPASSWD: ALL" == $0 { Found = 1 }
+        { print $0 }
+        END {
+          if( Found == 0) {
+            print( ControlUsr " ALL=(ALL) NOPASSWD: ALL" )
+          }
+        }
+      ' \
+      "$BL64_RBAC_FILE_SUDOERS" >"$new_sudoers"
+    status=$?
+    ((status != 0)) && bl64_msg_show_error "unable to create new sudoers file (${new_sudoers})" && return $status
+
+    bl64_dbg_lib_show_info "replace original sudoers with new version (${new_sudoers} ->${BL64_RBAC_FILE_SUDOERS})"
+    "$BL64_OS_CMD_CAT" "$new_sudoers" >"${BL64_RBAC_FILE_SUDOERS}"
+    status=$?
+    ((status != 0)) && bl64_msg_show_error "unable to promote new sudoers file (${new_sudoers}->${BL64_RBAC_FILE_SUDOERS})" && return $status
+  else
+    printf '%s ALL=(ALL) NOPASSWD: ALL\n' "$user" > "$BL64_RBAC_FILE_SUDOERS"
+    status=$?
+    ((status != 0)) && bl64_msg_show_error "unable to create new sudoers file (${BL64_RBAC_FILE_SUDOERS})" && return $status
+  fi
+
+  bl64_rbac_check_sudoers "$BL64_RBAC_FILE_SUDOERS"
+  status=$?
+
+  return $status
+}
+
+#######################################
+# Use visudo --check to validate sudoers file
+#
+# Arguments:
+#   $1: full path to the sudoers file
+# Outputs:
+#   STDOUT: None
+#   STDERR: None
+# Returns:
+#   0: sudoers sintax ok
+#   visudo exit status
+#######################################
+function bl64_rbac_check_sudoers() {
+  bl64_dbg_lib_show_function "$@"
+  local sudoers="$1"
+  local -i status=0
+  local debug="$BL64_RBAC_SET_SUDO_QUIET"
+
+  bl64_check_parameter 'sudoers' &&
+    bl64_check_command "$BL64_RBAC_CMD_VISUDO" ||
+    return $?
+
+  bl64_dbg_lib_command_enabled && debug=' '
+
+  # shellcheck disable=SC2086
+  "$BL64_RBAC_CMD_VISUDO" \
+    $debug \
+    $BL64_RBAC_SET_SUDO_CHECK \
+    ${BL64_RBAC_SET_SUDO_FILE}="$sudoers"
+  status=$?
+
+  if ((status != 0)); then
+    bl64_msg_show_error "$_BL64_RBAC_TXT_INVALID_SUDOERS ($sudoers)"
+  fi
+
+  return $status
+}
+
+#######################################
+# Run privileged OS command using Sudo if needed
+#
+# Arguments:
+#   $1: user to run as. Default: root
+#   $@: command and arguments to run
+# Outputs:
+#   STDOUT: command or sudo output
+#   STDERR: command or sudo error
+# Returns:
+#   command or sudo exit status
+#######################################
+function bl64_rbac_run_command() {
+  bl64_dbg_lib_show_function "$@"
+  local user="${1:-${BL64_VAR_NULL}}"
+  local target=''
+
+  bl64_check_parameter 'user' &&
+    bl64_check_command "$BL64_RBAC_CMD_SUDO" ||
+    return $?
+
+  shift
+  bl64_check_parameters_none "$#" ||
+    return $?
+  target="$(bl64_iam_user_get_id "${user}")" || return $?
+
+  if [[ "$UID" == "$target" ]]; then
+    bl64_dbg_lib_show_info "run command directly (user: $user)"
+    bl64_dbg_lib_trace_start
+    "$@"
+    bl64_dbg_lib_trace_stop
+  else
+    bl64_dbg_lib_show_info "run command with sudo (user: $user)"
+    bl64_dbg_lib_trace_start
+    $BL64_RBAC_ALIAS_SUDO_ENV -u "$user" "$@"
+    bl64_dbg_lib_trace_stop
+  fi
+}
+
+#######################################
+# Run privileged Bash function using Sudo if needed
+#
+# Arguments:
+#   $1: library that contains the target function.
+#   $2: user to run as. Default: root
+#   $@: command and arguments to run
+# Outputs:
+#   STDOUT: command or sudo output
+#   STDERR: command or sudo error
+# Returns:
+#   command or sudo exit status
+#######################################
+function bl64_rbac_run_bash_function() {
+  bl64_dbg_lib_show_function "$@"
+  local library="${1:-${BL64_VAR_NULL}}"
+  local user="${2:-${BL64_VAR_NULL}}"
+  local target=''
+
+  bl64_check_parameter 'library' &&
+    bl64_check_parameter 'user' &&
+    bl64_check_file "$library" &&
+    bl64_check_command "$BL64_RBAC_CMD_SUDO" ||
+    return $?
+
+  shift
+  shift
+  bl64_check_parameters_none "$#" ||
+    return $?
+
+  target="$(bl64_iam_user_get_id "${user}")" || return $?
+
+  if [[ "$UID" == "$target" ]]; then
+    # shellcheck disable=SC1090
+    . "$library" &&
+      "$@"
+  else
+    bl64_dbg_lib_trace_start
+    $BL64_RBAC_ALIAS_SUDO_ENV -u "$user" "$BL64_OS_CMD_BASH" -c ". ${library}; ${*}"
+    bl64_dbg_lib_trace_stop
+  fi
+}
+
+#!/usr/bin/env bash
+#######################################
+# BashLib64 / Bash automation library
+#
+# Author: serdigital64 (https://github.com/serdigital64)
+# Repository: https://github.com/automation64/bashlib64
+#
+# Copyright 2022 SerDigital64@gmail.com
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+#######################################
+
+#######################################
 # BashLib64 / Module / Globals / Format text data
 #######################################
 
@@ -8215,7 +8593,28 @@ readonly AP64_VENV='venv'
 # A:Platform64
 #
 
-# paths
+# Collections
+declare AP64_NAMESPACE='serdigital64'
+declare AP64_COLLECTIONS=''
+AP64_COLLECTIONS+=" ${AP64_NAMESPACE}.application"
+AP64_COLLECTIONS+=" ${AP64_NAMESPACE}.automation"
+AP64_COLLECTIONS+=" ${AP64_NAMESPACE}.backup"
+AP64_COLLECTIONS+=" ${AP64_NAMESPACE}.cloud"
+AP64_COLLECTIONS+=" ${AP64_NAMESPACE}.container"
+AP64_COLLECTIONS+=" ${AP64_NAMESPACE}.database"
+AP64_COLLECTIONS+=" ${AP64_NAMESPACE}.development"
+AP64_COLLECTIONS+=" ${AP64_NAMESPACE}.devops"
+AP64_COLLECTIONS+=" ${AP64_NAMESPACE}.hardware"
+AP64_COLLECTIONS+=" ${AP64_NAMESPACE}.hypervisor"
+AP64_COLLECTIONS+=" ${AP64_NAMESPACE}.infrastructure"
+AP64_COLLECTIONS+=" ${AP64_NAMESPACE}.monitor"
+AP64_COLLECTIONS+=" ${AP64_NAMESPACE}.network"
+AP64_COLLECTIONS+=" ${AP64_NAMESPACE}.security"
+AP64_COLLECTIONS+=" ${AP64_NAMESPACE}.storage"
+AP64_COLLECTIONS+=" ${AP64_NAMESPACE}.system"
+AP64_COLLECTIONS+=" ${AP64_NAMESPACE}.web"
+
+# Paths
 declare AP64_PATH_ROOT=''
 declare AP64_PATH_VAR=''
 declare AP64_PATH_INVENTORY=''
@@ -8223,16 +8622,16 @@ declare AP64_PATH_VENV=''
 declare AP64_PATH_VENV_CACHE=''
 declare AP64_PATH_VENV_TMP=''
 
-# file names
+# File names
 declare AP64_FILE_ANSIBLE_CONTROL='ansible_control.env'
 declare AP64_FILE_ANSIBLE_INVENTORY='aplatform64_service.ini'
 declare AP64_FILE_CATALOG='catalog.csv'
 
-# node bootstrap SSH credentials
+# Node bootstrap SSH credentials
 export AP64_NODE_USER
 export AP64_NODE_PASSWORD
 
-# current site
+# Current site
 declare AP64_SITE_CURRENT=''
 function ap64_site_info() {
   bl64_dbg_app_show_function
