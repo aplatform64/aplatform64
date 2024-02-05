@@ -1,30 +1,14 @@
-# ** ACTION REQUIRED: this is a template file. Copy to .local and remove this line **
-#!/bin/sh
+** ACTION REQUIRED: this is a template file. Copy to .local and remove this line **
+#!/usr/bin/env bash
 #
+# Development environment / Local variables
 #
-# Project development environment / Local variables
-#
-# * This file should be excluded from GIT
+# * This file must be excluded from GIT
+# * Automatically loaded by dev-set on non CICD environments
+# * For CICD environments, create variables and values based on this file
 # * Source before .env
-# * Template version: 1.1.0
+# * Version: 1.2.1
 #
 
-# Project base location. Adjust to your local GIT repo
-DEV_ROOT="$(pwd)"
-export DEVAP_ROOT
-
-# CICD / Debug flag for 'bin/' scripts
-DEV_CICD_DEBUG=''
-export DEV_CICD_DEBUG
-
-# Lint / YAML / Command
-DEV_CICD_LINT_YAML_BIN="/usr/bin/yamllint"
-export DEV_CICD_LINT_YAML_BIN
-
-# Lint / MkDocs / Command
-DEV_CICD_LINT_MKDOCS_BIN="${HOME}/.local/bin/mkdocs"
-export DEV_CICD_LINT_MKDOCS_BIN
-
-# Ansible-Lint / Command
-DEV_CMD_ANSIBLELINT="${HOME}/.local/bin/ansible-lint"
-export DEV_CMD_ANSIBLELINT
+# CICD / Debug flag for bin/ scripts
+export DEV_CICD_DEBUG="${DEV_CICD_DEBUG:-}"

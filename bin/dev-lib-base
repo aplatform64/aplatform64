@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+#
+# Dev / Lib / Base / Install base dev-time tools
+#
+# * Use to download or install external tools, libraries, etc
+# * Tools and libs should go to lib/
+# * Customize as needed
+# * Template: 1.1.1
+#
+
+# shellcheck source=bin/dev-set
+source ./bin/dev-set || { echo 'dev-set:Error: unable to load dev environment' 2>&1 && exit 1; }
+
+./bin/dev-lib-installer64 &&
+./bin/dev-lib-testmansh

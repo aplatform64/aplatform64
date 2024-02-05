@@ -1,0 +1,19 @@
+---
+repos:
+  - repo: "local"
+    hooks:
+      - id: "lint-testmansh"
+        name: "Lint / TestManSH"
+        entry: "bin/dev-lint-testmansh"
+        language: script
+        pass_filenames: true
+        fail_fast: true
+        verbose: true
+        require_serial: true
+        stages:
+          - "manual"
+          - "pre-commit"
+        types:
+          - "bash"
+        files: "src/cli/"
+...

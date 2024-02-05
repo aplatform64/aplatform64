@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+#######################################
+# Dev / Lib / Create local resources from templates
+#
+# * Use to create local resources after repository bootstrap
+# * Required on local cloned repository only (i.e.: not on CICD environments)
+# * Resources are created from templates:
+#   * dot.local -> .local
+#   * dot.secrets -> .secrets
+# * Version: 1.1.0
+#
+#######################################
+# Copyright [2023] [serdigital64@gmail.com]
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#######################################
+
+#
+# Globals
+#
+
+# CICD / Debug flag for bin/ scripts. Set to YES to enable
+export DEV_CICD_DEBUG="${DEV_CICD_DEBUG:-}"
+export DEV_BASE_LOCAL='.local'
+export DEV_BASE_SECRETS='.secrets'
+
+#
+# Functions
+#
+
+function dev_lib_create() {
+  local target="$1"
+  if [[ ! -f "$target" ]]; then
+    echo "dev-lib-local:Task: create resource (${target})"
+    grep -v 'ACTION REQUIRED: this is a template file' "dot${target}" >"$target" ||
+      return $?
+  else
+    echo "dev-lib-local:Warning: resource already created, no further action will be taken (${target})" 2>&1
+    return 0
+  fi
+}
+
+#
+# Main
+#
+
+declare dev_lib_target=''
+
+[[ -n "$DEV_CICD_DEBUG" ]] && set -x
+
+dev_lib_target="$DEV_BASE_LOCAL"
+dev_lib_create "$dev_lib_target" &&
+  dev_lib_target="$DEV_BASE_SECRETS" &&
+  dev_lib_create "$dev_lib_target"

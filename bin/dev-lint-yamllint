@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 #######################################
-# Dev / Lint / MKDocs / Lint site
+# Dev / Lint / YAMLLint / Lint yaml files
 #
-# * Version: 1.0.0
+# * Check is done using yamllint
+# * Version: 2.1.0
 #
 #######################################
 # Copyright [2023] [serdigital64@gmail.com]
@@ -27,7 +28,7 @@
 # shellcheck source=bin/dev-set
 source ./bin/dev-set || { echo 'dev-set:Error: unable to load dev environment' 2>&1 && exit 1; }
 # shellcheck source-path=bin
-source ./bin/dev-env-mkdocs || exit 1
+source ./bin/dev-env-yamllint || exit 1
 # shellcheck source=lib/bl64/bashlib64-core.bash
 source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-core.bash" || exit 1
 
@@ -35,30 +36,33 @@ source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-core.bash" || exit 1
 # Functions
 #
 
-function dev_lint_mkdocs() {
-  bl64_dbg_app_show_function
-  bl64_msg_show_task "Lint MkDocs Site (${DEV_LINT_MKDOCS_TARGET})"
-  "$DEV_LIB_MKDOCS_BIN" \
-    build \
-    --config-file "$DEV_LIB_MKDOCS_CFG" \
-    --site-dir "$DEV_LINT_MKDOCS_TARGET" \
-    --clean \
-    --quiet \
-    --strict
+function dev_lint_yamllint() {
+  bl64_dbg_app_show_function "$@"
+  local dev_lint_target="$*"
+  local dev_lint_current=''
+  for dev_lint_current in $dev_lint_target; do
+    bl64_msg_show_phase "lint YAML target (${dev_lint_current})"
+    "$DEV_LIB_YAMLLINT_BIN" \
+      --config-file "$DEV_LIB_YAMLLINT_CFG" \
+      "$dev_lint_current" ||
+      return $?
+  done
 }
 
 function dev_lint_initialize() {
   bl64_dbg_app_show_function
-  bl64_check_command_search_path "$DEV_LIB_MKDOCS_BIN"
+  bl64_check_command_search_path "$DEV_LIB_YAMLLINT_BIN"
 }
 
 #
 # Main
 #
 
+declare dev_lint_target="${*:-$DEV_LINT_YAMLLINT_TARGET}"
+
 [[ -n "$DEV_CICD_DEBUG" ]] && bl64_dbg_all_enable
 
-bl64_msg_show_batch_start 'dev-lint-mkdocs'
+bl64_msg_show_batch_start 'dev-lint-yamllint'
 dev_lint_initialize &&
-  dev_lint_mkdocs
-bl64_msg_show_batch_finish $? 'dev-lint-mkdocs'
+  dev_lint_yamllint "$dev_lint_target"
+bl64_msg_show_batch_finish $? 'dev-lint-yamllint'

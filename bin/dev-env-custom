@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+#######################################
+# Dev / Env / Custom / Shared environment variables
+#
+# * Version: 1.0.0
+#
+#######################################
+# Copyright [2023] [serdigital64@gmail.com]
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#######################################
+
+#
+# Globals
+#
+# * Use .env file to override values
+#
+
+# Build / Custom / Base path for collections
+export DEV_BUILD_CUSTOM_BASE_COLLECTIONS="${DEV_BUILD_CUSTOM_BASE_COLLECTIONS:-}"
+# Build / Custom / Collection Catalog
+export DEV_BUILD_CUSTOM_CATALOG_COLLECTIONS="${DEV_BUILD_CUSTOM_CATALOG_COLLECTIONS:-}"
+# Build / Custom / Collection Catalog Versions
+# * Associative array must be declared and populated in .env file: DEV_BUILD_CUSTOM_CATALOG_VERSIONS[collection]='version'
+# declare -A DEV_BUILD_CUSTOM_CATALOG_VERSIONS=''
+
+#
+# Locals
+#
+# * Use .local file or CICD variables to override values
+#
+
+#
+# Secrets
+#
+# * Use .secrets file or CICD secrets to override values
+#

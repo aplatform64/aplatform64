@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 #######################################
-# Dev / Lib / TestManSH / Download
+# Dev / Auth / GitHug / Login
 #
-# * Version: 4.1.0
+# * Version: 1.2.0
 #
 #######################################
 # Copyright [2023] [serdigital64@gmail.com]
@@ -27,35 +27,35 @@
 # shellcheck source=bin/dev-set
 source ./bin/dev-set || { echo 'dev-set:Error: unable to load dev environment' 2>&1 && exit 1; }
 # shellcheck source-path=bin
-source ./bin/dev-env-testmansh || exit 1
+source ./bin/dev-env-github || exit 1
 # shellcheck source-path=lib/bl64
-source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-api.bash" &&
-  source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-vcs.bash" &&
-  source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-txt.bash" &&
-  source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-fmt.bash" &&
-  source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-fs.bash" &&
-  source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-rxtx.bash" &&
-  source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-core.bash" || exit 1
+source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-core.bash" || exit 1
 
 #
 # Globals
 #
 
-# Lib / TestmanSH / Source
-export DEV_LIB_TESTMANSH_REPO='https://raw.githubusercontent.com/automation64/testmansh/main/testmansh'
+# Auth / GitHub / Scopes
+export DEV_AUTH_GITHUB_SCOPES="${DEV_AUTH_GITHUB_SCOPES:-}"
+# Auth / GitHub / Token
+export GITHUB_TOKEN="${GITHUB_TOKEN:-}"
 
 #
 # Functions
 #
 
-function dev_lib_testmansh() {
+function dev_auth_github() {
   bl64_dbg_app_show_function
-  bl64_msg_show_task 'download TestManSH'
-  bl64_rxtx_web_get_file \
-    "$DEV_LIB_TESTMANSH_REPO" \
-    "$DEV_LIB_TESTMANSH_BIN" \
-    "$BL64_VAR_ON" \
-    '0777'
+  [[ -z "$GITHUB_TOKEN" ]] && bl64_msg_show_warning 'variable GITHUB_TOKEN is unset, using interactive login'
+  "$DEV_LIB_GITHUB_BIN" \
+    auth login \
+    --scopes "$DEV_AUTH_GITHUB_SCOPES"
+}
+
+function dev_auth_initialize() {
+  bl64_dbg_app_show_function
+  bl64_check_command_search_path "$DEV_LIB_GITHUB_BIN" ||
+    return $?
 }
 
 #
@@ -65,6 +65,7 @@ function dev_lib_testmansh() {
 [[ -n "$DEV_CICD_DEBUG" ]] && bl64_dbg_all_enable
 
 bl64_msg_all_enable_verbose
-bl64_msg_show_batch_start 'dev-lib-testmansh'
-dev_lib_testmansh
-bl64_msg_show_batch_finish $? 'dev-lib-testmansh'
+bl64_msg_show_batch_start 'dev-auth-github'
+dev_auth_initialize &&
+  dev_auth_github
+bl64_msg_show_batch_finish $? 'dev-auth-github'

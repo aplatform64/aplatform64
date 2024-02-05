@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+#######################################
+# Dev / Env / GIT / Shared environment variables
+#
+# * Version: 1.1.0
+#
+#######################################
+# Copyright [2023] [serdigital64@gmail.com]
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#######################################
+
+#
+# Globals
+#
+# * Use .env file to override values
+#
+
+# GIT / Main branch name
+export DEV_GIT_BRANCH_MAIN="${DEV_GIT_BRANCH_MAIN:-main}"
+# GIT / Origin remote name
+export DEV_GIT_REMOTE_ORIGIN="${DEV_GIT_REMOTE_ORIGIN:-origin}"
+# GIT / Use upstream repository? (ON|OFF)
+export DEV_GIT_REMOTE_UPSTREAM_ENABLED="${DEV_GIT_REMOTE_UPSTREAM_ENABLED:-ON}"
+# GIT / Upstream remote name
+export DEV_GIT_REMOTE_UPSTREAM="${DEV_GIT_REMOTE_UPSTREAM:-upstream}"
+
+#
+# Locals
+#
+# * Use .local file or CICD variables to override values
+#
+
+# Lib / RSync / Command
+export DEV_LIB_RSYNC_BIN="${DEV_LIB_RSYNC_BIN:-/usr/bin/rsync}"
+
+#
+# Secrets
+#
+# * Use .secrets file or CICD secrets to override values
+#

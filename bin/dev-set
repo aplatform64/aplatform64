@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 #######################################
-# Set development environment variables
+# Dev / Set development environment variables
 #
 # * Source this script from the project's root directory
-# * Template Version: 7.0.0
+# * Version: 7.3.1
 #
 #######################################
 # Copyright [2023] [serdigital64@gmail.com]
@@ -25,7 +25,14 @@
 # Globals
 #
 
-export DEV_SET_VERBOSE="${DEV_SET_VERBOSE:-verbose}"
+# CICD / Debug flag for bin/ scripts. Set to YES to enable
+export DEV_CICD_DEBUG="${DEV_CICD_DEBUG:-}"
+# Dev / Set / Increase verbosity? Set to YES to increase
+export DEV_SET_VERBOSE="${DEV_SET_VERBOSE:-}"
+# Dev / Set / Resource names
+export DEV_BASE_LOCAL='.local'
+export DEV_BASE_SECRETS='.secrets'
+export DEV_BASE_ENV='.env'
 
 #
 # Functions
@@ -33,87 +40,86 @@ export DEV_SET_VERBOSE="${DEV_SET_VERBOSE:-verbose}"
 
 function dev_set_error() {
   local msg="$1"
-  echo "dev-set:Error: ${msg}"
+  echo "dev:Error: ${msg}" 2>&1
   return 0
 }
 
 function dev_set_message() {
   local msg="$1"
-  [[ "$DEV_SET_VERBOSE" == 'verbose' ]] && echo "dev-set: ${msg}"
+  [[ -n "$DEV_SET_VERBOSE" ]] && echo "dev: ${msg}"
   return 0
 }
 
 function dev_set_load_local() {
-  local dot_local='.local'
-  local dot_secrets='.secrets'
+  dev_set_message "Task: load local environment variables ($(pwd)/${DEV_BASE_LOCAL})"
+  export DEV_PATH_ROOT="${DEV_PATH_ROOT:-$(pwd)}"
 
-  dev_set_message "Load local environment variables ($(pwd)/${dot_local})"
-  # shellcheck source=SCRIPTDIR/../.local
-  source "$dot_local" ||
+  # shellcheck source=./.local
+  source "$DEV_BASE_LOCAL" ||
     {
-      dev_set_error "unable to source file (${dot_local})"
+      dev_set_error "unable to source file (${DEV_BASE_LOCAL})"
       return 1
     }
-  dot_secrets="${DEV_ROOT}/${dot_secrets}"
-  if [[ -f "$dot_secrets" ]]; then
-    dev_set_message "Load local secrets (${dot_secrets})"
-    # shellcheck source=SCRIPTDIR/../.secrets
-    source "${dot_secrets}" ||
+  DEV_BASE_SECRETS="${DEV_PATH_ROOT}/${DEV_BASE_SECRETS}"
+  if [[ -f "$DEV_BASE_SECRETS" ]]; then
+    dev_set_message "Task: load local secrets (${DEV_BASE_SECRETS})"
+    # shellcheck source=./.secrets
+    source "${DEV_BASE_SECRETS}" ||
       {
-        dev_set_error "unable to source file (${dot_secrets})"
+        dev_set_error "unable to source file (${DEV_BASE_SECRETS})"
         return 1
       }
   fi
 }
 
 function dev_set_load_gitlab() {
-  dev_set_message "GitLab detected, setting project root (${CI_PROJECT_DIR})"
+  # shellcheck disable=SC2154
+  dev_set_message "Info: GitLab detected, setting project root (${CI_PROJECT_DIR})"
   # shellcheck disable=SC2155
-  export DEV_ROOT="$CI_PROJECT_DIR"
+  export DEV_PATH_ROOT="$CI_PROJECT_DIR"
 }
 
 function dev_set_load_github() {
-  local dot_local='.local-github'
+  local DEV_BASE_LOCAL='.local-github'
 
-  dev_set_message "GitHub detected, setting project root (${GITHUB_WORKSPACE})"
+  dev_set_message "Info: GitHub detected, setting project root (${GITHUB_WORKSPACE})"
   # shellcheck disable=SC2155
-  export DEV_ROOT="$GITHUB_WORKSPACE"
+  export DEV_PATH_ROOT="$GITHUB_WORKSPACE"
 
-  dot_local="${DEV_ROOT}/${dot_local}"
-  if [[ -f "$dot_local" ]]; then
-    dev_set_message "Load local github automatic environment variables (${dot_local})"
-    # shellcheck source=SCRIPTDIR/../.local-github
-    source "${dot_local}" ||
+  DEV_BASE_LOCAL="${DEV_PATH_ROOT}/${DEV_BASE_LOCAL}"
+  if [[ -f "$DEV_BASE_LOCAL" ]]; then
+    dev_set_message "Task: Load local github automatic environment variables (${DEV_BASE_LOCAL})"
+    # shellcheck disable=SC1090
+    source "${DEV_BASE_LOCAL}" ||
       {
-        dev_set_error "unable to source file (${dot_local})"
+        dev_set_error "unable to source file (${DEV_BASE_LOCAL})"
         return 1
       }
   fi
 }
 
 function dev_set_load_testmansh() {
-  dev_set_message "Testmansh container detected, setting project root (${TESTMANSH_PROJECT_ROOT})"
-  export DEV_ROOT="$TESTMANSH_PROJECT_ROOT"
+  dev_set_message "Info: testmansh container detected, setting project root (${TESTMANSH_PROJECT_ROOT})"
+  export DEV_PATH_ROOT="$TESTMANSH_PROJECT_ROOT"
 }
 
 function dev_set_load_exported() {
-  dev_set_message 'Read DEV_ROOT variable from exported shell environment'
+  dev_set_message 'Info: read DEV_PATH_ROOT variable from exported shell environment'
 }
 
 function dev_set_check_root() {
-  if [[ -z "$DEV_ROOT" ]]; then
-    dev_set_error 'unable to identify current repository location. Check that the variable DEV_ROOT is correctly set' &&
+  if [[ -z "$DEV_PATH_ROOT" ]]; then
+    dev_set_error 'unable to identify current repository location. Check that the variable DEV_PATH_ROOT is correctly set' &&
       return 1
   fi
 }
 
 function dev_set_load_env() {
-  local dot_env="${DEV_ROOT}/.env"
-  dev_set_message "Load project environment variables (${dot_env})"
-  # shellcheck source=SCRIPTDIR/../.env
-  source "$dot_env" ||
+  dev_set_message "Task: load project environment variables (${DEV_BASE_ENV})"
+  # shellcheck source=./.env
+  source "$DEV_BASE_ENV" ||
     {
-      dev_set_error "unable to read environment variables (${dot_env})"
+      dev_set_error "unable to read environment variables (${DEV_BASE_ENV})"
       return 1
     }
 }
@@ -122,8 +128,11 @@ function dev_set_load_env() {
 # Main
 #
 
+[[ ! -f '.env' ]] && dev_set_error "script must be run from the project's root path" && return 1
+[[ -n "$DEV_CICD_DEBUG" ]] && set -x
+
 # shellcheck disable=SC2154
-if [[ -f ./.local ]]; then
+if [[ -f "$DEV_BASE_LOCAL" ]]; then
   dev_set_load_local
 elif [[ -n "$GITHUB_WORKSPACE" ]]; then
   dev_set_load_github
@@ -137,6 +146,7 @@ fi
 
 # shellcheck disable=SC2015
 dev_set_check_root &&
-  dev_set_load_env &&
-  dev_set_message 'Dev environment variables loading completed OK' ||
-  { dev_set_error 'Failed to load Dev environment variables'; return 1; }
+  dev_set_load_env ||
+  { dev_set_error 'failed to load Dev environment variables'; return 1; }
+[[ -n "$DEV_CICD_DEBUG" ]] && set +x
+:

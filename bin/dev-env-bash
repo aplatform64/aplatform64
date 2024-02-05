@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+#######################################
+# Dev / Env / Bash / Shared environment variables
+#
+# * Version: 1.1.0
+#
+#######################################
+# Copyright [2023] [serdigital64@gmail.com]
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#######################################
+
+#
+# Globals
+#
+# * Use .env file to override values
+#
+
+# Env / Bash / Registry for lab and testing containers
+export DEV_ENV_BASH_REGISTRY="${DEV_ENV_BASH_REGISTRY:-ghcr.io/automation64}"
+# Env / Bash / Container path for project mounts
+export DEV_ENV_BASH_CONTAINER_PATH_SRC='/source'
+export DEV_ENV_BASH_CONTAINER_PATH_ROOT='/project'
+export DEV_ENV_BASH_CONTAINER_PATH_TEST='/test'
+# Build / Bash / Target file name
+export DEV_BUILD_BASH_NAME="${DEV_BUILD_BASH_NAME:-}"
+# Build / Bash / Source full path
+export DEV_BUILD_BASH_SOURCE="${DEV_BUILD_BASH_SOURCE:-${DEV_PATH_SRC}}"
+# Build / Bash / Build full path
+export DEV_BUILD_BASH_TARGET="${DEV_BUILD_BASH_TARGET:-${DEV_PATH_BUILD}/${DEV_BUILD_BASH_NAME}}"
+# Build / Bash / Target file full path
+export DEV_BUILD_BASH_FILE="${DEV_BUILD_BASH_FILE:-${DEV_BUILD_BASH_TARGET}/${DEV_BUILD_BASH_NAME}}"
+# Build / Bash / Libraries
+export DEV_BUILD_BASH_MODULES="${DEV_BUILD_BASH_MODULES:-/dev/null}"
+# Lab / Bash / Default image
+export DEV_LAB_BASH_IMAGE="${DEV_LAB_BASH_IMAGE:-bash-test/alpine-3-bash-test}"
+# Test / Bash / Container where the test will run
+export DEV_TEST_BASH_CONTAINER="${DEV_TEST_BASH_CONTAINER:-bash-test/alpine-3-bash-test}"
+# Test / Bash / Path to test cases. Relative to DEV_PATH_ROOT
+export DEV_TEST_BASH_CASES="${DEV_TEST_BASH_CASES:-${DEV_BASE_TEST}/bash}"
+
+#
+# Locals
+#
+# * Use .local file or CICD variables to override values
+#
+
+#
+# Secrets
+#
+# * Use .secrets file or CICD secrets to override values
+#

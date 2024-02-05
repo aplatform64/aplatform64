@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 #######################################
-# Dev / Lib / TestManSH / Download
+# Dev / Lab / Ansible / Open sandbox environment
 #
-# * Version: 4.1.0
+# * Version: 1.0.0
 #
 #######################################
 # Copyright [2023] [serdigital64@gmail.com]
@@ -27,44 +27,46 @@
 # shellcheck source=bin/dev-set
 source ./bin/dev-set || { echo 'dev-set:Error: unable to load dev environment' 2>&1 && exit 1; }
 # shellcheck source-path=bin
-source ./bin/dev-env-testmansh || exit 1
+source ./bin/dev-env-bash || exit 1
 # shellcheck source-path=lib/bl64
-source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-api.bash" &&
-  source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-vcs.bash" &&
-  source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-txt.bash" &&
-  source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-fmt.bash" &&
-  source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-fs.bash" &&
-  source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-rxtx.bash" &&
+source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-cnt.bash" &&
   source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-core.bash" || exit 1
-
-#
-# Globals
-#
-
-# Lib / TestmanSH / Source
-export DEV_LIB_TESTMANSH_REPO='https://raw.githubusercontent.com/automation64/testmansh/main/testmansh'
 
 #
 # Functions
 #
 
-function dev_lib_testmansh() {
+function dev_lab_open() {
+  bl64_dbg_app_show_function "$@"
+  local dev_lab_image="$1"
+  local dev_lab_path_source='/source'
+  local dev_lab_path_project='/project'
+  local dev_lab_entrypoint='bash'
+
+  bl64_msg_show_task "open sanbox environment (${dev_lab_image})"
+  bl64_cnt_run_interactive \
+    --entrypoint="$dev_lab_entrypoint" \
+    --workdir="$dev_lab_path_project" \
+    --mount "type=bind,source=${DEV_PATH_SRC},target=${dev_lab_path_source},readonly" \
+    --mount "type=bind,source=${DEV_PATH_ROOT},target=${dev_lab_path_project},readonly" \
+    "${DEV_LAB_ANSIBLE_REGISTRY}/${dev_lab_image}"
+}
+
+function dev_lab_initialize() {
   bl64_dbg_app_show_function
-  bl64_msg_show_task 'download TestManSH'
-  bl64_rxtx_web_get_file \
-    "$DEV_LIB_TESTMANSH_REPO" \
-    "$DEV_LIB_TESTMANSH_BIN" \
-    "$BL64_VAR_ON" \
-    '0777'
+  bl64_cnt_setup
 }
 
 #
 # Main
 #
 
-[[ -n "$DEV_CICD_DEBUG" ]] && bl64_dbg_all_enable
+declare dev_lab_image="${1:-${DEV_LAB_ANSIBLE_IMAGE}}"
 
+[[ -n "$DEV_CICD_DEBUG" ]] && bl64_dbg_all_enable
 bl64_msg_all_enable_verbose
-bl64_msg_show_batch_start 'dev-lib-testmansh'
-dev_lib_testmansh
-bl64_msg_show_batch_finish $? 'dev-lib-testmansh'
+
+bl64_msg_show_batch_start 'dev-lab-bash'
+dev_lab_initialize &&
+  dev_lab_open "$dev_lab_image"
+bl64_msg_show_batch_finish $? 'dev-lab-bash'

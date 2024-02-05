@@ -1,0 +1,40 @@
+---
+# Template: 3.1.0
+name: "Test / TestManSH"
+
+on:
+  pull_request:
+    branches:
+      - "main"
+  push:
+    branches:
+      - "feature/**"
+    paths:
+      - "src/cli/**"
+      - "test/batscore/cli/**"
+
+jobs:
+  test-testmansh:
+    runs-on: "ubuntu-latest"
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          - "RHEL"
+          - "UBUNTU"
+          - "DEBIAN"
+          - "FEDORA"
+    steps:
+
+      - name: "Check out repository code"
+        uses: "actions/checkout@main"
+
+      - name: "Prepare dev environment"
+        run: "./bin/dev-lib-installer64 && ./bin/dev-lib-testmansh"
+
+      - name: "Build app"
+        run: "./bin/dev-build-bash"
+
+      - name: "Run tests"
+        run: './bin/dev-test-testmansh "$DEV_TEST_TESTMANSH_CONTAINER_${{matrix.target}}"'
+...

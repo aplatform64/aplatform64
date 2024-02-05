@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #######################################
-# Dev / Lint / MKDocs / Lint site
+# Dev / Lint / AnsibleLint / Lint Ansible files
 #
 # * Version: 1.0.0
 #
@@ -27,7 +27,7 @@
 # shellcheck source=bin/dev-set
 source ./bin/dev-set || { echo 'dev-set:Error: unable to load dev environment' 2>&1 && exit 1; }
 # shellcheck source-path=bin
-source ./bin/dev-env-mkdocs || exit 1
+source ./bin/dev-env-ansiblelint || exit 1
 # shellcheck source=lib/bl64/bashlib64-core.bash
 source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-core.bash" || exit 1
 
@@ -35,30 +35,40 @@ source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-core.bash" || exit 1
 # Functions
 #
 
-function dev_lint_mkdocs() {
-  bl64_dbg_app_show_function
-  bl64_msg_show_task "Lint MkDocs Site (${DEV_LINT_MKDOCS_TARGET})"
-  "$DEV_LIB_MKDOCS_BIN" \
-    build \
-    --config-file "$DEV_LIB_MKDOCS_CFG" \
-    --site-dir "$DEV_LINT_MKDOCS_TARGET" \
-    --clean \
-    --quiet \
-    --strict
+function dev_lint_ansiblelint() {
+  bl64_dbg_app_show_function "$@"
+  local lint_target="$*"
+  local lint_current=''
+
+  cd "$DEV_LINT_ANSIBLELINT_BASE_COLLECTIONS" || return $?
+  for lint_current in $lint_target; do
+    bl64_msg_show_phase "lint Ansible Collection (${lint_current})"
+    pushd "$lint_current" >/dev/null &&
+      "$DEV_LIB_ANSIBLELINT_BIN" \
+        --offline \
+        --project-dir "$(pwd)" \
+        --config-file "$(pwd)/${DEV_LIB_ANSIBLELINT_CFG}" &&
+      popd >/dev/null ||
+      return $?
+  done
 }
 
 function dev_lint_initialize() {
-  bl64_dbg_app_show_function
-  bl64_check_command_search_path "$DEV_LIB_MKDOCS_BIN"
+  bl64_dbg_app_show_function "$@"
+  local lint_target="$*"
+  bl64_check_parameter 'lint_target' &&
+    bl64_check_command_search_path "$DEV_LIB_ANSIBLELINT_BIN"
 }
 
 #
 # Main
 #
 
+declare dev_lint_target="${*:-${DEV_LINT_ANSIBLELINT_CATALOG_COLLECTIONS}}"
+
 [[ -n "$DEV_CICD_DEBUG" ]] && bl64_dbg_all_enable
 
-bl64_msg_show_batch_start 'dev-lint-mkdocs'
-dev_lint_initialize &&
-  dev_lint_mkdocs
-bl64_msg_show_batch_finish $? 'dev-lint-mkdocs'
+bl64_msg_show_batch_start 'dev-lint-ansiblelint-collection'
+dev_lint_initialize "$dev_lint_target" &&
+  dev_lint_ansiblelint "$dev_lint_target"
+bl64_msg_show_batch_finish $? 'dev-lint-ansiblelint-collection'
