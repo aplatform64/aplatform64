@@ -2,7 +2,7 @@
 #######################################
 # Dev / Env / Ansible / Shared environment variables
 #
-# * Version: 1.1.0
+# * Version: 1.2.0
 #
 #######################################
 # Copyright [2023] [serdigital64@gmail.com]
@@ -26,6 +26,11 @@
 # * Use .env file to override values
 #
 
+# Env / Bash / Registry for lab and testing containers
+export DEV_ENV_ANSIBLE_REGISTRY="${DEV_ENV_ANSIBLE_REGISTRY:-ghcr.io/automation64}"
+# Env / Bash / Container path for project mounts
+export DEV_ENV_ANSIBLE_CONTAINER_PATH_SRC='/source'
+export DEV_ENV_ANSIBLE_CONTAINER_PATH_ROOT='/project'
 # Pack / Ansible / Configuration
 export DEV_PACK_ANSIBLE_CFG="${DEV_PACK_ANSIBLE_CFG:-${DEV_PATH_ROOT}/.ansible.cfg}"
 # Pack / Ansible / Base path for collections
@@ -36,10 +41,8 @@ export DEV_PACK_ANSIBLE_CATALOG_COLLECTIONS="${DEV_PACK_ANSIBLE_CATALOG_COLLECTI
 export DEV_PACK_ANSIBLE_GALAXY_NAMESPACE="${DEV_PACK_ANSIBLE_GALAXY_NAMESPACE:-}"
 # Pack / Ansible / Destination
 export DEV_PACK_ANSIBLE_DESTINATION="${DEV_PACK_ANSIBLE_DESTINATION:-${DEV_PATH_BUILD}/pack}"
-# Lab / Ansible / Registry
-export DEV_LAB_ANSIBLE_REGISTRY="${DEV_LAB_ANSIBLE_REGISTRY:-ghcr.io/automation64}"
 # Lab / Ansible / Default image
-export DEV_LAB_ANSIBLE_IMAGE="${DEV_LAB_ANSIBLE_IMAGE:-ansible-test/rhel-8-ansible-test}"
+export DEV_LAB_ANSIBLE_IMAGE="${DEV_LAB_ANSIBLE_IMAGE:-ansible-test/ubuntu-21.4-ansible-test}"
 
 #
 # Locals
