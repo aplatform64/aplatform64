@@ -2,7 +2,7 @@
 #######################################
 # Dev / Release / GitHub / Create application release from tag
 #
-# * Version: 1.2.0
+# * Version: 2.0.0
 #
 #######################################
 # Copyright [2023] [serdigital64@gmail.com]
@@ -31,16 +31,6 @@ source ./bin/dev-env-git &&
   source ./bin/dev-env-github || exit 1
 # shellcheck source=lib/bl64/bashlib64.bash
 source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-core.bash" || exit 1
-
-#
-# Globals
-#
-
-export DEV_PACK_STORE="${DEV_PACK_STORE:-}"
-# Release / GitHub / Repository Owner
-export DEV_RELEASE_GITHUB_REPO_OWNER="${DEV_RELEASE_GITHUB_REPO_OWNER:-}"
-# Release / GitHub / Repository Name
-export DEV_RELEASE_GITHUB_REPO_NAME="${DEV_RELEASE_GITHUB_REPO_NAME:-}"
 
 #
 # Functions
@@ -91,15 +81,14 @@ function dev_release_upload() {
   bl64_dbg_app_show_function "$@"
   local tag="$1"
 
-  [[ -z "$DEV_PACK_STORE" ]] && return 0
-  bl64_check_export 'DEV_PACK_NAME' || return $?
+  [[ -z "$DEV_RELEASE_GITHUB_ARTIFACT" ]] && return 0
 
-  bl64_msg_show_task "Upload release assets (${DEV_PACK_STORE})" &&
+  bl64_msg_show_task "Upload release assets (${DEV_RELEASE_GITHUB_ARTIFACT})" &&
     "$DEV_LIB_GITHUB_BIN" \
       release upload \
       --repo="${DEV_RELEASE_GITHUB_REPO_OWNER}/${DEV_RELEASE_GITHUB_REPO_NAME}" \
       "$tag" \
-      "${DEV_PACK_STORE}/${DEV_PACK_NAME}"
+      "$DEV_RELEASE_GITHUB_ARTIFACT"
 }
 
 function dev_release() {
@@ -136,9 +125,9 @@ function dev_release_initialize() {
 declare dev_release_tag="${1:-}"
 
 [[ -n "$DEV_CICD_DEBUG" ]] && bl64_dbg_all_enable
-dev_release_initialize || exit $?
 
 bl64_msg_all_enable_verbose
 bl64_msg_show_batch_start 'dev-release-github'
-dev_release "$dev_release_tag"
+dev_release_initialize &&
+  dev_release "$dev_release_tag"
 bl64_msg_show_batch_finish $? 'dev-release-github'

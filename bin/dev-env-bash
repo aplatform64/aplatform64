@@ -29,9 +29,9 @@
 # Env / Bash / Registry for lab and testing containers
 export DEV_ENV_BASH_REGISTRY="${DEV_ENV_BASH_REGISTRY:-ghcr.io/automation64}"
 # Env / Bash / Container path for project mounts
-export DEV_ENV_CONTAINER_PATH_SRC='/source'
-export DEV_ENV_CONTAINER_PATH_ROOT='/project'
-export DEV_ENV_CONTAINER_PATH_TEST='/test'
+export DEV_ENV_BASH_CONTAINER_PATH_SRC='/source'
+export DEV_ENV_BASH_CONTAINER_PATH_ROOT='/project'
+export DEV_ENV_BASH_CONTAINER_PATH_TEST='/test'
 # Build / Bash / Target file name
 export DEV_BUILD_BASH_NAME="${DEV_BUILD_BASH_NAME:-}"
 # Build / Bash / Source full path

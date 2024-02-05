@@ -3,7 +3,7 @@
 # Dev / GIT / Create and push GIT tag
 #
 # * Works on the main branch
-# * Version: 2.0.0
+# * Version: 2.1.0
 #
 #######################################
 # Copyright [2023] [serdigital64@gmail.com]
@@ -29,14 +29,20 @@
 source ./bin/dev-set || { echo 'dev-set:Error: unable to load dev environment' 2>&1 && exit 1; }
 # shellcheck source-path=bin
 source ./bin/dev-env-git || exit 1
-# shellcheck source=lib/bl64/bashlib64-core.bash
-source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-core.bash" || exit 1
+# shellcheck source-path=lib/bl64
+source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-fmt.bash" &&
+  source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-fs.bash" &&
+  source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-rxtx.bash" &&
+  source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-txt.bash" &&
+  source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-api.bash" &&
+  source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-vcs.bash" &&
+  source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-core.bash" || exit 1
 
 #
 # Functions
 #
 
-function dev_repo_get_changes() {
+function dev_git_get_changes() {
   bl64_dbg_app_show_function "$@"
   local tag="$1"
   bl64_txt_run_awk -v tag="$tag" '
@@ -74,7 +80,7 @@ function dev_git_tag_create() {
   bl64_msg_show_task "create tag (${new_tag})"
   if bl64_lib_flag_is_enabled "$include_changelog"; then
     message="$(bl64_fs_create_tmpfile)" &&
-      dev_repo_get_changes "$new_tag" >"$message"
+      dev_git_get_changes "$new_tag" >"$message"
     [[ ! -s "$message" ]] && bl64_msg_show_error 'Unable to extract changelog for the requested tag' && status=1
     ((status == 0)) && git tag "$new_tag" --file "$message" || status=1
     bl64_fs_rm_tmpfile "$message"
@@ -88,7 +94,7 @@ function dev_git_tag_create() {
   bl64_vcs_run_git push "$DEV_GIT_REMOTE_ORIGIN" "$new_tag" ||
     return $?
 
-  if [[ -n "$DEV_GIT_REMOTE_UPSTREAM" ]]; then
+  if bl64_lib_flag_is_enabled "$DEV_GIT_REMOTE_UPSTREAM_ENABLED"; then
     bl64_msg_show_task "push tag to upstream (${DEV_GIT_REMOTE_UPSTREAM})"
     bl64_vcs_run_git push "$DEV_GIT_REMOTE_UPSTREAM" "$new_tag"
   fi
@@ -96,13 +102,13 @@ function dev_git_tag_create() {
 
 function dev_git_initialize() {
   bl64_dbg_app_show_function "$@"
-  local dev_repo_new_tag="$1"
-  local dev_repo_include_changelog="$2"
+  local new_tag="$1"
+  local include_changelog="$2"
   if bl64_lib_flag_is_enabled "$include_changelog"; then
     bl64_check_file "$(pwd)/${DEV_BASE_CHANGELOG}" ||
       return $?
   fi
-  bl64_check_parameter 'dev_repo_new_tag' &&
+  bl64_check_parameter 'new_tag' &&
     bl64_vcs_setup
 }
 
@@ -110,13 +116,13 @@ function dev_git_initialize() {
 # Main
 #
 
-declare dev_repo_new_tag="${1:-}"
-declare dev_repo_include_changelog="${2:-$BL64_VAR_OFF}"
+declare dev_git_new_tag="${1:-}"
+declare dev_git_include_changelog="${2:-$BL64_VAR_OFF}"
 
 [[ -n "$DEV_CICD_DEBUG" ]] && bl64_dbg_all_enable
-dev_git_initialize "$dev_repo_new_tag" "$dev_repo_include_changelog" || exit $?
 
 bl64_msg_all_enable_verbose
 bl64_msg_show_batch_start 'dev-git-tag-create'
-dev_git_tag_create "$dev_repo_new_tag" "$dev_repo_include_changelog"
+dev_git_initialize "$dev_git_new_tag" "$dev_git_include_changelog" &&
+  dev_git_tag_create "$dev_git_new_tag" "$dev_git_include_changelog"
 bl64_msg_show_batch_finish $? 'dev-git-tag-create'

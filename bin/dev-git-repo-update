@@ -2,7 +2,7 @@
 #######################################
 # Dev / GIT / Update GIT repository
 #
-# * Version: 1.3.0
+# * Version: 1.4.0
 #
 #######################################
 # Copyright [2023] [serdigital64@gmail.com]
@@ -28,8 +28,14 @@
 source ./bin/dev-set || { echo 'dev-set:Error: unable to load dev environment' 2>&1 && exit 1; }
 # shellcheck source-path=bin
 source ./bin/dev-env-git || exit 1
-# shellcheck source=lib/bl64/bashlib64.bash
-source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64.bash" || exit 1
+# shellcheck source-path=lib/bl64
+source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-fmt.bash" &&
+  source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-fs.bash" &&
+  source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-rxtx.bash" &&
+  source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-txt.bash" &&
+  source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-api.bash" &&
+  source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-vcs.bash" &&
+  source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-core.bash" || exit 1
 
 #
 # Functions
@@ -42,7 +48,7 @@ function dev_repo_update() {
   bl64_vcs_run_git checkout "$DEV_GIT_BRANCH_MAIN" ||
     return $?
 
-  if [[ -n "$DEV_GIT_REMOTE_UPSTREAM" ]]; then
+  if bl64_lib_flag_is_enabled "$DEV_GIT_REMOTE_UPSTREAM_ENABLED"; then
     bl64_msg_show_task "pull latest changes from upstream (${DEV_GIT_REMOTE_UPSTREAM})"
     bl64_vcs_run_git fetch "$DEV_GIT_REMOTE_UPSTREAM" &&
       bl64_vcs_run_git pull "$DEV_GIT_REMOTE_UPSTREAM" "$DEV_GIT_BRANCH_MAIN" &&
@@ -65,9 +71,9 @@ function dev_git_initialize() {
 #
 
 [[ -n "$DEV_CICD_DEBUG" ]] && bl64_dbg_all_enable
-dev_git_initialize || exit $?
 
 bl64_msg_all_enable_verbose
 bl64_msg_show_batch_start 'dev-git-repo-update'
-dev_repo_update
+dev_git_initialize &&
+  dev_repo_update
 bl64_msg_show_batch_finish $? 'dev-git-repo-update'

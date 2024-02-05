@@ -2,7 +2,7 @@
 #######################################
 # Dev / Env / GitHub / Shared environment variables
 #
-# * Version: 1.0.0
+# * Version: 1.1.0
 #
 #######################################
 # Copyright [2023] [serdigital64@gmail.com]
@@ -34,6 +34,12 @@
 
 # Lib / GitHub / Command
 export DEV_LIB_GITHUB_BIN="${DEV_LIB_GITHUB_BIN:-/usr/bin/gh}"
+# Release / GitHub / Repository Owner
+export DEV_RELEASE_GITHUB_REPO_OWNER="${DEV_RELEASE_GITHUB_REPO_OWNER:-}"
+# Release / GitHub / Repository Name
+export DEV_RELEASE_GITHUB_REPO_NAME="${DEV_RELEASE_GITHUB_REPO_NAME:-}"
+# Release / GitHub / Artifact path
+export DEV_RELEASE_GITHUB_ARTIFACT="${DEV_RELEASE_GITHUB_ARTIFACT:-}"
 
 #
 # Secrets

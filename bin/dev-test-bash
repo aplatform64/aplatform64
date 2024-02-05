@@ -58,11 +58,11 @@ function dev_test_run() {
     $BL64_CNT_SET_RM \
     $BL64_CNT_SET_TTY \
     --env=_DEV_TEST_BASH_CONTAINER_ENVIRONMENT='ON' \
-    --workdir="$DEV_ENV_CONTAINER_PATH_ROOT" \
-    --mount "type=bind,source=${DEV_PATH_SRC},target=${DEV_ENV_CONTAINER_PATH_SRC},readonly" \
-    --mount "type=bind,source=${DEV_PATH_ROOT},target=${DEV_ENV_CONTAINER_PATH_ROOT},readonly" \
-    --mount "type=bind,source=${DEV_PATH_TEST},target=${DEV_ENV_CONTAINER_PATH_TEST},readonly" \
-    --entrypoint="${DEV_ENV_CONTAINER_PATH_ROOT}/${test_file}" \
+    --workdir="$DEV_ENV_BASH_CONTAINER_PATH_ROOT" \
+    --mount "type=bind,source=${DEV_PATH_SRC},target=${DEV_ENV_BASH_CONTAINER_PATH_SRC},readonly" \
+    --mount "type=bind,source=${DEV_PATH_ROOT},target=${DEV_ENV_BASH_CONTAINER_PATH_ROOT},readonly" \
+    --mount "type=bind,source=${DEV_PATH_TEST},target=${DEV_ENV_BASH_CONTAINER_PATH_TEST},readonly" \
+    --entrypoint="${DEV_ENV_BASH_CONTAINER_PATH_ROOT}/${test_file}" \
     "${DEV_ENV_BASH_REGISTRY}/${container_path}" ||
     return $?
 }

@@ -3,7 +3,7 @@
 # Dev / Set development environment variables
 #
 # * Source this script from the project's root directory
-# * Version: 7.4.0
+# * Version: 7.3.1
 #
 #######################################
 # Copyright [2023] [serdigital64@gmail.com]
@@ -147,6 +147,6 @@ fi
 # shellcheck disable=SC2015
 dev_set_check_root &&
   dev_set_load_env ||
-  { dev_set_error 'failed to load Dev environment variables' && return 1; }
+  { dev_set_error 'failed to load Dev environment variables'; return 1; }
 [[ -n "$DEV_CICD_DEBUG" ]] && set +x
 :

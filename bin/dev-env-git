@@ -2,7 +2,7 @@
 #######################################
 # Dev / Env / GIT / Shared environment variables
 #
-# * Version: 1.0.0
+# * Version: 1.1.0
 #
 #######################################
 # Copyright [2023] [serdigital64@gmail.com]
@@ -30,6 +30,8 @@
 export DEV_GIT_BRANCH_MAIN="${DEV_GIT_BRANCH_MAIN:-main}"
 # GIT / Origin remote name
 export DEV_GIT_REMOTE_ORIGIN="${DEV_GIT_REMOTE_ORIGIN:-origin}"
+# GIT / Use upstream repository? (ON|OFF)
+export DEV_GIT_REMOTE_UPSTREAM_ENABLED="${DEV_GIT_REMOTE_UPSTREAM_ENABLED:-ON}"
 # GIT / Upstream remote name
 export DEV_GIT_REMOTE_UPSTREAM="${DEV_GIT_REMOTE_UPSTREAM:-upstream}"
 

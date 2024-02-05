@@ -10,7 +10,7 @@
 #
 # Author: SerDigital64 (https://github.com/serdigital64)
 # Repository: https://github.com/automation64/installer64
-# Version: 1.1.0
+# Version: 1.3.0
 #
 #######################################
 # Copyright [2023] [serdigital64@gmail.com]
@@ -32,24 +32,31 @@
 # Globals
 #
 
-# CICD / Debug flag for bin/ scripts. Set to YES to enable
-export DEV_CICD_DEBUG="${DEV_CICD_DEBUG:-}"
-export DEV_FILES_MODE='0644'
-export DEV_LIB_BASHLIB64_TARGET='bl64'
-export DEV_LIB_INSTALLER64_OWNER='automation64/installer64'
-export DEV_LIB_INSTALLER64_TARGET='inst64'
-export DEV_PATH_ROOT=''
-export DEV_PATHS_MODE='0755'
-export DEV_PATHS='bin build docs lib src test tmp var'
-export DEV_BASE_DOT_LOCAL='dot.local'
-export DEV_BASE_DOT_SECRETS='dot.secrets'
-export DEV_BASE_ENV='.env'
+declare DEV_BOOTSTRAP_INSTALLER64_NAME='inst64'
+declare DEV_BOOTSTRAP_BASHLIB64_NAME='bl64'
+
+# Env / Initial values
+declare DEV_CICD_DEBUG="${DEV_CICD_DEBUG:-}"
+declare DEV_LIB_BASHLIB64_TARGET=''
+declare DEV_LIB_INSTALLER64_TARGET=''
+declare DEV_LIB_INSTALLER64_OWNER='automation64/installer64'
+declare DEV_PATH_ROOT=''
+declare DEV_PATH_LIB=''
+declare DEV_PATHS_MODE='0755'
+declare DEV_PATHS='bin build docs lib src test tmp var'
+declare DEV_BASE_DOT_LOCAL='dot.local'
+declare DEV_BASE_DOT_SECRETS='dot.secrets'
+declare DEV_BASE_ENV='.env'
+
+# Installer64 / Parameters
+export INST64_INSTALLER64_TARGET=''
+export INST64_BASHLIB64_TARGET=''
 
 #
 # Functions
 #
 
-function dev_git_dir_create() {
+function dev_bootstrap_dir_create() {
   echo "Task: create initial directory structure (${DEV_PATH_ROOT})"
   [[ -d 'bin' && -d 'src' && -d 'lib' ]] &&
     echo 'Warning: directory structure already created, no further action will be taken' 2>&1 &&
@@ -60,7 +67,7 @@ function dev_git_dir_create() {
     $DEV_PATHS
 }
 
-function dev_git_dot_env_create() {
+function dev_bootstrap_dot_env_create() {
   echo "Task: create environment file (${DEV_BASE_ENV})"
   [[ -r "$DEV_BASE_ENV" ]] &&
     echo 'Warning: file already create, no further action will be taken' 2>&1 &&
@@ -72,19 +79,19 @@ function dev_git_dot_env_create() {
 #
 # * Automatically loaded by dev-set
 # * Do not include local variables and secrets. Use .local and .secrets instead
-# * Version: 3.1.0
+# * Version: 3.1.1
 #
 
 # Main / Base file and directory names
 export DEV_BASE_BUILD="build"
 export DEV_BASE_TEST="test"
 export DEV_BASE_SRC="src"
-export DEV_BASE_DOT_LOCAL='%s'
-export DEV_BASE_LOCAL='.local'
-export DEV_BASE_DOT_SECRETS='%s'
-export DEV_BASE_SECRETS='.secrets'
-export DEV_BASE_ENV='%s'
-export DEV_BASE_CHANGELOG='CHANGELOG.md'
+export DEV_BASE_DOT_LOCAL="%s"
+export DEV_BASE_LOCAL=".local"
+export DEV_BASE_DOT_SECRETS="%s"
+export DEV_BASE_SECRETS=".secrets"
+export DEV_BASE_ENV="%s"
+export DEV_BASE_CHANGELOG="CHANGELOG.md"
 
 # Main / Base path for builds
 export DEV_PATH_BUILD="${DEV_PATH_ROOT}/${DEV_BASE_BUILD}"
@@ -116,7 +123,6 @@ export DEV_PATH_VAR="${DEV_PATH_ROOT}/var"
 
 # Lib / Installer64 / Repo Owner
 export DEV_LIB_INSTALLER64_OWNER="%s"
-
 # Lib / Installer64 / Target
 export DEV_LIB_INSTALLER64_TARGET="${DEV_PATH_LIB}/%s"
 
@@ -131,13 +137,13 @@ export DEV_LIB_BASHLIB64_TARGET="${DEV_PATH_LIB}/%s"
     "$DEV_BASE_DOT_SECRETS" \
     "$DEV_BASE_ENV" \
     "$DEV_LIB_INSTALLER64_OWNER" \
-    "$DEV_LIB_INSTALLER64_TARGET" \
-    "$DEV_LIB_BASHLIB64_TARGET" \
+    "$DEV_BOOTSTRAP_INSTALLER64_NAME" \
+    "$DEV_BOOTSTRAP_BASHLIB64_NAME" \
     >"$DEV_BASE_ENV" &&
     chmod "$DEV_PATHS_MODE" "$DEV_BASE_ENV"
 }
 
-function dev_git_dot_local_create() {
+function dev_bootstrap_dot_local_create() {
   echo "Task: create environment file (${DEV_BASE_DOT_LOCAL})"
   [[ -r "$DEV_BASE_DOT_LOCAL" ]] &&
     echo 'Warning: file already create, no further action will be taken' 2>&1 &&
@@ -152,17 +158,17 @@ function dev_git_dot_local_create() {
 # * Automatically loaded by dev-set on non CICD environments
 # * For CICD environments, create variables and values based on this file
 # * Source before .env
-# * Version: 1.2.0
+# * Version: 1.2.1
 #
 
 # CICD / Debug flag for bin/ scripts
-export DEV_CICD_DEBUG=""
+export DEV_CICD_DEBUG="${DEV_CICD_DEBUG:-}"
 ' \
     >"$DEV_BASE_DOT_LOCAL" &&
     chmod "$DEV_PATHS_MODE" "$DEV_BASE_DOT_LOCAL"
 }
 
-function dev_git_dot_secrets_create() {
+function dev_bootstrap_dot_secrets_create() {
   echo "Task: create environment file (${DEV_BASE_DOT_SECRETS})"
   [[ -r "$DEV_BASE_DOT_SECRETS" ]] &&
     echo 'Warning: file already create, no further action will be taken' 2>&1 &&
@@ -183,37 +189,37 @@ function dev_git_dot_secrets_create() {
     chmod "$DEV_PATHS_MODE" "$DEV_BASE_DOT_SECRETS"
 }
 
-function dev_git_gitignore_create() {
+function dev_bootstrap_gitignore_create() {
   echo "Task: create gitignore file (.gitignore)"
   [[ -r '.gitignore' ]] &&
     echo 'Warning: file already create, no further action will be taken' 2>&1 &&
     return 0
   # shellcheck disable=SC2016
   printf '
+
 #
 # GIT Ignore
 #
-# * Template version: 1.1.0
+# * Template version: 1.2.0
 #
 
 # VScode
-.vscode
-*.code-workspace
+/.vscode
 
 # Code build
-build/*
+/build/*
 
 # Dev-time tools
-lib/*
+/lib/*
 
 # Dev-time temporary files
-tmp/*
+/tmp/*
 
 # Secrets
-.secrets
+/.secrets
 
 # Local variables
-.local
+/.local
 
 # Keep placeholder for empty directories
 !/**/.gitkeep
@@ -223,19 +229,19 @@ tmp/*
 #
 ' \
     >'.gitignore' &&
-  touch \
-    'build/.gitkeep' \
-    'lib/.gitkeep' \
-    'tmp/.gitkeep'
+    touch \
+      'build/.gitkeep' \
+      'lib/.gitkeep' \
+      'tmp/.gitkeep'
 }
 
-function dev_git_dot_env_load() {
+function dev_bootstrap_dot_env_load() {
   echo "Task: load environment file (${DEV_BASE_ENV})"
   # shellcheck disable=SC1090
   source "$DEV_BASE_ENV"
 }
 
-function dev_git_installer64_get_version() {
+function dev_bootstrap_installer64_get_version() {
   local api_latest="https://api.github.com/repos/${DEV_LIB_INSTALLER64_OWNER}/releases/latest"
   curl \
     -s \
@@ -243,10 +249,10 @@ function dev_git_installer64_get_version() {
     awk -F: '/"tag_name":/ { gsub( /[ ,"]/,"" ); print $2}'
 }
 
-function dev_git_installer64_get() {
+function dev_bootstrap_installer64_get() {
   local version=''
   local package_url=''
-  version="$(dev_git_installer64_get_version)" &&
+  version="$(dev_bootstrap_installer64_get_version)" &&
     package_url="https://github.com/${DEV_LIB_INSTALLER64_OWNER}/releases/download/${version}/install-installer64" ||
     return $?
   curl \
@@ -255,52 +261,57 @@ function dev_git_installer64_get() {
     "$package_url"
 }
 
-function dev_git_installer64_deploy() {
+function dev_bootstrap_installer64_deploy() {
   local -i status=1
   echo "Task: deploy dev-tool (Installer64)"
   [[ -d "$DEV_LIB_INSTALLER64_TARGET" ]] &&
     echo 'Warning: tool already installed, no further action will be taken' 2>&1 &&
     return 0
 
-  dev_git_installer64_get "$version" ||
+  dev_bootstrap_installer64_get "$version" ||
     return $?
 
-  INST64_INSTALLER64_TARGET="$DEV_LIB_INSTALLER64_TARGET" bash ./install-installer64
+  bash ./install-installer64
   status=$?
   rm -f ./install-installer64
   return $status
 }
 
-function dev_git_bashlib64_deploy() {
-  echo "Task: deploy dev-tool (BashLib64)"
-  [[ -d "$DEV_LIB_BASHLIB64_TARGET" ]] &&
-    echo 'Warning: tool already installed, no further action will be taken' 2>&1 &&
-    return 0
-  INST64_BASHLIB64_TARGET="$DEV_LIB_BASHLIB64_TARGET" "${DEV_LIB_INSTALLER64_TARGET}/install-bashlib64"
+function dev_bootstrap_initializer() {
+  # Initialize .env variables for the bootstrap process
+  DEV_PATH_ROOT="$(pwd)"
+  DEV_PATH_LIB="${DEV_PATH_ROOT}/lib"
+  DEV_LIB_BASHLIB64_TARGET="${DEV_PATH_LIB}/${DEV_BOOTSTRAP_BASHLIB64_NAME}"
+  DEV_LIB_INSTALLER64_TARGET="${DEV_PATH_LIB}/${DEV_BOOTSTRAP_INSTALLER64_NAME}"
+
+  # Initialize Installer64 parameters
+  INST64_INSTALLER64_TARGET="$DEV_LIB_INSTALLER64_TARGET"
+  INST64_BASHLIB64_TARGET="$DEV_LIB_BASHLIB64_TARGET"
 }
 
 #
 # Main
 #
 
-declare dev_git_process='dev-bootstrap'
-declare -i dev_git_status=0
-DEV_PATH_ROOT="$(pwd)"
-
-echo "Process: [${dev_git_process}] started"
+declare dev_bootstrap_process='dev-bootstrap'
+declare -i dev_bootstrap_status=0
 
 [[ -n "$DEV_CICD_DEBUG" ]] && set -x
-dev_git_dir_create &&
-  dev_git_dot_env_create &&
-  dev_git_dot_local_create &&
-  dev_git_dot_secrets_create &&
-  dev_git_dot_env_load &&
-  dev_git_gitignore_create &&
-  dev_git_installer64_deploy &&
-  dev_git_bashlib64_deploy
-dev_git_status=$?
 
-((dev_git_status == 0)) &&
-  echo "Process: [${dev_git_process}] finished successfully" ||
-  echo "Process: [${dev_git_process}] finished with errors: exit-status-${dev_git_status}"
-exit $dev_git_status
+echo "Process: [${dev_bootstrap_process}] started"
+dev_bootstrap_initializer &&
+  dev_bootstrap_dir_create &&
+  dev_bootstrap_dot_env_create &&
+  dev_bootstrap_dot_local_create &&
+  dev_bootstrap_dot_secrets_create &&
+  dev_bootstrap_dot_env_load &&
+  dev_bootstrap_gitignore_create &&
+  dev_bootstrap_installer64_deploy
+dev_bootstrap_status=$?
+
+if ((dev_bootstrap_status == 0)); then
+  echo "Process: [${dev_bootstrap_process}] finished successfully"
+else
+  echo "Process: [${dev_bootstrap_process}] finished with errors: exit-status-${dev_bootstrap_status}"
+fi
+exit $dev_bootstrap_status

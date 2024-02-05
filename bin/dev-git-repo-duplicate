@@ -6,7 +6,7 @@
 # * Duplication will add and remove files from destination as needed
 # * Excluded from duplication: GIT metadata (.git) and temporary locations (tmp, lib)
 # * Operation is done using rsync tool
-# * Version: 3.1.0
+# * Version: 3.2.0
 #
 #######################################
 # Copyright [2023] [serdigital64@gmail.com]
@@ -92,9 +92,9 @@ declare dev_git_destination="${1:-}"
 declare dev_git_dry_run="${2:-}"
 
 [[ -n "$DEV_CICD_DEBUG" ]] && bl64_dbg_all_enable
-dev_git_initialize || exit $?
 
 bl64_msg_all_enable_verbose
 bl64_msg_show_batch_start 'dev-git-repo-duplicate'
-dev_git_repo_duplicate "$dev_git_destination" "$dev_git_dry_run"
+dev_git_initialize &&
+  dev_git_repo_duplicate "$dev_git_destination" "$dev_git_dry_run"
 bl64_msg_show_batch_finish $? 'dev-git-repo-duplicate'
