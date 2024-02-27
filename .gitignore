@@ -1,33 +1,31 @@
 #
 # GIT Ignore
 #
-# * Template version: 1.2.0
+# * Template version: 1.3.0
 #
 
-# VScode
-/.vscode
+#
+# Main
+#
 
-# Code build
 /build/*
-
-# Dev-time tools
 /lib/*
-
-# Dev-time temporary files
+/logs/*
 /tmp/*
+/vault/*
 
-# Secrets
-/.secrets
-
-# Local variables
 /.local
-
-# Keep placeholder for empty directories
-!/**/.gitkeep
+/.secrets
 
 #
 # Project specific exclusions
 #
 
+/.vscode
+
 # Not included in the main repo. Each collection has its own GIT repository
 /collections/serdigital64/*
+
+# Keep placeholder for empty directories
+!/**/.gitkeep
+

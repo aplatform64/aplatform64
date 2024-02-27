@@ -2,7 +2,7 @@
 #######################################
 # Dev / Env / Bash / Shared environment variables
 #
-# * Version: 1.1.0
+# * Version: 1.1.1
 #
 #######################################
 # Copyright [2023] [serdigital64@gmail.com]
@@ -43,7 +43,7 @@ export DEV_BUILD_BASH_FILE="${DEV_BUILD_BASH_FILE:-${DEV_BUILD_BASH_TARGET}/${DE
 # Build / Bash / Libraries
 export DEV_BUILD_BASH_MODULES="${DEV_BUILD_BASH_MODULES:-/dev/null}"
 # Lab / Bash / Default image
-export DEV_LAB_BASH_IMAGE="${DEV_LAB_BASH_IMAGE:-bash-test/alpine-3-bash-test}"
+export DEV_LAB_BASH_CONTAINER="${DEV_LAB_BASH_CONTAINER:-bash-test/alpine-3-bash-test}"
 # Test / Bash / Container where the test will run
 export DEV_TEST_BASH_CONTAINER="${DEV_TEST_BASH_CONTAINER:-bash-test/alpine-3-bash-test}"
 # Test / Bash / Path to test cases. Relative to DEV_PATH_ROOT

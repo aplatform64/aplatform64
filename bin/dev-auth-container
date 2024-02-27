@@ -2,7 +2,7 @@
 #######################################
 # Dev / Auth / Container / Registry Login
 #
-# * Version: 1.1.0
+# * Version: 1.2.0
 #
 #######################################
 # Copyright [2023] [serdigital64@gmail.com]
@@ -32,16 +32,6 @@ source ./bin/dev-env-github &&
 # shellcheck source-path=lib/bl64
 source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-cnt.bash" &&
   source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-core.bash" || exit 1
-
-#
-# Globals
-#
-
-# Auth / Docker / User
-export DEV_AUTH_CONTAINER_USER="${DEV_AUTH_CONTAINER_USER:-}"
-export DEV_AUTH_CONTAINER_PASSWORD="${DEV_AUTH_CONTAINER_PASSWORD:-}"
-# Auth / Docker / Registry Type
-export DEV_AUTH_CONTAINER_TYPE="${DEV_AUTH_CONTAINER_TYPE:-GITHUB}"
 
 #
 # Functions
@@ -90,9 +80,9 @@ function dev_auth_initialize() {
 #
 
 [[ -n "$DEV_CICD_DEBUG" ]] && bl64_dbg_all_enable
-dev_auth_initialize || exit $?
 
 bl64_msg_all_enable_verbose
 bl64_msg_show_batch_start 'dev-auth-container'
-dev_auth_docker
+dev_auth_initialize &&
+  dev_auth_docker
 bl64_msg_show_batch_finish $? 'dev-auth-container'

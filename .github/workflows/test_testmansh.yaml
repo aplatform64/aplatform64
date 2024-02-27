@@ -1,6 +1,9 @@
 ---
-# Template: 3.1.0
+# Template: 3.2.1
 name: "Test / TestManSH"
+
+env:
+  DEV_CICD_DEBUG: ""
 
 on:
   pull_request:
@@ -10,20 +13,12 @@ on:
     branches:
       - "feature/**"
     paths:
-      - "src/cli/**"
-      - "test/batscore/cli/**"
+      - "src/**"
+      - "test/batscore/**"
 
 jobs:
   test-testmansh:
     runs-on: "ubuntu-latest"
-    strategy:
-      fail-fast: false
-      matrix:
-        target:
-          - "RHEL"
-          - "UBUNTU"
-          - "DEBIAN"
-          - "FEDORA"
     steps:
 
       - name: "Check out repository code"
@@ -36,5 +31,6 @@ jobs:
         run: "./bin/dev-build-bash"
 
       - name: "Run tests"
-        run: './bin/dev-test-testmansh "$DEV_TEST_TESTMANSH_CONTAINER_${{matrix.target}}"'
+        shell: 'script -q -e -c "bash {0}"' # Required to avoid no TTY error
+        run: "./bin/dev-test-testmansh"
 ...

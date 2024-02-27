@@ -7,10 +7,11 @@
 #   * create basic directory structure
 #   * download Installer64 and Bashlib64 tools
 #   * download dev-bin tools
+#   * populate core files
 #
 # Author: SerDigital64 (https://github.com/serdigital64)
 # Repository: https://github.com/automation64/installer64
-# Version: 1.3.0
+# Version: 2.1.0
 #
 #######################################
 # Copyright [2023] [serdigital64@gmail.com]
@@ -32,9 +33,6 @@
 # Globals
 #
 
-declare DEV_BOOTSTRAP_INSTALLER64_NAME='inst64'
-declare DEV_BOOTSTRAP_BASHLIB64_NAME='bl64'
-
 # Env / Initial values
 declare DEV_CICD_DEBUG="${DEV_CICD_DEBUG:-}"
 declare DEV_LIB_BASHLIB64_TARGET=''
@@ -42,44 +40,107 @@ declare DEV_LIB_INSTALLER64_TARGET=''
 declare DEV_LIB_INSTALLER64_OWNER='automation64/installer64'
 declare DEV_PATH_ROOT=''
 declare DEV_PATH_LIB=''
-declare DEV_PATHS_MODE='0755'
-declare DEV_PATHS='bin build docs lib src test tmp var'
 declare DEV_BASE_DOT_LOCAL='dot.local'
 declare DEV_BASE_DOT_SECRETS='dot.secrets'
 declare DEV_BASE_ENV='.env'
 
 # Installer64 / Parameters
-export INST64_INSTALLER64_TARGET=''
+export DEV_PATH_BIN=''
 export INST64_BASHLIB64_TARGET=''
+
+# Bootstrap
+declare DEV_BOOTSTRAP_DIR_MODE='0755'
+declare DEV_BOOTSTRAP_EXE_MODE='0755'
+declare DEV_BOOTSTRAP_PATHS='bin build docs etc lib logs src test tmp var vault'
+declare DEV_BOOTSTRAP_INSTALLER64_NAME='inst64'
+declare DEV_BOOTSTRAP_BASHLIB64_NAME='bl64'
+declare DEV_BOOTSTRAP_COMMAND_CURL='/usr/bin/curl'
+declare DEV_BOOTSTRAP_COMMAND_TAR='tar'
+declare DEV_BOOTSTRAP_GH_API='https://api.github.com/repos/automation64/devbin64/releases/latest'
+declare DEV_BOOTSTRAP_SOURCE='https://github.com/automation64/devbin64/releases/download'
+declare DEV_BOOTSTRAP_PACKAGE='devbin64.tar.gz'
 
 #
 # Functions
 #
 
+function dev_bootstrap_package_get_version() {
+  "$DEV_BOOTSTRAP_COMMAND_CURL" \
+    -s \
+    "$DEV_BOOTSTRAP_GH_API" |
+    grep '"tag_name":'
+}
+
+function dev_bootstrap_package_download() {
+  local package_url=''
+  local version=''
+
+  version="$(dev_bootstrap_package_get_version)" ||
+    return $?
+  version="${version##*:??}" &&
+    version="${version%%?,*}"
+  package_url="${DEV_BOOTSTRAP_SOURCE}/${version}/${DEV_BOOTSTRAP_PACKAGE}"
+  "$DEV_BOOTSTRAP_COMMAND_CURL" \
+    -s \
+    -L \
+    -o "${DEV_PATH_TMP}/${DEV_BOOTSTRAP_PACKAGE}" \
+    "$package_url"
+}
+
+function dev_bootstrap_package_open() {
+  [[ -f "${DEV_PATH_TMP}/${DEV_BOOTSTRAP_PACKAGE}" ]] &&
+    "$DEV_BOOTSTRAP_COMMAND_TAR" zx -C "$DEV_PATH_BIN" -f "${DEV_PATH_TMP}/${DEV_BOOTSTRAP_PACKAGE}" &&
+    chmod "$DEV_BOOTSTRAP_EXE_MODE" "$DEV_PATH_BIN"/* ||
+    return $?
+  rm -f "${DEV_PATH_TMP}/${DEV_BOOTSTRAP_PACKAGE}"
+  return 0
+}
+
+function dev_bootstrap_bin_populate() {
+  echo "Task: populate dev-bin (${DEV_PATH_BIN})"
+  dev_bootstrap_package_download &&
+    dev_bootstrap_package_open
+}
+
+function dev_bootstrap_lib_local_run() {
+  echo "Task: create local files (.local / .secrets)"
+  "${DEV_PATH_BIN}/dev-lib-local"
+}
+
+function dev_bootstrap_lib_base_run() {
+  echo "Task: deploy base tools (installer64 / bashlib64)"
+  "${DEV_PATH_BIN}/dev-lib-base"
+}
+
 function dev_bootstrap_dir_create() {
-  echo "Task: create initial directory structure (${DEV_PATH_ROOT})"
-  [[ -d 'bin' && -d 'src' && -d 'lib' ]] &&
-    echo 'Warning: directory structure already created, no further action will be taken' 2>&1 &&
-    return 0
+  local path=''
   # shellcheck disable=SC2086
-  mkdir \
-    --mode="$DEV_PATHS_MODE" \
-    $DEV_PATHS
+  for path in $DEV_BOOTSTRAP_PATHS; do
+    [[ -d "$path" ]] && continue
+    echo "Task: create main directory structure (${path})"
+    mkdir \
+      --mode="$DEV_BOOTSTRAP_DIR_MODE" \
+      "$path"
+  done
 }
 
 function dev_bootstrap_dot_env_create() {
-  echo "Task: create environment file (${DEV_BASE_ENV})"
-  [[ -r "$DEV_BASE_ENV" ]] &&
-    echo 'Warning: file already create, no further action will be taken' 2>&1 &&
-    return 0
+  local target_file="$DEV_BASE_ENV"
+
+  echo "Task: create environment file (${target_file})"
+  [[ -r "$target_file" ]] &&
+    target_file+='.new'
+  echo "Warning: file already created, new version will be available as: ${target_file}" 2>&1
+
   # shellcheck disable=SC2016,SC1078
   printf '#!/usr/bin/env bash
 #
-# Development environmen / Variables
+# Development environment / Global variables
 #
+# * Used by DevBin64 to define project wide variables
 # * Automatically loaded by dev-set
-# * Do not include local variables and secrets. Use .local and .secrets instead
-# * Version: 3.1.1
+# * Do not include local variables (workstation specific) and secrets. Use .local and .secrets instead
+# * Version: 3.2.0
 #
 
 # Main / Base file and directory names
@@ -93,32 +154,41 @@ export DEV_BASE_SECRETS=".secrets"
 export DEV_BASE_ENV="%s"
 export DEV_BASE_CHANGELOG="CHANGELOG.md"
 
-# Main / Base path for builds
-export DEV_PATH_BUILD="${DEV_PATH_ROOT}/${DEV_BASE_BUILD}"
-
-# Main / Source files
+# Main / Project source code
 export DEV_PATH_SRC="${DEV_PATH_ROOT}/${DEV_BASE_SRC}"
 
-# Main / Test files
+# Main / Project test code
 export DEV_PATH_TEST="${DEV_PATH_ROOT}/${DEV_BASE_TEST}"
 
-# Main / DevOps scripts
-export DEV_PATH_BIN="${DEV_PATH_ROOT}/bin"
-
-# Main / DevOps libs
-export DEV_PATH_LIB="${DEV_PATH_ROOT}/lib"
+# Main / Project configuration files
+export DEV_PATH_ETC="${DEV_PATH_ROOT}/etc"
 
 # Main / Project documentation
 export DEV_PATH_DOCS="${DEV_PATH_ROOT}/docs"
 
-# Main / DevOps ephemeral data content
-export DEV_PATH_TMP="${DEV_PATH_ROOT}/tmp"
+# Main / DevOps scripts
+export DEV_PATH_BIN="${DEV_PATH_ROOT}/bin"
 
-# Main / DevOps persistent data content
+# Main / DevOps persistent data
 export DEV_PATH_VAR="${DEV_PATH_ROOT}/var"
 
+# Main / DevOps ephemeral tools. Content excluded from GIT
+export DEV_PATH_LIB="${DEV_PATH_ROOT}/lib"
+
+# Main / DevOps builds. Content excluded from GIT
+export DEV_PATH_BUILD="${DEV_PATH_ROOT}/${DEV_BASE_BUILD}"
+
+# Main / DevOps local vault for secrets. Content excluded from GIT
+export DEV_PATH_VAULT="${DEV_PATH_ROOT}/vault"
+
+# Main / DevOps logs store. Content excluded from GIT
+export DEV_PATH_LOGS="${DEV_PATH_ROOT}/logs"
+
+# Main / DevOps ephemeral data. Content excluded from GIT
+export DEV_PATH_TMP="${DEV_PATH_ROOT}/tmp"
+
 #
-# CICD Tools
+# DevOps Tools
 #
 
 # Lib / Installer64 / Repo Owner
@@ -139,15 +209,44 @@ export DEV_LIB_BASHLIB64_TARGET="${DEV_PATH_LIB}/%s"
     "$DEV_LIB_INSTALLER64_OWNER" \
     "$DEV_BOOTSTRAP_INSTALLER64_NAME" \
     "$DEV_BOOTSTRAP_BASHLIB64_NAME" \
-    >"$DEV_BASE_ENV" &&
-    chmod "$DEV_PATHS_MODE" "$DEV_BASE_ENV"
+    >"$target_file" &&
+    chmod "$DEV_BOOTSTRAP_DIR_MODE" "$target_file"
+}
+
+function dev_bootstrap_lib_base_create() {
+  local dev_base="${DEV_PATH_BIN}/dev-lib-base"
+  echo "Task: create dev-lib-base script (${dev_base})"
+  [[ -r "$dev_base" ]] &&
+    echo 'Warning: file already create, no further action will be taken' 2>&1 &&
+    return 0
+  # shellcheck disable=SC2016
+  printf "#!/usr/bin/env bash
+#
+# Dev / Lib / Base / Install base dev-time tools
+#
+# * Use to download or install external tools, libraries, etc
+# * Tools and libs should go to lib/
+# * Customize as needed
+# * Template: 1.1.1
+#
+
+# shellcheck source=bin/dev-set
+source ./bin/dev-set || { echo 'dev-set:Error: unable to load dev environment' 2>&1 && exit 1; }
+
+./bin/dev-lib-installer64
+" \
+    >"$dev_base" &&
+    chmod "$DEV_BOOTSTRAP_EXE_MODE" "$dev_base"
 }
 
 function dev_bootstrap_dot_local_create() {
-  echo "Task: create environment file (${DEV_BASE_DOT_LOCAL})"
-  [[ -r "$DEV_BASE_DOT_LOCAL" ]] &&
-    echo 'Warning: file already create, no further action will be taken' 2>&1 &&
-    return 0
+  local target_file="$DEV_BASE_DOT_LOCAL"
+
+  echo "Task: create environment file (${target_file})"
+  [[ -r "$target_file" ]] &&
+    target_file+='.new'
+  echo "Warning: file already created, new version will be available as: ${target_file}" 2>&1
+
   # shellcheck disable=SC2016
   printf '** ACTION REQUIRED: this is a template file. Copy to .local and remove this line **
 #!/usr/bin/env bash
@@ -158,14 +257,17 @@ function dev_bootstrap_dot_local_create() {
 # * Automatically loaded by dev-set on non CICD environments
 # * For CICD environments, create variables and values based on this file
 # * Source before .env
-# * Version: 1.2.1
+# * Version: 1.3.1
 #
 
-# CICD / Debug flag for bin/ scripts
+# Main / Current environment
+export DEV_ENVIRONMENT="${DEV_ENVIRONMENT:-}"
+
+# Main / Debug flag for bin/ scripts
 export DEV_CICD_DEBUG="${DEV_CICD_DEBUG:-}"
 ' \
-    >"$DEV_BASE_DOT_LOCAL" &&
-    chmod "$DEV_PATHS_MODE" "$DEV_BASE_DOT_LOCAL"
+    >"$target_file" &&
+    chmod "$DEV_BOOTSTRAP_DIR_MODE" "$target_file"
 }
 
 function dev_bootstrap_dot_secrets_create() {
@@ -186,95 +288,66 @@ function dev_bootstrap_dot_secrets_create() {
 #
 ' \
     >"$DEV_BASE_DOT_SECRETS" &&
-    chmod "$DEV_PATHS_MODE" "$DEV_BASE_DOT_SECRETS"
+    chmod "$DEV_BOOTSTRAP_DIR_MODE" "$DEV_BASE_DOT_SECRETS"
 }
 
 function dev_bootstrap_gitignore_create() {
-  echo "Task: create gitignore file (.gitignore)"
-  [[ -r '.gitignore' ]] &&
-    echo 'Warning: file already create, no further action will be taken' 2>&1 &&
-    return 0
-  # shellcheck disable=SC2016
-  printf '
+  local target_file='.gitignore'
+  echo 'Task: create empty directory placeholders (.gitkeep)'
+  touch \
+    'build/.gitkeep' \
+    'etc/.gitkeep' \
+    'docs/.gitkeep' \
+    'lib/.gitkeep' \
+    'logs/.gitkeep' \
+    'src/.gitkeep' \
+    'test/.gitkeep' \
+    'tmp/.gitkeep' \
+    'var/.gitkeep' \
+    'vault/.gitkeep' ||
+    return $?
 
-#
+  echo "Task: create repository file (${target_file})"
+  [[ -r "$target_file" ]] &&
+    target_file+='.new'
+  echo "Warning: file already created, new version will be available as: ${target_file}" 2>&1
+
+  # shellcheck disable=SC2016
+  printf '#
 # GIT Ignore
 #
-# * Template version: 1.2.0
+# * Template version: 1.3.0
 #
 
-# VScode
-/.vscode
+#
+# Main
+#
 
-# Code build
 /build/*
-
-# Dev-time tools
 /lib/*
-
-# Dev-time temporary files
+/logs/*
 /tmp/*
+/vault/*
 
-# Secrets
-/.secrets
-
-# Local variables
 /.local
-
-# Keep placeholder for empty directories
-!/**/.gitkeep
+/.secrets
 
 #
 # Project specific exclusions
 #
+
+/.vscode
+
+# Keep placeholder for empty directories
+!/**/.gitkeep
 ' \
-    >'.gitignore' &&
-    touch \
-      'build/.gitkeep' \
-      'lib/.gitkeep' \
-      'tmp/.gitkeep'
+    >"$target_file"
 }
 
 function dev_bootstrap_dot_env_load() {
   echo "Task: load environment file (${DEV_BASE_ENV})"
   # shellcheck disable=SC1090
   source "$DEV_BASE_ENV"
-}
-
-function dev_bootstrap_installer64_get_version() {
-  local api_latest="https://api.github.com/repos/${DEV_LIB_INSTALLER64_OWNER}/releases/latest"
-  curl \
-    -s \
-    "$api_latest" |
-    awk -F: '/"tag_name":/ { gsub( /[ ,"]/,"" ); print $2}'
-}
-
-function dev_bootstrap_installer64_get() {
-  local version=''
-  local package_url=''
-  version="$(dev_bootstrap_installer64_get_version)" &&
-    package_url="https://github.com/${DEV_LIB_INSTALLER64_OWNER}/releases/download/${version}/install-installer64" ||
-    return $?
-  curl \
-    --remote-name \
-    --location \
-    "$package_url"
-}
-
-function dev_bootstrap_installer64_deploy() {
-  local -i status=1
-  echo "Task: deploy dev-tool (Installer64)"
-  [[ -d "$DEV_LIB_INSTALLER64_TARGET" ]] &&
-    echo 'Warning: tool already installed, no further action will be taken' 2>&1 &&
-    return 0
-
-  dev_bootstrap_installer64_get "$version" ||
-    return $?
-
-  bash ./install-installer64
-  status=$?
-  rm -f ./install-installer64
-  return $status
 }
 
 function dev_bootstrap_initializer() {
@@ -285,7 +358,7 @@ function dev_bootstrap_initializer() {
   DEV_LIB_INSTALLER64_TARGET="${DEV_PATH_LIB}/${DEV_BOOTSTRAP_INSTALLER64_NAME}"
 
   # Initialize Installer64 parameters
-  INST64_INSTALLER64_TARGET="$DEV_LIB_INSTALLER64_TARGET"
+  DEV_PATH_BIN="$DEV_LIB_INSTALLER64_TARGET"
   INST64_BASHLIB64_TARGET="$DEV_LIB_BASHLIB64_TARGET"
 }
 
@@ -306,7 +379,10 @@ dev_bootstrap_initializer &&
   dev_bootstrap_dot_secrets_create &&
   dev_bootstrap_dot_env_load &&
   dev_bootstrap_gitignore_create &&
-  dev_bootstrap_installer64_deploy
+  dev_bootstrap_bin_populate &&
+  dev_bootstrap_lib_base_create &&
+  dev_bootstrap_lib_local_run &&
+  dev_bootstrap_lib_base_run
 dev_bootstrap_status=$?
 
 if ((dev_bootstrap_status == 0)); then

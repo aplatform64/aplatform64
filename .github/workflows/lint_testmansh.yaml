@@ -1,5 +1,5 @@
 ---
-# Template: 4.3.0
+# Template: 4.3.1
 name: "Lint / TestManSH"
 
 env:
@@ -13,11 +13,19 @@ on:
     branches:
       - "feature/**"
     paths:
-      - "src/cli/**"
+      - "src/**"
 
 jobs:
   lint-testmansh:
     runs-on: "ubuntu-latest"
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          - "RHEL"
+          - "UBUNTU"
+          - "DEBIAN"
+          - "FEDORA"
     steps:
 
       - name: "Check out repository code"
@@ -30,5 +38,6 @@ jobs:
         run: "./bin/dev-build-bash"
 
       - name: "Lint app"
-        run: "./bin/dev-lint-testmansh"
+        shell: 'script -q -e -c "bash {0}"' # Required to avoid no TTY error
+        run: './bin/dev-test-testmansh "$DEV_TEST_TESTMANSH_CONTAINER_${{matrix.target}}"'
 ...
