@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 #######################################
-# Dev / Env / GitHub / Shared environment variables
+# Dev / Env / Go / Shared environment variables
 #
-# * Version: 1.1.1
+# * Version: 1.0.0
 #
 #######################################
 # Copyright [2023] [serdigital64@gmail.com]
@@ -26,12 +26,18 @@
 # * Use .env file to override values
 #
 
-# Release / GitHub / Repository Owner
-export DEV_RELEASE_GITHUB_REPO_OWNER="${DEV_RELEASE_GITHUB_REPO_OWNER:-}"
-# Release / GitHub / Repository Name
-export DEV_RELEASE_GITHUB_REPO_NAME="${DEV_RELEASE_GITHUB_REPO_NAME:-}"
-# Release / GitHub / Artifact path
-export DEV_RELEASE_GITHUB_ARTIFACT="${DEV_RELEASE_GITHUB_ARTIFACT:-}"
+# Env / Go / Registry for lab and testing containers
+export DEV_ENV_GO_REGISTRY="${DEV_ENV_GO_REGISTRY:-ghcr.io/automation64}"
+# Env / Go / Container path for project mounts
+export DEV_ENV_GO_CONTAINER_PATH_SRC='/source'
+export DEV_ENV_GO_CONTAINER_PATH_ROOT='/project'
+export DEV_ENV_GO_CONTAINER_PATH_TEST='/test'
+# Lab / Go / Default image
+export DEV_LAB_GO_CONTAINER="${DEV_LAB_GO_CONTAINER:-go-test/alpine-3-go-test}"
+# Test / Go / Container where the test will run
+export DEV_TEST_GO_CONTAINER="${DEV_TEST_GO_CONTAINER:-go-test/alpine-3-go-test}"
+# Test / Go / Path to test cases. Relative to DEV_PATH_ROOT
+export DEV_TEST_GO_CASES="${DEV_TEST_GO_CASES:-${DEV_BASE_TEST}/go}"
 
 #
 # Locals
@@ -39,8 +45,8 @@ export DEV_RELEASE_GITHUB_ARTIFACT="${DEV_RELEASE_GITHUB_ARTIFACT:-}"
 # * Use .local file or CICD variables to override values
 #
 
-# Lib / GitHub / Command
-export DEV_LIB_GITHUB_BIN="${DEV_LIB_GITHUB_BIN:-/usr/bin/gh}"
+# Lib / Go / Command
+export DEV_LIB_GO_BIN="${DEV_LIB_GO_BIN:-/usr/local/bin/go}"
 
 #
 # Secrets

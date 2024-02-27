@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 #######################################
-# Dev / Lab / Bash / Open sandbox environment
+# Dev / Lab / Go / Open sandbox environment
 #
-# * Version: 1.1.1
+# * Version: 1.0.0
 #
 #######################################
 # Copyright [2023] [serdigital64@gmail.com]
@@ -27,7 +27,7 @@
 # shellcheck source=bin/dev-set
 source ./bin/dev-set || { echo 'dev-set:Error: unable to load dev environment' 2>&1 && exit 1; }
 # shellcheck source-path=bin
-source ./bin/dev-env-bash || exit 1
+source ./bin/dev-env-go || exit 1
 # shellcheck source-path=lib/bl64
 source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-cnt.bash" &&
   source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-core.bash" || exit 1
@@ -44,10 +44,10 @@ function dev_lab_open() {
   bl64_msg_show_task "open sanbox environment (${dev_lab_image})"
   bl64_cnt_run_interactive \
     --entrypoint="$dev_lab_entrypoint" \
-    --workdir="$DEV_ENV_BASH_CONTAINER_PATH_ROOT" \
-    --mount "type=bind,source=${DEV_PATH_SRC},target=${DEV_ENV_BASH_CONTAINER_PATH_SRC},readonly" \
-    --mount "type=bind,source=${DEV_PATH_ROOT},target=${DEV_ENV_BASH_CONTAINER_PATH_ROOT},readonly" \
-    "${DEV_ENV_BASH_REGISTRY}/${dev_lab_image}"
+    --workdir="$DEV_ENV_GO_CONTAINER_PATH_ROOT" \
+    --mount "type=bind,source=${DEV_PATH_SRC},target=${DEV_ENV_GO_CONTAINER_PATH_SRC},readonly" \
+    --mount "type=bind,source=${DEV_PATH_ROOT},target=${DEV_ENV_GO_CONTAINER_PATH_ROOT},readonly" \
+    "${DEV_ENV_GO_REGISTRY}/${dev_lab_image}"
 }
 
 function dev_lab_initialize() {
@@ -59,12 +59,12 @@ function dev_lab_initialize() {
 # Main
 #
 
-declare dev_lab_image="${1:-${DEV_LAB_BASH_CONTAINER}}"
+declare dev_lab_image="${1:-${DEV_LAB_GO_CONTAINER}}"
 
 [[ -n "$DEV_CICD_DEBUG" ]] && bl64_dbg_all_enable
 bl64_msg_all_enable_verbose
 
-bl64_msg_show_batch_start 'dev-lab-bash'
+bl64_msg_show_batch_start 'dev-lab-go'
 dev_lab_initialize &&
   dev_lab_open "$dev_lab_image"
-bl64_msg_show_batch_finish $? 'dev-lab-bash'
+bl64_msg_show_batch_finish $? 'dev-lab-go'

@@ -2,7 +2,7 @@
 #######################################
 # Dev / Env / Container / Shared environment variables
 #
-# * Version: 1.1.0
+# * Version: 1.2.1
 #
 #######################################
 # Copyright [2023] [serdigital64@gmail.com]
@@ -31,7 +31,9 @@ export DEV_AUTH_CONTAINER_REGISTRY="${DEV_AUTH_CONTAINER_REGISTRY:-}"
 # Lab / Container / Registry
 export DEV_LAB_CONTAINER_REGISTRY="${DEV_LAB_CONTAINER_REGISTRY:-ghcr.io/automation64}"
 # Lab / Container / Default image
-export DEV_LAB_CONTAINER_IMAGE="${DEV_LAB_CONTAINER_IMAGE:-base/alpine-3-base}"
+export DEV_LAB_CONTAINER_IMAGE="${DEV_LAB_CONTAINER_IMAGE:-dev/ubuntu-22.4-dev-container}"
+# Auth / Docker / Registry Type
+export DEV_AUTH_CONTAINER_TYPE="${DEV_AUTH_CONTAINER_TYPE:-GITHUB}"
 
 #
 # Locals
@@ -44,3 +46,8 @@ export DEV_LAB_CONTAINER_IMAGE="${DEV_LAB_CONTAINER_IMAGE:-base/alpine-3-base}"
 #
 # * Use .secrets file or CICD secrets to override values
 #
+
+# Auth / Docker / User
+export DEV_AUTH_CONTAINER_USER="${DEV_AUTH_CONTAINER_USER:-}"
+export DEV_AUTH_CONTAINER_PASSWORD="${DEV_AUTH_CONTAINER_PASSWORD:-}"
+
