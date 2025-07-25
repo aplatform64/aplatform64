@@ -8,7 +8,6 @@
 # Project GIT repository: [https://github.com/aplatform64/aplatform64](https://github.com/aplatform64/aplatform64)
 # Project Ansible Galaxy repository: [https://galaxy.ansible.com/serdigital64](https://galaxy.ansible.com/serdigital64)
 # Project Documentation: [https://aplatform64.readthedocs.io](https://aplatform64.readthedocs.io)
-# Version: 5.1.0
 #
 #######################################
 # Copyright [2021] [SerDigital64]

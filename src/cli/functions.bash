@@ -46,7 +46,7 @@ function ap64_site_install() {
     bl64_msg_show_warning 'existing installation of A:Platform64 detected. No further preparation needed.'
   fi
 
-  bl64_rbac_run_command "$user" "$cli" \
+  bl64_rbac_run_ap64_command "$user" "$cli" \
     -j \
     -D "$debug" \
     -b "$root" \
@@ -381,17 +381,17 @@ function ap64_site_load() {
 
 function ap64_cli_user_switch() {
   bl64_dbg_app_show_function "$@"
-  local command="$1"
+  local ap64_command="$1"
   local user="$2"
   local path="$3"
   shift
   shift
   shift
 
-  if [[ "$command" == 'ap64_site_install' ]]; then
+  if [[ "$ap64_command" == 'ap64_site_install' ]]; then
     if [[ "$UID" != '0' ]]; then
       bl64_msg_show_info 're-running ap64 script as root to continue installation process'
-      bl64_rbac_run_command 'root' "${BL64_SCRIPT_PATH}/${AP64_CLI}" "$@"
+      bl64_rbac_run_ap64_command 'root' "${BL64_SCRIPT_PATH}/${AP64_CLI}" "$@"
       exit $?
     else
       bl64_dbg_app_show_info 'already running as root, continue normal execution'
@@ -400,7 +400,7 @@ function ap64_cli_user_switch() {
     if [[ "$(bl64_iam_user_get_current)" != "$user" ]]; then
       bl64_check_user "$user" 'dedicated user for A:Platform64 not found. Please verify the installation and retry' || return $?
       bl64_msg_show_info "re-running ap64 script as the site owner (${user}) to continue requested operation"
-      bl64_rbac_run_command "$user" "${path}/${AP64_CLI}" "$@"
+      bl64_rbac_run_ap64_command "$user" "${path}/${AP64_CLI}" "$@"
       exit $?
     else
       bl64_dbg_app_show_info "already running as ${user}, continue normal execution"
@@ -420,10 +420,9 @@ function ap64_ansible_setup() {
 
 function ap64_initialize() {
   bl64_dbg_app_show_function
-  local command="$1"
 
-  bl64_check_parameter 'command' ||
-    { ap64_help && return 1; }
+  [[ -n "$ap64_option" && -n "$ap64_command" ]] ||
+    { bl64_msg_help_show && return 1; }
 
   bl64_os_check_version \
     "${BL64_OS_ALM}-8" \
@@ -442,39 +441,5 @@ function ap64_initialize() {
   AP64_PATH_VENV_TMP="${AP64_PATH_VAR}/pip_tmp"
 
   bl64_dbg_app_show_vars 'AP64_PATH_VENV' 'AP64_PATH_VENV_CACHE' 'AP64_PATH_VENV_TMP'
-  return 0
-}
-
-function ap64_help() {
-  bl64_msg_show_usage \
-    '<-i|-j|-c|-o|-r|-u|-l|-n|-t|-k> [-s Site] [-x Host] [-p Playbook] [-e Collection|-f Package] [-b Root] [-d Var] [-v Version] [-g User] [-V Verbose] [-D Debug] [-h]' \
-    'A:Platform64 command line interface' '
-  -i           : Install A:Platform64
-  -j           : Bootstrap A:Platform64 (internal use only)
-  -c           : Create a A:Platform64 site
-  -o           : Remove a A:Platform64 site
-  -r           : Refresh A:Platform64 site configuration by rerunning the setup process
-  -u           : Upgrade A:Platform64 Ansible collections to the latest version in Ansible Galaxy
-  -l           : List available playbooks
-  -n           : Run playbook
-  -t           : List sites
-  -k           : Add managed node
-    ' '
-  -h           : Show usage info
-    ' '
-  -b Root      : APlatform64 root path. Default: /opt/ap64
-  -d Var       : APlatform64 var path. Default: /var/opt/ap64
-  -g User      : APlatform64 user name. Default: ap64
-  -v Version   : Ansible Core version for the controller node. Default: 2.13. Format: Major.Minor
-  -s Site      : Target Site. Defaul: site
-  -x Host      : Target host for playbook run. Default: all
-  -p Playbook  : Name of the playbook to run
-  -e Collection: Collection name for the upgrade option (-u). Default: all
-  -f Package   : Collection package file (-u). Default: none
-  -V Verbose   : Set verbosity level. Format: one of BL64_MSG_VERBOSE_*
-  -D Debug     : Enable debugging mode. Format: one of BL64_DBG_TARGET_*
-  '
-
-  return 0
-
+  bl64_msg_show_about
 }
