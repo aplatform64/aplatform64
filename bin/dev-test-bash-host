@@ -21,48 +21,72 @@ source ./bin/dev-set || { echo 'dev-set:Error: unable to load dev environment' 2
 # shellcheck source-path=bin
 source ./bin/dev-env-bash || exit 1
 # shellcheck source-path=lib/bl64
+source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-txt.bash" &&
+source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-fmt.bash" &&
 source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-fs.bash" &&
-  source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-txt.bash" &&
-  source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-xsv.bash" &&
-  source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-fmt.bash" &&
-  source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-bsh.bash" &&
-  source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-cnt.bash" &&
   source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-core.bash" || exit 1
 
 #
 # Functions
 #
 
-function dev_lab_open() {
-  bl64_dbg_app_show_function "$@"
-  local dev_lab_image="$1"
-  local dev_lab_entrypoint='bash'
-
-  bl64_msg_show_task "open sanbox environment (${dev_lab_image})"
-  bl64_cnt_run_interactive \
-    --entrypoint="$dev_lab_entrypoint" \
-    --workdir="$DEV_ENV_BASH_CONTAINER_PATH_ROOT" \
-    --mount "type=bind,source=${DEV_PATH_SRC},target=${DEV_ENV_BASH_CONTAINER_PATH_SRC},readonly" \
-    --mount "type=bind,source=${DEV_PATH_ROOT},target=${DEV_ENV_BASH_CONTAINER_PATH_ROOT},readonly" \
-    "${DEV_ENV_BASH_REGISTRY}/${dev_lab_image}"
+function dev_test_host_run() {
+  local test_file="$1"
+  "${DEV_PATH_ROOT}/${test_file}"
 }
 
-function dev_lab_initialize() {
+function dev_test_run() {
+  bl64_dbg_app_show_function "$@"
+  local test_file="$1"
+
+  bl64_dbg_app_show_comments 'silently ignore .gitkeep file as its not a test script'
+  [[ "$test_file" =~ "$DEV_BASE_GITKEEP" ]] && return 0
+
+  bl64_msg_show_phase "run test target: ${test_file}"
+  dev_test_host_run "$test_file"
+}
+
+function dev_test_bash() {
+  bl64_dbg_app_show_function "$@"
+  local target="$*"
+  local current=''
+  local tests=''
+
+  bl64_dbg_app_show_comments 'define target tests'
+  if [[ -z "$target" ]]; then
+    target="$DEV_TEST_BASH_CASES"
+  fi
+  if [[ -d "$target" ]]; then
+    bl64_dbg_app_show_comments "look for tests (${target})"
+    tests="$(bl64_fs_find_files "$target")" ||
+      return $?
+  else
+    tests="$target"
+  fi
+  for current in $tests; do
+    bl64_dbg_app_show_comments 'skip git dir holder'
+    [[ "$current" == "$DEV_BASE_GITKEEP" ]] && continue
+    dev_test_run "$current" ||
+      return $?
+  done
+}
+
+function dev_test_initialize() {
   bl64_dbg_app_show_function
-  bl64_cnt_setup
+  bl64_check_directory "$DEV_TEST_BASH_CASES"
 }
 
 #
 # Main
 #
 
-declare dev_lab_image="${1:-${DEV_LAB_BASH_CONTAINER}}"
+declare dev_test_target="${*:-}"
 
 [[ -n "$DEV_CICD_DEBUG" ]] && bl64_dbg_all_enable
-bl64_lib_script_version_set '1.1.2'
+bl64_lib_script_version_set '1.0.1'
 bl64_msg_all_enable_verbose
 
 bl64_msg_show_batch_start "$BL64_SCRIPT_ID"
-dev_lab_initialize &&
-  dev_lab_open "$dev_lab_image"
+dev_test_initialize &&
+  dev_test_bash "$dev_test_target"
 bl64_msg_show_batch_finish $? "$BL64_SCRIPT_ID"

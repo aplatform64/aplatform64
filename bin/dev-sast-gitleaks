@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# * Version: 5.0.0
 #######################################
 # Copyright SerDigital64 - https://github.com/serdigital64
 #
@@ -19,22 +18,37 @@
 
 # shellcheck source=bin/dev-set
 source ./bin/dev-set || { echo 'dev-set:Error: unable to load dev environment' 2>&1 && exit 1; }
-# shellcheck source=bin/dev-env-installer64
-source ./bin/dev-env-installer64 || exit 1
-# shellcheck source=bin/dev-env-bashlib64
-source ./bin/dev-env-bashlib64 || exit 1
+# shellcheck source-path=bin
+source ./bin/dev-env-gitleaks || exit 1
+# shellcheck source-path=lib/bl64
+source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-core.bash" || exit 1
+
+#
+# Functions
+#
+
+function dev_sast() {
+  bl64_dbg_app_show_function
+  "$DEV_LIB_GITLEAKS_BIN" \
+    detect \
+    --exit-code 1 \
+    --report-format "$DEV_SAST_GITLEAKS_FORMAT" \
+    "$DEV_PATH_ROOT"
+}
+
+function dev_initialize() {
+  bl64_dbg_app_show_function
+}
 
 #
 # Main
 #
 
-[[ -n "$DEV_CICD_DEBUG" ]] && set -x
-[[ ! -d "$DEV_LIB_INSTALLER64_TARGET" ]] &&
-    echo 'dev-lib-installer64: Error: Installer64 not found, please run ./bin/dev-lib-installer64 and try again' &&
-    exit 1
+[[ -n "$DEV_CICD_DEBUG" ]] && bl64_dbg_all_enable
+bl64_lib_script_version_set '1.0.1'
+bl64_msg_all_enable_verbose
 
-echo 'dev-lib-bashlib64: Task: remove BashLib64 older versions'
-[[ -d "$DEV_LIB_BASHLIB64_TARGET" ]] && rm -Rf "$DEV_LIB_BASHLIB64_TARGET"
-
-echo 'dev-lib-bashlib64: Task: download BashLib64'
-"${DEV_LIB_INSTALLER64_TARGET}/install-bashlib64"
+bl64_msg_show_batch_start "$BL64_SCRIPT_ID"
+dev_initialize &&
+  dev_sast
+bl64_msg_show_batch_finish $? "$BL64_SCRIPT_ID"

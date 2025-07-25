@@ -19,7 +19,7 @@
 # shellcheck source=bin/dev-set
 source ./bin/dev-set || { echo 'dev-set:Error: unable to load dev environment' 2>&1 && exit 1; }
 # shellcheck source-path=bin
-source ./bin/dev-env-yamllint || exit 1
+source ./bin/dev-env-shellcheck || exit 1
 # shellcheck source=lib/bl64/bashlib64-core.bash
 source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-fs.bash" &&
   source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-txt.bash" &&
@@ -39,47 +39,46 @@ declare _DEV_LIB_RUN_IN_CONTAINER=''
 # Functions
 #
 
-function dev_lint_yamllint_local() {
+function dev_lint_shellcheck_local() {
   bl64_dbg_app_show_function "$@"
   local target="$1"
-  "$DEV_LIB_YAMLLINT_BIN" \
-    --config-file "${DEV_PATH_ROOT}/${DEV_LIB_YAMLLINT_CFG}" \
+  "$DEV_LIB_SHELLCHECK_BIN" \
     "$target"
 }
 
-function dev_lint_yamllint_container() {
+function dev_lint_shellcheck_container() {
   bl64_dbg_app_show_function "$@"
   local target="$1"
   # shellcheck disable=SC2086
   bl64_cnt_run \
     $BL64_CNT_SET_RM \
     $BL64_CNT_SET_TTY \
-    --workdir="$DEV_ENV_YAMLLINT_CONTAINER_PATH_ROOT" \
-    --mount "type=bind,source=${DEV_PATH_ROOT},target=${DEV_ENV_YAMLLINT_CONTAINER_PATH_ROOT},readonly" \
-    --entrypoint="${DEV_LINT_YAMLLINT_CONTAINER_ENTRYPOINT}" \
-    "${DEV_ENV_YAMLLINT_REGISTRY}/${DEV_LINT_YAMLLINT_CONTAINER}" \
-    --config-file "${DEV_ENV_YAMLLINT_CONTAINER_PATH_ROOT}/${DEV_LIB_YAMLLINT_CFG}" \
+    --workdir="$DEV_ENV_SHELLCHECK_CONTAINER_PATH_ROOT" \
+    --mount "type=bind,source=${DEV_PATH_ROOT},target=${DEV_ENV_SHELLCHECK_CONTAINER_PATH_ROOT},readonly" \
+    --entrypoint="${DEV_LINT_SHELLCHECK_CONTAINER_ENTRYPOINT}" \
+    "${DEV_ENV_SHELLCHECK_REGISTRY}/${DEV_LINT_SHELLCHECK_CONTAINER}" \
     "$target"
 }
 
-function dev_lint_yamllint() {
+function dev_lint_shellcheck() {
   bl64_dbg_app_show_function "$@"
   local target="$*"
   local current=''
 
+  [[ -d "$target" ]] && target+='/*'
   for current in $target; do
-    bl64_msg_show_phase "lint YAML target (${current})"
+    bl64_msg_show_phase "lint Shell target (${current})"
     if [[ -n "$_DEV_LIB_RUN_IN_CONTAINER" ]]; then
-      dev_lint_yamllint_container "$current"
+      dev_lint_shellcheck_container "$current"
     else
-      dev_lint_yamllint_local "$current"
+      dev_lint_shellcheck_local "$current"
     fi
   done
 }
 
 function dev_lint_initialize() {
   bl64_dbg_app_show_function
-  if ! bl64_bsh_command_is_executable "$DEV_LIB_YAMLLINT_BIN"; then
+  if ! bl64_bsh_command_is_executable "$DEV_LIB_SHELLCHECK_BIN"; then
     _DEV_LIB_RUN_IN_CONTAINER='YES'
     bl64_cnt_setup ||
       return $?
@@ -90,12 +89,13 @@ function dev_lint_initialize() {
 # Main
 #
 
-declare dev_lint_target="${*:-$DEV_LINT_YAMLLINT_TARGET}"
+declare dev_lint_target="${*:-$DEV_LINT_SHELLCHECK_TARGET}"
 
 [[ -n "$DEV_CICD_DEBUG" ]] && bl64_dbg_all_enable
-bl64_lib_script_version_set '2.2.1'
-bl64_msg_show_batch_start "$BL64_SCRIPT_ID"
+bl64_lib_script_version_set '1.0.1'
+bl64_msg_all_enable_verbose
 
+bl64_msg_show_batch_start "$BL64_SCRIPT_ID"
 dev_lint_initialize &&
-  dev_lint_yamllint "$dev_lint_target"
+  dev_lint_shellcheck "$dev_lint_target"
 bl64_msg_show_batch_finish $? "$BL64_SCRIPT_ID"

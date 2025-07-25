@@ -6,17 +6,14 @@
 # * Duplication will add and remove files from destination as needed
 # * Excluded from duplication: GIT metadata (.git) and temporary locations (tmp, lib)
 # * Operation is done using rsync tool
-# * Version: 3.2.0
+# * Version: 3.3.0
 #
 #######################################
-# Copyright [2023] [serdigital64@gmail.com]
+# Copyright SerDigital64 - https://github.com/serdigital64
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
+# You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -41,22 +38,21 @@ source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-core.bash" || exit 1
 
 function dev_git_repo_duplicate() {
   bl64_dbg_app_show_function "$@"
-  local dev_git_destination="$1"
-  local dev_git_dry_run="$2"
-  local dev_git_source=''
+  local repository_target="$1"
+  local dry_run="$2"
+  local repository_source=''
+  local dry_run_flag=''
 
-  dev_git_source="$(pwd)/"
-  bl64_msg_show_task "duplicate repositories (${dev_git_source}->${dev_git_destination})"
-  if [[ -z "$dev_git_dry_run" ]]; then
+  repository_source="$(pwd)/"
+  bl64_msg_show_task "duplicate repositories (${repository_source}->${repository_target})"
+  if bl64_lib_flag_is_enabled "$dry_run"; then
     bl64_msg_show_warning 'using dry-run mode. No action will be performed. Set the 2nd parameter to OFF to perform the action'
-    dev_git_dry_run='--dry-run'
-  else
-    [[ -n "$dev_git_dry_run" ]] && dev_git_dry_run=''
+    dry_run_flag='--dry-run'
   fi
 
   # shellcheck disable=SC2086
   "$DEV_LIB_RSYNC_BIN" \
-    ${dev_git_dry_run} \
+    ${dry_run_flag} \
     --one-file-system \
     --human-readable \
     --progress \
@@ -69,19 +65,28 @@ function dev_git_repo_duplicate() {
     --verbose \
     --itemize-changes \
     --ignore-times \
-    --exclude='.vscode/' \
     --exclude='.git/' \
     --exclude='tmp/' \
     --exclude='lib/' \
-    "$dev_git_source" \
-    "${dev_git_destination}/"
+    --exclude='build/' \
+    --exclude='vault/' \
+    "$repository_source" \
+    "${repository_target}/"
 }
 
 function dev_git_initialize() {
   bl64_dbg_app_show_function
+  local repository_target="$1"
+
   bl64_check_command_search_path "$DEV_LIB_RSYNC_BIN" &&
-    bl64_check_parameter 'dev_git_destination' &&
-    bl64_check_directory "$dev_git_destination"
+    bl64_check_parameter 'repository_target' &&
+    bl64_check_directory "$repository_target" ||
+    return $?
+
+  if [[ "$repository_target" == "$(pwd)" ]]; then
+    bl64_msg_show_error "source and target repository can not be the same (${repository_target})"
+    return $BL64_LIB_ERROR_PARAMETER_INVALID
+  fi
 }
 
 #
@@ -89,12 +94,13 @@ function dev_git_initialize() {
 #
 
 declare dev_git_destination="${1:-}"
-declare dev_git_dry_run="${2:-}"
+declare dev_git_dry_run="${2:-YES}"
 
 [[ -n "$DEV_CICD_DEBUG" ]] && bl64_dbg_all_enable
-
+bl64_lib_script_version_set '3.3.1'
 bl64_msg_all_enable_verbose
-bl64_msg_show_batch_start 'dev-git-repo-duplicate'
-dev_git_initialize &&
+
+bl64_msg_show_batch_start "$BL64_SCRIPT_ID"
+dev_git_initialize "$dev_git_destination" &&
   dev_git_repo_duplicate "$dev_git_destination" "$dev_git_dry_run"
-bl64_msg_show_batch_finish $? 'dev-git-repo-duplicate'
+bl64_msg_show_batch_finish $? "$BL64_SCRIPT_ID"

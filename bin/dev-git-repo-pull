@@ -35,13 +35,24 @@ source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-xsv.bash" &&
 # Functions
 #
 
-function dev_repo_branch_close() {
-  bl64_dbg_app_show_function "$@"
-  local dev_repo_branch_name="$1"
-  bl64_msg_show_task "switch to main branch (${DEV_GIT_BRANCH_MAIN})" &&
-    bl64_vcs_run_git checkout "$DEV_GIT_BRANCH_MAIN" &&
-    bl64_msg_show_task "delete local branch (${dev_repo_branch_name})" &&
-    bl64_vcs_run_git branch -d "$dev_repo_branch_name"
+function dev_repo_pull() {
+  bl64_dbg_app_show_function
+
+  bl64_msg_show_task "switch to main branch (${DEV_GIT_BRANCH_MAIN})"
+  bl64_vcs_run_git checkout "$DEV_GIT_BRANCH_MAIN" ||
+    return $?
+
+  if bl64_lib_flag_is_enabled "$DEV_GIT_REMOTE_UPSTREAM_ENABLED"; then
+    bl64_msg_show_task "pull latest changes from upstream (${DEV_GIT_REMOTE_UPSTREAM})"
+    bl64_vcs_run_git fetch "$DEV_GIT_REMOTE_UPSTREAM" &&
+      bl64_vcs_run_git pull "$DEV_GIT_REMOTE_UPSTREAM" "$DEV_GIT_BRANCH_MAIN"
+  else
+    bl64_msg_show_task "pull latest changes from origin (${DEV_GIT_REMOTE_ORIGIN})"
+    bl64_vcs_run_git fetch "$DEV_GIT_REMOTE_ORIGIN" &&
+      bl64_vcs_run_git pull "$DEV_GIT_REMOTE_ORIGIN" "$DEV_GIT_BRANCH_MAIN"
+  fi
+  bl64_msg_show_task 'run local garbage collector'
+  bl64_vcs_run_git gc
 }
 
 function dev_git_initialize() {
@@ -53,13 +64,11 @@ function dev_git_initialize() {
 # Main
 #
 
-declare dev_repo_branch_name="${1:-feature/update}"
-
 [[ -n "$DEV_CICD_DEBUG" ]] && bl64_dbg_all_enable
-bl64_lib_script_version_set '2.1.2'
+bl64_lib_script_version_set '1.0.1'
 bl64_msg_all_enable_verbose
 
 bl64_msg_show_batch_start "$BL64_SCRIPT_ID"
 dev_git_initialize &&
-  dev_repo_branch_close "$dev_repo_branch_name"
+  dev_repo_pull
 bl64_msg_show_batch_finish $? "$BL64_SCRIPT_ID"

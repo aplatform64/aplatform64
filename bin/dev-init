@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Template: 1.1.1
 #######################################
 # Copyright SerDigital64 - https://github.com/serdigital64
 #
@@ -16,38 +17,35 @@
 # Imports
 #
 
+DEV_PROFILE="${1:-${DEV_PROFILE}}"
 # shellcheck source=bin/dev-set
-source ./bin/dev-set || { echo 'dev-set:Error: unable to load dev environment' 2>&1 && exit 1; }
-# shellcheck source-path=bin
-source ./bin/dev-env-github || exit 1
+source ./bin/dev-set || { echo 'dev-set:Error: unable to load dev environment' 2>&1 && return 1; }
 # shellcheck source-path=lib/bl64
-source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-core.bash" || exit 1
-
-#
-# Globals
-#
-
-# Auth / GitHub / Scopes
-export DEV_AUTH_GITHUB_SCOPES="${DEV_AUTH_GITHUB_SCOPES:-}"
-# Auth / GitHub / Token
-export GITHUB_TOKEN="${GITHUB_TOKEN:-}"
+source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-msg.bash" &&
+  source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-core.bash" || return 1
 
 #
 # Functions
 #
 
-function dev_auth_github() {
+function dev_init_profile() {
   bl64_dbg_app_show_function
-  [[ -z "$GITHUB_TOKEN" ]] && bl64_msg_show_warning 'variable GITHUB_TOKEN is unset, using interactive login'
-  "$DEV_LIB_GITHUB_BIN" \
-    auth login \
-    --scopes "$DEV_AUTH_GITHUB_SCOPES"
+  [[ "${DEV_PROFILE}" == 'none' ]] && return 0
+  ./bin/dev-profile-create
 }
 
-function dev_auth_initialize() {
+function dev_init_show() {
   bl64_dbg_app_show_function
-  bl64_check_command_search_path "$DEV_LIB_GITHUB_BIN" ||
-    return $?
+  bl64_msg_show_setup 'Development environment initialized' \
+  'DEV_PROFILE' \
+  'DEV_PATH_ROOT' \
+  'DEV_PATH_SRC' \
+  'DEV_PATH_BUILD' \
+  'DEV_PATH_BIN'
+}
+
+function dev_init_initialize() {
+  bl64_dbg_app_show_function
 }
 
 #
@@ -55,10 +53,14 @@ function dev_auth_initialize() {
 #
 
 [[ -n "$DEV_CICD_DEBUG" ]] && bl64_dbg_all_enable
-bl64_lib_script_version_set '1.2.1'
+bl64_lib_script_version_set '1.0.2'
 bl64_msg_all_enable_verbose
 
 bl64_msg_show_batch_start "$BL64_SCRIPT_ID"
-dev_auth_initialize &&
-  dev_auth_github
+dev_init_initialize &&
+  dev_init_profile &&
+  dev_init_show &&
+  unset dev_init_initialize &&
+  unset dev_init_profile &&
+  unset dev_init_show
 bl64_msg_show_batch_finish $? "$BL64_SCRIPT_ID"

@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 #######################################
+# Dev / GIT / Remove tag
+#
+# * Remove from local, origin and upstream
+# * Works on the main branch
+# * Version: 1.0.0
+#
+#######################################
 # Copyright SerDigital64 - https://github.com/serdigital64
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,31 +42,44 @@ source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-xsv.bash" &&
 # Functions
 #
 
-function dev_repo_branch_close() {
+function dev_git_tag_destroy() {
   bl64_dbg_app_show_function "$@"
-  local dev_repo_branch_name="$1"
-  bl64_msg_show_task "switch to main branch (${DEV_GIT_BRANCH_MAIN})" &&
-    bl64_vcs_run_git checkout "$DEV_GIT_BRANCH_MAIN" &&
-    bl64_msg_show_task "delete local branch (${dev_repo_branch_name})" &&
-    bl64_vcs_run_git branch -d "$dev_repo_branch_name"
+  local tag="$1"
+
+  bl64_msg_show_task "switch to main branch (${DEV_GIT_BRANCH_MAIN})"
+  bl64_vcs_run_git checkout "$DEV_GIT_BRANCH_MAIN" ||
+    return $?
+
+  bl64_msg_show_task "destroy local tag (${tag})"
+  bl64_vcs_run_git tag -d "$tag"
+
+  bl64_msg_show_task "destroy tag in origin (${DEV_GIT_REMOTE_ORIGIN})"
+  bl64_vcs_run_git push -d "$DEV_GIT_REMOTE_ORIGIN" "$tag"
+
+  if bl64_lib_flag_is_enabled "$DEV_GIT_REMOTE_UPSTREAM_ENABLED"; then
+    bl64_msg_show_task "destroy tag in upstream (${DEV_GIT_REMOTE_UPSTREAM})"
+    bl64_vcs_run_git push -d "$DEV_GIT_REMOTE_UPSTREAM" "$tag"
+  fi
 }
 
 function dev_git_initialize() {
-  bl64_dbg_app_show_function
-  bl64_vcs_setup
+  bl64_dbg_app_show_function "$@"
+  local tag="$1"
+  bl64_check_parameter 'tag' &&
+    bl64_vcs_setup
 }
 
 #
 # Main
 #
 
-declare dev_repo_branch_name="${1:-feature/update}"
+declare dev_git_tag="${1:-}"
 
 [[ -n "$DEV_CICD_DEBUG" ]] && bl64_dbg_all_enable
-bl64_lib_script_version_set '2.1.2'
+bl64_lib_script_version_set '1.0.1'
 bl64_msg_all_enable_verbose
 
 bl64_msg_show_batch_start "$BL64_SCRIPT_ID"
-dev_git_initialize &&
-  dev_repo_branch_close "$dev_repo_branch_name"
+dev_git_initialize "$dev_git_tag" &&
+  dev_git_tag_destroy "$dev_git_tag"
 bl64_msg_show_batch_finish $? "$BL64_SCRIPT_ID"

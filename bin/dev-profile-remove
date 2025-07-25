@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# * Template: 1.6.1
 #######################################
 # Copyright SerDigital64 - https://github.com/serdigital64
 #
@@ -18,48 +19,54 @@
 
 # shellcheck source=bin/dev-set
 source ./bin/dev-set || { echo 'dev-set:Error: unable to load dev environment' 2>&1 && exit 1; }
-# shellcheck source-path=bin
-source ./bin/dev-env-testmansh || exit 1
 # shellcheck source-path=lib/bl64
-source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-xsv.bash" &&
-  source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-bsh.bash" &&
-  source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-api.bash" &&
-  source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-vcs.bash" &&
+source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-ui.bash" &&
   source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-txt.bash" &&
   source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-fmt.bash" &&
   source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-fs.bash" &&
-  source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-rxtx.bash" &&
   source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-core.bash" || exit 1
-
-#
-# Globals
-#
-
-# Lib / TestmanSH / Source
-export DEV_LIB_TESTMANSH_REPO='https://raw.githubusercontent.com/automation64/testmansh/main/testmansh'
 
 #
 # Functions
 #
 
-function dev_lib_testmansh() {
+function dev_profile_remove() {
   bl64_dbg_app_show_function
-  bl64_msg_show_task 'download TestManSH'
-  bl64_rxtx_web_get_file \
-    "$DEV_LIB_TESTMANSH_REPO" \
-    "$DEV_LIB_TESTMANSH_BIN" \
-    "$BL64_VAR_ON" \
-    '0777'
+  local profile="$1"
+  bl64_msg_show_task "remove profile (${profile})"
+  bl64_fs_path_remove \
+    "${DEV_PATH_BUILD}/${DEV_BASE_PROFILE}/${profile}" \
+    "${DEV_PATH_ETC}/${DEV_BASE_PROFILE}/${profile}" \
+    "${DEV_PATH_LOGS}/${DEV_BASE_PROFILE}/${profile}" \
+    "${DEV_PATH_TMP}/${DEV_BASE_PROFILE}/${profile}" \
+    "${DEV_PATH_VAR}/${DEV_BASE_PROFILE}/${profile}" \
+    "${DEV_PATH_VAULT}/${DEV_BASE_PROFILE}/${profile}"
+}
+
+function dev_profile_initialize() {
+  bl64_dbg_app_show_function
+  bl64_check_parameter 'MAIN_TARGET_PROFILE' &&
+    bl64_ui_ask_confirmation \
+      "Warning: the operation will remove all content from the profile [${MAIN_TARGET_PROFILE}]. If not tracked by GIT, it will be permanently lost. Confirm operation? Type:" \
+      'YES' ||
+    return $?
+  if [[ "$MAIN_TARGET_PROFILE" == "$DEV_PROFILE" ]]; then
+    bl64_msg_show_error 'Target profile can not be the current one. Please change to a different profile before removing'
+    return $BL64_LIB_ERROR_PARAMETER_INVALID
+  fi
 }
 
 #
 # Main
 #
 
+declare MAIN_TARGET_PROFILE="${1:-}"
+
 [[ -n "$DEV_CICD_DEBUG" ]] && bl64_dbg_all_enable
-bl64_lib_script_version_set '1.0.0'
+bl64_lib_script_version_set '2.0.0'
 bl64_msg_all_enable_verbose
 
 bl64_msg_show_batch_start "$BL64_SCRIPT_ID"
-dev_lib_testmansh
+dev_profile_initialize &&
+  dev_profile_remove "$MAIN_TARGET_PROFILE"
 bl64_msg_show_batch_finish $? "$BL64_SCRIPT_ID"

@@ -1,19 +1,18 @@
 #!/usr/bin/env bash
 #######################################
-# Dev / Set development environment variables
+# Dev / Set
 #
-# * Source this script from the project's root directory
-# * Version: 7.3.1
+# * Loads DevBin64 environment variables
+# * To be used by DevBin64 scripts
+# * Warning: Bash is the only supported shell. Other shells may work as long as they are compatible with Bash syntax
+# * Version: 8.3.1
 #
 #######################################
-# Copyright [2023] [serdigital64@gmail.com]
+# Copyright SerDigital64 - https://github.com/serdigital64
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
+# You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,128 +24,178 @@
 # Globals
 #
 
-# CICD / Debug flag for bin/ scripts. Set to YES to enable
+# Main / Debug flag for bin/ scripts
 export DEV_CICD_DEBUG="${DEV_CICD_DEBUG:-}"
-# Dev / Set / Increase verbosity? Set to YES to increase
+[[ -n "$DEV_CICD_DEBUG" ]] && set -x
+# Main / Increase verbosity? Set to YES to increase
 export DEV_SET_VERBOSE="${DEV_SET_VERBOSE:-}"
-# Dev / Set / Resource names
-export DEV_BASE_LOCAL='.local'
-export DEV_BASE_SECRETS='.secrets'
+# Main / Bootstrap files. Must be the same as defined in .env
+export DEV_BASE_LOCAL='.local.env'
+export DEV_BASE_SECRETS='.secrets.env'
 export DEV_BASE_ENV='.env'
+# Main / Project root
+export DEV_PATH_ROOT="${DEV_PATH_ROOT:-}"
+# Main / List of modules to load
+export DEV_MODULE_LOAD="${DEV_MODULE_LOAD:-}"
+# Main / Profile
+export DEV_PROFILE="${DEV_PROFILE:-}"
+
+# From CICD products
+export GITHUB_WORKSPACE="${GITHUB_WORKSPACE:-}"
+export GITLAB_CI="${GITLAB_CI:-}"
+export TESTMANSH_PROJECT_ROOT="${TESTMANSH_PROJECT_ROOT:-}"
 
 #
 # Functions
 #
 
-function dev_set_error() {
+function dev_set_show_warning() {
   local msg="$1"
-  echo "dev:Error: ${msg}" 2>&1
+  echo "dev-set:Warning: ${msg}" 2>&1
+}
+
+function dev_set_show_error() {
+  local msg="$1"
+  echo "dev-set:Error: ${msg}" 2>&1
+}
+
+function dev_set_show_task() {
+  local msg="$1"
+  [[ -n "$DEV_SET_VERBOSE" ]] && echo "dev-set:Task: ${msg}"
   return 0
 }
 
-function dev_set_message() {
-  local msg="$1"
-  [[ -n "$DEV_SET_VERBOSE" ]] && echo "dev: ${msg}"
-  return 0
-}
+function dev_set_load_workstation() {
+  dev_set_show_task 'set project root (DEV_PATH_ROOT)'
+  DEV_PATH_ROOT="${DEV_PATH_ROOT:-$(pwd)}"
 
-function dev_set_load_local() {
-  dev_set_message "Task: load local environment variables ($(pwd)/${DEV_BASE_LOCAL})"
-  export DEV_PATH_ROOT="${DEV_PATH_ROOT:-$(pwd)}"
-
-  # shellcheck source=./.local
-  source "$DEV_BASE_LOCAL" ||
-    {
-      dev_set_error "unable to source file (${DEV_BASE_LOCAL})"
-      return 1
-    }
-  DEV_BASE_SECRETS="${DEV_PATH_ROOT}/${DEV_BASE_SECRETS}"
-  if [[ -f "$DEV_BASE_SECRETS" ]]; then
-    dev_set_message "Task: load local secrets (${DEV_BASE_SECRETS})"
-    # shellcheck source=./.secrets
-    source "${DEV_BASE_SECRETS}" ||
-      {
-        dev_set_error "unable to source file (${DEV_BASE_SECRETS})"
-        return 1
-      }
+  if [[ -f "$DEV_BASE_LOCAL" ]]; then
+    dev_set_show_task "load workstation environment variables (${DEV_BASE_LOCAL})"
+    # shellcheck source=./.local.env
+    source "$DEV_BASE_LOCAL" ||
+      { dev_set_show_error "unable to source file (${DEV_BASE_LOCAL})" && return 1; }
   fi
+
+  if [[ -f "$DEV_BASE_SECRETS" ]]; then
+    dev_set_show_task "load workstation secrets (${DEV_BASE_SECRETS})"
+    # shellcheck source=./.secrets.env
+    source "${DEV_BASE_SECRETS}" ||
+      { dev_set_show_error "unable to source file (${DEV_BASE_SECRETS})" && return 1; }
+  fi
+  return 0
 }
 
 function dev_set_load_gitlab() {
   # shellcheck disable=SC2154
-  dev_set_message "Info: GitLab detected, setting project root (${CI_PROJECT_DIR})"
+  dev_set_show_task "Info: GitLab detected, setting project root (${CI_PROJECT_DIR})"
   # shellcheck disable=SC2155
-  export DEV_PATH_ROOT="$CI_PROJECT_DIR"
+  DEV_PATH_ROOT="$CI_PROJECT_DIR"
+}
+
+function dev_set_load_local_post() {
+  if [[ -f "$DEV_BASE_POST" ]]; then
+    # shellcheck source=./.post.env
+    source "${DEV_BASE_POST}" ||
+      { dev_set_show_error "unable to source file (${DEV_BASE_POST})" && return 1; }
+  fi
+  return 0
 }
 
 function dev_set_load_github() {
-  local DEV_BASE_LOCAL='.local-github'
+  local DEV_BASE_LOCAL='.local-github.env'
 
-  dev_set_message "Info: GitHub detected, setting project root (${GITHUB_WORKSPACE})"
+  dev_set_show_task "Info: GitHub detected, setting project root (${GITHUB_WORKSPACE})"
   # shellcheck disable=SC2155
-  export DEV_PATH_ROOT="$GITHUB_WORKSPACE"
+  DEV_PATH_ROOT="$GITHUB_WORKSPACE"
 
   DEV_BASE_LOCAL="${DEV_PATH_ROOT}/${DEV_BASE_LOCAL}"
   if [[ -f "$DEV_BASE_LOCAL" ]]; then
-    dev_set_message "Task: Load local github automatic environment variables (${DEV_BASE_LOCAL})"
-    # shellcheck disable=SC1090
+    dev_set_show_task "Load local github automatic environment variables (${DEV_BASE_LOCAL})"
+    # shellcheck source=./.local-github.env
     source "${DEV_BASE_LOCAL}" ||
-      {
-        dev_set_error "unable to source file (${DEV_BASE_LOCAL})"
-        return 1
-      }
+      { dev_set_show_error "unable to source file (${DEV_BASE_LOCAL})" && return 1; }
   fi
+  return 0
 }
 
 function dev_set_load_testmansh() {
-  dev_set_message "Info: testmansh container detected, setting project root (${TESTMANSH_PROJECT_ROOT})"
-  export DEV_PATH_ROOT="$TESTMANSH_PROJECT_ROOT"
+  dev_set_show_task "Info: testmansh container detected, setting project root (${TESTMANSH_PROJECT_ROOT})"
+  DEV_PATH_ROOT="$TESTMANSH_PROJECT_ROOT"
 }
 
-function dev_set_load_exported() {
-  dev_set_message 'Info: read DEV_PATH_ROOT variable from exported shell environment'
+function dev_set_load_env() {
+  dev_set_show_task "load project environment variables (${DEV_BASE_ENV})"
+  # shellcheck source=./.env
+  source "$DEV_BASE_ENV" ||
+    { dev_set_show_error "unable to read environment variables (${DEV_BASE_ENV})" && return 1; }
+  return 0
 }
 
-function dev_set_check_root() {
+# shellcheck source-path=./bin
+function dev_set_load_modules() {
+  local module_name=''
+  local module_env=''
+
+  # Load mandatory base modules, based on dependency order
+  source "${DEV_PATH_BIN}/dev-env-bashlib64" &&
+    source "${DEV_PATH_BIN}/dev-env-installer64" ||
+    { dev_set_show_error "unable to load environment core modules" && return 1; }
+
+  # Warning: no using direct var expansion to avoid compatibility issues with ZSH
+  for module_name in $(echo "$DEV_MODULE_LOAD"); do
+    module_env="${DEV_PATH_BIN}/dev-env-${module_name}"
+    dev_set_show_task "load module environment variables (${module_env})"
+    source "$module_env" ||
+      { dev_set_show_error "unable to load environment variables from file (${module_env})" && return 1; }
+  done
+  return 0
+}
+
+function dev_set_load_local() {
+  if [[ -n "$GITHUB_WORKSPACE" ]]; then
+    dev_set_load_github
+  elif [[ -n "$GITLAB_CI" ]]; then
+    dev_set_load_gitlab
+  elif [[ -n "$TESTMANSH_PROJECT_ROOT" ]]; then
+    dev_set_load_testmansh
+  else
+    dev_set_load_workstation
+  fi
   if [[ -z "$DEV_PATH_ROOT" ]]; then
-    dev_set_error 'unable to identify current repository location. Check that the variable DEV_PATH_ROOT is correctly set' &&
+    dev_set_show_error 'unable to identify current repository location. Check that the variable DEV_PATH_ROOT is correctly set' &&
       return 1
   fi
 }
 
-function dev_set_load_env() {
-  dev_set_message "Task: load project environment variables (${DEV_BASE_ENV})"
-  # shellcheck source=./.env
-  source "$DEV_BASE_ENV" ||
-    {
-      dev_set_error "unable to read environment variables (${DEV_BASE_ENV})"
-      return 1
-    }
+function dev_set_initialize() {
+  if [[ ! -f '.env' ]]; then
+    dev_set_show_error "script must be run from project's root path"
+    return 1
+  fi
 }
 
 #
 # Main
 #
 
-[[ ! -f '.env' ]] && dev_set_error "script must be run from the project's root path" && return 1
-[[ -n "$DEV_CICD_DEBUG" ]] && set -x
-
-# shellcheck disable=SC2154
-if [[ -f "$DEV_BASE_LOCAL" ]]; then
-  dev_set_load_local
-elif [[ -n "$GITHUB_WORKSPACE" ]]; then
-  dev_set_load_github
-elif [[ -n "$GITLAB_CI" ]]; then
-  dev_set_load_gitlab
-elif [[ -n "$TESTMANSH_PROJECT_ROOT" ]]; then
-  dev_set_load_testmansh
-else
-  dev_set_load_exported
-fi
-
 # shellcheck disable=SC2015
-dev_set_check_root &&
-  dev_set_load_env ||
-  { dev_set_error 'failed to load Dev environment variables'; return 1; }
+dev_set_initialize &&
+  dev_set_load_local &&
+  dev_set_load_env &&
+  dev_set_load_modules &&
+  dev_set_load_local_post &&
+  unset dev_set_load_github &&
+  unset dev_set_load_gitlab &&
+  unset dev_set_load_testmansh &&
+  unset dev_set_load_workstation &&
+  unset dev_set_initialize &&
+  unset dev_set_load_local &&
+  unset dev_set_load_env &&
+  unset dev_set_load_modules &&
+  unset dev_set_load_local_post &&
+  unset dev_set_show_warning &&
+  unset dev_set_show_task &&
+  unset dev_set_show_error ||
+  { dev_set_show_error 'failed to load Dev environment variables' && return 1; }
 [[ -n "$DEV_CICD_DEBUG" ]] && set +x
 :

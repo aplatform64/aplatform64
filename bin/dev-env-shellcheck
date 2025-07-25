@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+# * Version: 1.0.0
+#######################################
+# Copyright SerDigital64 - https://github.com/serdigital64
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#######################################
+
+#
+# Globals
+#
+# * Use .env file to override values
+#
+
+# shellcheck disable=SC2154
+{
+    # Env / ShellCheck / Container Registry for tools
+    export DEV_ENV_SHELLCHECK_REGISTRY="${DEV_ENV_SHELLCHECK_REGISTRY:-ghcr.io/automation64}"
+    # Env / ShellCheck / Container path for project mounts
+    export DEV_ENV_SHELLCHECK_CONTAINER_PATH_ROOT='/project'
+    # Lib / ShellCheck / Installer
+    export DEV_LIB_SHELLCHECK_INSTALLER="${DEV_LIB_INSTALLER64_TARGET}/install-shellcheck"
+    # Lib / ShellCheck / Target
+    export DEV_LIB_SHELLCHECK_TARGET="${DEV_LIB_SHELLCHECK_TARGET:-${DEV_PATH_LIB}/shellcheck}"
+    # Lib / ShellCheck / Configuration
+    export DEV_LIB_SHELLCHECK_CFG='.shellcheckrc'
+    # Lint / ShellCheck / Target
+    export DEV_LINT_SHELLCHECK_TARGET="${DEV_LINT_SHELLCHECK_TARGET:-${DEV_BASE_SRC}}"
+    # Lint / ShellCheck / Container with linting tool
+    export DEV_LINT_SHELLCHECK_CONTAINER="${DEV_LINT_SHELLCHECK_CONTAINER:-shell-lint/alpine-3-shell-lint}"
+    # Lint / ShellCheck / Container entrypoint
+    export DEV_LINT_SHELLCHECK_CONTAINER_ENTRYPOINT="${DEV_LINT_SHELLCHECK_CONTAINER_ENTRYPOINT:-/usr/local/bin/shellcheck}"
+}
+
+#
+# Locals
+#
+# * Use .local.env file or CICD variables to override values
+#
+
+# shellcheck disable=SC2154
+{
+    # Lib / ShellCheck / Command
+    export DEV_LIB_SHELLCHECK_BIN="${DEV_LIB_SHELLCHECK_BIN:-${DEV_LIB_SHELLCHECK_TARGET}/shellcheck}"
+}
+
+#
+# Secrets
+#
+# * Use .secrets.env file or CICD secrets to override values
+#

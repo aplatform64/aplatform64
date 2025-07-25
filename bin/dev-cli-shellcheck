@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
-# * Version: 5.0.0
+#######################################
+# Dev / CLI / ShellCheck / Command runner for interactive shell
+#
+# * Use to run the command in an interactive shell
+# * Associated shell environment is loaded before command execution
+# * Any other dev task that needs to use the command should call it directly, not using this wrapper
+# * Version: 1.0.0
+#
 #######################################
 # Copyright SerDigital64 - https://github.com/serdigital64
 #
@@ -19,22 +26,11 @@
 
 # shellcheck source=bin/dev-set
 source ./bin/dev-set || { echo 'dev-set:Error: unable to load dev environment' 2>&1 && exit 1; }
-# shellcheck source=bin/dev-env-installer64
-source ./bin/dev-env-installer64 || exit 1
-# shellcheck source=bin/dev-env-bashlib64
-source ./bin/dev-env-bashlib64 || exit 1
+# shellcheck source=bin/dev-env-shellcheck
+source ./bin/dev-env-shellcheck || exit 1
 
 #
 # Main
 #
 
-[[ -n "$DEV_CICD_DEBUG" ]] && set -x
-[[ ! -d "$DEV_LIB_INSTALLER64_TARGET" ]] &&
-    echo 'dev-lib-installer64: Error: Installer64 not found, please run ./bin/dev-lib-installer64 and try again' &&
-    exit 1
-
-echo 'dev-lib-bashlib64: Task: remove BashLib64 older versions'
-[[ -d "$DEV_LIB_BASHLIB64_TARGET" ]] && rm -Rf "$DEV_LIB_BASHLIB64_TARGET"
-
-echo 'dev-lib-bashlib64: Task: download BashLib64'
-"${DEV_LIB_INSTALLER64_TARGET}/install-bashlib64"
+"$DEV_LIB_SHELLCHECK_BIN" "$@"
