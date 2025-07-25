@@ -22,7 +22,7 @@ function ap64_site_install() {
   bl64_msg_show_phase 'prepare installation environment'
   if [[ ! -d "$root" && ! -d "${var}/home" ]]; then
     bl64_msg_show_task "create base paths (${root}, ${var})"
-    bl64_fs_create_dir \
+    bl64_fs_dir_create \
       '0755' "$BL64_VAR_DEFAULT" "$BL64_VAR_DEFAULT" \
       "${root}" "${var}" ||
       return $?
@@ -33,11 +33,11 @@ function ap64_site_install() {
       return $?
 
     bl64_msg_show_task "normalize path ownership (${var})"
-    bl64_fs_set_permissions "$BL64_VAR_DEFAULT" "$user" "$BL64_VAR_DEFAULT" "$var" ||
+    bl64_fs_path_permission_set "$BL64_VAR_DEFAULT" "$BL64_VAR_DEFAULT" "$user" "$BL64_VAR_DEFAULT" "$BL64_VAR_OFF" "$var" ||
       return $?
 
     bl64_msg_show_task "promote A:Platform64 CLI (${BL64_SCRIPT_PATH}/${AP64_CLI} -> ${cli})"
-    bl64_fs_copy_files \
+    bl64_fs_file_copy \
       '0755' "$user" "$BL64_VAR_DEFAULT" \
       "${root}" \
       "${BL64_SCRIPT_PATH}/${AP64_CLI}" ||
@@ -46,7 +46,7 @@ function ap64_site_install() {
     bl64_msg_show_warning 'existing installation of A:Platform64 detected. No further preparation needed.'
   fi
 
-  bl64_rbac_run_ap64_command "$user" "$cli" \
+  bl64_rbac_run_command "$user" "$cli" \
     -j \
     -D "$debug" \
     -b "$root" \
@@ -70,14 +70,14 @@ function ap64_site_bootstrap() {
 
   bl64_msg_show_phase 'install Ansible Python modules'
   if [[ "$ansible_version" == 'latest' ]]; then
-    if bl64_os_match "${BL64_OS_OL}-8" "${BL64_OS_CNT}-8" "${BL64_OS_DEB}-10" "${BL64_OS_RHEL}-8" "${BL64_OS_RCK}-8" "${BL64_OS_ALM}-8" "${BL64_OS_UB}-20"; then
+    if bl64_os_is_distro "${BL64_OS_OL}-8" "${BL64_OS_CNT}-8" "${BL64_OS_DEB}-10" "${BL64_OS_RHEL}-8" "${BL64_OS_RCK}-8" "${BL64_OS_ALM}-8" "${BL64_OS_UB}-20"; then
       bl64_msg_show_warning "unable to use latest version of ansible-core due to imcompatibility with current OS. Downgrading to legacy version (${legacy})"
       modules="ansible-core==${legacy}.*"
     else
       modules='ansible-core'
     fi
   elif [[ "$ansible_version" == '2.13' || "$ansible_version" == '2.14' || "$ansible_version" == '2.15' ]]; then
-    if bl64_os_match "${BL64_OS_OL}-8" "${BL64_OS_CNT}-8" "${BL64_OS_DEB}-10" "${BL64_OS_RHEL}-8" "${BL64_OS_RCK}-8" "${BL64_OS_ALM}-8" "${BL64_OS_UB}-20"; then
+    if bl64_os_is_distro "${BL64_OS_OL}-8" "${BL64_OS_CNT}-8" "${BL64_OS_DEB}-10" "${BL64_OS_RHEL}-8" "${BL64_OS_RCK}-8" "${BL64_OS_ALM}-8" "${BL64_OS_UB}-20"; then
       bl64_msg_show_warning "unable to use requested version of ansible-core due to imcompatibility with current OS. Downgrading to legacy version (${ansible_version} -> ${legacy})"
       modules="ansible-core==${legacy}.*"
     else
@@ -374,7 +374,7 @@ function ap64_site_load() {
       return 1
     }
 
-  AP64_PATH_INVENTORY="$(bl64_fmt_dirname "$ANSIBLE_INVENTORY")"
+  AP64_PATH_INVENTORY="$(bl64_fmt_path_get_dirname "$ANSIBLE_INVENTORY")"
   AP64_SITE_CURRENT="$site"
   return 0
 }
@@ -391,7 +391,7 @@ function ap64_cli_user_switch() {
   if [[ "$ap64_command" == 'ap64_site_install' ]]; then
     if [[ "$UID" != '0' ]]; then
       bl64_msg_show_info 're-running ap64 script as root to continue installation process'
-      bl64_rbac_run_ap64_command 'root' "${BL64_SCRIPT_PATH}/${AP64_CLI}" "$@"
+      bl64_rbac_run_command 'root' "${BL64_SCRIPT_PATH}/${AP64_CLI}" "$@"
       exit $?
     else
       bl64_dbg_app_show_info 'already running as root, continue normal execution'
@@ -400,7 +400,7 @@ function ap64_cli_user_switch() {
     if [[ "$(bl64_iam_user_get_current)" != "$user" ]]; then
       bl64_check_user "$user" 'dedicated user for A:Platform64 not found. Please verify the installation and retry' || return $?
       bl64_msg_show_info "re-running ap64 script as the site owner (${user}) to continue requested operation"
-      bl64_rbac_run_ap64_command "$user" "${path}/${AP64_CLI}" "$@"
+      bl64_rbac_run_command "$user" "${path}/${AP64_CLI}" "$@"
       exit $?
     else
       bl64_dbg_app_show_info "already running as ${user}, continue normal execution"
@@ -435,7 +435,7 @@ function ap64_initialize() {
     "${BL64_OS_UB}-20" "${BL64_OS_UB}-21" "${BL64_OS_UB}-22" ||
     return $?
 
-  AP64_PATH_VAR="$(bl64_fmt_dirname "$HOME")"
+  AP64_PATH_VAR="$(bl64_fmt_path_get_dirname "$HOME")"
   AP64_PATH_VENV="${AP64_PATH_VAR}/${AP64_VENV}"
   AP64_PATH_VENV_CACHE="${AP64_PATH_VAR}/pip_cache"
   AP64_PATH_VENV_TMP="${AP64_PATH_VAR}/pip_tmp"
