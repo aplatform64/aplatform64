@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# * Version: 2.0.0
+# * Version: 2.1.0
 #######################################
 # Copyright SerDigital64 - https://github.com/serdigital64
 #
@@ -21,6 +21,8 @@
 
 # shellcheck disable=SC2154
 {
+    # Lib / Installer64 / Location # required to avoid circular dependency with dev-env-installer64 and dev-set
+    export DEV_LIB_INSTALLER64_TARGET="${DEV_LIB_INSTALLER64_TARGET:-${DEV_PATH_LIB}/inst64}"
     # Lib / BashLib64 / Location
     export DEV_LIB_BASHLIB64_TARGET="${DEV_LIB_BASHLIB64_TARGET:-${DEV_PATH_LIB}/bl64}"
 }
@@ -35,6 +37,8 @@
 {
   # Lib / Installer64 / Local Installer64 library for BashLib64
   export INST64_LIB_PATH="$DEV_LIB_INSTALLER64_TARGET"
+  # Lib / Installer64 / Local Installer64 library for BashLib64
+  export INST64_BASHLIB64="$DEV_LIB_BASHLIB64_TARGET"
   # Lib / BashLib64 / Installer64 parameters
   export INST64_BASHLIB64_TARGET="$DEV_LIB_BASHLIB64_TARGET"
   # Lib / Installer64 / Force user install type
