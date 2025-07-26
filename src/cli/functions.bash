@@ -398,7 +398,7 @@ function ap64_cli_user_switch() {
     fi
   else
     if [[ "$(bl64_iam_user_get_current)" != "$user" ]]; then
-      bl64_check_user "$user" 'dedicated user for A:Platform64 not found. Please verify the installation and retry' || return $?
+      bl64_iam_check_user "$user" 'dedicated user for A:Platform64 not found. Please verify the installation and retry' || return $?
       bl64_msg_show_info "re-running ap64 script as the site owner (${user}) to continue requested operation"
       bl64_rbac_run_command "$user" "${path}/${AP64_CLI}" "$@"
       exit $?
