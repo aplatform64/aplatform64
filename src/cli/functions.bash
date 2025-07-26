@@ -424,7 +424,7 @@ function ap64_initialize() {
   [[ -n "$ap64_option" && -n "$ap64_command" ]] ||
     { bl64_msg_help_show && return 1; }
 
-  bl64_os_check_version \
+  bl64_os_check_compatibility \
     "${BL64_OS_ALM}-8" \
     "${BL64_OS_CNT}-8" \
     "${BL64_OS_DEB}-10" "${BL64_OS_DEB}-11" \
