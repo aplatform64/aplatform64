@@ -1,7 +1,7 @@
 #
 # GIT Ignore
 #
-# * Version: 1.0.0
+# * Version: 1.0.1
 # * Template: 2.0.1
 #
 
@@ -23,7 +23,7 @@
 # Project specific exclusions
 #
 # Not included in the main repo. Each collection has its own GIT repository
-/collections/serdigital64/*
+/var/collections/serdigital64/*
 
 # Keep placeholder for empty directories
 !/**/.gitkeep

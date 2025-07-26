@@ -7,4 +7,6 @@ testmansh
 ansible
 ansiblelint
 yamllint
-
+mkdocs
+container
+go
