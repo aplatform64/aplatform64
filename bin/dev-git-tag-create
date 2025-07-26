@@ -3,17 +3,14 @@
 # Dev / GIT / Create and push GIT tag
 #
 # * Works on the main branch
-# * Version: 2.1.0
+# * Version: 2.2.0
 #
 #######################################
-# Copyright [2023] [serdigital64@gmail.com]
+# Copyright SerDigital64 - https://github.com/serdigital64
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
+# You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,7 +27,9 @@ source ./bin/dev-set || { echo 'dev-set:Error: unable to load dev environment' 2
 # shellcheck source-path=bin
 source ./bin/dev-env-git || exit 1
 # shellcheck source-path=lib/bl64
-source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-fmt.bash" &&
+source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-xsv.bash" &&
+  source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-bsh.bash" &&
+  source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-fmt.bash" &&
   source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-fs.bash" &&
   source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-rxtx.bash" &&
   source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-txt.bash" &&
@@ -41,30 +40,6 @@ source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-fmt.bash" &&
 #
 # Functions
 #
-
-function dev_git_get_changes() {
-  bl64_dbg_app_show_function "$@"
-  local tag="$1"
-  bl64_txt_run_awk -v tag="$tag" '
-  BEGIN {
-      section = 0
-      pattern = "## \\[" tag "\\]"
-  }
-  /^$/ { next }
-  section == 0 && $0 ~ pattern {
-    section = 1
-    next
-  }
-  section == 1 && (/^## \[[0-9]+\.[0-9]\.+[0-9]+\]$/ || /^\[[0-9]+\.[0-9]\.+[0-9]+\]: /) {
-    exit
-  }
-  section == 1 {
-    gsub(/#/,"*")
-    print $0
-    next
-  }
-  ' "$DEV_BASE_CHANGELOG"
-}
 
 function dev_git_tag_create() {
   bl64_dbg_app_show_function "$@"
@@ -80,8 +55,11 @@ function dev_git_tag_create() {
   bl64_msg_show_task "create tag (${new_tag})"
   if bl64_lib_flag_is_enabled "$include_changelog"; then
     message="$(bl64_fs_create_tmpfile)" &&
-      dev_git_get_changes "$new_tag" >"$message"
-    [[ ! -s "$message" ]] && bl64_msg_show_error 'Unable to extract changelog for the requested tag' && status=1
+      bl64_vcs_changelog_get_release "$DEV_BASE_CHANGELOG" "$new_tag" >"$message"
+
+    [[ ! -s "$message" ]] &&
+      bl64_msg_show_error 'Unable to extract changelog for the requested tag' && status=1
+
     ((status == 0)) && git tag "$new_tag" --file "$message" || status=1
     bl64_fs_rm_tmpfile "$message"
     ((status != 0)) && return $status
@@ -120,9 +98,10 @@ declare dev_git_new_tag="${1:-}"
 declare dev_git_include_changelog="${2:-$BL64_VAR_OFF}"
 
 [[ -n "$DEV_CICD_DEBUG" ]] && bl64_dbg_all_enable
-
+bl64_lib_script_version_set '2.2.1'
 bl64_msg_all_enable_verbose
-bl64_msg_show_batch_start 'dev-git-tag-create'
+
+bl64_msg_show_batch_start "$BL64_SCRIPT_ID"
 dev_git_initialize "$dev_git_new_tag" "$dev_git_include_changelog" &&
   dev_git_tag_create "$dev_git_new_tag" "$dev_git_include_changelog"
-bl64_msg_show_batch_finish $? 'dev-git-tag-create'
+bl64_msg_show_batch_finish $? "$BL64_SCRIPT_ID"

@@ -1,7 +1,8 @@
 #
 # GIT Ignore
 #
-# * Template version: 1.3.0
+# * Version: 1.0.1
+# * Template: 2.0.1
 #
 
 #
@@ -13,19 +14,16 @@
 /logs/*
 /tmp/*
 /vault/*
+/.local.env
+/.secrets.env
 
-/.local
-/.secrets
+/.vscode
 
 #
 # Project specific exclusions
 #
-
-/.vscode
-
 # Not included in the main repo. Each collection has its own GIT repository
-/collections/serdigital64/*
+/var/collections/serdigital64/*
 
 # Keep placeholder for empty directories
 !/**/.gitkeep
-

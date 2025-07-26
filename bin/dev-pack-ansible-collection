@@ -1,18 +1,10 @@
 #!/usr/bin/env bash
 #######################################
-# Dev / Pack / Ansible / Create Ansible collection distributable file
-#
-# * Version: 1.0.0
-#
-#######################################
-# Copyright [2023] [serdigital64@gmail.com]
+# Copyright SerDigital64 - https://github.com/serdigital64
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
+# You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,7 +18,7 @@
 
 # shellcheck source=bin/dev-set
 source ./bin/dev-set || { echo 'dev-set:Error: unable to load dev environment' 2>&1 && exit 1; }
-# shellcheck source-path=bin
+# shellcheck source=bin/dev-env-ansible
 source ./bin/dev-env-ansible || exit 1
 # shellcheck source=lib/bl64/bashlib64-core.bash
 source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-txt.bash" &&
@@ -45,14 +37,9 @@ function dev_pack_ansible_create() {
   local pack_target="$*"
   local pack_current=''
 
-  cd "$DEV_PACK_ANSIBLE_DESTINATION" || return $?
-  for pack_current in $dev_pack_target; do
+  cd "$DEV_PATH_BUILD_PACK" || return $?
+  for pack_current in $pack_target; do
     bl64_msg_show_phase "pack Ansible Collection (${pack_current})"
-
-    bl64_msg_show_task 'remove old collection package'
-    bl64_fs_rm_file ${DEV_PACK_ANSIBLE_GALAXY_NAMESPACE}-${pack_current}-*.tar.gz
-
-    bl64_msg_show_task 'generate new collection package'
     bl64_ans_run_ansible_galaxy \
       collection build "${DEV_PACK_ANSIBLE_BASE_COLLECTIONS}/${pack_current}" ||
       return $?
@@ -66,8 +53,9 @@ function dev_pack_ansible_initialize() {
     bl64_check_parameter 'DEV_PACK_ANSIBLE_GALAXY_NAMESPACE' &&
     bl64_check_directory "$DEV_PACK_ANSIBLE_BASE_COLLECTIONS" &&
     bl64_ans_setup "$BL64_VAR_DEFAULT" "$DEV_PACK_ANSIBLE_CFG" &&
-    bl64_fs_create_dir \
-      '0755' "$BL64_VAR_DEFAULT" "$BL64_VAR_DEFAULT" "$DEV_PACK_ANSIBLE_DESTINATION"
+    bl64_fs_path_remove "$DEV_PATH_BUILD_PACK" &&
+    bl64_fs_dir_create \
+      '0755' "$BL64_VAR_DEFAULT" "$BL64_VAR_DEFAULT" "$DEV_PATH_BUILD_PACK"
 }
 
 #
@@ -77,9 +65,10 @@ function dev_pack_ansible_initialize() {
 declare dev_pack_target="${*:-${DEV_PACK_ANSIBLE_CATALOG_COLLECTIONS}}"
 
 [[ -n "$DEV_CICD_DEBUG" ]] && bl64_dbg_all_enable
-
+bl64_lib_script_version_set '2.0.2'
 bl64_msg_all_enable_verbose
-bl64_msg_show_batch_start 'dev-pack-ansible-collection'
+
+bl64_msg_show_batch_start "$BL64_SCRIPT_ID"
 dev_pack_ansible_initialize "$dev_pack_target" &&
   dev_pack_ansible_create "$dev_pack_target"
-bl64_msg_show_batch_finish $? 'dev-pack-ansible-collection'
+bl64_msg_show_batch_finish $? "$BL64_SCRIPT_ID"

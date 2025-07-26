@@ -1,19 +1,10 @@
 #!/usr/bin/env bash
 #######################################
-# Dev / Lint / YAMLLint / Lint yaml files
-#
-# * Check is done using yamllint
-# * Version: 2.1.0
-#
-#######################################
-# Copyright [2023] [serdigital64@gmail.com]
+# Copyright SerDigital64 - https://github.com/serdigital64
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
+# You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,28 +21,69 @@ source ./bin/dev-set || { echo 'dev-set:Error: unable to load dev environment' 2
 # shellcheck source-path=bin
 source ./bin/dev-env-yamllint || exit 1
 # shellcheck source=lib/bl64/bashlib64-core.bash
-source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-core.bash" || exit 1
+source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-fs.bash" &&
+  source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-txt.bash" &&
+  source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-xsv.bash" &&
+  source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-fmt.bash" &&
+  source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-cnt.bash" &&
+  source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-module-bsh.bash" &&
+  source "${DEV_LIB_BASHLIB64_TARGET}/bashlib64-core.bash" || exit 1
+
+#
+# Globals
+#
+
+declare _DEV_LIB_RUN_IN_CONTAINER=''
 
 #
 # Functions
 #
 
+function dev_lint_yamllint_local() {
+  bl64_dbg_app_show_function "$@"
+  local target="$1"
+  "$DEV_LIB_YAMLLINT_BIN" \
+    --config-file "${DEV_PATH_ROOT}/${DEV_LIB_YAMLLINT_CFG}" \
+    "$target"
+}
+
+function dev_lint_yamllint_container() {
+  bl64_dbg_app_show_function "$@"
+  local target="$1"
+  # shellcheck disable=SC2086
+  bl64_cnt_run \
+    $BL64_CNT_SET_RM \
+    $BL64_CNT_SET_TTY \
+    --workdir="$DEV_ENV_YAMLLINT_CONTAINER_PATH_ROOT" \
+    --mount "type=bind,source=${DEV_PATH_ROOT},target=${DEV_ENV_YAMLLINT_CONTAINER_PATH_ROOT},readonly" \
+    --entrypoint="${DEV_LINT_YAMLLINT_CONTAINER_ENTRYPOINT}" \
+    "${DEV_ENV_YAMLLINT_REGISTRY}/${DEV_LINT_YAMLLINT_CONTAINER}" \
+    --config-file "${DEV_ENV_YAMLLINT_CONTAINER_PATH_ROOT}/${DEV_LIB_YAMLLINT_CFG}" \
+    "$target"
+}
+
 function dev_lint_yamllint() {
   bl64_dbg_app_show_function "$@"
-  local dev_lint_target="$*"
-  local dev_lint_current=''
-  for dev_lint_current in $dev_lint_target; do
-    bl64_msg_show_phase "lint YAML target (${dev_lint_current})"
-    "$DEV_LIB_YAMLLINT_BIN" \
-      --config-file "$DEV_LIB_YAMLLINT_CFG" \
-      "$dev_lint_current" ||
-      return $?
+  local target="$*"
+  local current=''
+
+  for current in $target; do
+    bl64_msg_show_phase "lint YAML target (${current})"
+    if [[ -n "$_DEV_LIB_RUN_IN_CONTAINER" ]]; then
+      dev_lint_yamllint_container "$current"
+    else
+      dev_lint_yamllint_local "$current"
+    fi
   done
 }
 
 function dev_lint_initialize() {
   bl64_dbg_app_show_function
-  bl64_check_command_search_path "$DEV_LIB_YAMLLINT_BIN"
+  if ! bl64_bsh_command_is_executable "$DEV_LIB_YAMLLINT_BIN"; then
+    _DEV_LIB_RUN_IN_CONTAINER='YES'
+    bl64_cnt_setup ||
+      return $?
+  fi
 }
 
 #
@@ -61,8 +93,9 @@ function dev_lint_initialize() {
 declare dev_lint_target="${*:-$DEV_LINT_YAMLLINT_TARGET}"
 
 [[ -n "$DEV_CICD_DEBUG" ]] && bl64_dbg_all_enable
+bl64_lib_script_version_set '2.2.1'
+bl64_msg_show_batch_start "$BL64_SCRIPT_ID"
 
-bl64_msg_show_batch_start 'dev-lint-yamllint'
 dev_lint_initialize &&
   dev_lint_yamllint "$dev_lint_target"
-bl64_msg_show_batch_finish $? 'dev-lint-yamllint'
+bl64_msg_show_batch_finish $? "$BL64_SCRIPT_ID"

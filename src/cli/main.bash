@@ -3,6 +3,7 @@
 #
 
 declare ap64_command=''
+declare ap64_option=''
 declare ap64_debug="$BL64_DBG_TARGET_NONE"
 declare ap64_verbose="$BL64_MSG_VERBOSE_ALL"
 
@@ -16,9 +17,36 @@ declare ap64_site='site'
 declare ap64_user='ap64'
 declare ap64_version='2.13'
 
-(($# == 0)) && ap64_help && exit 1
-while getopts ':ilckrjuontf:e:b:d:g:s:p:x:v:V:D:h' Option; do
-  case "$Option" in
+bl64_lib_script_version_set '5.1.1'
+bl64_msg_help_usage_set '<-i|-c|-o|-r|-u|-l|-n|-t|-k> [-s Site] [-x Host] [-p Playbook] [-e Collection|-f Package] [-b Root] [-d Var] [-v Version] [-g User] [-V Verbose] [-D Debug] [-h]'
+bl64_msg_help_about_set 'A:Platform64 command line interface'
+# shellcheck disable=SC2016
+bl64_msg_help_parameters_set \
+  '-i           : Install A:Platform64
+-j           : Bootstrap A:Platform64 (internal use only)
+-c           : Create a A:Platform64 site
+-o           : Remove a A:Platform64 site
+-r           : Refresh A:Platform64 site configuration by rerunning the setup process
+-u           : Upgrade A:Platform64 Ansible collections to the latest version in Ansible Galaxy
+-l           : List available playbooks
+-n           : Run playbook
+-t           : List sites
+-k           : Add managed node
+-h           : Show usage info
+-b Root      : APlatform64 root path. Default: /opt/ap64
+-d Var       : APlatform64 var path. Default: /var/opt/ap64
+-g User      : APlatform64 user name. Default: ap64
+-v Version   : Ansible Core version for the controller node. Default: 2.13. Format: Major.Minor
+-s Site      : Target Site. Defaul: site
+-x Host      : Target host for playbook run. Default: all
+-p Playbook  : Name of the playbook to run
+-e Collection: Collection name for the upgrade option (-u). Default: all
+-f Package   : Collection package file (-u). Default: none
+-V Verbose   : Set verbosity level. Format: one of BL64_MSG_VERBOSE_*
+-D Debug     : Enable debugging mode. Format: one of BL64_DBG_TARGET_*'
+
+while getopts ':ilckrjuontf:e:b:d:g:s:p:x:v:V:D:h' ap64_option; do
+  case "$ap64_option" in
   i) ap64_command='ap64_site_install' ;;
   j) ap64_command='ap64_site_bootstrap' ;;
   n) ap64_command='ap64_play_run' ;;
@@ -40,12 +68,11 @@ while getopts ':ilckrjuontf:e:b:d:g:s:p:x:v:V:D:h' Option; do
   v) ap64_version="$OPTARG" ;;
   V) ap64_verbose="$OPTARG" ;;
   D) ap64_debug="$OPTARG" ;;
-  h) ap64_help && exit ;;
-  *) ap64_help && exit 1 ;;
+  h) bl64_msg_help_show && exit 0 ;;
+  *) bl64_msg_help_show && exit 1 ;;
   esac
 done
-bl64_dbg_set_level "$ap64_debug" && bl64_msg_set_level "$ap64_verbose" || exit $?
-ap64_initialize "$ap64_command" || exit $?
+bl64_dbg_set_level "$ap64_debug" && bl64_msg_set_level "$ap64_verbose" && ap64_initialize || exit $?
 
 ap64_cli_user_switch "$ap64_command" "$ap64_user" "$ap64_path_root" "$@" ||
   exit 1
@@ -62,6 +89,6 @@ case "$ap64_command" in
 'ap64_site_refresh') "$ap64_command" "$ap64_site" ;;
 'ap64_site_remove') "$ap64_command" "$ap64_site" ;;
 'ap64_site_upgrade') "$ap64_command" "$ap64_collection" "$ap64_package" ;;
-*) bl64_check_show_undefined "$ap64_command" ;;
+*) bl64_check_show_undefined "${BL64_SCRIPT_ID}:$ap64_command" ;;
 esac
-bl64_msg_show_batch_finish $? "$ap64_command"
+bl64_msg_show_batch_finish $? "${BL64_SCRIPT_ID}:$ap64_command"
