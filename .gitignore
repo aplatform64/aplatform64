@@ -14,8 +14,8 @@
 /logs/*
 /tmp/*
 /vault/*
-/.local
-/.secrets
+/.local.env
+/.secrets.env
 
 /.vscode
 
